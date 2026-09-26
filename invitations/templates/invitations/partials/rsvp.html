@@ -1,0 +1,76 @@
+{% load static vl %}{# Aanmeldformulier. Verwacht v (weergavemodel) en rsvp_form (waarden, fouten, tokens). #}
+<div class="rsvp" id="aanmelden-formulier" data-rsvp>
+{% if v.rsvp.closed_reason == "past" %}
+  <p class="rsvp__closed">Deze dag heeft al plaatsgevonden. Aanmelden is niet meer mogelijk.</p>
+{% elif v.rsvp.closed_reason == "deadline" %}
+  <p class="rsvp__closed">Aanmelden kon tot en met {{ v.rsvp.deadline_display }}.{% if v.show.contact %} Heb je nog een vraag? Neem contact op met {{ v.contact.name }}.{% endif %}</p>
+{% elif v.rsvp.closed_reason == "full" %}
+  <p class="rsvp__closed">Het maximale aantal aanmeldingen is bereikt.{% if v.show.contact %} Neem voor vragen contact op met {{ v.contact.name }}.{% endif %}</p>
+{% else %}
+  {% if v.rsvp.existing %}
+  <div class="rsvp__existing">
+    <p><strong>{% if v.formal %}U heeft al geantwoord{% else %}Je hebt al geantwoord{% endif %}:</strong> {{ v.rsvp.existing.name }}, {% if v.rsvp.existing.attending %}aanwezig{% if v.rsvp.existing.party_size > 1 %} met {{ v.rsvp.existing.party_size }} personen{% endif %}{% else %}helaas afwezig{% endif %}.</p>
+    <p><a class="inv-link" href="{{ rsvp_form.existing_edit_url }}">{% if v.formal %}Wijzig uw antwoord{% else %}Wijzig je antwoord{% endif %}</a></p>
+  </div>
+  {% endif %}
+  {% if v.rsvp.deadline_display %}<p class="rsvp__deadline">{% if v.formal %}Graag uw reactie uiterlijk{% else %}Laat het ons weten uiterlijk{% endif %} {{ v.rsvp.deadline_display }}</p>{% endif %}
+  <form class="rsvp__form{% if v.rsvp.existing %} rsvp__form--secondary{% endif %}" method="post" action="{{ v.rsvp.action|default:'#aanmelden' }}" data-rsvp-form{% if not v.rsvp.open %} data-rsvp-demo{% endif %} novalidate>
+    {% if v.rsvp.open %}{% csrf_token %}{% endif %}
+    <input type="hidden" name="client_token" value="{{ rsvp_form.client_token }}">
+    <input type="hidden" name="form_ts" value="{{ rsvp_form.form_ts }}">
+    <div class="hp" aria-hidden="true"><label>Laat dit veld leeg <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    {% if rsvp_form.errors.algemeen %}<p class="field__error" role="alert">{{ rsvp_form.errors.algemeen }}</p>{% endif %}
+    <div class="field">
+      <label for="rsvp-name">{% if v.formal %}Uw naam{% else %}Je naam{% endif %}</label>
+      <input id="rsvp-name" type="text" name="name" required maxlength="120" autocomplete="name" value="{{ rsvp_form.values.name|default:'' }}"{% if rsvp_form.errors.name %} aria-invalid="true" aria-describedby="rsvp-name-error"{% endif %}>
+      {% if rsvp_form.errors.name %}<p class="field__error" id="rsvp-name-error">{{ rsvp_form.errors.name }}</p>{% endif %}
+    </div>
+    <fieldset class="field field--choice"{% if rsvp_form.errors.attending %} aria-describedby="rsvp-attending-error"{% endif %}>
+      <legend>{% if v.formal %}Bent u erbij?{% else %}Ben je erbij?{% endif %}</legend>
+      <label class="choice"><input type="radio" name="attending" value="ja" required{% if rsvp_form.values.attending == "ja" %} checked{% endif %}><span>Ja, ik kom graag</span></label>
+      <label class="choice"><input type="radio" name="attending" value="nee"{% if rsvp_form.values.attending == "nee" %} checked{% endif %}><span>Helaas, ik kan niet</span></label>
+      {% if rsvp_form.errors.attending %}<p class="field__error" id="rsvp-attending-error">{{ rsvp_form.errors.attending }}</p>{% endif %}
+    </fieldset>
+    {% if v.rsvp.max_party > 1 %}
+    <div class="field" data-when-attending>
+      <label for="rsvp-party">{% if v.formal %}Met hoeveel personen komt u?{% else %}Met hoeveel personen kom je?{% endif %}</label>
+      <p class="field__hint" id="rsvp-party-hint">{% if v.formal %}Inclusief uzelf{% else %}Inclusief jezelf{% endif %}, maximaal {{ v.rsvp.max_party }}</p>
+      <select id="rsvp-party" name="party_size" aria-describedby="rsvp-party-hint">
+        {% for n in v.rsvp.party_range %}<option value="{{ n }}"{% if rsvp_form.values.party_size == n|stringformat:"d" %} selected{% endif %}>{{ n }}</option>{% endfor %}
+      </select>
+      {% if rsvp_form.errors.party_size %}<p class="field__error">{{ rsvp_form.errors.party_size }}</p>{% endif %}
+    </div>
+    {% endif %}
+    {% for q in v.rsvp.questions %}{% with val=rsvp_form.values|get_item:q.field err=rsvp_form.errors|get_item:q.field %}
+    <div class="field{% if q.type != 'text' %} field--choice{% endif %}" data-when-attending>
+      {% if q.type == "text" %}
+        <label for="rsvp-{{ q.field }}">{{ q.label }}{% if not q.required %} <span class="field__hint">optioneel</span>{% endif %}</label>
+        <input id="rsvp-{{ q.field }}" type="text" name="{{ q.field }}" maxlength="300" value="{{ val }}"{% if q.required %} required{% endif %}>
+      {% elif q.type == "yesno" %}
+        <fieldset><legend>{{ q.label }}{% if not q.required %} <span class="field__hint">optioneel</span>{% endif %}</legend>
+          <label class="choice"><input type="radio" name="{{ q.field }}" value="Ja"{% if val == "Ja" %} checked{% endif %}{% if q.required %} required{% endif %}><span>Ja</span></label>
+          <label class="choice"><input type="radio" name="{{ q.field }}" value="Nee"{% if val == "Nee" %} checked{% endif %}><span>Nee</span></label>
+        </fieldset>
+      {% else %}
+        <label for="rsvp-{{ q.field }}">{{ q.label }}{% if not q.required %} <span class="field__hint">optioneel</span>{% endif %}</label>
+        <select id="rsvp-{{ q.field }}" name="{{ q.field }}"{% if q.required %} required{% endif %}>
+          <option value="">Maak een keuze</option>
+          {% for o in q.options %}<option{% if val == o %} selected{% endif %}>{{ o }}</option>{% endfor %}
+        </select>
+      {% endif %}
+      {% if err %}<p class="field__error">{{ err }}</p>{% endif %}
+    </div>
+    {% endwith %}{% endfor %}
+    {% if v.rsvp.ask_remark %}
+    <div class="field">
+      <label for="rsvp-remark">{{ v.rsvp.remark_label }} <span class="field__hint">optioneel</span></label>
+      <textarea id="rsvp-remark" name="remark" rows="3" maxlength="1000">{{ rsvp_form.values.remark|default:'' }}</textarea>
+    </div>
+    {% endif %}
+    <p class="rsvp__status" role="status" aria-live="polite" data-rsvp-status></p>
+    <button type="submit" class="inv-btn inv-btn--primary rsvp__submit" data-rsvp-submit>{% if v.formal %}Verstuur uw antwoord{% else %}Verstuur mijn antwoord{% endif %}</button>
+    {% if not v.rsvp.open %}<p class="rsvp__note">Dit is een voorbeeld. Antwoorden worden hier niet opgeslagen.</p>{% endif %}
+    <p class="rsvp__privacy">We vragen alleen wat nodig is voor de organisatie. Alleen de organisator ziet je antwoord.</p>
+  </form>
+{% endif %}
+</div>

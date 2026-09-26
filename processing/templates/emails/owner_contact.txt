@@ -1,0 +1,9 @@
+Nieuw contactbericht via de website.
+
+Van: {{ msg.name }} <{{ msg.email }}>
+Onderwerp: {{ msg.get_topic_display }}
+
+{{ msg.message }}
+
+Bekijken en afhandelen:
+{{ link }}

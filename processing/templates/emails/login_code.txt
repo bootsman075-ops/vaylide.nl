@@ -1,0 +1,15 @@
+Hallo,
+
+{% if purpose == "login" %}Je hebt gevraagd om in te loggen bij Vierlief.{% else %}Bevestig je e-mailadres om je ontwerp te bewaren en later verder te gaan.{% endif %}
+
+Je code is: {{ code }}
+
+Of open deze link om direct verder te gaan:
+{{ link }}
+
+De code en de link zijn 20 minuten geldig en werken één keer.
+
+Heb je dit niet zelf aangevraagd? Dan kun je deze e-mail negeren.
+
+Hartelijke groet,
+Vierlief

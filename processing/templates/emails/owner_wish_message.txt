@@ -1,0 +1,6 @@
+Nieuw bericht van de klant bij {{ req.reference }} ({{ req.subject }}).
+
+{{ message.body }}
+
+Bekijken:
+{{ link }}

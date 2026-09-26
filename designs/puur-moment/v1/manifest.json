@@ -1,0 +1,24 @@
+{
+  "slug": "puur-moment",
+  "version": 1,
+  "name": "Puur moment",
+  "tagline": "Rustig en modern, met veel ruimte en grote foto's",
+  "description": "Een doorschijnend vel over de eerste pagina toont alleen de datum. Na een tik schuift het vel omhoog en wordt de foto scherp. Strakke typografie, dunne lijnen en veel witruimte.",
+  "style_notes": "Rustige tinten, grote foto, strakke letters, dunne lijnen",
+  "occasions": ["bruiloft", "verloving", "verjaardag", "jubileum", "babyshower", "zakelijk"],
+  "sort_order": 30,
+  "opening": "calque",
+  "opening_label": "Doorschijnend vel",
+  "palettes": [
+    {"key": "kalk", "name": "Kalk", "swatch": ["#F5F2EC", "#D6D1C7", "#5F6F5C"],
+     "vars": {"--pm-bg": "#F5F2EC", "--pm-surface": "#FFFFFF", "--pm-ink": "#1E2320", "--pm-muted": "#5B605C", "--pm-accent": "#56664F", "--pm-line": "#D6D1C7", "--pm-vellum": "rgba(250, 248, 244, 0.72)"}},
+    {"key": "zand", "name": "Zand", "swatch": ["#F2EBE0", "#DCCFBD", "#9C5536"],
+     "vars": {"--pm-bg": "#F2EBE0", "--pm-surface": "#FBF8F3", "--pm-ink": "#2A221C", "--pm-muted": "#655A51", "--pm-accent": "#91492C", "--pm-line": "#DCCFBD", "--pm-vellum": "rgba(248, 243, 235, 0.72)"}},
+    {"key": "mist", "name": "Mist", "swatch": ["#EEF1F3", "#CFD7DD", "#3F5A70"],
+     "vars": {"--pm-bg": "#EEF1F3", "--pm-surface": "#FAFBFC", "--pm-ink": "#1D262D", "--pm-muted": "#53606A", "--pm-accent": "#3F5A70", "--pm-line": "#CFD7DD", "--pm-vellum": "rgba(244, 247, 249, 0.72)"}},
+    {"key": "inkt", "name": "Inkt", "swatch": ["#1B1D1E", "#3A3E40", "#C9B89A"],
+     "vars": {"--pm-bg": "#1B1D1E", "--pm-surface": "#242728", "--pm-ink": "#EDE8DF", "--pm-muted": "#B5AFA5", "--pm-accent": "#D2C1A2", "--pm-line": "#3A3E40", "--pm-vellum": "rgba(30, 32, 33, 0.72)"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "changelog": "Eerste versie."
+}

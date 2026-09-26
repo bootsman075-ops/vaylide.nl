@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Code invullen{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<section class="section--tight">
+  <div class="container container--narrow">
+    <div class="auth-card card">
+      <p class="eyebrow">Bijna klaar</p>
+      <h1 class="auth-card__title">Vul je code in</h1>
+      <p class="lead">We hebben een code gestuurd naar <strong>{{ email }}</strong>. Vul de 6 cijfers hieronder in of gebruik de link in de e-mail.</p>
+      {% if test_code %}
+      <div class="notice notice--test" role="note">
+        <strong>Testmodus</strong>
+        E-mails worden in deze testomgeving niet verzonden. Normaal staat deze code in je mailbox: <span class="test-code">{{ test_code.code }}</span>
+      </div>
+      {% endif %}
+      <form method="post" class="form" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors.0 }}</div>{% endif %}
+        <div class="field">
+          <label for="{{ form.code.id_for_label }}">{{ form.code.label }}</label>
+          {{ form.code }}
+          {% if form.code.errors %}<p class="field__error">{{ form.code.errors.0 }}</p>{% endif %}
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Bevestigen</button>
+      </form>
+      <p class="small muted auth-card__note">Geen e-mail ontvangen? Kijk ook in je spam, of <a href="{% url 'accounts:login' %}">vraag een nieuwe code aan</a>.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

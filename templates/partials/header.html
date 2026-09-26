@@ -1,0 +1,41 @@
+{% url 'core:home' as home_url %}
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="logo" href="{{ home_url }}" aria-label="Vierlief, naar de homepage">{% include "partials/logo.html" %}</a>
+    <nav class="site-nav" aria-label="Hoofdmenu">
+      <ul class="site-nav__list">
+        <li><a href="{% url 'core:designs' %}"{% if request.resolver_match.url_name == 'designs' or request.resolver_match.url_name == 'design_detail' %} aria-current="page"{% endif %}>Ontwerpen</a></li>
+        <li><a href="{% url 'core:how' %}"{% if request.resolver_match.url_name == 'how' %} aria-current="page"{% endif %}>Zo werkt het</a></li>
+        <li><a href="{% url 'core:pricing' %}"{% if request.resolver_match.url_name == 'pricing' %} aria-current="page"{% endif %}>Prijzen</a></li>
+        <li><a href="{% url 'core:faq' %}"{% if request.resolver_match.url_name == 'faq' %} aria-current="page"{% endif %}>Vragen</a></li>
+        <li><a href="{% url 'core:contact' %}"{% if request.resolver_match.url_name == 'contact' %} aria-current="page"{% endif %}>Contact</a></li>
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      {% if user.is_authenticated %}
+        {% if user.is_staff %}<a class="link-quiet" href="{% url 'beheer:dashboard' %}">Beheer</a>{% endif %}
+        <a class="link-quiet" href="{% url 'portal:home' %}">Mijn Vierlief</a>
+      {% else %}
+        <a class="link-quiet" href="{% url 'accounts:login' %}">Inloggen</a>
+      {% endif %}
+      <a class="btn btn--primary btn--sm site-header__cta" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
+    </div>
+    <details class="mobile-nav">
+      <summary class="mobile-nav__toggle"><span class="visually-hidden">Menu</span><span class="mobile-nav__bars" aria-hidden="true"></span></summary>
+      <div class="mobile-nav__panel">
+        <ul>
+          <li><a href="{% url 'core:designs' %}">Ontwerpen</a></li>
+          <li><a href="{% url 'core:how' %}">Zo werkt het</a></li>
+          <li><a href="{% url 'core:pricing' %}">Prijzen</a></li>
+          <li><a href="{% url 'core:faq' %}">Veelgestelde vragen</a></li>
+          <li><a href="{% url 'core:contact' %}">Contact</a></li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'portal:home' %}">Mijn Vierlief</a></li>
+          {% if user.is_staff %}<li><a href="{% url 'beheer:dashboard' %}">Beheer</a></li>{% endif %}
+          {% else %}<li><a href="{% url 'accounts:login' %}">Inloggen</a></li>{% endif %}
+        </ul>
+        <a class="btn btn--primary btn--block" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
+      </div>
+    </details>
+  </div>
+</header>

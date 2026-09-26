@@ -1,0 +1,9 @@
+{% if v.is_past %}<p class="cd-past">Deze dag vond plaats op {{ v.date_display }}.</p>
+{% elif v.countdown %}<div class="cd" data-countdown="{{ v.start_iso }}" role="timer" aria-label="Nog {{ v.countdown.days }} dagen tot {{ v.date_display }}">
+  <div class="cd__unit"><span class="cd__num" data-unit="days">{{ v.countdown.days }}</span><span class="cd__label">{{ v.countdown.days|pluralize:"dag,dagen" }}</span></div>
+  <div class="cd__unit"><span class="cd__num" data-unit="hours">{{ v.countdown.hours|stringformat:"02d" }}</span><span class="cd__label">uur</span></div>
+  <div class="cd__unit"><span class="cd__num" data-unit="minutes">{{ v.countdown.minutes|stringformat:"02d" }}</span><span class="cd__label">min</span></div>
+  <div class="cd__unit"><span class="cd__num" data-unit="seconds">{{ v.countdown.seconds|stringformat:"02d" }}</span><span class="cd__label">sec</span></div>
+</div>
+<p class="cd-today" data-countdown-done hidden>Vandaag is het zover!</p>
+{% else %}<p class="cd-today">Vandaag is het zover!</p>{% endif %}

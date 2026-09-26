@@ -1,0 +1,11 @@
+Nieuwe extra wens ontvangen.
+
+Referentie: {{ req.reference }}
+Klant: {{ req.customer.email }}
+{% if req.invitation %}Uitnodiging: {{ req.invitation }}
+{% endif %}Onderwerp: {{ req.subject }}
+
+{{ req.description }}
+
+Beoordelen en beantwoorden (de klant heeft alleen een ontvangstbevestiging gekregen):
+{{ link }}

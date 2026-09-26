@@ -1,0 +1,140 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Puur moment v1 — rustig en modern. Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'fonts/instrument-serif-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/dm-sans-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
+
+{% block cover %}
+<section class="cover pm-cover{% if not v.hero %} pm-cover--plain{% endif %}" data-cover data-duration="1900" aria-label="Openingsscherm">
+  {% if v.hero %}<div class="pm-cover__photo ph" aria-hidden="true">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</div>{% endif %}
+  <div class="pm-vellum">
+    <p class="pm-vellum__label">{{ v.kicker }}</p>
+    {% if v.date_numeric %}<p class="pm-vellum__date">{{ v.date_numeric }}</p>{% endif %}
+    <p class="pm-vellum__names">{{ v.title }}</p>
+    <div class="pm-vellum__actions">
+      <a href="#uitnodiging" class="pm-open" data-open>Open de uitnodiging</a>
+      {% if v.show.music %}<button type="button" class="pm-open pm-open--ghost" data-open data-open-music>Openen met muziek</button>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="pm-hero">
+  {% if v.hero %}<figure class="pm-hero__photo ph">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</figure>{% endif %}
+  <div class="pm-hero__text">
+    <p class="pm-kicker">{{ v.kicker }}</p>
+    <h1 class="pm-names pm-names--{{ v.names_size }}">
+      {% if v.is_couple %}{{ v.names.0 }} <span class="pm-names__amp" aria-label="en">&amp;</span> {{ v.names.1 }}{% else %}{{ v.names.0 }}{% endif %}
+    </h1>
+    <p class="pm-tagline">{{ v.tagline }}</p>
+    <dl class="pm-facts">
+      {% if v.date_display %}<div><dt>Datum</dt><dd>{{ v.date_display|capfirst }}</dd></div>{% endif %}
+      {% if v.time_display %}<div><dt>Tijd</dt><dd>{{ v.time_display }}{% include "invitations/partials/time_note.html" %}</dd></div>{% endif %}
+      {% if v.venue %}<div><dt>Locatie</dt><dd>{{ v.venue }}</dd></div>{% endif %}
+    </dl>
+  </div>
+</header>
+
+<div class="pm-sections">
+{% if v.welcome %}
+<section class="pm-section pm-welcome" data-reveal aria-labelledby="pm-welcome-title">
+  <h2 id="pm-welcome-title" class="pm-h2">Welkom</h2>
+  <div class="pm-body pm-body--large">{% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="pm-section pm-countdown" data-reveal aria-labelledby="pm-cd-title">
+  <h2 id="pm-cd-title" class="pm-h2">{% if v.is_past %}Terugblik{% else %}Nog even{% endif %}</h2>
+  <div class="pm-body">
+    {% include "invitations/partials/countdown.html" %}
+    {% include "invitations/partials/calendar_buttons.html" %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="pm-section pm-story" data-reveal aria-labelledby="pm-story-title">
+  <h2 id="pm-story-title" class="pm-h2">{{ v.story_title }}</h2>
+  <div class="pm-body">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="pm-section pm-program" data-reveal aria-labelledby="pm-program-title">
+  <h2 id="pm-program-title" class="pm-h2">Programma</h2>
+  <ol class="pm-body pm-program__list">
+    {% for item in v.program %}
+    <li><span class="pm-program__time">{% if item.time %}{{ item.time }}{% endif %}</span><div><h3>{{ item.title }}</h3>{% if item.description %}<p>{{ item.description }}</p>{% endif %}</div></li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="pm-section pm-location" data-reveal aria-labelledby="pm-location-title">
+  <h2 id="pm-location-title" class="pm-h2">Locatie</h2>
+  <div class="pm-body">
+    {% if v.venue %}<p class="pm-location__venue">{{ v.venue }}</p>{% endif %}
+    {% if v.address_lines %}<address>{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+    {% if v.route_url %}<p><a class="inv-btn" href="{{ v.route_url }}" target="_blank" rel="noopener">Route plannen</a></p>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="pm-section pm-dresscode" data-reveal aria-labelledby="pm-dress-title">
+  <h2 id="pm-dress-title" class="pm-h2">Dresscode</h2>
+  <div class="pm-body">
+    {% for p in v.dresscode_text %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+    {% if v.dresscode_colors %}<ul class="pm-swatches" aria-label="Kleuren voor de dresscode">{% for c in v.dresscode_colors %}<li style="background:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}</ul>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="pm-section pm-practical" data-reveal aria-labelledby="pm-practical-title">
+  <h2 id="pm-practical-title" class="pm-h2">Praktisch</h2>
+  <dl class="pm-body pm-practical__list">
+    {% for item in v.practical %}<div>{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="pm-section pm-gallery" data-reveal aria-labelledby="pm-gallery-title">
+  <h2 id="pm-gallery-title" class="pm-h2">Beelden</h2>
+  <ul class="pm-body pm-gallery__grid">
+    {% for photo in v.gallery %}<li class="pm-gallery__item pm-gallery__item--{{ photo.orientation }}"><figure class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 900px) 360px, 90vw" %}</figure>{% if photo.caption %}<p class="pm-caption">{{ photo.caption }}</p>{% endif %}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="pm-section pm-rsvp" id="aanmelden" data-reveal aria-labelledby="pm-rsvp-title">
+  <h2 id="pm-rsvp-title" class="pm-h2">Aanmelden</h2>
+  <div class="pm-body">{% include "invitations/partials/rsvp.html" %}</div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="pm-section pm-contact" data-reveal aria-labelledby="pm-contact-title">
+  <h2 id="pm-contact-title" class="pm-h2">Contact</h2>
+  <div class="pm-body">
+    {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+    <p class="pm-contact__name">{{ v.contact.name }}</p>
+    <p class="pm-contact__links">
+      {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+      {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+      {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+    </p>
+  </div>
+</section>
+{% endif %}
+</div>
+
+<section class="pm-closing" data-reveal aria-label="Afsluiting">
+  {% if v.show.closing %}{% for p in v.closing %}<p class="pm-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+{% endblock %}

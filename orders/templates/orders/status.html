@@ -1,0 +1,69 @@
+{% extends "base.html" %}{% load static vl %}
+{% block title %}Bestelling {{ order.number }}{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block extra_js %}<script src="{% static 'js/order-status.js' %}" defer></script>{% endblock %}
+{% block content %}
+<section class="section--tight">
+  <div class="container container--narrow">
+    <div class="card order-status" data-order-status="{% url 'orders:status_json' order.uid %}" data-phase="{{ state.phase }}">
+      <p class="eyebrow">Bestelling {{ order.number }}</p>
+      {% if state.phase == "live" %}
+        <h1>Je uitnodiging staat online</h1>
+        <p class="lead">Je betaling is ontvangen en je uitnodiging is gepubliceerd.</p>
+        <div class="share-box">
+          <label class="field"><span class="label">Jouw link</span><input class="input" type="text" readonly value="{{ state.public_url }}" data-select-all></label>
+          <div class="btn-row">
+            <a class="btn btn--primary" href="{{ state.public_url }}" target="_blank" rel="noopener">Bekijk je uitnodiging</a>
+            <a class="btn btn--secondary" href="{% url 'portal:invitation' order.invitation.uid %}">Naar Mijn Vierlief</a>
+          </div>
+        </div>
+      {% elif state.phase == "processing" %}
+        <h1>Betaling ontvangen</h1>
+        <p class="lead">We publiceren je uitnodiging. Dit scherm werkt zichzelf bij.</p>
+      {% elif state.phase == "attention" %}
+        <h1>Betaling ontvangen</h1>
+        <p class="lead">Je betaling is goed ontvangen, maar het publiceren duurt langer dan normaal. We proberen het automatisch opnieuw en het Vierlief-team is ingeschakeld. Je hoeft niets te doen.</p>
+      {% elif state.phase == "failed" %}
+        <h1>Betaling niet gelukt</h1>
+        <p class="lead">Er is niets afgeschreven. Je ontwerp is bewaard; je kunt het opnieuw proberen.</p>
+      {% elif state.phase == "cancelled" %}
+        <h1>Betaling afgebroken</h1>
+        <p class="lead">Je hebt de betaling afgebroken. Je ontwerp is bewaard; je kunt het opnieuw proberen wanneer je wilt.</p>
+      {% elif state.phase == "superseded" %}
+        <h1>Deze bestelling is vervangen</h1>
+        <p class="lead">Je bent opnieuw begonnen met afrekenen. Bekijk je uitnodiging in Mijn Vierlief.</p>
+      {% else %}
+        <h1>We wachten op de bevestiging van je betaling</h1>
+        <p class="lead">Dit duurt meestal een paar seconden. Dit scherm werkt zichzelf bij; je kunt het ook later terugvinden in Mijn Vierlief.</p>
+      {% endif %}
+
+      <ol class="progress-list" aria-label="Voortgang">
+        <li class="{% if order.status == 'paid' %}is-done{% elif state.phase == 'waiting' %}is-active{% endif %}">Betaling bevestigd door de betaalprovider</li>
+        <li class="{% if state.confirmation_email == 'sent' or state.confirmation_email == 'test' %}is-done{% elif order.status == 'paid' %}is-active{% endif %}">Bevestiging per e-mail{% if state.confirmation_email == 'test' %} <span class="badge badge--test">testmodus</span>{% elif state.confirmation_email == 'failed' %} <span class="badge badge--warning">wordt opnieuw geprobeerd</span>{% endif %}</li>
+        <li class="{% if state.phase == 'live' %}is-done{% elif state.phase == 'processing' or state.phase == 'attention' %}is-active{% endif %}">Uitnodiging gepubliceerd</li>
+        <li class="{% if state.live_email == 'sent' or state.live_email == 'test' %}is-done{% elif state.phase == 'live' %}is-active{% endif %}">Link en QR-code per e-mail{% if state.live_email == 'test' %} <span class="badge badge--test">testmodus</span>{% elif state.live_email == 'failed' %} <span class="badge badge--warning">wordt opnieuw geprobeerd; je link staat hierboven</span>{% endif %}</li>
+      </ol>
+
+      {% if state.phase == "failed" or state.phase == "cancelled" %}
+      <form method="post" action="{% url 'orders:retry' order.uid %}" class="btn-row">
+        {% csrf_token %}
+        <button type="submit" class="btn btn--primary">Opnieuw betalen</button>
+        {% if order.invitation %}<a class="btn btn--ghost" href="{% url 'studio:step' order.invitation.uid 'bestellen' %}">Bestelling aanpassen</a>{% endif %}
+      </form>
+      {% endif %}
+
+      <details class="order-lines">
+        <summary>Bestelde onderdelen</summary>
+        <table class="table-simple">
+          <tbody>
+            {% for line in order.lines.all %}<tr><td>{{ line.description }}</td><td class="num">{{ line.total_display }}</td></tr>{% endfor %}
+          </tbody>
+          <tfoot><tr><th>Totaal</th><th class="num">{{ order.total_display }}</th></tr></tfoot>
+        </table>
+      </details>
+      <noscript>{% if state.phase == "waiting" or state.phase == "processing" %}<p class="small muted">Vernieuw deze pagina om de actuele status te zien.</p>{% endif %}</noscript>
+      <p class="small muted" data-status-note aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,6 @@
+Bestelling {{ order.number }} heeft aandacht nodig.
+
+Reden: {{ reason }}
+
+Bekijken:
+{{ link }}

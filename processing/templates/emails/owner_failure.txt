@@ -1,0 +1,11 @@
+Een verwerkingstaak is meerdere keren mislukt en heeft aandacht nodig.
+
+Taak: {{ job.label }} (#{{ job.pk }})
+Pogingen: {{ job.attempts }}
+{% if job.order %}Bestelling: {{ job.order.number }}
+{% endif %}
+Laatste fout:
+{{ job.last_error|truncatechars:800 }}
+
+Bekijken en opnieuw proberen:
+{{ link }}

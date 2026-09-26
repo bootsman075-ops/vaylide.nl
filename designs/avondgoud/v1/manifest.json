@@ -1,0 +1,24 @@
+{
+  "slug": "avondgoud",
+  "version": 1,
+  "name": "Avondgoud",
+  "tagline": "Donker, feestelijk en elegant, met gouden details",
+  "description": "Een donkere kaart met champagnegouden lijnen en een gouden medaillon. Na een tik openen twee panelen als een dubbele deur en verschijnt de uitnodiging tussen fonkelend licht.",
+  "style_notes": "Diepe avondkleuren, champagnegoud, art-deco-lijnen, klassieke kapitalen",
+  "occasions": ["bruiloft", "verloving", "verjaardag", "jubileum", "zakelijk"],
+  "sort_order": 20,
+  "opening": "dubbele-deur",
+  "opening_label": "Gouden dubbele deur",
+  "palettes": [
+    {"key": "nachtblauw", "name": "Nachtblauw & goud", "swatch": ["#0D1422", "#141C2D", "#D7B878"],
+     "vars": {"--ag-bg": "#0D1422", "--ag-bg-2": "#141C2D", "--ag-ink": "#F4EDE0", "--ag-muted": "#C8BFAF", "--ag-gold": "#D7B878", "--ag-gold-2": "#F1DFB0", "--ag-glow": "rgba(215, 184, 120, 0.16)"}},
+    {"key": "zwart-champagne", "name": "Zwart & champagne", "swatch": ["#0E0D0C", "#181614", "#E0C68E"],
+     "vars": {"--ag-bg": "#0E0D0C", "--ag-bg-2": "#181614", "--ag-ink": "#F5EFE4", "--ag-muted": "#CBC2B3", "--ag-gold": "#E0C68E", "--ag-gold-2": "#F6E7C1", "--ag-glow": "rgba(224, 198, 142, 0.14)"}},
+    {"key": "bordeaux", "name": "Bordeaux & goud", "swatch": ["#22090F", "#2E0F17", "#D8B26E"],
+     "vars": {"--ag-bg": "#22090F", "--ag-bg-2": "#2E0F17", "--ag-ink": "#F7EDE6", "--ag-muted": "#D6C3BC", "--ag-gold": "#D8B26E", "--ag-gold-2": "#F2DDAA", "--ag-glow": "rgba(216, 178, 110, 0.15)"}},
+    {"key": "smaragd", "name": "Smaragd & goud", "swatch": ["#0B211C", "#112C26", "#D4B676"],
+     "vars": {"--ag-bg": "#0B211C", "--ag-bg-2": "#112C26", "--ag-ink": "#F1EFE6", "--ag-muted": "#C6CDC2", "--ag-gold": "#D4B676", "--ag-gold-2": "#EFDDAF", "--ag-glow": "rgba(212, 182, 118, 0.14)"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "changelog": "Eerste versie."
+}

@@ -1,0 +1,9 @@
+Hallo,
+
+{{ headline }} bij je aanvraag "{{ req.subject }}" ({{ req.reference }}).
+
+Bekijk het in Mijn Vierlief:
+{{ link }}
+
+Hartelijke groet,
+Vierlief

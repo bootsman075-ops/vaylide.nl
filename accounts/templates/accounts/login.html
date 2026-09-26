@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Inloggen{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<section class="section--tight">
+  <div class="container container--narrow">
+    <div class="auth-card card">
+      <p class="eyebrow">Mijn Vierlief</p>
+      <h1 class="auth-card__title">{% if purpose == "bewaren" %}Bewaar je ontwerp{% else %}Inloggen{% endif %}</h1>
+      <p class="lead">{% if purpose == "bewaren" %}Vul je e-mailadres in. We sturen je een code om je adres te bevestigen. Daarna staat je ontwerp veilig in Mijn Vierlief en kun je later verder, ook op een ander apparaat.{% else %}Vul je e-mailadres in. We sturen je een code waarmee je inlogt. Een wachtwoord is niet nodig.{% endif %}</p>
+      <form method="post" class="form" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <input type="hidden" name="doel" value="{{ purpose }}">
+        {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors.0 }}</div>{% endif %}
+        <div class="field">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% if form.email.errors %}<p class="field__error">{{ form.email.errors.0 }}</p>{% endif %}
+        </div>
+        <button type="submit" class="btn btn--primary btn--block">Stuur mij een code</button>
+      </form>
+      <p class="small muted auth-card__note">Nieuw bij Vierlief? Er wordt automatisch een account aangemaakt zodra je je e-mailadres bevestigt.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,11 @@
+# Lokale omgeving en geheimen
+.env
+.venv/
+# Database, uploads en gegenereerde bestanden
+data/
+staticfiles/
+__pycache__/
+*.pyc
+e2e/output/
+e2e/node_modules/
+.DS_Store

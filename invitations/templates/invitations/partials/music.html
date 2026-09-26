@@ -1,0 +1,9 @@
+{% if v.show.music %}<div class="music" data-music{% if v.music_synth %} data-music-synth{% endif %}>
+  {% if v.music_url %}<audio preload="none" loop src="{{ v.music_url }}" data-music-audio></audio>{% endif %}
+  <button type="button" class="music__toggle" data-music-toggle aria-pressed="false" hidden>
+    <span class="music__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M9 18.5A2.5 2.5 0 1 1 6.5 16c.53 0 1.02.17 1.42.45V5.2l11-2.2v12.5A2.5 2.5 0 1 1 16.5 13c.53 0 1.02.17 1.42.45V7.46L9.92 9.06V18.5H9Z"/></svg></span>
+    <span class="music__label" data-music-label>Muziek afspelen</span>
+  </button>
+  {% if v.music_title %}<span class="visually-hidden">Muziek: {{ v.music_title }}</span>{% endif %}
+  {% if v.music_url %}<noscript><audio class="music__native" controls preload="none" src="{{ v.music_url }}"></audio></noscript>{% endif %}
+</div>{% endif %}

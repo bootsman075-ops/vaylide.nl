@@ -1,0 +1,31 @@
+{% load static %}<!doctype html>
+<html lang="nl" class="inv inv-{{ v.design_slug }}{% if v.embed %} inv-embed{% endif %}" data-mode="{{ v.mode }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ v.page_title }}</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="{{ v.kicker }}{% if v.date_short %} · {{ v.date_short }}{% endif %}">
+{% if v.is_live %}<meta property="og:title" content="{{ v.title }}">
+<meta property="og:description" content="{% if v.date_display %}{{ v.date_display|capfirst }}{% else %}Uitnodiging{% endif %}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="{{ BASE_URL }}{% static 'img/og-uitnodiging.jpg' %}">
+{% endif %}<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+<script src="{% static 'invitations/boot.js' %}"></script>
+{% block preload %}{% endblock %}
+<link rel="stylesheet" href="{% static 'invitations/invite-base.css' %}">
+<link rel="stylesheet" href="{% static v.stylesheet %}">
+<script src="{% static 'invitations/invite.js' %}" defer></script>
+</head>
+<body style="{{ v.palette_style }}" data-palette="{{ v.palette_key }}"{% if v.opening_enabled %} data-has-cover{% endif %}>
+{% include "invitations/partials/mode_banner.html" %}
+<a class="skip-link" href="#uitnodiging">Direct naar de uitnodiging</a>
+{% if v.opening_enabled %}{% block cover %}{% endblock %}{% endif %}
+<main id="uitnodiging" class="inv-main" tabindex="-1">
+{% if v.notice %}<p class="inv-notice">{{ v.notice }}</p>{% endif %}
+{% block content %}{% endblock %}
+</main>
+{% include "invitations/partials/music.html" %}
+{% include "invitations/partials/colophon.html" %}
+</body>
+</html>

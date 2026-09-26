@@ -1,0 +1,38 @@
+{% extends "base.html" %}{% load vl %}
+{% block title %}Testbetaling{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<section class="section--tight">
+  <div class="container container--narrow">
+    <div class="card test-pay">
+      <p class="badge badge--test">Testbetaling · er wordt geen geld afgeschreven</p>
+      <h1>Gesimuleerde betaalpagina</h1>
+      <p class="lead">Dit scherm vervangt de echte betaalomgeving (bijvoorbeeld iDEAL via Mollie) zolang die nog niet is aangesloten. Kies de uitkomst die je wilt testen.</p>
+      <dl class="summary-list">
+        <div><dt>Bestelling</dt><dd>{{ order.number }}</dd></div>
+        <div><dt>Bedrag</dt><dd>{{ payment.amount_cents|euro }}</dd></div>
+        <div><dt>Status</dt><dd>{{ payment.get_status_display }}</dd></div>
+      </dl>
+      {% if payment.status == "open" or payment.status == "pending" %}
+      <form method="post" class="form">
+        {% csrf_token %}
+        <fieldset class="field">
+          <legend>Uitkomst</legend>
+          <div class="radio-cards">
+            <label class="radio-card"><input type="radio" name="uitkomst" value="betaald" checked><strong>Betaling geslaagd</strong><span class="small muted">De uitnodiging wordt automatisch gepubliceerd.</span></label>
+            <label class="radio-card"><input type="radio" name="uitkomst" value="mislukt"><strong>Betaling mislukt</strong><span class="small muted">Bijvoorbeeld geweigerd door de bank.</span></label>
+            <label class="radio-card"><input type="radio" name="uitkomst" value="geannuleerd"><strong>Afgebroken</strong><span class="small muted">De klant annuleert de betaling.</span></label>
+            <label class="radio-card"><input type="radio" name="uitkomst" value="verlopen"><strong>Verlopen</strong><span class="small muted">De betaling is niet op tijd afgerond.</span></label>
+          </div>
+        </fieldset>
+        <label class="check"><input type="checkbox" name="webhook" value="uit"><span>Melding van de provider vertragen (test de terugkeer vóór de webhook)</span></label>
+        <button class="btn btn--primary" type="submit">Uitkomst bevestigen</button>
+      </form>
+      {% else %}
+      <p>Deze betaling is al afgerond.</p>
+      <a class="btn btn--secondary" href="{% url 'orders:status' order.uid %}">Naar de bestelling</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

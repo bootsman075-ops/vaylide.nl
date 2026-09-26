@@ -1,0 +1,9 @@
+Hallo {{ msg.name }},
+
+Bedankt voor je bericht. We hebben het goed ontvangen en nemen contact met je op.
+
+Je bericht:
+{{ msg.message }}
+
+Hartelijke groet,
+Vierlief

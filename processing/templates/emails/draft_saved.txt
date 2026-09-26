@@ -1,0 +1,11 @@
+Hallo,
+
+Je ontwerp{% if invitation.title %} voor {{ invitation.title }}{% endif %} is bewaard in Mijn Vierlief.
+
+Verder gaan waar je gebleven was:
+{{ link }}
+
+Je logt in met je e-mailadres; je krijgt dan een code toegestuurd.
+
+Hartelijke groet,
+Vierlief

@@ -1,0 +1,8 @@
+{% if v.share_url %}<div class="inv-share">
+  <div class="inv-actions" role="group" aria-label="Deel deze uitnodiging">
+    <button type="button" class="inv-btn" data-copy="{{ v.share_url }}" hidden>Link kopiëren</button>
+    <a class="inv-btn" href="{{ v.whatsapp_url }}" target="_blank" rel="noopener">Delen via WhatsApp</a>
+    <button type="button" class="inv-btn" data-native-share data-share-title="{{ v.title }}" data-share-url="{{ v.share_url }}" hidden>Delen…</button>
+  </div>
+  <p class="inv-share__status" role="status" aria-live="polite" data-copy-status></p>
+</div>{% endif %}

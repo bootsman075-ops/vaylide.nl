@@ -1,0 +1,159 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Liefde op papier v1 — romantisch en zacht. Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
+
+{% block cover %}
+<section class="cover lp-cover" data-cover data-duration="2700" aria-label="Openingsscherm">
+  <div class="lp-cover__inner">
+    <p class="lp-cover__to">Een uitnodiging voor jou</p>
+    <div class="lp-env-wrap">
+    <div class="lp-env" aria-hidden="true">
+      <div class="lp-env__back"></div>
+      <div class="lp-env__card">
+        <span class="lp-env__card-kicker">{{ v.kicker }}</span>
+        <span class="lp-env__card-names">{{ v.title }}</span>
+        <span class="lp-env__card-date">{{ v.date_numeric }}</span>
+      </div>
+      <div class="lp-env__pocket"></div>
+      <div class="lp-env__flap"></div>
+    </div>
+    <a href="#uitnodiging" class="lp-seal" data-open aria-label="Open de uitnodiging">
+      <span class="lp-seal__mono" aria-hidden="true">{{ v.monogram }}</span>
+    </a>
+    </div>
+    <p class="lp-cover__hint">Tik op het zegel om te openen</p>
+    {% if v.show.music %}<button type="button" class="lp-cover__music" data-open data-open-music>Openen met muziek</button>{% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="lp-hero">
+  <div class="lp-hero__card">
+    <svg class="lp-sprig lp-sprig--top" viewBox="0 0 240 48" aria-hidden="true" focusable="false"><path d="M8 40c38-2 70-14 112-30M120 10c34 16 72 26 112 30M58 30c-6-10-2-18 8-22-2 10-2 16-8 22Zm28-10c-4-10 2-17 12-19-3 9-5 15-12 19Zm66 0c4-10-2-17-12-19 3 9 5 15 12 19Zm28 10c6-10 2-18-8-22 2 10 2 16 8 22Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="120" cy="10" r="3.2" fill="currentColor"/></svg>
+    <p class="lp-kicker">{{ v.kicker }}</p>
+    <h1 class="lp-names lp-names--{{ v.names_size }}">
+      {% if v.is_couple %}<span class="lp-names__one">{{ v.names.0 }}</span><span class="lp-names__amp" aria-label="en">&amp;</span><span class="lp-names__two">{{ v.names.1 }}</span>
+      {% else %}<span class="lp-names__one">{{ v.names.0 }}</span>{% endif %}
+    </h1>
+    <p class="lp-tagline">{{ v.tagline }}</p>
+    {% if v.date %}
+    <div class="lp-date">
+      <span class="lp-date__weekday">{{ v.weekday }}</span>
+      <span class="lp-date__day">{{ v.day }}</span>
+      <span class="lp-date__month">{{ v.month_name }} {{ v.year }}</span>
+    </div>
+    {% endif %}
+    {% if v.time_display or v.venue %}<p class="lp-hero__meta">{% if v.time_display %}{{ v.time_display }}{% endif %}{% if v.time_display and v.venue %}<span aria-hidden="true"> · </span>{% endif %}{{ v.venue }}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+  </div>
+  {% if v.hero %}<figure class="lp-arch"><div class="ph lp-arch__img">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 420px, 80vw" %}</div></figure>{% endif %}
+</header>
+
+{% if v.welcome %}
+<section class="lp-section lp-welcome" data-reveal aria-label="Welkom">
+  {% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="lp-section lp-countdown" data-reveal aria-labelledby="lp-cd-title">
+  <h2 id="lp-cd-title" class="lp-h2">{% if v.is_past %}Dank je wel{% else %}Nog even geduld{% endif %}</h2>
+  {% include "invitations/partials/countdown.html" %}
+  {% include "invitations/partials/calendar_buttons.html" %}
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="lp-section lp-story" data-reveal aria-labelledby="lp-story-title">
+  <h2 id="lp-story-title" class="lp-h2">{{ v.story_title }}</h2>
+  <div class="lp-story__text">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="lp-section lp-program" data-reveal aria-labelledby="lp-program-title">
+  <h2 id="lp-program-title" class="lp-h2">Programma</h2>
+  <ol class="lp-timeline">
+    {% for item in v.program %}
+    <li class="lp-timeline__item">
+      {% if item.time %}<span class="lp-timeline__time">{{ item.time }}</span>{% endif %}
+      <span class="lp-timeline__dot" aria-hidden="true"></span>
+      <div class="lp-timeline__body">
+        <h3 class="lp-timeline__title">{{ item.title }}</h3>
+        {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="lp-section lp-location" data-reveal aria-labelledby="lp-location-title">
+  <h2 id="lp-location-title" class="lp-h2">Locatie</h2>
+  <div class="lp-paper-card">
+    {% if v.venue %}<p class="lp-location__venue">{{ v.venue }}</p>{% endif %}
+    {% if v.address_lines %}<address class="lp-location__address">{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+    {% if v.date_display %}<p class="lp-location__when">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}</p>{% endif %}
+    {% if v.route_url %}<a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Route plannen</a>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="lp-section lp-dresscode" data-reveal aria-labelledby="lp-dress-title">
+  <h2 id="lp-dress-title" class="lp-h2">Dresscode</h2>
+  {% for p in v.dresscode_text %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+  {% if v.dresscode_colors %}<ul class="lp-swatches" aria-label="Kleuren voor de dresscode">
+    {% for c in v.dresscode_colors %}<li class="lp-swatch" style="background:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}
+  </ul>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="lp-section lp-practical" data-reveal aria-labelledby="lp-practical-title">
+  <h2 id="lp-practical-title" class="lp-h2">Goed om te weten</h2>
+  <dl class="lp-practical__list">
+    {% for item in v.practical %}<div class="lp-practical__item">{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="lp-section lp-gallery" data-reveal aria-labelledby="lp-gallery-title">
+  <h2 id="lp-gallery-title" class="lp-h2">Momenten</h2>
+  <ul class="lp-gallery__grid">
+    {% for photo in v.gallery %}<li class="lp-gallery__item lp-gallery__item--{{ photo.orientation }}"><figure class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 900px) 300px, 45vw" %}{% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}</figure></li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="lp-section lp-rsvp" id="aanmelden" data-reveal aria-labelledby="lp-rsvp-title">
+  <h2 id="lp-rsvp-title" class="lp-h2">{% if v.formal %}Komt u ook?{% else %}Kom je ook?{% endif %}</h2>
+  <div class="lp-paper-card lp-paper-card--form">
+    {% include "invitations/partials/rsvp.html" %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="lp-section lp-contact" data-reveal aria-labelledby="lp-contact-title">
+  <h2 id="lp-contact-title" class="lp-h2">Vragen?</h2>
+  {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+  <p class="lp-contact__name">{{ v.contact.name }}</p>
+  <p class="lp-contact__links">
+    {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+    {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+    {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+  </p>
+</section>
+{% endif %}
+
+<section class="lp-section lp-closing" data-reveal aria-label="Afsluiting">
+  {% if v.show.closing %}{% for p in v.closing %}<p class="lp-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  <p class="lp-closing__mono" aria-hidden="true">{{ v.monogram }}</p>
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+{% endblock %}

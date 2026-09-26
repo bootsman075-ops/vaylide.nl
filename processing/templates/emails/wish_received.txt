@@ -1,0 +1,11 @@
+Hallo,
+
+We hebben je aanvraag "{{ req.subject }}" goed ontvangen (referentie {{ req.reference }}).
+
+We bekijken je wens persoonlijk. Als er iets moet worden afgestemd of als er kosten aan verbonden zijn, krijg je eerst een voorstel. We beginnen pas na jouw akkoord.
+
+Je aanvraag volgen of iets toevoegen:
+{{ link }}
+
+Hartelijke groet,
+Vierlief

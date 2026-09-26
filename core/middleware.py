@@ -1,0 +1,89 @@
+"""Beveiligingsheaders en een harde limiet op de grootte van verzoeken."""
+from __future__ import annotations
+
+from django.conf import settings
+from django.http import HttpResponse
+
+PRIVATE_PREFIXES = (
+    "/u/",
+    "/account/",
+    "/beheer/",
+    "/maken/",
+    "/bestelling/",
+    "/betalen/",
+    "/inloggen/",
+    "/voorbeeld/",
+    f"/{settings.ADMIN_URL}",
+)
+NO_STORE_PREFIXES = ("/account/", "/beheer/", "/maken/", "/bestelling/", "/betalen/", "/inloggen/", f"/{settings.ADMIN_URL}")
+
+
+def _form_action_sources() -> str:
+    sources = ["'self'"]
+    if settings.PAYMENT_PROVIDER == "mollie":
+        sources.append("https://www.mollie.com")
+    return " ".join(sources)
+
+
+class SecurityHeadersMiddleware:
+    """Content-Security-Policy, Permissions-Policy en noindex voor privépagina's."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.form_action = _form_action_sources()
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        frame_ancestors = "'self'" if response.get("X-Frame-Options") == "SAMEORIGIN" else "'none'"
+        response.setdefault(
+            "Content-Security-Policy",
+            "; ".join(
+                [
+                    "default-src 'self'",
+                    "script-src 'self'",
+                    "style-src 'self'",
+                    "style-src-attr 'unsafe-inline'",
+                    "img-src 'self' data: blob:",
+                    "font-src 'self'",
+                    "media-src 'self' blob:",
+                    "connect-src 'self'",
+                    "frame-src 'self'",
+                    "object-src 'none'",
+                    "base-uri 'self'",
+                    f"form-action {self.form_action}",
+                    f"frame-ancestors {frame_ancestors}",
+                ]
+            ),
+        )
+        response.setdefault(
+            "Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), browsing-topics=()"
+        )
+        path = request.path
+        if path.startswith(PRIVATE_PREFIXES):
+            response["X-Robots-Tag"] = "noindex, nofollow, noarchive"
+        if path.startswith(NO_STORE_PREFIXES):
+            response["Cache-Control"] = "private, no-store"
+        elif path.startswith("/u/") and "Cache-Control" not in response:
+            response["Cache-Control"] = "private, no-cache"
+        return response
+
+
+class RequestSizeLimitMiddleware:
+    """Weigert verzoeken die groter zijn dan VIERLIEF_MAX_REQUEST_BYTES (413)."""
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+        self.limit = settings.VIERLIEF_MAX_REQUEST_BYTES
+
+    def __call__(self, request):
+        try:
+            length = int(request.META.get("CONTENT_LENGTH") or 0)
+        except ValueError:
+            length = 0
+        if length > self.limit:
+            return HttpResponse(
+                "Het bestand of formulier is te groot. Probeer een kleiner bestand.",
+                status=413,
+                content_type="text/plain; charset=utf-8",
+            )
+        return self.get_response(request)

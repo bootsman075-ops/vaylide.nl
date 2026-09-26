@@ -1,0 +1,4 @@
+{% if v.calendar and not v.is_past %}<div class="inv-actions" role="group" aria-label="Zet in je agenda">
+  <a class="inv-btn" href="{{ v.calendar.google }}" target="_blank" rel="noopener">Google Agenda</a>
+  {% if v.calendar.ics %}<a class="inv-btn" href="{{ v.calendar.ics }}" download>Apple / Outlook agenda</a>{% endif %}
+</div>{% endif %}
