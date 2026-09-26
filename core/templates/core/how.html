@@ -1,9 +1,10 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load vl %}
 {% block title %}Zo werkt het{% endblock %}
 {% block description %}Van ontwerp kiezen tot aanmeldingen beheren: zo werkt een digitale uitnodiging van Vierlief.{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container container--mid">
+    <p class="eyebrow">Stap voor stap</p>
     <h1>Zo werkt het</h1>
     <p class="lead">Je maakt je uitnodiging zelf, in je eigen tempo. Na je betaling staat hij automatisch online.</p>
   </div>
@@ -16,14 +17,16 @@
 <section class="section section--line" aria-labelledby="gasten-titel">
   <div class="container container--mid">
     <div class="section-head"><h2 id="gasten-titel">Wat je gasten krijgen</h2></div>
-    <dl class="feature-list">{% for title, text in features %}<div><dt>{{ title }}</dt><dd>{{ text }}</dd></div>{% endfor %}</dl>
+    <dl class="feature-list">{% for icon_name, title, text in features %}<div>{% icon icon_name %}<dt>{{ title }}</dt><dd>{{ text }}</dd></div>{% endfor %}</dl>
   </div>
 </section>
-<section class="section section--line" aria-labelledby="wensen-titel">
+<section class="section" aria-labelledby="wensen-titel">
   <div class="container container--mid">
-    <div class="section-head"><h2 id="wensen-titel">Bijzondere wensen</h2></div>
+    <div class="panel-soft">
+    <h2 id="wensen-titel">Bijzondere wensen</h2>
     <p class="measure">Iets wat niet in de standaardopties zit? Gebruik <strong>Extra wensen of hulp nodig?</strong> tijdens het samenstellen of in Mijn Vierlief. Kost het iets extra, dan krijg je eerst een voorstel; we beginnen pas na jouw akkoord.</p>
-    <div class="btn-row"><a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a></div>
+    <div class="btn-row"><a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging {% icon "pijl" %}</a></div>
+    </div>
   </div>
 </section>
 {% endblock %}

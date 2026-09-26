@@ -1,0 +1,40 @@
+{% extends "base.html" %}{% load vl %}
+{% block title %}Inspiratie{% endblock %}
+{% block description %}Voorbeeldteksten en tips voor je digitale uitnodiging, per gelegenheid.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container">
+    <p class="eyebrow">Inspiratie</p>
+    <h1>Ideeën voor jouw uitnodiging</h1>
+    <p class="lead">Voorbeeldteksten om over te nemen en tips die je gasten helpen.</p>
+  </div>
+</section>
+<section class="section section--flush" aria-label="Gelegenheden">
+  <div class="container">{% include "partials/occasion_tiles.html" %}</div>
+</section>
+<section class="section" aria-labelledby="teksten-titel">
+  <div class="container">
+    <div class="section-head"><h2 id="teksten-titel">Voorbeeldteksten</h2></div>
+    <div class="sample-grid">
+      {% for key, label, text in samples %}
+      <figure class="sample" id="tekst-{{ key }}">
+        <h3>{{ label }}</h3>
+        <blockquote><p>{{ text }}</p></blockquote>
+        <figcaption><a class="link-arrow" href="{% url 'core:designs' %}?gelegenheid={{ key }}">Ontwerpen voor {{ label|lower }}</a></figcaption>
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section section--flush" aria-labelledby="tips-titel">
+  <div class="container">
+    <div class="panel-soft">
+      <div class="section-head"><h2 id="tips-titel">Handige tips</h2></div>
+      <ul class="tip-list">{% for icon_name, title, text in tips %}<li>{% icon icon_name %}<p><strong>{{ title }}</strong><span>{{ text }}</span></p></li>{% endfor %}</ul>
+    </div>
+    <div class="btn-row btn-row--center aside-line">
+      <a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging {% icon "pijl" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

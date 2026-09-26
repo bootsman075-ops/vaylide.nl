@@ -17,6 +17,37 @@
     });
   });
 
+  // Live voorbeeld pas laden als het bijna in beeld is; tot dan staat er een afbeelding.
+  var lazyFrames = document.querySelectorAll("[data-lazy-frame]");
+  function loadFrame(holder) {
+    if (holder.querySelector("iframe")) return;
+    var frame = document.createElement("iframe");
+    frame.setAttribute("data-lazy", "");
+    frame.title = holder.getAttribute("data-frame-title") || "";
+    frame.addEventListener("load", function () { holder.classList.add("is-loaded"); });
+    frame.src = holder.getAttribute("data-lazy-frame");
+    holder.appendChild(frame);
+  }
+  if ("IntersectionObserver" in window) {
+    var frameObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { loadFrame(entry.target); frameObserver.unobserve(entry.target); }
+      });
+    }, { rootMargin: "300px 0px" });
+    lazyFrames.forEach(function (holder) { frameObserver.observe(holder); });
+  } else {
+    lazyFrames.forEach(loadFrame);
+  }
+
+  // Veelgestelde vragen: een link naar #vraag-3 opent die vraag.
+  function openTarget() {
+    var id = window.location.hash.slice(1);
+    var target = id && document.getElementById(id);
+    if (target && target.tagName === "DETAILS") target.open = true;
+  }
+  openTarget();
+  window.addEventListener("hashchange", openTarget);
+
   // Keuzelijst die direct het formulier verstuurt.
   document.querySelectorAll("[data-autosubmit]").forEach(function (select) {
     select.addEventListener("change", function () { if (select.form) select.form.submit(); });

@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% load vl %}
+{% block title %}{% if query %}Zoeken: {{ query }}{% else %}Zoeken{% endif %}{% endblock %}
+{% block meta_robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+{% block canonical %}{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container container--mid">
+    <h1>Zoeken</h1>
+    <form class="search-form" method="get" action="{% url 'core:search' %}" role="search">
+      <label class="visually-hidden" for="zoekterm">Zoekterm</label>
+      <input class="input" id="zoekterm" type="search" name="q" value="{{ query }}" maxlength="100" placeholder="Bijvoorbeeld: muziek, betalen, bruiloft"{% if not query %} autofocus{% endif %}>
+      <button class="btn btn--primary" type="submit">{% icon "zoeken" %}<span>Zoek</span></button>
+    </form>
+  </div>
+</section>
+<section class="section section--flush" aria-live="polite">
+  <div class="container container--mid">
+    {% if query %}
+      {% if results %}
+      <p class="muted">{{ results|length }} resultaat{{ results|length|pluralize:"en" }} voor <strong>{{ query }}</strong></p>
+      <ul class="search-results">
+        {% for r in results %}<li><a href="{{ r.url }}">{{ r.title }}</a><span class="search-results__kind">{{ r.kind }}</span><p>{{ r.text|truncatechars:170 }}</p></li>{% endfor %}
+      </ul>
+      {% else %}
+      <p>Niets gevonden voor <strong>{{ query }}</strong>. Probeer een ander woord, bekijk de <a href="{% url 'core:faq' %}">veelgestelde vragen</a> of <a href="{% url 'core:contact' %}">neem contact op</a>.</p>
+      {% endif %}
+    {% else %}
+      <p class="muted">Bijvoorbeeld: <a href="{% url 'core:search' %}?q=muziek">muziek</a>, <a href="{% url 'core:search' %}?q=betalen">betalen</a>, <a href="{% url 'core:search' %}?q=aanmelden">aanmelden</a>, <a href="{% url 'core:search' %}?q=bruiloft">bruiloft</a>.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

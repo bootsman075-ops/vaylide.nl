@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% load vl %}
+{% block title %}Over ons{% endblock %}
+{% block description %}Vierlief maakt persoonlijke digitale uitnodigingen met aanmelden, afteller en route.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container container--mid">
+    <p class="eyebrow">Over ons</p>
+    <h1>Uitnodigen met een verhaal</h1>
+    <p class="lead">Vierlief maakt digitale uitnodigingen voor de momenten die je niet wilt vergeten: persoonlijk, eenvoudig te delen en met aanmelden erbij.</p>
+  </div>
+</section>
+<section class="section section--flush" aria-labelledby="waarden-titel">
+  <div class="container container--mid">
+    <h2 id="waarden-titel" class="visually-hidden">Waar we op letten</h2>
+    <ul class="value-grid">{% for icon_name, title, text in values %}<li>{% icon icon_name 32 %}<h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}</ul>
+  </div>
+</section>
+<section class="section" aria-labelledby="vraag-titel">
+  <div class="container container--mid">
+    <div class="panel-soft">
+      <h2 id="vraag-titel">Vragen of een bijzondere wens?</h2>
+      <p class="measure">We bekijken je vraag persoonlijk. Kost een wens iets extra, dan krijg je eerst een voorstel; we beginnen pas na jouw akkoord.</p>
+      <div class="btn-row"><a class="btn btn--primary" href="{% url 'core:contact' %}">Neem contact op {% icon "pijl" %}</a><a class="link-arrow" href="{% url 'core:faq' %}">Veelgestelde vragen</a></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,10 +1,11 @@
 {% extends "base.html" %}
-{% block title %}{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Ontwerpen{% endif %}{% endblock %}
+{% block title %}{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Collectie{% endif %}{% endblock %}
 {% block description %}Bekijk de ontwerpen voor digitale uitnodigingen van Vierlief en probeer het werkende voorbeeld.{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container">
-    <h1>{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Ontwerpen{% endif %}</h1>
+    <p class="eyebrow">Collectie</p>
+    <h1>{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Onze ontwerpen{% endif %}</h1>
     <p class="lead">Elk ontwerp heeft een eigen opening en vier kleurvarianten.</p>
     <nav class="filter-bar" aria-label="Filter op gelegenheid">
       <ul class="chips">

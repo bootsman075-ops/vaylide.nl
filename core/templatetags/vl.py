@@ -1,9 +1,11 @@
 """Kleine templatehulpmiddelen voor Vierlief."""
 from django import template
+from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
 from catalog.assets import design_image_url
 from core.csp import BOOT_SCRIPT
+from core.icons import ICONS
 from catalog.models import format_euro
 
 register = template.Library()
@@ -38,3 +40,17 @@ def initial(value):
 def boot_script():
     """Inline startscript; de hash staat in de Content-Security-Policy (core/csp.py)."""
     return mark_safe(f"<script>{BOOT_SCRIPT}</script>")
+
+
+@register.simple_tag
+def icon(name, size=24, css_class=""):
+    """Inline lijnicoon uit core/icons.py (decoratief: verborgen voor schermlezers)."""
+    paths = ICONS.get(name)
+    if paths is None:
+        return ""
+    classes = f"icon {css_class}".strip()
+    return format_html(
+        '<svg class="{}" viewBox="0 0 24 24" width="{}" height="{}" aria-hidden="true" focusable="false" fill="none" '
+        'stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">{}</svg>',
+        classes, size, size, mark_safe(paths),
+    )

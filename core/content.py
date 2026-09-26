@@ -3,11 +3,34 @@
 Let op: geen verzonnen reviews, klantenaantallen of beloftes over levertijden.
 """
 
-# Kort, voor de homepage.
+# Homepage: vier stappen met icoon (icoonnamen uit core/icons.py).
 STEPS_SHORT = [
-    ("Kies een ontwerp", "Probeer het voorbeeld op je eigen telefoon."),
-    ("Vul je gegevens in", "Je ziet direct hoe jouw uitnodiging wordt."),
-    ("Betaal en deel", "Na je betaling automatisch online, met eigen link en QR-code."),
+    ("kaarten", "Kies een ontwerp", "Uit onze collectie, voor elke gelegenheid."),
+    ("potlood", "Vul je gegevens in", "Tekst, foto's, datum en extra opties."),
+    ("oog", "Bekijk en pas aan", "Zie direct een voorbeeld van jouw uitnodiging."),
+    ("versturen", "Delen maar", "Na je betaling een eigen link en QR-code."),
+]
+
+HERO_CHECKS = ["Snel en eenvoudig", "Stijlvolle ontwerpen", "Automatisch online", "RSVP & gastenlijst"]
+
+# Donker paneel op de homepage: onderdelen die elke uitnodiging kan hebben.
+HOME_FEATURES = [
+    ("wekker", "Afteller"),
+    ("locatie", "Locatie"),
+    ("gasten", "Gastenlijst"),
+    ("programma", "Programma"),
+    ("fotos", "Foto's"),
+    ("kleuren", "Kleurkeuze"),
+]
+
+# Tegels per gelegenheid; het beeld is een weergave van een echt voorbeeld.
+OCCASION_TILES = [
+    ("bruiloft", "Bruiloft"),
+    ("verloving", "Verloving"),
+    ("verjaardag", "Verjaardag"),
+    ("jubileum", "Jubileum"),
+    ("babyshower", "Babyshower"),
+    ("zakelijk", "Zakelijk"),
 ]
 
 STEPS = [
@@ -20,15 +43,15 @@ STEPS = [
 ]
 
 FEATURES = [
-    ("Openingsanimatie", "Envelop, gouden deur of doorschijnend vel. Openen met één tik."),
-    ("Afteller", "In de juiste tijdzone."),
-    ("Programma", "Van ontvangst tot feest op een tijdlijn."),
-    ("Locatie en route", "Met een knop naar de kaart."),
-    ("Aanmelden zonder account", "Aanwezig, aantal personen en eigen vragen."),
-    ("In de agenda", "Google, Apple en Outlook."),
-    ("Delen", "Via WhatsApp, een link of een QR-code."),
-    ("Muziek", "Start pas als de gast erop tikt."),
-    ("Privé", "Niet vindbaar in zoekmachines. Alleen jij ziet de gastenlijst."),
+    ("envelop", "Openingsanimatie", "Envelop, gouden deur of doorschijnend vel. Openen met één tik."),
+    ("wekker", "Afteller", "In de juiste tijdzone."),
+    ("programma", "Programma", "Van ontvangst tot feest op een tijdlijn."),
+    ("locatie", "Locatie en route", "Met een knop naar de kaart."),
+    ("gasten", "Aanmelden zonder account", "Aanwezig en met hoeveel personen. Eigen vragen met Compleet of als extra optie."),
+    ("agenda", "In de agenda", "Google, Apple en Outlook."),
+    ("delen", "Delen", "Via WhatsApp, een link of een QR-code."),
+    ("muziek", "Muziek", "Start pas als de gast erop tikt."),
+    ("slot", "Privé", "Niet vindbaar in zoekmachines. Alleen jij ziet de gastenlijst."),
 ]
 
 FAQ = [
@@ -65,4 +88,31 @@ FAQ = [
     ("Wat gebeurt er met de gegevens na afloop?",
      "Na de beschikbaarheidsperiode gaat de uitnodiging offline en worden de gastgegevens na een vaste termijn verwijderd. "
      "Je kunt je uitnodiging, de aanmeldingen en je account ook zelf eerder verwijderen."),
+]
+
+# Inspiratie: voorbeeldteksten om over te nemen (geen echte klanten of reviews).
+TEXT_SAMPLES = [
+    ("bruiloft", "Bruiloft", "Wij gaan trouwen! We zouden het heel bijzonder vinden om deze dag met jou te vieren."),
+    ("verloving", "Verloving", "Ze zei ja! Dat willen we graag samen met jou vieren, met een glas en goed eten."),
+    ("verjaardag", "Verjaardag", "Dertig wordt gevierd met muziek, bubbels en de mensen die ertoe doen. Kom je ook?"),
+    ("jubileum", "Jubileum", "Veertig jaar samen: dat vieren we graag met familie, vrienden en buren."),
+    ("babyshower", "Babyshower", "Er is iets kleins op komst! Vier het met ons met taart, thee en spelletjes."),
+    ("zakelijk", "Zakelijk", "Graag nodigen wij u uit om samen met ons team dit bijzondere moment te vieren."),
+]
+
+TIPS = [
+    ("agenda", "Kies een aanmelddatum", "Een paar weken voor de dag. Dan weet je op tijd met hoeveel gasten je rekent."),
+    ("programma", "Zet het programma erin", "Gasten zien meteen wanneer de ceremonie, het diner of het feest begint."),
+    ("gasten", "Stel je eigen vraag", "Bijvoorbeeld over dieetwensen of vervoer. Met Compleet of als extra optie."),
+    ("kleuren", "Geef een dresscode mee", "Met een paar kleuren erbij weten gasten precies wat je bedoelt."),
+    ("fotos", "Kies rustige foto's", "Je bepaalt zelf welk deel in beeld komt, zodat tekst goed leesbaar blijft."),
+    ("delen", "Deel op jouw manier", "Stuur de link via WhatsApp of e-mail, of zet de QR-code op een kaart."),
+]
+
+# Over ons: waar Vierlief op let.
+VALUES = [
+    ("hart", "Persoonlijk", "Je uitnodiging vertelt jullie verhaal, met eigen tekst, foto's en programma."),
+    ("potlood", "Eenvoudig", "Je maakt hem zelf, in je eigen tempo. Gasten hebben geen account nodig."),
+    ("slot", "Privé", "Niet vindbaar in zoekmachines. Alleen jij ziet de aanmeldingen."),
+    ("vink", "Duidelijk geprijsd", "Eén keer betalen, geen kosten per gast. Bijzondere wensen alleen na jouw akkoord."),
 ]

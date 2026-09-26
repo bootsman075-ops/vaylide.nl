@@ -25,7 +25,7 @@ Vierlief is een nieuw, zelfstandig project met een eigen repository. Er was nog 
 - **Concept en gepubliceerde versie zijn gescheiden.** Wijzigingen gaan pas live na publiceren, op dezelfde link. Elke publicatie is een bewaarde versie die hersteld kan worden.
 - **Conflicten worden gemeld.** Elk opslaan controleert of het concept intussen door een ander is gewijzigd (door de klant of het team). Zo ja, dan wordt niets overschreven: de klant ziet wat er veranderd is en kiest zelf. Beheer kan velden ook vergrendelen.
 - **Verwerking na betaling via een takenwachtrij.** Publiceren en e-mailen zijn taken met een unieke sleutel. Herhaalde betalingsmeldingen leveren dus geen dubbele publicaties of e-mails op. Mislukte taken worden automatisch opnieuw geprobeerd en daarna aan de eigenaar gemeld.
-- **Strak en rustig vormgegeven**: veel witruimte, dunne lijnen in plaats van kaders, één duidelijke knop per blok en korte teksten. De website, het samenstellen, Mijn Vierlief en het beheer delen één stijlblad met dezelfde kleuren en lettertypen.
+- **Vormgeving naar de voorbeeldfoto van de eigenaar**: warm crème, goud en diep bosgroen, Playfair Display voor koppen en DM Sans voor tekst, zachte panelen met ronde hoeken en dunne gouden lijniconen. Eén duidelijke knop per blok en korte teksten. De website, het samenstellen, Mijn Vierlief en het beheer delen één stijlblad met dezelfde kleuren en lettertypen. Zie "Nieuwe vormgeving" hieronder.
 - **Snel**: pagina's worden op de server opgebouwd, tekst wordt gecomprimeerd, statische bestanden krijgen een versiekenmerk en lange cachetijd, en foto's komen in passende formaten.
 - **Externe diensten zitten achter een eigen koppeling**, met een herkenbare testvariant: de betaalprovider (test of Mollie), e-mail (bewaren of SMTP) en AI (vaste teksten of Claude).
 
@@ -59,9 +59,26 @@ Deze keuzes zijn gemaakt om door te kunnen bouwen. Alle zijn aan te passen.
 - **Bewaartermijnen (instelbaar):** gastgegevens 90 dagen na het einde van de beschikbaarheid; ontwerpen zonder account 30 dagen; onbetaalde concepten van klanten 365 dagen; inlogcodes 2 dagen.
 - **Betalen:** via Mollie, omdat die in Nederland iDEAL en andere methoden via één koppeling aanbiedt. Welke methoden beschikbaar zijn, bepaal je in je Mollie-account.
 - **Muziek:** de klant uploadt een eigen MP3- of M4A-bestand en bevestigt de rechten. De muziek start nooit vanzelf. In de voorbeelden klinkt een eenvoudige, zelf gegenereerde melodie (geen bestaande muziek).
-- **Beelden en lettertypen:** de voorbeeldfoto's zijn eigen abstracte afbeeldingen (`tools/generate_demo_images.py`), zonder stockfoto's of foto's van echte mensen. De lettertypen zijn open source (OFL) en staan op de eigen server, zodat er geen verzoeken naar Google Fonts gaan.
+- **Beelden en lettertypen:** de voorbeeldfoto's in de uitnodigingen zijn eigen abstracte afbeeldingen (`tools/generate_demo_images.py`). De sfeerbeelden, merkbeelden en tegels van de website zijn ook eigen werk (`tools/merkbeelden/`): getekende sfeerbeelden en schermafbeeldingen van de echte voorbeelduitnodigingen. Er zijn geen stockfoto's of foto's van echte mensen gebruikt. De lettertypen zijn open source (OFL) en staan op de eigen server, zodat er geen verzoeken naar Google Fonts gaan.
 - **Juridische teksten:** privacyverklaring en voorwaarden zijn gemarkeerd als concept en moeten nog juridisch worden gecontroleerd en aangevuld met bedrijfsgegevens.
 - **AI:** optioneel. Het standaardproces werkt volledig zonder AI. De AI-hulp gebruikt alleen wat de klant invulde en verzint geen gegevens; de klant beslist zelf over elk tekstvoorstel. Bij extra wensen maakt AI alleen een interne inschatting voor de eigenaar, zonder toezeggingen. De klant krijgt alleen een ontvangstbevestiging.
+
+## Nieuwe vormgeving (voorbeeldfoto)
+
+De eigenaar leverde een voorbeeldfoto van de gewenste website (kop, hero met foto en zwevende kaart, tegels per gelegenheid, "Zo werkt het" in vier stappen, een donker blok "Meer dan een uitnodiging", populaire ontwerpen, een review en "Liever iets unieks?"). De website volgt die opbouw, kleuren en letters. Bewust anders:
+
+| In de voorbeeldfoto | In Vierlief | Waarom |
+|---|---|---|
+| Kop "Bijzondere momenten verdienen een bijzondere uitnodiging" | "Een bijzondere dag verdient een *bijzondere* uitnodiging." in dezelfde opmaak | Deze kop en de knoppen "Bekijk de ontwerpen" en "Maak jouw uitnodiging" zijn vastgelegd in de opdracht |
+| Foto's van een bruidspaar, ringen, ballonnen, een vrouw met laptop | Eigen sfeerbeelden (gouden licht, groen, papier) en schermafbeeldingen van de echte voorbeelduitnodigingen | De foto's uit de voorbeeldfoto zijn niet los beschikbaar, te klein en de rechten zijn onbekend. Alle beelden zijn te vervangen door eigen foto's met dezelfde bestandsnaam (zie `tools/merkbeelden/README.md`) |
+| Knop "Bekijk video" | Knop "Bekijk de ontwerpen"; de afspeelknop op de kaart opent het werkende voorbeeld | Er is geen video |
+| Review met vijf sterren ("Sanne & Tim") | Weggelaten | Geen verzonnen reviews |
+| "Populaire ontwerpen", hartjes om te bewaren | "Onze ontwerpen", zonder hartjes | Er zijn geen cijfers over populariteit en geen bewaarlijst |
+| "Direct online", "Unieke ontwerpen" | "Automatisch online", "Stijlvolle ontwerpen" | Publiceren gebeurt pas na een bevestigde betaling; meerdere klanten kunnen hetzelfde ontwerp kiezen |
+| Tegel "Evenement" | Tegel "Verloving" | Vierlief heeft deze zes gelegenheden: bruiloft, verloving, verjaardag, jubileum, babyshower en zakelijk |
+| Kenmerken "Cadeautip", "Foto's & video's", "Persoonlijk design" | "Programma", "Foto's", "Kleurkeuze" | Alleen wat echt kan: praktische info (zoals een cadeautip) kan wel, maar video niet, en per ontwerp kies je uit vier kleurvarianten |
+| "Wij helpen je graag verder" | "We bekijken hem persoonlijk en je krijgt eerst een voorstel" | Geen toezegging over maatwerk zonder akkoord van de eigenaar |
+| Menu-items Inspiratie en Over ons, zoeken en winkeltas | Nieuwe pagina's Inspiratie (voorbeeldteksten en tips) en Over ons (zonder verzonnen verhaal of cijfers), een zoekpagina, en de tas opent Mijn Vierlief | Zo werkt elk onderdeel uit de kop echt |
 
 ## Referenties en schermopname
 

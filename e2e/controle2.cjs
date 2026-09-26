@@ -97,7 +97,8 @@ async function loginStaff(context) {
   const publicPages = [
     ["home", "/"], ["ontwerpen", "/ontwerpen/"], ["ontwerpen-zakelijk", "/ontwerpen/?gelegenheid=zakelijk"],
     ["ontwerp-detail", "/ontwerpen/liefde-op-papier/"], ["zo-werkt-het", "/zo-werkt-het/"], ["prijzen", "/prijzen/"],
-    ["faq", "/veelgestelde-vragen/"], ["contact", "/contact/"], ["privacy", "/privacy/"], ["inloggen", "/inloggen/"],
+    ["faq", "/veelgestelde-vragen/"], ["contact", "/contact/"], ["privacy", "/privacy/"], ["voorwaarden", "/voorwaarden/"],
+    ["inspiratie", "/inspiratie/"], ["over-ons", "/over-ons/"], ["zoeken", "/zoeken/?q=muziek"], ["zoeken-leeg", "/zoeken/?q=zzzz"], ["inloggen", "/inloggen/"],
     ["maken", "/maken/"], ["maken-bruiloft", "/maken/?gelegenheid=bruiloft"], ["404", "/bestaat-niet/"],
   ];
   for (const vp of viewports) {

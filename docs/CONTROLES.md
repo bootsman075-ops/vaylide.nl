@@ -4,11 +4,11 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**92 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code, alle geslaagd:
+**102 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met de nieuwe vormgeving, alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database);
-- in de Docker-image (Python 3.11), na een build vanaf nul.
+- in de Docker-image (Python 3.11), na een build vanaf nul: in de vorige ronde (toen 92 tests). Na de nieuwe vormgeving is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden, instellingen of datamodellen veranderd.
 
 | Uit de opdracht | Test(s) |
 |---|---|
@@ -24,7 +24,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Onbevoegde toegang tot gastenlijsten en uploads | `GuestPrivacyTests` en `MediaAccessTests`: een gast ziet geen andere antwoorden, een wijzigingslink opent alleen het eigen antwoord, alleen foto's van gepubliceerde uitnodigingen zijn zichtbaar, offline betekent alles dicht |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
-Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, en de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vierlief).
+Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vierlief), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
 
 Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts: publiceren, versies, herstellen, voorstellen en e-mails.
 
@@ -34,7 +34,7 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 
 - Een productie-achtige server: `DEBUG` uit, gunicorn, statische bestanden met versiekenmerk (WhiteNoise), testmodus voor betalen en e-mail.
 - Chromium via Playwright op **360×740, 390×844, 768×1024 en 1366×900** pixels.
-- Per schermformaat **46 pagina's** (184 in totaal): alle websitepagina's, de 404, de drie voorbeelden (geopend), 9 testuitnodigingen, de klantomgeving, alle stappen van het samenstellen en de beheeromgeving.
+- Per schermformaat **51 pagina's** (204 in totaal): alle websitepagina's (ook Inspiratie, Over ons en Zoeken met en zonder resultaten), de 404, de drie voorbeelden (geopend), 9 testuitnodigingen, de klantomgeving, alle stappen van het samenstellen en de beheeromgeving.
 - Testuitnodigingen per ontwerp:
   - **lang**: zeer lange namen, een lange locatie, adres en contactgegevens, 11 programmaonderdelen, foto's in liggend, staand en vierkant formaat, extra vragen;
   - **minimaal**: geen foto's en geen optionele onderdelen;
@@ -43,7 +43,7 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 
 ### Resultaat
 
-- **184 pagina's zonder bevindingen**: geen horizontaal scrollen, niets buiten beeld, geen consolefouten, geen mislukte verzoeken.
+- **204 pagina's zonder bevindingen** (nieuwe vormgeving): geen horizontaal scrollen, niets buiten beeld, geen consolefouten, geen mislukte verzoeken.
 - **24 van 24 gedragscontroles geslaagd**, voor alle drie de ontwerpen:
   - minder beweging: de uitnodiging opent binnen 0,3 seconde, zonder lopende animaties;
   - toetsenbord: de openknop is met Tab bereikbaar; na openen staat de focus op de kop en is de inhoud bedienbaar;
@@ -51,29 +51,37 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
   - laadt het script niet, dan verdwijnt het openingsscherm vanzelf (vangnet);
   - in een andere tijdzone verschijnt de melding "tijd in Nederland";
   - zonder JavaScript zijn de kop en het aanmeldformulier direct zichtbaar.
-- **Toegankelijkheid**: axe-core 4.13 (WCAG 2.0/2.1, A en AA) op 67 pagina's: websitepagina's, alle 12 kleurvarianten dicht en geopend, de testuitnodigingen, de klantomgeving, alle stappen van het samenstellen en het beheer. **0 overtredingen.**
-- **Contrast** van tekst op kleurverlopen (dat kan axe niet beoordelen) met een aanvullende controle op 42 pagina's, gemeten tegen de slechtste kleur in het verloop: **0 onder 4,5:1** (3:1 voor grote tekst). Voor de tekst op het doorschijnende vel van Puur moment is ook het slechtste geval berekend (een volledig zwarte foto onder een licht vel, of een witte onder het donkere vel): minimaal 5,3:1 in alle vier kleurvarianten. Het kleine label erboven haalde in dat geval maar 3:1 en gebruikt nu de hoofdtekstkleur.
-- De schermafbeeldingen op 360 pixels zijn ook met het oog bekeken: de lange uitnodigingen, de website, het samenstellen, de klantomgeving, het beheer en de foutpagina's.
+- **Toegankelijkheid**: axe-core 4.13 (WCAG 2.0/2.1, A en AA) op 73 pagina's: websitepagina's (ook Inspiratie, Over ons en Zoeken), alle 12 kleurvarianten dicht en geopend, de testuitnodigingen, de klantomgeving, alle stappen van het samenstellen en het beheer. **0 overtredingen.**
+- **Contrast** van tekst op kleurverlopen (dat kan axe niet beoordelen) met een aanvullende controle op 46 pagina's, gemeten tegen de slechtste kleur in het verloop: **0 onder 4,5:1** (3:1 voor grote tekst). Voor de tekst op het doorschijnende vel van Puur moment is ook het slechtste geval berekend (een volledig zwarte foto onder een licht vel, of een witte onder het donkere vel): minimaal 5,3:1 in alle vier kleurvarianten. Het kleine label erboven haalde in dat geval maar 3:1 en gebruikt nu de hoofdtekstkleur.
+- De schermafbeeldingen op 360 pixels zijn ook met het oog bekeken: de lange uitnodigingen, de website, het samenstellen, de klantomgeving, het beheer en de foutpagina's. De nieuwe homepage is daarnaast op 390 en 1440 pixels naast de voorbeeldfoto gelegd.
+- Het live voorbeeld op de homepage: laadt pas bij het scrollen (0 frames bij het openen, 1 in beeld); zonder JavaScript staat er een leesbare link naar het voorbeeld.
 
 ### Snelheid (Lighthouse 12, telefoon met trage mobiele verbinding)
 
-Gemeten op de productie-achtige server, vóór en na de optimalisatieronde:
+Gemeten op de productie-achtige server, met de nieuwe vormgeving:
 
-| Pagina | Prestaties | Eerste inhoud | Grootste element | Gewicht |
-|---|---|---|---|---|
-| Homepage | 95 → 100 | 1,7 → 1,1 s | 2,6 → 1,7 s | 250 → 228 KB |
-| Liefde op papier (voorbeeld) | 97 → 99 | 1,8 → 1,4 s | 2,4 → 1,8 s | 218 → 169 KB |
-| Avondgoud (voorbeeld) | 98 → 99 | 2,0 → 1,7 s | 2,0 → 1,8 s | 181 → 151 KB |
-| Puur moment (voorbeeld) | 99 → 100 | 1,4 → 1,2 s | 2,0 → 1,7 s | 167 → 102 KB |
-| Gepubliceerde uitnodiging | 98 → 99 | 1,8 → 1,4 s | 2,1 → 2,0 s | 186 → 170 KB |
-| Ontwerpen, prijzen, samenstellen | 100 → 100 | 1,1 s | 1,7 s | 109–155 KB |
+| Pagina | Prestaties | Eerste inhoud | Grootste element | Verspringen | Gewicht |
+|---|---|---|---|---|---|
+| Homepage | 99 | 0,8 s | 2,0 s | 0 | 198 KB |
+| Collectie (ontwerpen) | 100 | 0,8 s | 1,5 s | 0 | 136 KB |
+| Prijzen | 100 | 0,8 s | 1,4 s | 0 | 90 KB |
+| Inspiratie | 99 | 1,1 s | 2,1 s | 0 | 171 KB |
+| Samenstellen | 99 | 0,9 s | 1,7 s | 0,05 | 129 KB |
+| Liefde op papier / Avondgoud / Puur moment (voorbeeld) | 99 / 99 / 100 | 1,2–1,7 s | 1,7–2,0 s | ≤ 0,01 | 102–169 KB |
+| Gepubliceerde uitnodiging | 99 | 1,4 s | 2,0 s | 0 | 171 KB |
 
-Toegankelijkheid, beste praktijken en vindbaarheid scoren 100 op de gemeten websitepagina's (homepage, ontwerpen, prijzen; ontwerpenpagina: toegankelijkheid 98 → 100). De lagere vindbaarheidsscore van uitnodigingen, voorbeelden en het samenstellen is bewust: die pagina's staan op `noindex`.
+Toegankelijkheid en beste praktijken scoren 100 op alle gemeten pagina's, vindbaarheid 100 op de websitepagina's. De lagere vindbaarheidsscore van uitnodigingen, voorbeelden en het samenstellen is bewust: die pagina's staan op `noindex`. In de vorige ronde scoorde de homepage 100 bij 228 KB; de nieuwe homepage heeft meer beeld (sfeerbeeld, zes tegels, voorbeeldkaart) en blijft onder de 200 KB.
 
 ### Gevonden en opgelost
 
 | Bevinding | Oplossing |
 |---|---|
+| Nieuwe homepage: het cursieve lettertype in de kop laadde te laat, waardoor de knoppen versprongen (CLS 0,13) | Lettertype vooraf geladen: 0 |
+| Nieuwe homepage: het live voorbeeld in het groene blok laadde meteen mee (366 KB, 125 ms blokkering) | Afbeelding als voorvertoning; het voorbeeld laadt pas vlak voordat het in beeld komt (198 KB, 0 ms) |
+| Zonder JavaScript was de link in de telefoon onleesbaar (lichte tekst op lichte knop) | Donkere tekst |
+| Op telefoons liep de tekst in het groene blok over de bloemen in de achtergrond | Donkere laag onder de tekst |
+| Op "Zo werkt het" zakte de omschrijving van een kenmerk weg in hoge rijen | Rijen lijnen bovenaan uit |
+| Samenstellen: stappen die nog niet bereikbaar zijn, stonden in een grotere letter | Alle stappen gelijk opgemaakt |
 | Mijn Vierlief deed per uitnodiging aparte databasevragen (23 vragen bij 9 uitnodigingen) | Eén vraag voor alle uitnodigingen (5 in totaal, ongeacht het aantal) |
 | Voorbeeldfoto's werden op telefoons in volle grootte geladen | Versies van 1000 pixels (4–13 KB in plaats van 9–80 KB) |
 | Het startscript van de uitnodigingen blokkeerde de eerste weergave | Inline, toegestaan via een vaste hash in de CSP |
@@ -101,8 +109,8 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 
 ### Productie-achtige controles
 
-- `python manage.py check --deploy` met productie-instellingen: alleen de bewuste meldingen W005 en W021.
-- Docker: de image bouwt vanaf nul, start met migraties op een leeg volume, laadt de ontwerpen, draait als gewone gebruiker (uid 10001), serveert statische bestanden en de eigen 404, en de onderhoudscommando's werken.
+- `python manage.py check --deploy` met productie-instellingen (opnieuw na de nieuwe vormgeving): alleen de bewuste meldingen W005 en W021.
+- Docker (vorige ronde): de image bouwt vanaf nul, start met migraties op een leeg volume, laadt de ontwerpen, draait als gewone gebruiker (uid 10001), serveert statische bestanden en de eigen 404, en de onderhoudscommando's werken.
 
 ## Niet gecontroleerd
 
@@ -113,6 +121,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 - **Weergave van e-mails** in mailprogramma's en de linkvoorvertoning in WhatsApp.
 - **Belasting en snelheid** onder veel gelijktijdige bezoekers.
 - **Vergelijking met de referenties en de schermopname**: niet mogelijk; zie `docs/AANPAK.md`.
+- **Nieuwe vormgeving**: de voorbeeldfoto is als richting gebruikt, niet pixel voor pixel nagemaakt. Afwijkingen en de redenen staan in `docs/AANPAK.md`. De Docker-image is na deze ronde niet opnieuw gebouwd.
 
 ## Zelf herhalen
 

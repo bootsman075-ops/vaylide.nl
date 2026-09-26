@@ -1,70 +1,103 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static vl %}
 {% block title %}Digitale uitnodigingen voor elk bijzonder moment{% endblock %}
+{% block body_class %}page-home{% endblock %}
+{% block preload %}<link rel="preload" href="{% static 'fonts/playfair-display-latin-wght-italic.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="{% static 'img/site/hero.webp' %}" imagesrcset="{% static 'img/site/hero-900.webp' %} 900w, {% static 'img/site/hero.webp' %} 1800w" imagesizes="(max-width: 860px) 100vw, 60vw" fetchpriority="high">{% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="container hero__grid">
+<section class="hero" aria-labelledby="hero-titel">
+  <div class="container hero__inner">
     <div class="hero__text">
-      <h1>Een bijzondere dag verdient een <em>bijzondere uitnodiging.</em></h1>
-      <p class="lead">Kies een ontwerp, vul je gegevens in en deel je eigen link. Gasten openen de uitnodiging met één tik en melden zich direct aan.</p>
+      <p class="eyebrow">Digitale uitnodigingen</p>
+      <h1 id="hero-titel">Een bijzondere dag verdient een<br class="hero__br"> <em>bijzondere</em> uitnodiging.</h1>
+      <p class="lead">Stijlvolle, persoonlijke en interactieve digitale uitnodigingen voor al jouw bijzondere momenten.</p>
       <div class="btn-row">
-        <a class="btn btn--secondary" href="{% url 'core:designs' %}">Bekijk de ontwerpen</a>
-        <a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
+        <a class="btn btn--primary btn--lg" href="{% url 'studio:start' %}">Maak jouw uitnodiging {% icon "pijl" %}</a>
+        <a class="btn btn--secondary btn--lg" href="{% url 'core:designs' %}">Bekijk de ontwerpen</a>
       </div>
+      <ul class="hero__checks">{% for item in checks %}<li>{% icon "vink" %}{{ item }}</li>{% endfor %}</ul>
     </div>
-    <div class="phone-demo" data-demo>
-      <div class="phone">
-        <div class="phone__screen">
-          <iframe src="{% url 'invitations:demo' 'liefde-op-papier' %}?embed=1" title="Werkend voorbeeld van een uitnodiging (fictief evenement)" loading="lazy" data-demo-frame></iframe>
-        </div>
-      </div>
-      <div class="demo-switch" role="group" aria-label="Kies een ontwerp voor het voorbeeld">
-        {% for t in demo_designs %}<button type="button" data-demo-src="{% url 'invitations:demo' t.slug %}?embed=1" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ t.name }}</button>{% endfor %}
-      </div>
-      <p class="demo-caption">Voorbeeld met een fictief evenement · <a href="{% url 'invitations:demo' 'liefde-op-papier' %}" data-demo-full>volledig scherm</a></p>
+  </div>
+  <div class="hero__media">
+    <img src="{% static 'img/site/hero.webp' %}" srcset="{% static 'img/site/hero-900.webp' %} 900w, {% static 'img/site/hero.webp' %} 1800w" sizes="(max-width: 860px) 100vw, 60vw" alt="" width="1800" height="1100" fetchpriority="high" decoding="async">
+    <a class="float-card" href="{% url 'invitations:demo' 'liefde-op-papier' %}?gelegenheid=bruiloft&amp;kleur=salie">
+      <img src="{% static 'img/site/kaart-voorbeeld.webp' %}" alt="" width="500" height="800" decoding="async">
+      <span class="float-card__play">{% icon "afspelen" %}</span>
+      <span class="visually-hidden">Bekijk een werkend voorbeeld: de bruiloft van Sanne en Daan (fictief)</span>
+    </a>
+  </div>
+</section>
+
+<section class="occasions" aria-label="Gelegenheden">
+  <div class="container">
+    {% include "partials/occasion_tiles.html" %}
+  </div>
+</section>
+
+<section class="section section--tight" aria-labelledby="stappen-titel">
+  <div class="container">
+    <div class="panel-soft how-panel">
+      <h2 id="stappen-titel">Zo werkt het</h2>
+      <ol class="how-steps">
+        {% for icon_name, title, text in steps %}
+        <li class="how-step">
+          <div class="how-step__top"><span class="how-step__num" aria-hidden="true">{{ forloop.counter }}</span>{% icon icon_name 40 %}</div>
+          <h3><span class="visually-hidden">Stap {{ forloop.counter }}: </span>{{ title }}</h3>
+          <p>{{ text }}</p>
+        </li>
+        {% endfor %}
+      </ol>
+      {% if from_price %}<p class="how-panel__foot"><span><strong>Vanaf {{ from_price }}</strong> eenmalig, geen kosten per gast.{% if config.prices_provisional %} <span class="provisional">Voorlopige prijzen</span>{% endif %}</span><a class="link-arrow" href="{% url 'core:pricing' %}">Bekijk de prijzen</a></p>{% endif %}
     </div>
   </div>
 </section>
 
-<section class="section section--line" aria-labelledby="ontwerpen-titel">
+<section class="section section--flush" aria-labelledby="meer-titel">
   <div class="container">
-    <div class="section-head">
-      <h2 id="ontwerpen-titel">Drie ontwerpen</h2>
-      <a class="link-arrow" href="{% url 'core:designs' %}">Alle ontwerpen</a>
+    <div class="feature-panel">
+      <div class="feature-panel__bg"><img src="{% static 'img/site/groen.webp' %}" srcset="{% static 'img/site/groen-800.webp' %} 800w, {% static 'img/site/groen.webp' %} 1600w" sizes="(max-width: 860px) 100vw, 76rem" alt="" width="1600" height="900" loading="lazy" decoding="async"></div>
+      <div class="feature-panel__inner">
+        <div class="phone-demo">
+          <div class="phone">
+            <div class="phone__screen" data-lazy-frame="{% url 'invitations:demo' 'liefde-op-papier' %}?gelegenheid=bruiloft&amp;kleur=blush&amp;embed=1" data-frame-title="Werkend voorbeeld van een uitnodiging (fictief evenement)">
+              <img class="phone__poster" src="{% static 'img/site/telefoon-voorbeeld.webp' %}" alt="" width="540" height="1152" loading="lazy" decoding="async">
+              <a class="phone__fallback" href="{% url 'invitations:demo' 'liefde-op-papier' %}?gelegenheid=bruiloft&amp;kleur=blush">Open het werkende voorbeeld</a>
+            </div>
+          </div>
+        </div>
+        <div class="feature-panel__text">
+          <h2 id="meer-titel">Meer dan een uitnodiging</h2>
+          <p>Je gasten openen je uitnodiging met één tik. Afteller, route, programma, foto's en aanmelden: alles staat in één link.</p>
+          <ul class="feature-icons">{% for icon_name, label in features %}<li>{% icon icon_name 32 %}{{ label }}</li>{% endfor %}</ul>
+          <a class="btn btn--primary btn--lg" href="{% url 'core:how' %}">Bekijk alle mogelijkheden {% icon "pijl" %}</a>
+        </div>
+      </div>
     </div>
-    <div class="grid grid--3 grid--swipe">
+  </div>
+</section>
+
+<section class="section section--flush" aria-labelledby="ontwerpen-titel">
+  <div class="container designs-row">
+    <div class="designs-row__text">
+      <h2 id="ontwerpen-titel">Onze ontwerpen</h2>
+      <p>Elk ontwerp heeft een eigen opening en vier kleuren. Probeer ze op je eigen telefoon.</p>
+      <a class="link-arrow" href="{% url 'core:designs' %}">Bekijk alle</a>
+    </div>
+    <div class="grid grid--trio">
       {% for card in cards %}{% include "partials/design_card.html" %}{% endfor %}
     </div>
   </div>
 </section>
 
-<section class="section section--line" aria-labelledby="stappen-titel">
+<section class="section section--flush" aria-labelledby="uniek-titel">
   <div class="container">
-    <div class="section-head">
-      <h2 id="stappen-titel">Zo werkt het</h2>
-      <a class="link-arrow" href="{% url 'core:how' %}">Meer uitleg</a>
+    <div class="unique-card">
+      <div class="unique-card__text">
+        <h2 id="uniek-titel">Liever iets unieks?</h2>
+        <p>Heb je een bijzondere wens of zoek je een ontwerp op maat? Stuur ons je vraag. We bekijken hem persoonlijk en je krijgt eerst een voorstel.</p>
+        <a class="btn btn--primary" href="{% url 'core:contact' %}?onderwerp=maatwerk">Neem contact op {% icon "pijl" %}</a>
+      </div>
+      <div class="unique-card__media"><img src="{% static 'img/site/maatwerk.webp' %}" srcset="{% static 'img/site/maatwerk-700.webp' %} 700w, {% static 'img/site/maatwerk.webp' %} 1200w" sizes="(max-width: 720px) 100vw, 38rem" alt="" width="1200" height="760" loading="lazy" decoding="async"></div>
     </div>
-    <ol class="steps">
-      {% for title, text in steps %}<li><h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}
-    </ol>
-  </div>
-</section>
-
-{% if from_price %}
-<section class="section section--line" aria-labelledby="prijs-titel">
-  <div class="container price-line">
-    <div>
-      <h2 id="prijs-titel">Vanaf {{ from_price }}</h2>
-      <p class="muted">Eenmalig. Geen kosten per gast.{% if config.prices_provisional %} <span class="provisional">Voorlopige prijzen</span>{% endif %}</p>
-    </div>
-    <a class="btn btn--secondary" href="{% url 'core:pricing' %}">Bekijk de prijzen</a>
-  </div>
-</section>
-{% endif %}
-
-<section class="section section--line closing" aria-labelledby="slot-titel">
-  <div class="container">
-    <h2 id="slot-titel">{{ SLOGAN }}</h2>
-    <a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
   </div>
 </section>
 {% endblock %}

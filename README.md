@@ -87,7 +87,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-92 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads en weergave. Ze zijn gedraaid op SQLite, PostgreSQL 16 en in de Docker-image. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+102 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in de vorige ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 
@@ -113,7 +113,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | Map | Inhoud |
 |---|---|
 | `config/` | Instellingen en URL's |
-| `core/` | Website-pagina's, contact, beveiligingsheaders, AI-hulp, privacy en bewaartermijnen |
+| `core/` | Website-pagina's (teksten in `core/content.py`, iconen in `core/icons.py`, zoeken in `core/search.py`), contact, beveiligingsheaders, AI-hulp, privacy en bewaartermijnen |
 | `catalog/` | Ontwerpen en ontwerpversies, pakketten, opties, gelegenheden |
 | `designs/<ontwerp>/v<N>/` | De uitnodigingsontwerpen: `manifest.json`, `invitation.html`, `style.css` |
 | `invitations/` | Uitnodigingen, versies, foto's, weergave, aanmeldingen van gasten, QR, agenda |
@@ -126,7 +126,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `accounts/` | Klantaccounts (inlogcode per e-mail) en beheerders |
 | `tests/` | Geautomatiseerde tests |
 | `e2e/` | Browsercontroles en scripts voor de afbeeldingen |
-| `tools/` | Maakt de abstracte voorbeeldafbeeldingen |
+| `tools/` | Maakt de eigen beelden: abstracte voorbeeldafbeeldingen en (in `tools/merkbeelden/`) de sfeer- en merkbeelden van de website |
 
 ## Beveiliging in het kort
 

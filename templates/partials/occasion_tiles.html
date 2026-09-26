@@ -1,0 +1,8 @@
+{% load static vl %}<ul class="tile-grid">
+  {% for key, label in tiles %}
+  <li><a class="tile" href="{% url 'core:designs' %}?gelegenheid={{ key }}">
+    <span class="tile__img"><img src="{% static 'img/site/gelegenheid-'|add:key|add:'.webp' %}" alt="" width="560" height="350" loading="lazy" decoding="async"></span>
+    <span class="tile__label">{{ label }} {% icon "pijl" %}</span>
+  </a></li>
+  {% endfor %}
+</ul>

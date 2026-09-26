@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load vl %}
 {% block title %}{{ template.name }}{% endblock %}
 {% block description %}{{ template.tagline }}. {{ template.description|truncatechars:120 }}{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container detail-grid">
     <div class="detail-text">
-      <p class="breadcrumbs"><a href="{% url 'core:designs' %}">Ontwerpen</a> / {{ template.name }}</p>
+      <p class="breadcrumbs"><a href="{% url 'core:designs' %}">Collectie</a> / {{ template.name }}</p>
       <h1>{{ template.name }}</h1>
       <p class="lead">{{ template.description }}</p>
       <dl class="meta-list">
@@ -22,7 +22,7 @@
         <noscript><button class="btn btn--ghost btn--sm" type="submit">Toon</button></noscript>
       </form>
       <div class="btn-row">
-        <a class="btn btn--primary" href="{{ start_url }}">Kies dit ontwerp</a>
+        <a class="btn btn--primary" href="{{ start_url }}">Kies dit ontwerp {% icon "pijl" %}</a>
         <a class="link-arrow" href="{{ demo_url }}">Open het voorbeeld</a>
       </div>
     </div>

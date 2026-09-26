@@ -1,8 +1,9 @@
-{% load static %}<!doctype html>
+{% load static vl %}<!doctype html>
 <html lang="nl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+{% boot_script %}
 <title>{% block title %}Vierlief{% endblock %}{% block title_suffix %} · Vierlief{% endblock %}</title>
 <meta name="description" content="{% block description %}Persoonlijke digitale uitnodigingen met aanmelden, afteller en route. Voor bruiloften, verjaardagen, jubilea en zakelijke evenementen.{% endblock %}">
 {% block meta_robots %}{% endblock %}
@@ -12,11 +13,12 @@
 <meta property="og:description" content="{{ SLOGAN }}">
 <meta property="og:image" content="{{ BASE_URL }}{% static 'img/og-vierlief.jpg' %}">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#FBF7F0">
+<meta name="theme-color" content="#FBF8F2">
 <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
-<link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{% static 'fonts/figtree-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/playfair-display-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/dm-sans-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+{% block preload %}{% endblock %}
 <link rel="stylesheet" href="{% static 'css/vierlief.css' %}">
 {% block extra_css %}{% endblock %}
 <script src="{% static 'js/site.js' %}" defer></script>

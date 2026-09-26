@@ -14,7 +14,7 @@ from catalog.models import AddOn, Package, Template
 from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
-from .content import FAQ, FEATURES, STEPS, STEPS_SHORT
+from .content import FAQ, FEATURES, HERO_CHECKS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
 from .forms import ContactForm
 from .models import ContactMessage, SiteConfig
 from .utils import form_age_seconds, ip_fingerprint, rate_limit, signed_timestamp
@@ -48,8 +48,10 @@ def home(request):
         "core/home.html",
         {
             "cards": _design_cards(designs),
-            "demo_designs": designs,
+            "checks": HERO_CHECKS,
+            "tiles": OCCASION_TILES,
             "steps": STEPS_SHORT,
+            "features": HOME_FEATURES,
             "from_price": cheapest.price_display if cheapest else "",
             "config": SiteConfig.get(),
         },
@@ -117,6 +119,21 @@ def faq(request):
     return render(request, "core/faq.html", {"faq": FAQ})
 
 
+def inspiration(request):
+    return render(request, "core/inspiration.html", {"tiles": OCCASION_TILES, "samples": TEXT_SAMPLES, "tips": TIPS})
+
+
+def about(request):
+    return render(request, "core/about.html", {"values": VALUES})
+
+
+def search(request):
+    from .search import MAX_QUERY, search_site
+
+    query = (request.GET.get("q") or "").strip()[:MAX_QUERY]
+    return render(request, "core/search.html", {"query": query, "results": search_site(query) if query else []})
+
+
 @require_http_methods(["GET", "POST"])
 def contact(request):
     config = SiteConfig.get()
@@ -179,6 +196,8 @@ def sitemap_xml(request):
         reverse("core:how"),
         reverse("core:pricing"),
         reverse("core:faq"),
+        reverse("core:inspiration"),
+        reverse("core:about"),
         reverse("core:contact"),
         reverse("core:privacy"),
         reverse("core:terms"),

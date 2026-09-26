@@ -77,6 +77,14 @@ Overzicht van klanten met hun uitnodigingen, bestellingen en aanvragen. **Anonim
   - een overzicht van welke koppelingen actief zijn en welke in testmodus staan.
 - **Contact**: berichten uit het contactformulier.
 
+## Teksten en beelden van de website
+
+Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publiceren op de server (`collectstatic` voor beelden).
+
+- **Teksten** van de homepage, "Zo werkt het", Inspiratie, Over ons en de veelgestelde vragen: `core/content.py`. De paginaopbouw staat in `core/templates/core/`.
+- **Beelden**: `static/img/site/`. Vervang een beeld door een eigen foto met dezelfde bestandsnaam en ongeveer dezelfde verhouding (bijvoorbeeld `hero.webp` 1800 × 1100 en `hero-900.webp` 900 × 760 voor telefoons). Gebruik alleen foto's waarvan je de rechten hebt. Hoe de huidige beelden gemaakt zijn en hoe je ze opnieuw maakt: `tools/merkbeelden/README.md`.
+- **Tegels per gelegenheid en de kaart op de homepage** zijn schermafbeeldingen van de voorbeelduitnodigingen. Na een nieuw ontwerp of een nieuwe kleur kun je ze opnieuw maken met `tools/merkbeelden/voorbeelden.cjs`.
+
 ## Een nieuw ontwerp toevoegen
 
 Een ontwerp is een map met drie bestanden. Er is geen database-werk nodig.
