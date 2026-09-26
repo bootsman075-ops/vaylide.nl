@@ -8,7 +8,7 @@ from django.utils import timezone
 from invitations.models import GuestResponse
 from invitations.services import publish_draft, save_draft
 
-from .helpers import VierliefTestCase, future_date, old_form_ts
+from .helpers import VierliefTestCase
 
 
 class RsvpTests(VierliefTestCase):

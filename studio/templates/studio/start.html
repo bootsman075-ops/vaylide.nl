@@ -1,4 +1,4 @@
-{% extends "studio/base_studio.html" %}{% load static %}
+{% extends "studio/base_studio.html" %}{% load static vl %}
 {% block title %}Maak jouw uitnodiging{% endblock %}
 {% block studio %}
 <div class="studio-intro">
@@ -32,7 +32,7 @@
       {% for t in templates %}
       <label class="radio-card design-pick" data-occasions="{{ t.occasions|join:' ' }}">
         <input type="radio" name="template" value="{{ t.slug }}"{% if t.slug == chosen %} checked{% endif %} required>
-        <img src="{% static 'img/designs/'|add:t.slug|add:'.webp' %}" alt="" width="400" height="500" loading="lazy">
+        <img src="{% design_image t.slug %}" alt="" width="400" height="500" loading="lazy">
         <strong>{{ t.name }}</strong>
         <span class="small muted">{{ t.tagline }}</span>
         <a class="design-pick__demo" href="{% url 'invitations:demo' t.slug %}{% if occasion %}?gelegenheid={{ occasion }}{% endif %}" target="_blank" rel="noopener">Bekijk voorbeeld<span class="visually-hidden"> van {{ t.name }} (opent in nieuw venster)</span></a>

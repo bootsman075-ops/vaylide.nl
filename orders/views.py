@@ -8,7 +8,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_POST

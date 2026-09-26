@@ -2,7 +2,7 @@
 
 Twee toepassingen:
 1. Tekstvoorstellen voor de klant (welkomsttekst, verhaal, afsluiting). De klant
-   ziet het voorstel eerst en beslist zelf of hij het gebruikt. Er worden geen
+   ziet het voorstel eerst en beslist zelf of het gebruikt wordt. Er worden geen
    evenementgegevens verzonnen: het model krijgt alleen wat de klant invulde.
 2. Interne beoordeling van een extra wens voor de eigenaar (samenvatting,
    inschatting, aanpak, open vragen). Nooit zichtbaar voor de klant en nooit een

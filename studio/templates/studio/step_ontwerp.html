@@ -1,4 +1,4 @@
-{% extends "studio/base_studio.html" %}{% load static %}
+{% extends "studio/base_studio.html" %}{% load static vl %}
 {% block title %}Ontwerp en gelegenheid{% endblock %}
 {% block studio %}
 <div class="studio-intro">
@@ -21,7 +21,7 @@
       {% for t in templates %}
       <label class="radio-card design-pick">
         <input type="radio" name="template" value="{{ t.slug }}"{% if t.pk == inv.template_version.template_id %} checked{% endif %}>
-        <img src="{% static 'img/designs/'|add:t.slug|add:'.webp' %}" alt="" width="400" height="500" loading="lazy">
+        <img src="{% design_image t.slug %}" alt="" width="400" height="500" loading="lazy">
         <strong>{{ t.name }}</strong><span class="small muted">{{ t.occasion_labels|join:", " }}</span>
       </label>
       {% endfor %}

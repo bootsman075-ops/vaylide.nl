@@ -1,14 +1,13 @@
 """Controle 1: de volledige klantreis en het bewaren/hervatten van voortgang."""
-import re
 
 from django.test import Client
 
 from accounts.models import LoginCode
-from invitations.models import GuestResponse, Invitation
-from orders.models import Order, Payment
-from processing.models import Job, OutboundEmail
+from invitations.models import Invitation
+from orders.models import Order
+from processing.models import OutboundEmail
 
-from .helpers import VierliefTestCase, future_date, jpeg_file, old_form_ts
+from .helpers import VierliefTestCase, future_date, jpeg_file
 
 
 class FullJourneyTests(VierliefTestCase):

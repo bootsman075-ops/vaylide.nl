@@ -73,11 +73,45 @@ DEFAULT_ADDONS = [
 ]
 
 
+class DesignError(ValueError):
+    """Een ontwerpmap is niet compleet of niet consistent."""
+
+
+REQUIRED_MANIFEST_KEYS = ("slug", "version", "name", "occasions", "palettes")
+
+
+def validate_manifest(path: Path, data: dict) -> None:
+    folder = path.parent
+    where = f"{folder.parent.name}/{folder.name}"
+    missing = [key for key in REQUIRED_MANIFEST_KEYS if not data.get(key)]
+    if missing:
+        raise DesignError(f"{where}/manifest.json mist: {', '.join(missing)}.")
+    if data["slug"] != folder.parent.name:
+        raise DesignError(f"{where}: 'slug' in het manifest ({data['slug']}) moet gelijk zijn aan de mapnaam ({folder.parent.name}).")
+    if f"v{data['version']}" != folder.name:
+        raise DesignError(f"{where}: 'version' in het manifest ({data['version']}) hoort bij map v{data['version']}, niet {folder.name}.")
+    for filename in ("invitation.html", "style.css"):
+        if not (folder / filename).exists():
+            raise DesignError(f"{where}: {filename} ontbreekt.")
+    for palette in data["palettes"]:
+        if not palette.get("key") or not palette.get("name") or not isinstance(palette.get("vars"), dict):
+            raise DesignError(f"{where}: elke kleurvariant heeft 'key', 'name' en 'vars' nodig.")
+    from .occasions import OCCASIONS
+
+    unknown = [o for o in data["occasions"] if o not in OCCASIONS]
+    if unknown:
+        raise DesignError(f"{where}: onbekende gelegenheid: {', '.join(unknown)}. Kies uit: {', '.join(OCCASIONS)}.")
+
+
 def design_manifests() -> list[tuple[Path, dict]]:
     root = Path(settings.BASE_DIR) / "designs"
     found = []
     for path in sorted(root.glob("*/v*/manifest.json")):
-        data = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise DesignError(f"{path.parent.parent.name}/{path.parent.name}/manifest.json is geen geldige JSON: {exc}") from exc
+        validate_manifest(path, data)
         found.append((path, data))
     return found
 

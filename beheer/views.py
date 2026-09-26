@@ -12,7 +12,6 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.decorators.http import require_POST
 
 from catalog.models import AddOn, Package, Template, TemplateVersion
 from core.ai import ai_configured
@@ -22,7 +21,7 @@ from core.utils import ip_fingerprint, rate_limit
 from invitations.content import publish_issues
 from invitations.models import Invitation, InvitationVersion, Source
 from invitations.services import DraftConflict, PublishBlocked, availability_end, publish_draft, restore_version, save_draft
-from orders.models import Order, Payment, PaymentEvent
+from orders.models import Order, PaymentEvent
 from orders.services import invitation_is_paid
 from portal.views import _attachment_response, _rsvp_stats, guest_csv
 from processing.emails import get_fault, set_fault
@@ -135,9 +134,21 @@ def order_detail(request, uid):
                 messages.success(request, f"Verwerking opnieuw gestart: {job.get_status_display().lower()}.")
         elif action == "status":
             new = request.POST.get("status")
-            if new in Order.Status.values:
+            if new in Order.Status.values and new != order.status:
+                old_label = order.get_status_display()
                 order.status = new
                 order.save(update_fields=["status", "updated_at"])
+                # Handmatige wijzigingen blijven navolgbaar in het logboek van de bestelling.
+                payment = order.latest_payment
+                if payment is not None:
+                    PaymentEvent.objects.create(
+                        payment=payment,
+                        provider=payment.provider,
+                        provider_ref=payment.provider_ref,
+                        source="beheer",
+                        remote_status=new,
+                        outcome=f"Status handmatig gewijzigd van '{old_label}' naar '{order.get_status_display()}' door {request.user.email}."[:200],
+                    )
                 messages.success(request, "Status van de bestelling aangepast.")
         elif action == "aandacht-afgehandeld":
             order.fulfilment_status = Order.Fulfilment.DONE

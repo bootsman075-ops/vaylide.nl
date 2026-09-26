@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
+from catalog.assets import design_image_url
 from catalog.models import AddOn, Package, Template
 from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS
 from invitations.demo import DEFAULT_DEMO_OCCASION
@@ -35,7 +36,7 @@ def _design_cards(designs, occasion=""):
                 "opening_label": version.manifest.get("opening_label", ""),
                 "demo_url": f"{reverse('invitations:demo', args=[template.slug])}?gelegenheid={demo_occasion}",
                 "start_url": f"{reverse('studio:start')}?ontwerp={template.slug}" + (f"&gelegenheid={occasion}" if occasion else ""),
-                "image": f"img/designs/{template.slug}.webp",
+                "image": design_image_url(template.slug),
             }
         )
     return cards
@@ -200,7 +201,11 @@ def not_found(request, exception=None):
 
 
 def server_error(request):
-    return render(request, "errors/500.html", status=500)
+    # Zonder request-context: werkt ook als de fout in de database of een contextprocessor zit.
+    from django.http import HttpResponseServerError
+    from django.template import loader
+
+    return HttpResponseServerError(loader.get_template("errors/500.html").render())
 
 
 def csrf_failure(request, reason=""):

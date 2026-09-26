@@ -7,7 +7,7 @@ from django.test import Client
 from django.utils import timezone
 
 from invitations.models import Invitation
-from orders.models import Order, Payment
+from orders.models import Order
 from processing.emails import set_fault
 from processing.jobs import process_due, retry
 from processing.models import Job, OutboundEmail

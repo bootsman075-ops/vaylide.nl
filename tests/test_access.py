@@ -149,3 +149,20 @@ class MediaAccessTests(VierliefTestCase):
         self.assertEqual(anon.get(self.inv.public_path).status_code, 410)
         self.assertEqual(anon.get(f"/u/{self.inv.slug}/media/{self.used}/groot/").status_code, 404)
         self.assertEqual(MediaAsset.objects.filter(invitation=self.inv).count(), 2)
+
+
+class ErrorPageTests(VierliefTestCase):
+    def test_404_page_is_own_page_and_not_indexed(self):
+        response = Client().get("/bestaat-echt-niet/")
+        self.assertEqual(response.status_code, 404)
+        self.assertContains(response, "Deze pagina bestaat niet (meer)", status_code=404)
+        self.assertContains(response, 'content="noindex, nofollow"', status_code=404)
+
+    def test_500_page_renders_without_request_context(self):
+        from django.test import RequestFactory
+
+        from core.views import server_error
+
+        response = server_error(RequestFactory().get("/"))
+        self.assertEqual(response.status_code, 500)
+        self.assertIn("Er ging iets mis", response.content.decode())

@@ -123,6 +123,23 @@ class PaymentOutcomeTests(VierliefTestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Order.objects.count(), 1)
 
+    def test_manual_status_change_is_logged(self):
+        payment = self.checkout()
+        staff_user = self.make_staff()
+        staff = Client()
+        staff.force_login(staff_user)
+        order = payment.order
+        staff.post(f"/beheer/bestellingen/{order.uid}/", {"actie": "status", "status": "cancelled"})
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.CANCELLED)
+        event = PaymentEvent.objects.get(payment=payment, source="beheer")
+        self.assertIn("handmatig", event.outcome)
+        self.assertIn(staff_user.email, event.outcome)
+        # Een klant kan dit niet.
+        self.assertEqual(self.client_c.post(f"/beheer/bestellingen/{order.uid}/", {"actie": "status", "status": "paid"}).status_code, 404)
+        order.refresh_from_db()
+        self.assertEqual(order.status, Order.Status.CANCELLED)
+
     def test_test_checkout_unavailable_outside_test_mode(self):
         payment = self.checkout()
         with override_settings(TEST_MODE=False):

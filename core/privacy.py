@@ -1,9 +1,10 @@
 """Verwijderen van klantgegevens, verlopen uitnodigingen en bewaartermijnen.
 
-- Bestellingen blijven bewaard voor de boekhouding (wettelijke bewaarplicht);
-  de koppeling met de verwijderde uitnodiging vervalt en het account wordt
-  geanonimiseerd.
-- Foto's, muziek, bijlagen, aanmeldingen en versies worden echt verwijderd.
+- Bestellingen blijven bewaard voor de boekhouding (wettelijke bewaarplicht),
+  maar zonder namen of omschrijvingen; de koppeling met de verwijderde
+  uitnodiging vervalt en het account wordt geanonimiseerd.
+- Foto's, muziek, bijlagen, aanmeldingen, versies, bewaarde e-mails, inlogcodes
+  en contactberichten van de klant worden echt verwijderd.
 """
 from __future__ import annotations
 
@@ -33,14 +34,34 @@ def delete_custom_request(req) -> None:
 
 
 def anonymize_user(user) -> None:
+    from django.db.models import Q
+
+    from accounts.models import LoginCode
     from invitations.models import Invitation
+    from orders.models import Order, OrderLine
+    from processing.models import OutboundEmail
     from wishes.models import CustomRequest
 
+    from .models import ContactMessage
+
+    email = user.email
     with transaction.atomic():
+        # Eerst de e-mails (ook meldingen aan de eigenaar) die over deze klant gaan.
+        OutboundEmail.objects.filter(
+            Q(user=user) | Q(to__iexact=email) | Q(order__customer=user)
+            | Q(invitation__owner=user) | Q(custom_request__customer=user)
+        ).delete()
         for invitation in Invitation.objects.filter(owner=user):
             delete_invitation(invitation)
         for req in CustomRequest.objects.filter(customer=user):
             delete_custom_request(req)
+        # Bestellingen blijven voor de administratie, zonder namen of omschrijvingen.
+        Order.objects.filter(customer=user).update(invitation_title="")
+        OrderLine.objects.filter(order__customer=user, code__startswith="maatwerk:").update(
+            description="Maatwerk (omschrijving verwijderd)"
+        )
+        LoginCode.objects.filter(email__iexact=email).delete()
+        ContactMessage.objects.filter(email__iexact=email).delete()
         user.email = f"verwijderd-{user.pk}@vierlief.invalid"
         user.name = ""
         user.is_active = False

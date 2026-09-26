@@ -29,7 +29,7 @@
       <legend class="label">Kleuren (optioneel)</legend>
       <div class="color-picks__grid">
         {% for use, color in form.color_fields %}
-        <div class="color-pick">{{ color }}<label class="check">{{ use }}<span>Toon</span></label>{% for e in color.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>
+        <div class="color-pick">{{ color }}<label class="check">{{ use }}<span>Toon<span class="visually-hidden"> kleur {{ forloop.counter }}</span></span></label>{% for e in color.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>
         {% endfor %}
       </div>
     </fieldset>

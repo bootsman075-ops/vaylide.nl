@@ -2,7 +2,7 @@
 from django.test import Client
 
 from catalog.models import Template, TemplateVersion
-from invitations.models import Invitation, Source
+from invitations.models import Source
 from invitations.services import DraftConflict, restore_version, save_draft
 
 from .helpers import VierliefTestCase

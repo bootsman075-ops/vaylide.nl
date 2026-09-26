@@ -69,19 +69,6 @@ def soft_blob(img, cx, cy, r, color, alpha, blur, rnd, points=24, wobble=0.18):
     stamp(img, lambda d, ox, oy, a: d.polygon([(px + ox, py + oy) for px, py in pts], fill=a), (min(xs), min(ys), max(xs), max(ys)), color, alpha, blur)
 
 
-def blob(draw, cx, cy, r, color, rnd, points=14, wobble=0.35):
-    pts = []
-    for i in range(points):
-        a = 2 * math.pi * i / points
-        rr = r * (1 + rnd.uniform(-wobble, wobble))
-        pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
-    draw.polygon(pts, fill=color)
-
-
-
-
-
-
 def sea(size=(1500, 1500), seed=9):
     rnd = random.Random(seed)
     w, h = size

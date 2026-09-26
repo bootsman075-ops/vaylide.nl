@@ -6,9 +6,9 @@
   <div class="btn-row">{% if stats.total %}<a class="btn btn--secondary" href="{% url 'portal:guests_export' inv.uid %}">Exporteer (CSV voor Excel)</a>{% endif %}</div>
 </div>
 <div class="stat-row">
-  <div class="stat"><span class="stat__num">{{ stats.total }}</span><span class="stat__label">antwoorden</span></div>
+  <div class="stat"><span class="stat__num">{{ stats.total }}</span><span class="stat__label">{% if stats.total == 1 %}antwoord{% else %}antwoorden{% endif %}</span></div>
   <div class="stat"><span class="stat__num">{{ stats.yes }}</span><span class="stat__label">aanwezig</span></div>
-  <div class="stat"><span class="stat__num">{{ stats.persons }}</span><span class="stat__label">personen</span></div>
+  <div class="stat"><span class="stat__num">{{ stats.persons }}</span><span class="stat__label">{% if stats.persons == 1 %}persoon{% else %}personen{% endif %}</span></div>
   <div class="stat"><span class="stat__num">{{ stats.no }}</span><span class="stat__label">afwezig</span></div>
 </div>
 <section class="panel guests-panel">
@@ -27,8 +27,8 @@
           <td data-label="Naam"><strong>{{ r.name }}</strong></td>
           <td data-label="Aanwezig">{% if r.attending %}ja{% else %}nee{% endif %}</td>
           <td data-label="Personen" class="num">{{ r.persons }}</td>
-          {% for q in questions %}<td data-label="{{ q.label }}">{% for a in r.answers %}{% if a.id == q.id %}{{ a.value }}{% endif %}{% endfor %}</td>{% endfor %}
-          <td data-label="Toelichting">{{ r.remark }}</td>
+          {% for q in questions %}<td data-label="{{ q.label }}">{% for a in r.answers %}{% if a.id == q.id %}{{ a.value|default:"—" }}{% endif %}{% endfor %}</td>{% endfor %}
+          <td data-label="Toelichting">{{ r.remark|default:"—" }}</td>
           <td data-label="Ontvangen">{{ r.created_at|date:"j-n-Y H:i" }}{% if r.edit_count %} <span class="small muted">(gewijzigd)</span>{% endif %}</td>
           <td><form method="post" action="{% url 'portal:delete_guest' inv.uid r.uid %}" data-confirm="De aanmelding van {{ r.name }} verwijderen?">{% csrf_token %}<button type="submit" class="link-button">Verwijderen</button></form></td>
         </tr>

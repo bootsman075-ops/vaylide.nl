@@ -38,7 +38,7 @@
       <span class="ag-date__month">{{ v.month_name }} {{ v.year }}</span>
     </div>
     {% endif %}
-    {% if v.time_display or v.venue %}<p class="ag-hero__meta">{% if v.time_display %}{{ v.time_display }}{% endif %}{% if v.time_display and v.venue %}<span class="ag-dot" aria-hidden="true"></span>{% endif %}{{ v.venue }}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+    {% if v.time_display or v.venue %}<p class="ag-hero__meta">{% if v.time_display %}<span class="ag-hero__time">{{ v.time_display }}</span>{% endif %}{% if v.time_display and v.venue %}<span class="ag-dot" aria-hidden="true"></span>{% endif %}{% if v.venue %}<span class="ag-hero__venue">{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
   </div>
   {% if v.hero %}<figure class="ag-frame"><div class="ph ag-frame__img">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 440px, 84vw" %}</div></figure>{% endif %}
 </header>

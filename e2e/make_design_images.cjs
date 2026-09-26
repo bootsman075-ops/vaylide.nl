@@ -1,5 +1,7 @@
 // Maakt kaartafbeeldingen van de ontwerpen (openingsscherm) voor de collectiepagina.
 // Gebruik: node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs
+// Daarna de PNG's omzetten naar WebP (800×1000) en de PNG's verwijderen, bijvoorbeeld:
+//   .venv/bin/python -c "from PIL import Image; import sys; [Image.open(f'static/img/designs/{s}.png').convert('RGB').save(f'static/img/designs/{s}.webp', quality=80) for s in sys.argv[1:]]" liefde-op-papier avondgoud puur-moment
 const { chromium } = require("playwright");
 const fs = require("fs");
 (async () => {

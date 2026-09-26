@@ -1,9 +1,16 @@
 """Kleine templatehulpmiddelen voor Vierlief."""
 from django import template
 
+from catalog.assets import design_image_url
 from catalog.models import format_euro
 
 register = template.Library()
+
+
+@register.simple_tag
+def design_image(slug):
+    """URL van de voorbeeldafbeelding van een ontwerp (met standaardafbeelding als terugval)."""
+    return design_image_url(slug)
 
 
 @register.filter

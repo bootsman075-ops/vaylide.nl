@@ -44,7 +44,7 @@
       <div class="panel__head"><h2 id="aanmeldingen-titel">Aanmeldingen</h2>{% if stats.total %}<a class="btn btn--ghost btn--sm" href="{% url 'portal:guests_export' inv.uid %}">Exporteer gastenlijst</a>{% endif %}</div>
       <div class="stat-row">
         <div class="stat"><span class="stat__num">{{ stats.yes }}</span><span class="stat__label">aanwezig</span></div>
-        <div class="stat"><span class="stat__num">{{ stats.persons }}</span><span class="stat__label">personen in totaal</span></div>
+        <div class="stat"><span class="stat__num">{{ stats.persons }}</span><span class="stat__label">{% if stats.persons == 1 %}persoon{% else %}personen{% endif %} in totaal</span></div>
         <div class="stat"><span class="stat__num">{{ stats.no }}</span><span class="stat__label">afwezig</span></div>
       </div>
       {% if recent %}

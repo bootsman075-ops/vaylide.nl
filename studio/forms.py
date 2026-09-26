@@ -209,7 +209,7 @@ class ProgramForm(StepForm):
         for i in range(self.COLOR_SLOTS):
             self.fields[f"dc{i}_use"] = forms.BooleanField(label="Toon kleur", required=False)
             self.fields[f"dc{i}_color"] = forms.CharField(required=False, max_length=7,
-                                                          widget=forms.TextInput(attrs={"type": "color"}))
+                                                          widget=forms.TextInput(attrs={"type": "color", "aria-label": f"Kleur {i + 1}"}))
         if not self.is_bound:
             for i, item in enumerate(program[: self.program_rows]):
                 self.initial[f"p{i}_time"] = item.get("time") or None
@@ -534,11 +534,6 @@ class CheckoutForm(forms.Form):
         if not self.cleaned_data.get("terms"):
             raise forms.ValidationError("Ga akkoord met de voorwaarden om te kunnen bestellen.")
         return True
-
-
-class UploadForm(forms.Form):
-    fotos = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}))
-    muziek = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={"accept": "audio/mpeg,audio/mp4,.mp3,.m4a"}))
 
 
 FORM_CLASSES = {

@@ -2,9 +2,9 @@
 
 Bestaande versies worden nooit aangepast (behalve met --update-manifest tijdens ontwikkelen).
 """
-from django.core.management.base import BaseCommand
+from django.core.management.base import BaseCommand, CommandError
 
-from catalog.seed import sync_designs
+from catalog.seed import DesignError, sync_designs
 
 
 class Command(BaseCommand):
@@ -15,6 +15,9 @@ class Command(BaseCommand):
                             help="Alleen tijdens ontwikkelen: werk het manifest van bestaande versies bij.")
 
     def handle(self, *args, **options):
-        messages = sync_designs(update_existing_manifest=options["update_manifest"])
+        try:
+            messages = sync_designs(update_existing_manifest=options["update_manifest"])
+        except DesignError as exc:
+            raise CommandError(f"Ontwerp niet ingelezen: {exc}") from exc
         for message in messages or ["Geen wijzigingen."]:
             self.stdout.write(message)

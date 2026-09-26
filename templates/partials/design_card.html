@@ -1,6 +1,6 @@
 {% load static %}<article class="design-card">
   <div class="design-card__visual">
-    <img src="{% static card.image %}" alt="Voorbeeld van het ontwerp {{ card.template.name }}" width="800" height="1000" loading="lazy" decoding="async">
+    <img src="{{ card.image }}" alt="Voorbeeld van het ontwerp {{ card.template.name }}" width="800" height="1000" loading="lazy" decoding="async">
   </div>
   <div class="design-card__body">
     <div class="design-card__tags">{% for label in card.template.occasion_labels %}<span class="tag">{{ label }}</span>{% endfor %}</div>

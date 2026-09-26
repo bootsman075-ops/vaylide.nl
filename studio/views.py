@@ -5,7 +5,6 @@ import copy
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -13,7 +12,7 @@ from django.urls import reverse
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.decorators.http import require_http_methods, require_POST
 
-from catalog.models import AddOn, Package, Template
+from catalog.models import Package, Template
 from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS, occasion_config
 from core.ai import AIUnavailable, suggest_text
 from core.utils import ip_fingerprint, rate_limit, wants_json

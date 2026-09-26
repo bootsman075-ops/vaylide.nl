@@ -201,7 +201,7 @@ body {
   background: var(--lp-line);
 }
 .lp-timeline__item:last-child::before { display: none; }
-.lp-timeline__time { font-size: 1.3rem; color: var(--lp-accent); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.lp-timeline__time { font-size: 1.3rem; color: var(--lp-accent); font-weight: 600; text-align: right; font-variant-numeric: lining-nums tabular-nums; }
 .lp-timeline__item:not(:has(.lp-timeline__time)) .lp-timeline__dot { grid-column: 2; }
 .lp-timeline__dot { width: 1.2rem; height: 1.2rem; margin-top: .45rem; border-radius: 50%; border: 1px solid var(--lp-line); background: var(--lp-card); position: relative; z-index: 1; }
 .lp-timeline__dot::after { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: var(--lp-accent); opacity: .75; }

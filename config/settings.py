@@ -207,7 +207,10 @@ STORAGES = {
             "django.contrib.staticfiles.storage.StaticFilesStorage"
             if DEBUG or env_bool("VIERLIEF_PLAIN_STATIC", False)
             else "whitenoise.storage.CompressedManifestStaticFilesStorage"
-        )
+        ),
+        # Openbare bestanden: altijd leesbaar voor het webproces, ook als collectstatic
+        # als een andere gebruiker draait (FILE_UPLOAD_PERMISSIONS geldt alleen voor uploads).
+        "OPTIONS": {"file_permissions_mode": 0o644, "directory_permissions_mode": 0o755},
     },
 }
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2_621_440

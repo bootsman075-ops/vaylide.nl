@@ -8,6 +8,7 @@ import tempfile
 import time
 from datetime import timedelta
 
+from django.conf import settings
 from django.core import signing
 from django.test import TestCase, override_settings
 from django.utils import timezone
@@ -61,6 +62,8 @@ class VierliefTestCase(TestCase):
             JOBS_RUN_INLINE=True,
             ANTHROPIC_API_KEY="",
             BASE_URL="https://vierlief.test",
+            # Tests mogen niet afhangen van een eerdere collectstatic (manifest).
+            STORAGES={**settings.STORAGES, "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}},
         )
         cls._settings.enable()
 

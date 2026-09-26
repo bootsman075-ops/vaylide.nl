@@ -1,10 +1,9 @@
 """Controle 1 en 2: uploads, weergave (lange namen, ontbrekende gegevens, tijdzones),
 prijsberekening, bewaartermijnen en beveiligingsheaders."""
-import io
 from datetime import timedelta
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import Client, override_settings
+from django.test import Client
 from django.utils import timezone
 from PIL import Image
 
@@ -18,7 +17,7 @@ from invitations.render import RenderOptions, build_view
 from invitations.services import save_draft
 from orders.pricing import build_quote, compare_packages, recommended
 
-from .helpers import VierliefTestCase, future_date, jpeg_file
+from .helpers import VierliefTestCase, jpeg_file
 
 
 class UploadTests(VierliefTestCase):
@@ -99,7 +98,7 @@ class RenderTests(VierliefTestCase):
             inv.refresh_from_db()
             page = Client().get(inv.public_path)
             self.assertContains(page, long_a)
-            self.assertContains(page, f"names--xlong")
+            self.assertContains(page, "names--xlong")
 
     def test_empty_optional_sections_are_hidden(self):
         inv = self.make_invitation(program=[], practical=[], dresscode={"text": "", "colors": []}, closing_text="",
@@ -245,3 +244,61 @@ class RetentionTests(VierliefTestCase):
         self.assertFalse(owner.is_active)
         self.assertFalse(Invitation.objects.filter(pk=inv.pk).exists())
         self.assertEqual(owner.orders.count(), 1)  # boekhouding blijft
+        self.assertEqual(owner.orders.get().invitation_title, "")  # zonder namen
+        from processing.models import OutboundEmail
+
+        self.assertFalse(OutboundEmail.objects.filter(to="weg@example.com").exists())
+        self.assertFalse(OutboundEmail.objects.filter(body_text__contains="Anna").exists())
+
+
+class NewDesignTests(VierliefTestCase):
+    def test_design_without_cover_image_uses_placeholder(self):
+        from catalog.assets import design_image_path
+        from catalog.models import TemplateVersion
+
+        base = Template.objects.get(slug="liefde-op-papier").current_version
+        template = Template.objects.create(slug="nieuw-ontwerp-test", name="Nieuw ontwerp test", occasions=["bruiloft"], sort_order=99)
+        version = TemplateVersion.objects.create(template=template, number=1, renderer=base.renderer, manifest=dict(base.manifest, slug="nieuw-ontwerp-test"))
+        template.current_version = version
+        template.save()
+        self.assertEqual(design_image_path("nieuw-ontwerp-test"), "img/designs/_standaard.webp")
+        self.assertEqual(design_image_path("liefde-op-papier"), "img/designs/liefde-op-papier.webp")
+        for url in ["/ontwerpen/", "/", "/maken/?gelegenheid=bruiloft"]:
+            response = Client().get(url)
+            self.assertContains(response, "Nieuw ontwerp test", msg_prefix=url)
+            self.assertContains(response, "img/designs/_standaard.webp", msg_prefix=url)
+
+
+class DesignManifestValidationTests(VierliefTestCase):
+    def make_folder(self, root, slug="nieuw", version="v1", files=("invitation.html", "style.css")):
+        from pathlib import Path
+
+        folder = Path(root) / slug / version
+        folder.mkdir(parents=True)
+        for name in files:
+            (folder / name).write_text("")
+        return folder / "manifest.json"
+
+    def test_clear_errors_for_incomplete_design(self):
+        import tempfile
+
+        from catalog.seed import DesignError, validate_manifest
+
+        good = {"slug": "nieuw", "version": 1, "name": "Nieuw", "occasions": ["bruiloft"],
+                "palettes": [{"key": "a", "name": "A", "vars": {"--x": "#fff"}}]}
+        with tempfile.TemporaryDirectory() as root:
+            path = self.make_folder(root)
+            validate_manifest(path, good)  # geen fout
+            for bad, fragment in [
+                (dict(good, name=""), "mist: name"),
+                (dict(good, slug="anders"), "gelijk zijn aan de mapnaam"),
+                (dict(good, version=2), "hoort bij map v2"),
+                (dict(good, occasions=["feest"]), "onbekende gelegenheid"),
+                (dict(good, palettes=[{"key": "a"}]), "'key', 'name' en 'vars'"),
+            ]:
+                with self.assertRaisesMessage(DesignError, fragment):
+                    validate_manifest(path, bad)
+        with tempfile.TemporaryDirectory() as root:
+            path = self.make_folder(root, files=("invitation.html",))
+            with self.assertRaisesMessage(DesignError, "style.css ontbreekt"):
+                validate_manifest(path, good)
