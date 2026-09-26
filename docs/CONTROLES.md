@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**87 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code, alle geslaagd:
+**92 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code, alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database);
@@ -24,7 +24,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Onbevoegde toegang tot gastenlijsten en uploads | `GuestPrivacyTests` en `MediaAccessTests`: een gast ziet geen andere antwoorden, een wijzigingslink opent alleen het eigen antwoord, alleen foto's van gepubliceerde uitnodigingen zijn zichtbaar, offline betekent alles dicht |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
-Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding en de controle van ontwerpmanifesten.
+Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, en de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vierlief).
 
 Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts: publiceren, versies, herstellen, voorstellen en e-mails.
 
@@ -39,7 +39,7 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
   - **lang**: zeer lange namen, een lange locatie, adres en contactgegevens, 11 programmaonderdelen, foto's in liggend, staand en vierkant formaat, extra vragen;
   - **minimaal**: geen foto's en geen optionele onderdelen;
   - **verstreken**: een datum in het verleden.
-- Per pagina: een schermafbeelding van de hele pagina, horizontaal scrollen, zichtbare onderdelen die buiten beeld steken, fouten in de browserconsole en mislukte verzoeken. Bewust scrollbare tabellen en menu's en bijgesneden foto's tellen niet mee.
+- Per pagina: een schermafbeelding van de hele pagina, horizontaal scrollen, zichtbare onderdelen die buiten beeld steken, fouten in de browserconsole en mislukte verzoeken. Bewust scrollbare tabellen, menu's en de veegrij met ontwerpen, en bijgesneden foto's tellen niet mee.
 
 ### Resultaat
 
@@ -55,10 +55,32 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 - **Contrast** van tekst op kleurverlopen (dat kan axe niet beoordelen) met een aanvullende controle op 42 pagina's, gemeten tegen de slechtste kleur in het verloop: **0 onder 4,5:1** (3:1 voor grote tekst). Voor de tekst op het doorschijnende vel van Puur moment is ook het slechtste geval berekend (een volledig zwarte foto onder een licht vel, of een witte onder het donkere vel): minimaal 5,3:1 in alle vier kleurvarianten. Het kleine label erboven haalde in dat geval maar 3:1 en gebruikt nu de hoofdtekstkleur.
 - De schermafbeeldingen op 360 pixels zijn ook met het oog bekeken: de lange uitnodigingen, de website, het samenstellen, de klantomgeving, het beheer en de foutpagina's.
 
+### Snelheid (Lighthouse 12, telefoon met trage mobiele verbinding)
+
+Gemeten op de productie-achtige server, vóór en na de optimalisatieronde:
+
+| Pagina | Prestaties | Eerste inhoud | Grootste element | Gewicht |
+|---|---|---|---|---|
+| Homepage | 95 → 100 | 1,7 → 1,1 s | 2,6 → 1,7 s | 250 → 228 KB |
+| Liefde op papier (voorbeeld) | 97 → 99 | 1,8 → 1,4 s | 2,4 → 1,8 s | 218 → 169 KB |
+| Avondgoud (voorbeeld) | 98 → 99 | 2,0 → 1,7 s | 2,0 → 1,8 s | 181 → 151 KB |
+| Puur moment (voorbeeld) | 99 → 100 | 1,4 → 1,2 s | 2,0 → 1,7 s | 167 → 102 KB |
+| Gepubliceerde uitnodiging | 98 → 99 | 1,8 → 1,4 s | 2,1 → 2,0 s | 186 → 170 KB |
+| Ontwerpen, prijzen, samenstellen | 100 → 100 | 1,1 s | 1,7 s | 109–155 KB |
+
+Toegankelijkheid, beste praktijken en vindbaarheid scoren 100 op de gemeten websitepagina's (homepage, ontwerpen, prijzen; ontwerpenpagina: toegankelijkheid 98 → 100). De lagere vindbaarheidsscore van uitnodigingen, voorbeelden en het samenstellen is bewust: die pagina's staan op `noindex`.
+
 ### Gevonden en opgelost
 
 | Bevinding | Oplossing |
 |---|---|
+| Mijn Vierlief deed per uitnodiging aparte databasevragen (23 vragen bij 9 uitnodigingen) | Eén vraag voor alle uitnodigingen (5 in totaal, ongeacht het aantal) |
+| Voorbeeldfoto's werden op telefoons in volle grootte geladen | Versies van 1000 pixels (4–13 KB in plaats van 9–80 KB) |
+| Het startscript van de uitnodigingen blokkeerde de eerste weergave | Inline, toegestaan via een vaste hash in de CSP |
+| HTML werd ongecomprimeerd verstuurd | Tekst wordt gecomprimeerd; beelden en deelverzoeken niet |
+| Ontwerpenpagina sloeg een kopniveau over (Lighthouse) | Ontwerpkaarten zonder losse koppen |
+| Kaarten onder "Andere ontwerpen" rekten uit tot halve breedte; de knop in "Op maat" werd uitgerekt | Vaste kolombreedte; knop onderaan zonder uitrekken |
+| Tabbladen in Mijn Vierlief vielen op 360 px buiten beeld | Over de volle breedte verdeeld op smalle schermen |
 | Stap Foto's schoof op 360 en 390 px 64–94 px te breed (het uploadveld) | Breedte van het uploadveld begrensd |
 | Ontbrekende deelafbeeldingen en app-icoon zouden in productie een foutpagina geven | Afbeeldingen gemaakt in de huisstijl |
 | Een nieuw ontwerp zonder voorbeeldafbeelding zou in productie een foutpagina geven | Neutrale standaardafbeelding als terugval |

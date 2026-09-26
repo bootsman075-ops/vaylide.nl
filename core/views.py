@@ -14,7 +14,7 @@ from catalog.models import AddOn, Package, Template
 from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
-from .content import FAQ, FEATURES, STEPS
+from .content import FAQ, FEATURES, STEPS, STEPS_SHORT
 from .forms import ContactForm
 from .models import ContactMessage, SiteConfig
 from .utils import form_age_seconds, ip_fingerprint, rate_limit, signed_timestamp
@@ -28,14 +28,12 @@ def _design_cards(designs, occasion=""):
     cards = []
     for template in designs:
         version = template.current_version
-        demo_occasion = occasion if occasion in template.occasions else DEFAULT_DEMO_OCCASION.get(template.slug, template.occasions[0])
+        query = f"?gelegenheid={occasion}" if occasion in template.occasions else ""
         cards.append(
             {
                 "template": template,
-                "palettes": version.palettes,
                 "opening_label": version.manifest.get("opening_label", ""),
-                "demo_url": f"{reverse('invitations:demo', args=[template.slug])}?gelegenheid={demo_occasion}",
-                "start_url": f"{reverse('studio:start')}?ontwerp={template.slug}" + (f"&gelegenheid={occasion}" if occasion else ""),
+                "detail_url": reverse("core:design_detail", args=[template.slug]) + query,
                 "image": design_image_url(template.slug),
             }
         )
@@ -44,17 +42,15 @@ def _design_cards(designs, occasion=""):
 
 def home(request):
     designs = _designs()
+    cheapest = Package.objects.filter(is_active=True).order_by("price_cents").first()
     return render(
         request,
         "core/home.html",
         {
             "cards": _design_cards(designs),
             "demo_designs": designs,
-            "steps": STEPS,
-            "features": FEATURES,
-            "occasions": OCCASION_CHOICES,
-            "packages": Package.objects.filter(is_active=True),
-            "faq": FAQ[:4],
+            "steps": STEPS_SHORT,
+            "from_price": cheapest.price_display if cheapest else "",
             "config": SiteConfig.get(),
         },
     )

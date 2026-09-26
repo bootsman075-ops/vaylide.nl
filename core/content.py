@@ -3,28 +3,32 @@
 Let op: geen verzonnen reviews, klantenaantallen of beloftes over levertijden.
 """
 
+# Kort, voor de homepage.
+STEPS_SHORT = [
+    ("Kies een ontwerp", "Probeer het voorbeeld op je eigen telefoon."),
+    ("Vul je gegevens in", "Je ziet direct hoe jouw uitnodiging wordt."),
+    ("Betaal en deel", "Na je betaling automatisch online, met eigen link en QR-code."),
+]
+
 STEPS = [
-    ("Kies een ontwerp", "Bekijk de ontwerpen en probeer het werkende voorbeeld op je eigen telefoon."),
-    ("Vul je gegevens in", "Namen, datum, locatie en programma. Je ziet alleen vragen die bij jouw gelegenheid horen."),
-    ("Voeg foto's toe", "Upload je foto's en kies zelf welk deel in beeld komt."),
-    ("Bekijk je voorbeeld", "Controleer je persoonlijke uitnodiging op telefoon en computer en pas aan wat je wilt."),
-    ("Betaal veilig online", "Na een bevestigde betaling wordt je uitnodiging automatisch gepubliceerd."),
-    ("Deel en volg aanmeldingen", "Deel je link of QR-code. Aanmeldingen zie je direct in Mijn Vierlief."),
+    ("Kies een ontwerp", "Probeer het werkende voorbeeld op je eigen telefoon."),
+    ("Vul je gegevens in", "Alleen de vragen die bij jouw gelegenheid horen."),
+    ("Voeg foto's toe", "Je kiest zelf welk deel in beeld komt."),
+    ("Bekijk je voorbeeld", "Op telefoon en computer; pas aan wat je wilt."),
+    ("Betaal online", "Na een bevestigde betaling wordt je uitnodiging automatisch gepubliceerd."),
+    ("Deel en volg aanmeldingen", "Via link of QR-code. Antwoorden zie je in Mijn Vierlief."),
 ]
 
 FEATURES = [
-    ("envelope", "Openingsanimatie", "Een envelop met jullie zegel, een gouden deur of een doorschijnend vel: gasten openen de uitnodiging met één tik."),
-    ("clock", "Afteller", "Telt af tot het moment daar is, in de juiste tijdzone."),
-    ("list", "Programma", "Van ontvangst tot feest, overzichtelijk op een tijdlijn."),
-    ("pin", "Locatie en route", "Adres en een routeknop die de kaart op de telefoon opent."),
-    ("users", "Aanmelden zonder account", "Gasten geven aan of ze komen en met hoeveel personen."),
-    ("calendar", "Zet in je agenda", "Voor Google, Apple en Outlook, met één tik."),
-    ("share", "Delen via WhatsApp", "Of kopieer de link en stuur hem zoals jij wilt."),
-    ("qr", "QR-code", "Te downloaden, bijvoorbeeld voor een gedrukte kaart."),
-    ("music", "Muziek (optioneel)", "Start pas als de gast er zelf op tikt."),
-    ("image", "Foto's en jullie verhaal", "Met een uitsnede die je zelf kiest."),
-    ("edit", "Altijd aan te passen", "Wijzig en publiceer opnieuw; de link blijft hetzelfde."),
-    ("lock", "Privé", "Niet vindbaar in zoekmachines. Alleen jij ziet de gastenlijst."),
+    ("Openingsanimatie", "Envelop, gouden deur of doorschijnend vel. Openen met één tik."),
+    ("Afteller", "In de juiste tijdzone."),
+    ("Programma", "Van ontvangst tot feest op een tijdlijn."),
+    ("Locatie en route", "Met een knop naar de kaart."),
+    ("Aanmelden zonder account", "Aanwezig, aantal personen en eigen vragen."),
+    ("In de agenda", "Google, Apple en Outlook."),
+    ("Delen", "Via WhatsApp, een link of een QR-code."),
+    ("Muziek", "Start pas als de gast erop tikt."),
+    ("Privé", "Niet vindbaar in zoekmachines. Alleen jij ziet de gastenlijst."),
 ]
 
 FAQ = [

@@ -1,131 +1,70 @@
-{% extends "base.html" %}{% load static vl %}
+{% extends "base.html" %}
 {% block title %}Digitale uitnodigingen voor elk bijzonder moment{% endblock %}
-{% block title_suffix %} · Vierlief{% endblock %}
 {% block content %}
 <section class="hero">
   <div class="container hero__grid">
     <div class="hero__text">
-      <p class="eyebrow">Digitale uitnodigingen met aanmelden</p>
       <h1>Een bijzondere dag verdient een <em>bijzondere uitnodiging.</em></h1>
-      <p class="lead">Kies een ontwerp, vul je gegevens in en bekijk meteen je persoonlijke uitnodiging, met envelop, afteller, route en aanmeldformulier. Na je betaling staat hij automatisch online.</p>
-      <div class="btn-row hero__actions">
+      <p class="lead">Kies een ontwerp, vul je gegevens in en deel je eigen link. Gasten openen de uitnodiging met één tik en melden zich direct aan.</p>
+      <div class="btn-row">
         <a class="btn btn--secondary" href="{% url 'core:designs' %}">Bekijk de ontwerpen</a>
         <a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
       </div>
-      <p class="hero__slogan">{{ SLOGAN }}</p>
-      <ul class="hero__points">
-        <li>Gasten hebben geen account nodig</li>
-        <li>Wijzigen kan altijd, de link blijft gelijk</li>
-        <li>Werkt op elke telefoon, zonder app</li>
-      </ul>
     </div>
     <div class="phone-demo" data-demo>
       <div class="phone">
-        <span class="phone__label">Voorbeeld</span>
         <div class="phone__screen">
-          <iframe src="{% url 'invitations:demo' 'liefde-op-papier' %}?embed=1" title="Werkend voorbeeld van een uitnodiging (fictief evenement)" data-demo-frame></iframe>
+          <iframe src="{% url 'invitations:demo' 'liefde-op-papier' %}?embed=1" title="Werkend voorbeeld van een uitnodiging (fictief evenement)" loading="lazy" data-demo-frame></iframe>
         </div>
       </div>
       <div class="demo-switch" role="group" aria-label="Kies een ontwerp voor het voorbeeld">
         {% for t in demo_designs %}<button type="button" data-demo-src="{% url 'invitations:demo' t.slug %}?embed=1" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ t.name }}</button>{% endfor %}
       </div>
-      <p class="demo-caption">Probeer het zelf: tik op het zegel of medaillon. Dit is een voorbeeld met een fictief evenement. <a href="{% url 'invitations:demo' 'liefde-op-papier' %}" data-demo-full>Open op volledig scherm</a></p>
+      <p class="demo-caption">Voorbeeld met een fictief evenement · <a href="{% url 'invitations:demo' 'liefde-op-papier' %}" data-demo-full>volledig scherm</a></p>
     </div>
   </div>
 </section>
 
-<section class="section section--paper" aria-labelledby="stappen-titel">
-  <div class="container">
-    <div class="section-head center">
-      {% include "partials/ornament.html" %}
-      <h2 id="stappen-titel">Zo maak je jouw uitnodiging</h2>
-      <p class="lead">Je doet alles zelf, in je eigen tempo. Je ziet onderweg precies hoe het wordt.</p>
-    </div>
-    <ol class="steps">
-      {% for title, text in steps %}<li><h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}
-    </ol>
-    <p class="center section-more"><a class="link-arrow" href="{% url 'core:how' %}">Meer over hoe het werkt</a></p>
-  </div>
-</section>
-
-<section class="section" aria-labelledby="ontwerpen-titel">
+<section class="section section--line" aria-labelledby="ontwerpen-titel">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Ontwerpen</p>
-      <h2 id="ontwerpen-titel">Drie stijlen, elk met een eigen opening</h2>
-      <p class="lead">Van romantisch en zacht tot donker en feestelijk of juist rustig en modern. Ieder ontwerp heeft vier kleurvarianten.</p>
+      <h2 id="ontwerpen-titel">Drie ontwerpen</h2>
+      <a class="link-arrow" href="{% url 'core:designs' %}">Alle ontwerpen</a>
     </div>
-    <div class="grid grid--3">
+    <div class="grid grid--3 grid--swipe">
       {% for card in cards %}{% include "partials/design_card.html" %}{% endfor %}
     </div>
   </div>
 </section>
 
-<section class="section section--bordeaux" aria-labelledby="functies-titel">
+<section class="section section--line" aria-labelledby="stappen-titel">
   <div class="container">
     <div class="section-head">
-      <p class="eyebrow">Alles in één link</p>
-      <h2 id="functies-titel">Wat je gasten krijgen</h2>
+      <h2 id="stappen-titel">Zo werkt het</h2>
+      <a class="link-arrow" href="{% url 'core:how' %}">Meer uitleg</a>
     </div>
-    <ul class="features">
-      {% for icon, title, text in features %}<li class="feature"><span class="feature__icon">{% include "partials/icon.html" with name=icon %}</span><div><h3>{{ title }}</h3><p>{{ text }}</p></div></li>{% endfor %}
-    </ul>
+    <ol class="steps">
+      {% for title, text in steps %}<li><h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}
+    </ol>
   </div>
 </section>
 
-<section class="section section--tight" aria-labelledby="gelegenheden-titel">
-  <div class="container center">
-    <h2 id="gelegenheden-titel">Voor elke gelegenheid</h2>
-    <ul class="chips chips--center">
-      {% for key, label in occasions %}<li><a class="chip" href="{% url 'core:designs' %}?gelegenheid={{ key }}">{{ label }}</a></li>{% endfor %}
-    </ul>
+{% if from_price %}
+<section class="section section--line" aria-labelledby="prijs-titel">
+  <div class="container price-line">
+    <div>
+      <h2 id="prijs-titel">Vanaf {{ from_price }}</h2>
+      <p class="muted">Eenmalig. Geen kosten per gast.{% if config.prices_provisional %} <span class="provisional">Voorlopige prijzen</span>{% endif %}</p>
+    </div>
+    <a class="btn btn--secondary" href="{% url 'core:pricing' %}">Bekijk de prijzen</a>
   </div>
 </section>
+{% endif %}
 
-<section class="section section--paper" aria-labelledby="prijzen-titel">
+<section class="section section--line closing" aria-labelledby="slot-titel">
   <div class="container">
-    <div class="section-head center">
-      {% include "partials/ornament.html" %}
-      <h2 id="prijzen-titel">Eén keer betalen, geen kosten per gast</h2>
-      {% if config.prices_provisional %}<p><span class="provisional">Voorlopige prijzen</span></p>{% endif %}
-    </div>
-    <div class="grid grid--2 price-grid">
-      {% for p in packages %}
-      <article class="price-card{% if p.is_featured %} price-card--featured{% endif %}">
-        {% if p.is_featured %}<span class="price-card__badge">Meest compleet</span>{% endif %}
-        <h3>{{ p.name }}</h3>
-        <p class="price">{{ p.price_display }} <small>eenmalig</small></p>
-        <p class="muted">{{ p.description }}</p>
-        <ul class="checklist">{% for h in p.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
-      </article>
-      {% endfor %}
-    </div>
-    <p class="center section-more"><a class="link-arrow" href="{% url 'core:pricing' %}">Alle prijzen en extra opties</a></p>
-  </div>
-</section>
-
-<section class="section" aria-labelledby="faq-titel">
-  <div class="container container--mid">
-    <div class="section-head">
-      <p class="eyebrow">Veelgestelde vragen</p>
-      <h2 id="faq-titel">Goed om te weten</h2>
-    </div>
-    <div class="faq">
-      {% for q, a in faq %}<details><summary>{{ q }}</summary><div><p>{{ a }}</p></div></details>{% endfor %}
-    </div>
-    <p class="section-more"><a class="link-arrow" href="{% url 'core:faq' %}">Alle vragen</a></p>
-  </div>
-</section>
-
-<section class="section section--bordeaux cta-band" aria-labelledby="cta-titel">
-  <div class="container center">
-    {% include "partials/ornament.html" %}
-    <h2 id="cta-titel">Klaar om je gasten te verrassen?</h2>
-    <p class="lead">Begin gratis met je ontwerp. Je betaalt pas als je tevreden bent over het voorbeeld.</p>
-    <div class="btn-row btn-row--center">
-      <a class="btn btn--gold" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
-      <a class="btn btn--ghost cta-band__ghost" href="{% url 'core:contact' %}">Een bijzondere wens? Neem contact op</a>
-    </div>
+    <h2 id="slot-titel">{{ SLOGAN }}</h2>
+    <a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a>
   </div>
 </section>
 {% endblock %}

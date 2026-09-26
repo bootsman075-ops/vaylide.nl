@@ -1,51 +1,44 @@
-{% extends "base.html" %}{% load static %}
+{% extends "base.html" %}
 {% block title %}{{ template.name }}{% endblock %}
 {% block description %}{{ template.tagline }}. {{ template.description|truncatechars:120 }}{% endblock %}
 {% block content %}
 <section class="page-head">
-  <div class="container">
-    <p class="breadcrumbs"><a href="{% url 'core:designs' %}">Ontwerpen</a> / {{ template.name }}</p>
-    <div class="detail-grid">
-      <div>
-        <p class="eyebrow">{{ version.manifest.opening_label }}</p>
-        <h1>{{ template.name }}</h1>
-        <p class="lead">{{ template.description }}</p>
-        <dl class="summary-list detail-facts">
-          <div><dt>Stijl</dt><dd>{{ template.style_notes }}</dd></div>
-          <div><dt>Gelegenheden</dt><dd>{{ template.occasion_labels|join:", " }}</dd></div>
-        </dl>
-        <h2 class="h-small">Kleurvarianten</h2>
-        <ul class="palette-list">
-          {% for p in version.palettes %}<li><span class="palette-list__swatches" aria-hidden="true">{% for c in p.swatch %}<span style="background:{{ c }}"></span>{% endfor %}</span>{{ p.name }}</li>{% endfor %}
-        </ul>
-        <form class="occasion-picker" method="get">
-          <label class="field"><span class="label">Bekijk het voorbeeld voor</span>
-            <select name="gelegenheid" class="input" data-autosubmit>
-              {% for key, label in occasion_choices %}<option value="{{ key }}"{% if key == occasion %} selected{% endif %}>{{ label }}</option>{% endfor %}
-            </select>
-          </label>
-          <noscript><button class="btn btn--ghost btn--sm" type="submit">Toon</button></noscript>
-        </form>
-        <div class="btn-row">
-          <a class="btn btn--primary" href="{{ start_url }}">Maak jouw uitnodiging met dit ontwerp</a>
-          <a class="btn btn--secondary" href="{{ demo_url }}">Open het voorbeeld</a>
-        </div>
+  <div class="container detail-grid">
+    <div class="detail-text">
+      <p class="breadcrumbs"><a href="{% url 'core:designs' %}">Ontwerpen</a> / {{ template.name }}</p>
+      <h1>{{ template.name }}</h1>
+      <p class="lead">{{ template.description }}</p>
+      <dl class="meta-list">
+        <div><dt>Opening</dt><dd>{{ version.manifest.opening_label }}</dd></div>
+        <div><dt>Geschikt voor</dt><dd>{{ template.occasion_labels|join:", "|lower }}</dd></div>
+        <div><dt>Kleuren</dt><dd><ul class="palette-list" aria-label="Kleurvarianten">{% for p in version.palettes %}<li><span class="palette-list__swatches" aria-hidden="true">{% for c in p.swatch %}<span style="background:{{ c }}"></span>{% endfor %}</span>{{ p.name }}</li>{% endfor %}</ul></dd></div>
+      </dl>
+      <form class="occasion-picker" method="get">
+        <label class="field"><span class="label">Voorbeeld voor</span>
+          <select name="gelegenheid" class="input" data-autosubmit>
+            {% for key, label in occasion_choices %}<option value="{{ key }}"{% if key == occasion %} selected{% endif %}>{{ label }}</option>{% endfor %}
+          </select>
+        </label>
+        <noscript><button class="btn btn--ghost btn--sm" type="submit">Toon</button></noscript>
+      </form>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="{{ start_url }}">Kies dit ontwerp</a>
+        <a class="link-arrow" href="{{ demo_url }}">Open het voorbeeld</a>
       </div>
-      <div class="phone-demo">
-        <div class="phone">
-          <span class="phone__label">Voorbeeld</span>
-          <div class="phone__screen"><iframe src="{{ demo_url }}&amp;embed=1" title="Werkend voorbeeld van {{ template.name }} (fictief evenement)" loading="lazy"></iframe></div>
-        </div>
-        <p class="demo-caption">Fictief voorbeeldevenement. Tik om te openen.</p>
+    </div>
+    <div class="phone-demo">
+      <div class="phone">
+        <div class="phone__screen"><iframe src="{{ demo_url }}&amp;embed=1" title="Werkend voorbeeld van {{ template.name }} (fictief evenement)" loading="lazy"></iframe></div>
       </div>
+      <p class="demo-caption">Voorbeeld met een fictief evenement</p>
     </div>
   </div>
 </section>
 {% if others %}
-<section class="section section--paper">
+<section class="section section--line" aria-labelledby="andere-titel">
   <div class="container">
-    <h2>Andere ontwerpen</h2>
-    <div class="grid grid--2">{% for card in others %}{% include "partials/design_card.html" %}{% endfor %}</div>
+    <div class="section-head"><h2 id="andere-titel">Andere ontwerpen</h2></div>
+    <div class="grid grid--3">{% for card in others %}{% include "partials/design_card.html" %}{% endfor %}</div>
   </div>
 </section>
 {% endif %}

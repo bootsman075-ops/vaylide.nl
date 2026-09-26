@@ -3,7 +3,7 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>Stijl en onderdelen</h1>
-  <p class="lead">Kies een kleurvariant van <strong>{{ inv.template_version.template.name }}</strong> en welke onderdelen je wilt tonen. <a href="{% url 'studio:step' inv.uid 'ontwerp' %}">Ander ontwerp kiezen</a></p>
+  <p class="lead">Kleur en onderdelen van <strong>{{ inv.template_version.template.name }}</strong>. <a href="{% url 'studio:step' inv.uid 'ontwerp' %}">Ander ontwerp</a></p>
 </div>
 {% include "studio/_conflict.html" %}
 <form method="post" class="form studio-form" data-once data-dirty-check novalidate>
@@ -23,11 +23,11 @@
   <section class="studio-block" aria-labelledby="blok-opening">
     <h2 class="studio-block__title" id="blok-opening">Openingsanimatie</h2>
     {% include "studio/_check.html" with field=form.opening %}
-    <p class="hint">Bij {{ inv.template_version.template.name }}: {{ inv.template_version.manifest.opening_label|lower }}. Gasten die 'minder beweging' hebben ingesteld, krijgen automatisch een rustige variant.</p>
+    <p class="hint">{{ inv.template_version.manifest.opening_label }}. Met 'minder beweging' krijgen gasten vanzelf een rustige variant.</p>
   </section>
   <fieldset class="studio-block">
     <legend class="studio-block__title">Onderdelen tonen</legend>
-    <p class="hint">Lege onderdelen worden sowieso verborgen. Aanmelden stel je in bij de stap Aanmelden.</p>
+    <p class="hint">Lege onderdelen worden altijd verborgen.</p>
     <div class="section-toggles">
       {% for key, field in form.section_fields %}
       <label class="check section-toggle">{{ field }}<span>{{ field.label }}{% if key == "story" or key == "gallery" or key == "music" %} <span class="badge">{% if key in features %}inbegrepen{% else %}Compleet of extra optie{% endif %}</span>{% endif %}</span></label>

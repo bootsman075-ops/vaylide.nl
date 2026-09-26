@@ -1,53 +1,29 @@
-{% extends "base.html" %}{% load static %}
+{% extends "base.html" %}
 {% block title %}Zo werkt het{% endblock %}
 {% block description %}Van ontwerp kiezen tot aanmeldingen beheren: zo werkt een digitale uitnodiging van Vierlief.{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container container--mid">
-    <p class="eyebrow">Zo werkt het</p>
-    <h1>Van ontwerp tot aanmelding, in één keer geregeld</h1>
-    <p class="lead">Je stelt je uitnodiging zelf samen en ziet meteen hoe hij eruitziet. Na je betaling wordt hij automatisch gepubliceerd. Daarna houd je in Mijn Vierlief alles bij.</p>
+    <h1>Zo werkt het</h1>
+    <p class="lead">Je maakt je uitnodiging zelf, in je eigen tempo. Na je betaling staat hij automatisch online.</p>
   </div>
 </section>
-<section class="section section--tight">
-  <div class="container">
-    <ol class="steps">{% for title, text in steps %}<li><h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}</ol>
-  </div>
-</section>
-<section class="section section--paper">
+<section class="section section--flush">
   <div class="container container--mid">
-    <div class="grid grid--2">
-      <div class="card card--flat">
-        <h2 class="h-small">Voor jou</h2>
-        <ul class="checklist">
-          <li>Begin zonder account; bevestig je e-mailadres met een code om je ontwerp te bewaren.</li>
-          <li>Je ziet alleen vragen die bij jouw gelegenheid passen.</li>
-          <li>Upload foto's en kies zelf welk deel in beeld komt.</li>
-          <li>Bekijk een persoonlijk voorbeeld op telefoon en computer.</li>
-          <li>Na betaling: eigen link, QR-code en agenda-knop.</li>
-          <li>Wijzig later en publiceer opnieuw op dezelfde link.</li>
-          <li>Volg aanmeldingen en exporteer je gastenlijst.</li>
-        </ul>
-      </div>
-      <div class="card card--flat">
-        <h2 class="h-small">Voor je gasten</h2>
-        <ul class="checklist">
-          <li>Openen met één tik, zonder app of account.</li>
-          <li>Afteller, programma, locatie en een routeknop.</li>
-          <li>Aanmelden met naam, aanwezigheid en aantal personen.</li>
-          <li>Hun eigen antwoord later wijzigen.</li>
-          <li>Zet het evenement in hun agenda.</li>
-          <li>Muziek alleen als ze er zelf op tikken.</li>
-        </ul>
-      </div>
-    </div>
+    <ol class="steps steps--list">{% for title, text in steps %}<li><h2>{{ title }}</h2><p>{{ text }}</p></li>{% endfor %}</ol>
   </div>
 </section>
-<section class="section">
+<section class="section section--line" aria-labelledby="gasten-titel">
   <div class="container container--mid">
-    <h2>Bijzondere wensen</h2>
-    <p class="lead">Wil je iets wat niet in de standaardopties zit? Gebruik "Extra wensen of hulp nodig?" tijdens het samenstellen of in Mijn Vierlief. We bekijken je vraag persoonlijk. Kost het iets extra, dan krijg je eerst een voorstel; we beginnen pas na jouw akkoord.</p>
-    <div class="btn-row"><a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a><a class="btn btn--secondary" href="{% url 'core:faq' %}">Veelgestelde vragen</a></div>
+    <div class="section-head"><h2 id="gasten-titel">Wat je gasten krijgen</h2></div>
+    <dl class="feature-list">{% for title, text in features %}<div><dt>{{ title }}</dt><dd>{{ text }}</dd></div>{% endfor %}</dl>
+  </div>
+</section>
+<section class="section section--line" aria-labelledby="wensen-titel">
+  <div class="container container--mid">
+    <div class="section-head"><h2 id="wensen-titel">Bijzondere wensen</h2></div>
+    <p class="measure">Iets wat niet in de standaardopties zit? Gebruik <strong>Extra wensen of hulp nodig?</strong> tijdens het samenstellen of in Mijn Vierlief. Kost het iets extra, dan krijg je eerst een voorstel; we beginnen pas na jouw akkoord.</p>
+    <div class="btn-row"><a class="btn btn--primary" href="{% url 'studio:start' %}">Maak jouw uitnodiging</a></div>
   </div>
 </section>
 {% endblock %}

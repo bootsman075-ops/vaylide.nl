@@ -3,7 +3,7 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>Aanmelden door gasten</h1>
-  <p class="lead">Gasten hebben geen account nodig. We vragen standaard alleen naam, aanwezigheid en aantal personen.</p>
+  <p class="lead">Gasten hebben geen account nodig. Standaard vragen we naam, aanwezigheid en aantal personen.</p>
 </div>
 {% include "studio/_conflict.html" %}
 <form method="post" class="form studio-form" data-once data-dirty-check novalidate>
@@ -21,7 +21,7 @@
   </section>
   <section class="studio-block" aria-labelledby="blok-vragen">
     <h2 class="studio-block__title" id="blok-vragen">Extra vragen (optioneel)</h2>
-    <p class="hint">Bijvoorbeeld over dieetwensen of vervoer. Extra vragen zitten in het pakket Compleet of zijn als extra optie te kiezen; bij het bestellen zie je de kosten vooraf. Vraag niet meer persoonsgegevens dan nodig.</p>
+    <p class="hint">Bijvoorbeeld over dieetwensen. Onderdeel van Compleet of als extra optie. Vraag niet meer dan nodig.</p>
     <div class="repeat-list" data-repeat="vragen">
       {% for qid, label, qtype, options, required in form.question_fields %}
       <div class="repeat-row question-row{% if not label.value and forloop.counter > 2 %} is-empty{% endif %}" data-repeat-row>

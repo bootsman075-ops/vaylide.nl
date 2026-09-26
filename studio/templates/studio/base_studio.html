@@ -26,7 +26,7 @@
   <div class="container">
     {% include "studio/_progress.html" %}
     {% if is_staff_edit and inv %}<p class="notice notice--warning studio-staff-note"><strong>Je bewerkt als Vierlief-team.</strong> Wijzigingen worden opgeslagen als handmatige aanpassing en zijn zichtbaar in de versiegeschiedenis. <a href="{% url 'beheer:invitation' inv.uid %}">Terug naar het beheer</a></p>{% endif %}
-    {% if paid and inv and not is_staff_edit %}<p class="notice studio-paid-note">Je past een gepubliceerde uitnodiging aan. Je wijzigingen gaan pas online als je ze publiceert bij <a href="{% url 'studio:step' inv.uid 'voorbeeld' %}">Voorbeeld</a>. De link blijft hetzelfde.</p>{% endif %}
+    {% if paid and inv and not is_staff_edit %}<p class="studio-paid-note small muted">Wijzigingen gaan pas online als je publiceert bij <a href="{% url 'studio:step' inv.uid 'voorbeeld' %}">Voorbeeld</a>. De link blijft hetzelfde.</p>{% endif %}
     {% block studio %}{% endblock %}
   </div>
 </div>

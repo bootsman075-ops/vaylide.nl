@@ -3,7 +3,7 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>{% if not occasion %}Wat ga je vieren?{% else %}Kies een ontwerp voor je {{ occasion_label|lower }}{% endif %}</h1>
-  <p class="lead">{% if not occasion %}Kies de gelegenheid. Daarna zie je de ontwerpen die erbij passen.{% else %}Open een voorbeeld om het ontwerp op je eigen telefoon te proberen. Je kunt later nog wisselen.{% endif %}</p>
+  <p class="lead">{% if not occasion %}Kies eerst de gelegenheid.{% else %}Kies een ontwerp. Je kunt later nog wisselen.{% endif %}</p>
 </div>
 {% if existing %}
 <div class="notice resume-box">

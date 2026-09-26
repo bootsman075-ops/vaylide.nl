@@ -1,35 +1,20 @@
 <footer class="site-footer">
-  <div class="container site-footer__grid">
+  <div class="container site-footer__inner">
     <div class="site-footer__brand">
-      <a class="logo logo--light" href="{% url 'core:home' %}">{% include "partials/logo.html" %}</a>
-      <p class="site-footer__slogan">{{ SLOGAN }}</p>
+      <a class="logo" href="{% url 'core:home' %}" aria-label="Vierlief, naar de homepage">{% include "partials/logo.html" %}</a>
     </div>
-    <nav aria-label="Voettekst: aanbod">
-      <h2 class="site-footer__title">Aanbod</h2>
-      <ul>
+    <nav aria-label="Voettekst">
+      <ul class="site-footer__links">
         <li><a href="{% url 'core:designs' %}">Ontwerpen</a></li>
         <li><a href="{% url 'core:how' %}">Zo werkt het</a></li>
         <li><a href="{% url 'core:pricing' %}">Prijzen</a></li>
-        <li><a href="{% url 'studio:start' %}">Maak jouw uitnodiging</a></li>
-      </ul>
-    </nav>
-    <nav aria-label="Voettekst: hulp">
-      <h2 class="site-footer__title">Hulp</h2>
-      <ul>
-        <li><a href="{% url 'core:faq' %}">Veelgestelde vragen</a></li>
+        <li><a href="{% url 'core:faq' %}">Vragen</a></li>
         <li><a href="{% url 'core:contact' %}">Contact</a></li>
-        <li><a href="{% url 'accounts:login' %}">Inloggen</a></li>
-      </ul>
-    </nav>
-    <nav aria-label="Voettekst: juridisch">
-      <h2 class="site-footer__title">Over</h2>
-      <ul>
+        {% if user.is_authenticated %}<li><a href="{% url 'portal:home' %}">Mijn Vierlief</a></li>{% else %}<li><a href="{% url 'accounts:login' %}">Inloggen</a></li>{% endif %}
         <li><a href="{% url 'core:privacy' %}">Privacy</a></li>
         <li><a href="{% url 'core:terms' %}">Voorwaarden</a></li>
       </ul>
     </nav>
-  </div>
-  <div class="container site-footer__bottom">
-    <p>&copy; {{ CURRENT_YEAR }} Vierlief</p>
+    <p class="site-footer__copy">&copy; {{ CURRENT_YEAR }} Vierlief</p>
   </div>
 </footer>

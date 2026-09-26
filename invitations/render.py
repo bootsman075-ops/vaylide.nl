@@ -105,7 +105,8 @@ def resolve_photo(ref, resolver: AssetResolver | None, alt: str) -> Photo | None
     caption = str(ref.get("caption") or "")[:140]
     if ref.get("static"):
         path = static(ref["static"])
-        return Photo(path, path, x, y, zoom, ref.get("alt") or alt, caption, ref.get("w"), ref.get("h"))
+        small = static(ref["static_small"]) if ref.get("static_small") else path
+        return Photo(path, small, x, y, zoom, ref.get("alt") or alt, caption, ref.get("w"), ref.get("h"))
     uid = ref.get("asset")
     if not uid or resolver is None:
         return None

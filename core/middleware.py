@@ -3,6 +3,9 @@ from __future__ import annotations
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.middleware.gzip import GZipMiddleware
+
+from .csp import SCRIPT_HASHES
 
 PRIVATE_PREFIXES = (
     "/u/",
@@ -40,7 +43,7 @@ class SecurityHeadersMiddleware:
             "; ".join(
                 [
                     "default-src 'self'",
-                    "script-src 'self'",
+                    "script-src 'self' " + " ".join(SCRIPT_HASHES),
                     "style-src 'self'",
                     "style-src-attr 'unsafe-inline'",
                     "img-src 'self' data: blob:",
@@ -87,3 +90,21 @@ class RequestSizeLimitMiddleware:
                 content_type="text/plain; charset=utf-8",
             )
         return self.get_response(request)
+
+
+class CompressTextMiddleware(GZipMiddleware):
+    """Comprimeert alleen tekst (HTML, JSON, CSV, agenda); geen afbeeldingen, audio of deelverzoeken.
+
+    Django voegt willekeurige bytes toe tegen BREACH; CSRF-tokens zijn per verzoek gemaskeerd.
+    Statische bestanden komen al gecomprimeerd uit WhiteNoise.
+    """
+
+    COMPRESSIBLE = {"text/html", "application/json", "text/csv", "text/calendar", "text/plain", "image/svg+xml"}
+
+    def process_response(self, request, response):
+        if response.status_code == 206 or response.has_header("Content-Range"):
+            return response
+        content_type = response.get("Content-Type", "").split(";")[0].strip().lower()
+        if content_type not in self.COMPRESSIBLE:
+            return response
+        return super().process_response(request, response)

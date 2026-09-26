@@ -1,15 +1,7 @@
-{% load static %}<article class="design-card">
-  <div class="design-card__visual">
-    <img src="{{ card.image }}" alt="Voorbeeld van het ontwerp {{ card.template.name }}" width="800" height="1000" loading="lazy" decoding="async">
-  </div>
-  <div class="design-card__body">
-    <div class="design-card__tags">{% for label in card.template.occasion_labels %}<span class="tag">{{ label }}</span>{% endfor %}</div>
-    <h3><a href="{% url 'core:design_detail' card.template.slug %}">{{ card.template.name }}</a></h3>
-    <p class="muted">{{ card.template.tagline }}</p>
-    <div class="swatches" aria-label="Kleurvarianten">{% for p in card.palettes %}<span style="background:{{ p.swatch.2 }}" title="{{ p.name }}"></span>{% endfor %}</div>
-    <div class="design-card__actions">
-      <a class="btn btn--secondary btn--sm" href="{{ card.demo_url }}">Bekijk voorbeeld</a>
-      <a class="btn btn--primary btn--sm" href="{{ card.start_url }}">Kies dit ontwerp</a>
-    </div>
-  </div>
+<article class="design-card">
+  <a class="design-card__link" href="{{ card.detail_url }}">
+    <span class="design-card__visual"><img src="{{ card.image }}" alt="" width="800" height="1000" loading="lazy" decoding="async"></span>
+    <span class="design-card__name">{{ card.template.name }}</span>
+    <span class="design-card__meta">{{ card.opening_label }}</span>
+  </a>
 </article>

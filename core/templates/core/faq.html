@@ -4,14 +4,13 @@
 {% block content %}
 <section class="page-head">
   <div class="container container--mid">
-    <p class="eyebrow">Hulp</p>
     <h1>Veelgestelde vragen</h1>
-    <p class="lead">Staat je vraag er niet bij? <a href="{% url 'core:contact' %}">Neem contact op</a>.</p>
   </div>
 </section>
-<section class="section section--tight">
+<section class="section section--flush">
   <div class="container container--mid">
-    <div class="faq">{% for q, a in faq %}<details{% if forloop.first %} open{% endif %}><summary>{{ q }}</summary><div><p>{{ a }}</p></div></details>{% endfor %}</div>
+    <div class="faq">{% for q, a in faq %}<details><summary>{{ q }}</summary><div><p>{{ a }}</p></div></details>{% endfor %}</div>
+    <p class="aside-line">Staat je vraag er niet bij? <a href="{% url 'core:contact' %}">Neem contact op</a></p>
   </div>
 </section>
 {% endblock %}

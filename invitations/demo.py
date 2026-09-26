@@ -43,7 +43,7 @@ def _demo_date(weeks_ahead: int = 30) -> date:
 
 def _img(name: str, x=50, y=50, caption="") -> dict:
     w, h = IMAGE_SIZES.get(name, (1600, 1100))
-    return {"static": f"img/demo/{name}.webp", "x": x, "y": y, "zoom": 1, "w": w, "h": h,
+    return {"static": f"img/demo/{name}.webp", "static_small": f"img/demo/{name}-1000.webp", "x": x, "y": y, "zoom": 1, "w": w, "h": h,
             "alt": "Voorbeeldbeeld (abstracte illustratie)", "caption": caption}
 
 

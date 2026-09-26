@@ -1,7 +1,9 @@
 """Kleine templatehulpmiddelen voor Vierlief."""
 from django import template
+from django.utils.safestring import mark_safe
 
 from catalog.assets import design_image_url
+from core.csp import BOOT_SCRIPT
 from catalog.models import format_euro
 
 register = template.Library()
@@ -30,3 +32,9 @@ def euro(cents):
 def initial(value):
     value = str(value or "").strip()
     return value[:1].upper() if value else ""
+
+
+@register.simple_tag
+def boot_script():
+    """Inline startscript; de hash staat in de Content-Security-Policy (core/csp.py)."""
+    return mark_safe(f"<script>{BOOT_SCRIPT}</script>")

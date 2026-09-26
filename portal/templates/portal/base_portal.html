@@ -5,12 +5,12 @@
 {% block content %}
 <div class="app-page">
   <div class="container">
-    <nav class="portal-nav" aria-label="Mijn Vierlief">
-      <ul class="chips">
-        <li><a class="chip" href="{% url 'portal:home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="true"{% endif %}>Overzicht</a></li>
-        <li><a class="chip" href="{% url 'portal:wishes' %}"{% if 'wish' in request.resolver_match.url_name %} aria-current="true"{% endif %}>Extra wensen</a></li>
-        <li><a class="chip" href="{% url 'portal:account' %}"{% if request.resolver_match.url_name == 'account' %} aria-current="true"{% endif %}>Gegevens</a></li>
-        <li><form method="post" action="{% url 'accounts:logout' %}" class="inline-form">{% csrf_token %}<button type="submit" class="chip">Uitloggen</button></form></li>
+    <nav class="tabs" aria-label="Mijn Vierlief">
+      <ul>
+        <li><a href="{% url 'portal:home' %}"{% if request.resolver_match.url_name == 'home' %} aria-current="page"{% endif %}>Overzicht</a></li>
+        <li><a href="{% url 'portal:wishes' %}"{% if 'wish' in request.resolver_match.url_name %} aria-current="page"{% endif %}>Extra wensen</a></li>
+        <li><a href="{% url 'portal:account' %}"{% if request.resolver_match.url_name == 'account' %} aria-current="page"{% endif %}>Gegevens</a></li>
+        <li class="tabs__end"><form method="post" action="{% url 'accounts:logout' %}" class="inline-form">{% csrf_token %}<button type="submit" class="tabs__button">Uitloggen</button></form></li>
       </ul>
     </nav>
     {% block portal %}{% endblock %}

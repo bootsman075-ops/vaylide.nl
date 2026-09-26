@@ -8,7 +8,6 @@
         <li><a href="{% url 'core:how' %}"{% if request.resolver_match.url_name == 'how' %} aria-current="page"{% endif %}>Zo werkt het</a></li>
         <li><a href="{% url 'core:pricing' %}"{% if request.resolver_match.url_name == 'pricing' %} aria-current="page"{% endif %}>Prijzen</a></li>
         <li><a href="{% url 'core:faq' %}"{% if request.resolver_match.url_name == 'faq' %} aria-current="page"{% endif %}>Vragen</a></li>
-        <li><a href="{% url 'core:contact' %}"{% if request.resolver_match.url_name == 'contact' %} aria-current="page"{% endif %}>Contact</a></li>
       </ul>
     </nav>
     <div class="site-header__actions">
@@ -27,7 +26,7 @@
           <li><a href="{% url 'core:designs' %}">Ontwerpen</a></li>
           <li><a href="{% url 'core:how' %}">Zo werkt het</a></li>
           <li><a href="{% url 'core:pricing' %}">Prijzen</a></li>
-          <li><a href="{% url 'core:faq' %}">Veelgestelde vragen</a></li>
+          <li><a href="{% url 'core:faq' %}">Vragen</a></li>
           <li><a href="{% url 'core:contact' %}">Contact</a></li>
           {% if user.is_authenticated %}
           <li><a href="{% url 'portal:home' %}">Mijn Vierlief</a></li>

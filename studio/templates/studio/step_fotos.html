@@ -3,7 +3,7 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>Foto's, verhaal en muziek</h1>
-  <p class="lead">Upload je foto's en kies per foto welk deel in beeld komt. Locatiegegevens en andere verborgen informatie halen we automatisch weg.</p>
+  <p class="lead">Kies per foto welk deel in beeld komt. Locatiegegevens halen we automatisch weg.</p>
 </div>
 {% include "studio/_conflict.html" %}
 <section class="studio-block" id="uploads" aria-labelledby="blok-upload">
@@ -12,7 +12,7 @@
     {% csrf_token %}
     <label class="upload-drop" for="upload-fotos">
       <span class="upload-drop__title">Kies foto's</span>
-      <span class="hint">JPG, PNG of WebP, maximaal {{ upload_limits.photo_max_bytes|filesizeformat }} per foto. Minimaal {{ upload_limits.photo_min_side }} pixels breed en hoog.</span>
+      <span class="hint">JPG, PNG of WebP · max. {{ upload_limits.photo_max_bytes|filesizeformat }} per foto · minimaal {{ upload_limits.photo_min_side }} pixels</span>
       <input id="upload-fotos" type="file" name="fotos" accept="image/jpeg,image/png,image/webp" multiple>
     </label>
     <p class="upload-status" data-upload-status aria-live="polite"></p>
@@ -25,7 +25,7 @@
   <section class="studio-block" aria-labelledby="blok-fotos">
     <h2 class="studio-block__title" id="blok-fotos">Jouw foto's</h2>
     {% if photos %}
-    <p class="hint">Kies een hoofdfoto en zet foto's eventueel in de galerij (tot 12). Met de schuifjes bepaal je welk deel zichtbaar is; op de uitnodiging wordt de foto passend bijgesneden.</p>
+    <p class="hint">Kies een hoofdfoto en eventueel galerijfoto's (tot 12). Tik of sleep in een foto om het middelpunt te kiezen.</p>
     <fieldset>
       <legend class="visually-hidden">Hoofdfoto</legend>
       <div class="photo-grid">
@@ -43,7 +43,6 @@
             <label class="range"><span>Horizontaal</span>{{ row.x }}</label>
             <label class="range"><span>Verticaal</span>{{ row.y }}</label>
             <label class="range"><span>Inzoomen</span>{{ row.zoom }}</label>
-            <p class="hint">Tip: tik of sleep in de foto om het middelpunt te kiezen.</p>
           </details>
           {% include "studio/_field.html" with field=row.caption %}
           <button type="submit" class="btn btn--danger btn--sm" form="delete-{{ row.uid }}">Verwijderen</button>
@@ -66,7 +65,7 @@
 
   <section class="studio-block" aria-labelledby="blok-muziek">
     <h2 class="studio-block__title" id="blok-muziek">Muziek <span class="badge">Compleet of extra optie</span></h2>
-    <p class="hint">De muziek start nooit vanzelf: gasten zetten die zelf aan. Upload een MP3- of M4A-bestand tot {{ upload_limits.audio_max_bytes|filesizeformat }}.</p>
+    <p class="hint">Start nooit vanzelf. MP3 of M4A, max. {{ upload_limits.audio_max_bytes|filesizeformat }}.</p>
     {% if audio %}
     <fieldset>
       <legend class="label">Kies de muziek</legend>

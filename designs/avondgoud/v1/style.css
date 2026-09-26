@@ -137,13 +137,7 @@ body {
 .ag-section { max-width: 42rem; margin: 0 auto; padding: clamp(3rem, 8vw, 4.8rem) 1.25rem; text-align: center; }
 .ag-h2 {
   font-family: "Cinzel", serif; font-weight: 500; font-size: clamp(1.35rem, 5vw, 1.8rem); letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ag-gold); margin-bottom: 1.8rem; display: grid; justify-items: center; gap: .8rem;
-}
-.ag-h2::after {
-  content: ""; width: 120px; height: 10px;
-  background: linear-gradient(var(--ag-gold), var(--ag-gold)) left 50% / 48px 1px no-repeat, linear-gradient(var(--ag-gold), var(--ag-gold)) right 50% / 48px 1px no-repeat,
-    linear-gradient(45deg, transparent 42%, var(--ag-gold) 42% 58%, transparent 58%) center / 10px 10px no-repeat,
-    linear-gradient(-45deg, transparent 42%, var(--ag-gold) 42% 58%, transparent 58%) center / 10px 10px no-repeat;
+  color: var(--ag-gold); margin-bottom: 1.5rem;
 }
 .ag-welcome p { font-style: italic; font-size: clamp(1.3rem, 4.5vw, 1.55rem); line-height: 1.55; }
 .ag-welcome p + p, .ag-story p + p { margin-top: 1rem; }

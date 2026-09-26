@@ -12,7 +12,7 @@ from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Count, Q, Sum
+from django.db.models import Count, Exists, OuterRef, Q, Sum
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -62,12 +62,26 @@ def _rsvp_stats(invitation: Invitation) -> dict:
 
 @customer_required
 def home(request):
+    # Eén query voor alle uitnodigingen, inclusief betaalstatus en aanmeldcijfers.
+    paid_orders = Order.objects.filter(invitation=OuterRef("pk"), kind=Order.Kind.INVITATION, status=Order.Status.PAID)
     invitations = list(
-        Invitation.objects.filter(owner=request.user).select_related("template_version__template").order_by("-updated_at")
+        Invitation.objects.filter(owner=request.user)
+        .select_related("template_version__template")
+        .annotate(
+            paid=Exists(paid_orders),
+            stat_total=Count("responses", distinct=True),
+            stat_yes=Count("responses", filter=Q(responses__attending=True), distinct=True),
+            stat_no=Count("responses", filter=Q(responses__attending=False), distinct=True),
+            stat_persons=Sum("responses__party_size", filter=Q(responses__attending=True)),
+        )
+        .order_by("-updated_at")
     )
     for invitation in invitations:
-        invitation.paid = invitation_is_paid(invitation)
-        invitation.stats = _rsvp_stats(invitation) if invitation.is_published else None
+        invitation.stats = (
+            {"total": invitation.stat_total, "yes": invitation.stat_yes, "no": invitation.stat_no, "persons": invitation.stat_persons or 0}
+            if invitation.is_published
+            else None
+        )
     orders = Order.objects.filter(customer=request.user).order_by("-created_at")[:10]
     wishes = CustomRequest.objects.filter(customer=request.user).order_by("-updated_at")[:10]
     return render(request, "portal/home.html", {"invitations": invitations, "orders": orders, "wishes": wishes})

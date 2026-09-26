@@ -41,10 +41,10 @@ async function audit(page, vp, name, url, { open = false, full = true } = {}) {
       if (style.position === "fixed" || r.width === 0 || style.visibility === "hidden") return;
       // Niet getoond (bijv. inhoud van een gesloten menu) telt niet mee.
       if (typeof el.checkVisibility === "function" && !el.checkVisibility()) return;
-      // Bewust bijgesneden (foto's met zoom in een kader met overflow: hidden) telt niet mee.
+      // Bewust bijgesneden of in een eigen scrollrij (foto's met zoom, veegrij met ontwerpen) telt niet mee.
       for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
         const ox = getComputedStyle(a).overflowX;
-        if ((ox === "hidden" || ox === "clip") && a.getBoundingClientRect().right <= doc.clientWidth + 1) return;
+        if (["hidden", "clip", "auto", "scroll"].includes(ox) && a.getBoundingClientRect().right <= doc.clientWidth + 1) return;
       }
       if (r.right > doc.clientWidth + 1 && !el.closest(".data-table-wrap, .beheer-nav, .preview-frame, pre")) overflowing.push(`${el.tagName.toLowerCase()}.${(el.className || "").toString().split(" ")[0]} → ${Math.round(r.right)}px`);
     });

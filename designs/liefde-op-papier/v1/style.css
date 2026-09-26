@@ -173,12 +173,7 @@ body {
 .lp-section + .lp-section { border-top: 1px solid color-mix(in srgb, var(--lp-line) 45%, transparent); }
 .lp-h2 {
   font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500;
-  font-size: clamp(1.9rem, 6vw, 2.4rem); color: var(--lp-accent); line-height: 1.2; margin-bottom: 1.4rem;
-}
-.lp-h2::after {
-  content: ""; display: block; width: 64px; height: 14px; margin: .7rem auto 0; background: var(--lp-line);
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 14'><path d='M2 7h22M40 7h22M32 1.5c3 2.5 3 8.5 0 11-3-2.5-3-8.5 0-11Z' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>") center / contain no-repeat;
-  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 14'><path d='M2 7h22M40 7h22M32 1.5c3 2.5 3 8.5 0 11-3-2.5-3-8.5 0-11Z' fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'/></svg>") center / contain no-repeat;
+  font-size: clamp(1.9rem, 6vw, 2.4rem); color: var(--lp-accent); line-height: 1.2; margin-bottom: 1.2rem;
 }
 .lp-welcome p { font-style: italic; font-size: clamp(1.3rem, 4.4vw, 1.5rem); line-height: 1.55; text-wrap: pretty; }
 .lp-welcome p + p { margin-top: 1rem; }

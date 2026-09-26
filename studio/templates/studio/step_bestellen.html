@@ -3,7 +3,7 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>Controleer en bestel</h1>
-  <p class="lead">Je betaalt eenmalig. Na een bevestigde betaling wordt je uitnodiging automatisch gepubliceerd.</p>
+  <p class="lead">Eenmalig betalen. Na een bevestigde betaling staat je uitnodiging automatisch online.</p>
 </div>
 {% if error %}<div class="form-errors" role="alert">{{ error }}</div>{% endif %}
 {% if issues %}<div class="notice notice--warning"><strong>Nog niet compleet</strong><ul>{% for i in issues %}<li>{{ i.message }} <a href="{% url 'studio:step' inv.uid i.step %}">Aanpassen</a></li>{% endfor %}</ul></div>{% endif %}

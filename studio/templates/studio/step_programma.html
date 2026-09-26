@@ -3,14 +3,14 @@
 {% block studio %}
 <div class="studio-intro">
   <h1>Programma en praktische informatie</h1>
-  <p class="lead">Alles is optioneel. Lege onderdelen worden niet op je uitnodiging getoond.</p>
+  <p class="lead">Alles is optioneel; lege onderdelen worden niet getoond.</p>
 </div>
 {% include "studio/_conflict.html" %}
 <form method="post" class="form studio-form" data-once data-dirty-check novalidate>
   {% csrf_token %}
   <section class="studio-block" aria-labelledby="blok-programma">
     <h2 class="studio-block__title" id="blok-programma">Programma</h2>
-    <p class="hint">{{ cfg.program_hint }}. Onderdelen worden automatisch op tijd gesorteerd.</p>
+    <p class="hint">{{ cfg.program_hint }}. Wordt automatisch op tijd gesorteerd.</p>
     <div class="repeat-list" data-repeat="programma">
       {% for time, title, desc in form.program_fields %}
       <div class="repeat-row program-row{% if not title.value and not time.value and forloop.counter > 3 %} is-empty{% endif %}" data-repeat-row>

@@ -6,7 +6,7 @@
 <title>Je antwoord · {{ v.title }}</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
 <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
-<script src="{% static 'invitations/boot.js' %}"></script>
+{% boot_script %}
 <link rel="stylesheet" href="{% static 'invitations/invite-base.css' %}">
 <link rel="stylesheet" href="{% static v.stylesheet %}">
 <script src="{% static 'invitations/invite.js' %}" defer></script>
