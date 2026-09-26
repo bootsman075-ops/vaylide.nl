@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from catalog.models import AddOn, Package, Template
@@ -142,6 +143,8 @@ def contact(request):
         initial = {}
         if request.user.is_authenticated:
             initial = {"email": request.user.email, "name": request.user.name}
+        if request.GET.get("onderwerp") in dict(ContactMessage.TOPICS):
+            initial["topic"] = request.GET["onderwerp"]
         form = ContactForm(initial=initial)
     return render(request, "core/contact.html", {"form": form, "form_ts": signed_timestamp(), "config": config})
 
@@ -151,7 +154,7 @@ def privacy(request):
 
 
 def terms(request):
-    return render(request, "core/terms.html")
+    return render(request, "core/terms.html", {"config": SiteConfig.get()})
 
 
 def robots_txt(request):
@@ -202,3 +205,22 @@ def server_error(request):
 
 def csrf_failure(request, reason=""):
     return render(request, "errors/csrf.html", status=403)
+
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def cron_jobs(request):
+    """Voor hosts zonder worker: een externe cron roept dit elke minuut aan (met token)."""
+    import hmac
+
+    from processing.jobs import process_due
+
+    from .privacy import apply_retention
+
+    token = settings.JOBS_CRON_TOKEN
+    given = request.headers.get("Authorization", "").removeprefix("Bearer ").strip()
+    if not token or not hmac.compare_digest(token, given):
+        raise Http404()
+    done = process_due()
+    report = apply_retention() if request.GET.get("retentie") == "1" else {}
+    return HttpResponse(f"taken: {done}; retentie: {report}", content_type="text/plain")

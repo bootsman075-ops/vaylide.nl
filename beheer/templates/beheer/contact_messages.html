@@ -1,0 +1,12 @@
+{% extends "beheer/base.html" %}
+{% block title %}Contactberichten{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Contactberichten</h1></div></div>
+<section class="panel">
+  {% if page.object_list %}<ul class="item-list">{% for m in page.object_list %}
+    <li class="item"><div class="item__top"><strong>{{ m.name }} · <a href="mailto:{{ m.email }}">{{ m.email }}</a></strong><span class="badge {% if m.handled_at %}badge--done{% else %}badge--received{% endif %}">{% if m.handled_at %}Afgehandeld{% else %}Open{% endif %}</span></div>
+      <p class="item__meta">{{ m.get_topic_display }} · {{ m.created_at|date:"j-n-Y H:i" }}</p><p class="msg__body">{{ m.message }}</p>
+      <form method="post">{% csrf_token %}<input type="hidden" name="bericht" value="{{ m.pk }}"><button class="btn btn--ghost btn--sm" type="submit">{% if m.handled_at %}Weer openzetten{% else %}Markeer als afgehandeld{% endif %}</button></form></li>{% endfor %}</ul>
+  {% else %}<p class="empty-state">Nog geen berichten.</p>{% endif %}
+</section>
+{% endblock %}

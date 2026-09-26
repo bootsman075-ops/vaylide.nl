@@ -1,0 +1,18 @@
+{% extends "beheer/base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow"><a href="{{ back }}">Terug</a></p><h1>{{ title }}</h1></div></div>
+<form method="post" class="panel form container--narrow" data-once novalidate>
+  {% csrf_token %}
+  {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors.0 }}</div>{% endif %}
+  {% for field in form %}
+  <div class="field">
+    {% if field.field.widget.input_type == "checkbox" %}<label class="check">{{ field }}<span>{{ field.label }}</span></label>
+    {% elif field.name == "features" %}<fieldset><legend class="label">{{ field.label }}</legend><div class="section-toggles">{% for c in field %}<label class="check section-toggle">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div></fieldset>
+    {% else %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.help_text %}<p class="hint">{{ field.help_text }}</p>{% endif %}{{ field }}{% endif %}
+    {% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}
+  </div>
+  {% endfor %}
+  <div class="btn-row"><button class="btn btn--primary" type="submit">Opslaan</button><a class="btn btn--ghost" href="{{ back }}">Annuleren</a></div>
+</form>
+{% endblock %}

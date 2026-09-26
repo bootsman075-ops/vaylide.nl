@@ -1,0 +1,19 @@
+{% extends "beheer/base.html" %}
+{% block title %}Prijzen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Pakketten en opties</h1></div><div class="btn-row"><a class="btn btn--secondary btn--sm" href="{% url 'beheer:package_new' %}">Nieuw pakket</a><a class="btn btn--secondary btn--sm" href="{% url 'beheer:addon_new' %}">Nieuwe optie</a></div></div>
+{% if config.prices_provisional %}<p class="notice notice--warning"><strong>Prijzen staan als 'voorlopig'</strong>Op de website staat nu 'Voorlopige prijzen'. Zet dit uit bij Instellingen zodra de prijzen definitief zijn.</p>{% endif %}
+<p class="notice">Prijzen zijn inclusief btw. Wijzigingen gelden direct voor nieuwe bestellingen; bestaande bestellingen behouden hun bedrag.</p>
+<section class="panel">
+  <h2>Pakketten</h2>
+  <div class="data-table-wrap"><table class="data-table data-table--cards"><thead><tr><th>Pakket</th><th class="num">Prijs</th><th>Online</th><th>Functies</th><th>Actief</th></tr></thead><tbody>
+  {% for p in packages %}<tr><td data-label="Pakket"><a href="{% url 'beheer:package_edit' p.pk %}"><strong>{{ p.name }}</strong></a> <span class="small muted">{{ p.code }}</span></td><td data-label="Prijs" class="num">{{ p.price_display }}</td><td data-label="Online">{{ p.availability_months }} mnd</td><td data-label="Functies">{{ p.features|join:", "|default:"basis" }}{% if p.max_gallery_photos %} · {{ p.max_gallery_photos }} foto's{% endif %}</td><td data-label="Actief">{{ p.is_active|yesno:"ja,nee" }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+<section class="panel">
+  <h2>Extra opties</h2>
+  <div class="data-table-wrap"><table class="data-table data-table--cards"><thead><tr><th>Optie</th><th class="num">Prijs</th><th>Ontgrendelt</th><th>Extra online</th><th>Actief</th></tr></thead><tbody>
+  {% for a in addons %}<tr><td data-label="Optie"><a href="{% url 'beheer:addon_edit' a.pk %}"><strong>{{ a.name }}</strong></a> <span class="small muted">{{ a.code }}</span></td><td data-label="Prijs" class="num">{{ a.price_display }}</td><td data-label="Ontgrendelt">{{ a.feature|default:"—" }}</td><td data-label="Extra online">{% if a.extra_months %}{{ a.extra_months }} mnd{% else %}—{% endif %}</td><td data-label="Actief">{{ a.is_active|yesno:"ja,nee" }}</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}

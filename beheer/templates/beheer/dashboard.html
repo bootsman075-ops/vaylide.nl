@@ -1,0 +1,42 @@
+{% extends "beheer/base.html" %}
+{% block title %}Overzicht{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Overzicht</h1></div></div>
+<section class="panel">
+  <h2>Aandacht nodig</h2>
+  <div class="stat-row">
+    <a class="stat{% if attention.wishes_new %} stat--alert{% endif %}" href="{% url 'beheer:wishes' %}"><span class="stat__num">{{ attention.wishes_new }}</span><span class="stat__label">nieuwe of ongelezen aanvragen</span></a>
+    <a class="stat{% if attention.orders_attention %} stat--alert{% endif %}" href="{% url 'beheer:orders' %}?verwerking=attention"><span class="stat__num">{{ attention.orders_attention }}</span><span class="stat__label">bestellingen met aandacht</span></a>
+    <a class="stat{% if attention.jobs_failed %} stat--alert{% endif %}" href="{% url 'beheer:processing' %}"><span class="stat__num">{{ attention.jobs_failed }}</span><span class="stat__label">mislukte verwerkingen ({{ attention.jobs_dead }} handmatig)</span></a>
+    <a class="stat{% if attention.emails_failed %} stat--alert{% endif %}" href="{% url 'beheer:processing' %}"><span class="stat__num">{{ attention.emails_failed }}</span><span class="stat__label">e-mails niet verzonden</span></a>
+    <a class="stat{% if attention.contact_open %} stat--alert{% endif %}" href="{% url 'beheer:contact_messages' %}"><span class="stat__num">{{ attention.contact_open }}</span><span class="stat__label">open contactberichten</span></a>
+  </div>
+</section>
+<div class="app-grid app-grid--sidebar">
+  <section class="panel">
+    <div class="panel__head"><h2>Recente bestellingen</h2><a class="small" href="{% url 'beheer:orders' %}">Alles</a></div>
+    {% if recent_orders %}
+    <div class="data-table-wrap"><table class="data-table data-table--cards">
+      <thead><tr><th>Nummer</th><th>Klant</th><th>Status</th><th>Verwerking</th><th class="num">Totaal</th></tr></thead>
+      <tbody>{% for o in recent_orders %}<tr><td data-label="Nummer"><a href="{% url 'beheer:order' o.uid %}">{{ o.number }}</a>{% if o.test_mode %} <span class="badge badge--test">test</span>{% endif %}</td><td data-label="Klant">{{ o.customer.email }}</td><td data-label="Status"><span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span></td><td data-label="Verwerking"><span class="badge badge--{{ o.fulfilment_status }}">{{ o.get_fulfilment_status_display }}</span></td><td data-label="Totaal" class="num">{{ o.total_display }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    {% else %}<p class="muted">Nog geen bestellingen.</p>{% endif %}
+  </section>
+  <div class="app-grid">
+    <section class="panel">
+      <h2>In cijfers</h2>
+      <dl class="kv"><dt>Online</dt><dd>{{ counts.live }}</dd><dt>Concepten</dt><dd>{{ counts.drafts }}</dd><dt>Klanten met uitnodiging</dt><dd>{{ counts.customers }}</dd><dt>Betaald (30 dagen)</dt><dd>{{ counts.paid_30d }}</dd></dl>
+    </section>
+    <section class="panel">
+      <div class="panel__head"><h2>Aanvragen</h2><a class="small" href="{% url 'beheer:wishes' %}">Alles</a></div>
+      {% if recent_wishes %}<ul class="item-list">{% for w in recent_wishes %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'beheer:wish' w.uid %}">{{ w.subject }}</a><span class="badge badge--{{ w.status }}">{{ w.get_status_display }}</span></div><p class="item__meta">{{ w.reference }} · {{ w.customer.email }}{% if w.unread_by_staff %} · <strong>ongelezen</strong>{% endif %}</p></li>{% endfor %}</ul>{% else %}<p class="muted">Geen aanvragen.</p>{% endif %}
+    </section>
+  </div>
+</div>
+{% if failed_jobs %}
+<section class="panel">
+  <div class="panel__head"><h2>Mislukte verwerkingen</h2><a class="small" href="{% url 'beheer:processing' %}">Naar verwerking</a></div>
+  <ul class="item-list">{% for j in failed_jobs %}<li class="item"><div class="item__top"><strong>{{ j.label }}</strong><span class="badge badge--{{ j.status }}">{{ j.get_status_display }}</span></div><p class="item__meta">{% if j.order %}Bestelling {{ j.order.number }} · {% endif %}{{ j.attempts }} poging(en) · {{ j.last_error|truncatechars:120 }}</p></li>{% endfor %}</ul>
+</section>
+{% endif %}
+{% endblock %}

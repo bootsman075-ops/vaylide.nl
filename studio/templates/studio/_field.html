@@ -1,0 +1,6 @@
+<div class="field{% if field.errors %} field--error{% endif %}{% if extra_class %} {{ extra_class }}{% endif %}">
+  <label for="{{ field.id_for_label }}">{{ field.label }}{% if req %} <span class="req" aria-hidden="true">*</span><span class="visually-hidden"> (nodig om verder te gaan)</span>{% endif %}</label>
+  {% if field.help_text %}<p class="hint" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+  {{ field }}
+  {% for error in field.errors %}<p class="field__error">{{ error }}</p>{% endfor %}
+</div>

@@ -1,0 +1,9 @@
+{% extends "beheer/base.html" %}
+{% block title %}E-mail{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow"><a href="{% url 'beheer:processing' %}">Verwerking</a></p><h1>{{ email.subject }}</h1></div><span class="badge badge--{{ email.status }}">{{ email.get_status_display }}</span></div>
+<section class="panel">
+  <dl class="kv"><dt>Aan</dt><dd>{{ email.to }}</dd><dt>Soort</dt><dd>{{ email.kind }}</dd><dt>Aangemaakt</dt><dd>{{ email.created_at|date:"j-n-Y H:i:s" }}</dd><dt>Verzonden</dt><dd>{{ email.sent_at|date:"j-n-Y H:i:s"|default:"—" }}</dd><dt>Pogingen</dt><dd>{{ email.attempts }}</dd>{% if email.attach_qr_for %}<dt>Bijlage</dt><dd>QR-code</dd>{% endif %}{% if email.last_error %}<dt>Fout</dt><dd>{{ email.last_error }}</dd>{% endif %}</dl>
+  <pre class="mail-body">{{ email.body_text }}</pre>
+</section>
+{% endblock %}

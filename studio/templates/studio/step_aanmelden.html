@@ -1,0 +1,42 @@
+{% extends "studio/base_studio.html" %}
+{% block title %}Aanmelden{% endblock %}
+{% block studio %}
+<div class="studio-intro">
+  <h1>Aanmelden door gasten</h1>
+  <p class="lead">Gasten hebben geen account nodig. We vragen standaard alleen naam, aanwezigheid en aantal personen.</p>
+</div>
+{% include "studio/_conflict.html" %}
+<form method="post" class="form studio-form" data-once data-dirty-check novalidate>
+  {% csrf_token %}
+  <section class="studio-block" aria-labelledby="blok-rsvp">
+    <h2 class="studio-block__title" id="blok-rsvp">Instellingen</h2>
+    {% include "studio/_check.html" with field=form.enabled %}
+    <div class="form-row">
+      {% include "studio/_field.html" with field=form.deadline req=True %}
+      {% include "studio/_field.html" with field=form.max_party_size %}
+      {% include "studio/_field.html" with field=form.capacity %}
+    </div>
+    {% include "studio/_check.html" with field=form.ask_remark %}
+    {% include "studio/_field.html" with field=form.remark_label %}
+  </section>
+  <section class="studio-block" aria-labelledby="blok-vragen">
+    <h2 class="studio-block__title" id="blok-vragen">Extra vragen (optioneel)</h2>
+    <p class="hint">Bijvoorbeeld over dieetwensen of vervoer. Extra vragen zitten in het pakket Compleet of zijn als extra optie te kiezen; bij het bestellen zie je de kosten vooraf. Vraag niet meer persoonsgegevens dan nodig.</p>
+    <div class="repeat-list" data-repeat="vragen">
+      {% for qid, label, qtype, options, required in form.question_fields %}
+      <div class="repeat-row question-row{% if not label.value and forloop.counter > 2 %} is-empty{% endif %}" data-repeat-row>
+        {{ qid }}
+        {% include "studio/_field.html" with field=label %}
+        <div class="form-row">
+          {% include "studio/_field.html" with field=qtype %}
+          {% include "studio/_field.html" with field=options %}
+        </div>
+        {% include "studio/_check.html" with field=required %}
+      </div>
+      {% endfor %}
+      <button type="button" class="btn btn--ghost btn--sm" data-repeat-add hidden>+ Vraag toevoegen</button>
+    </div>
+  </section>
+  {% include "studio/_actions.html" %}
+</form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Veelgestelde vragen{% endblock %}
+{% block description %}Antwoorden op veelgestelde vragen over digitale uitnodigingen, aanmelden, betalen en privacy bij Vierlief.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container container--mid">
+    <p class="eyebrow">Hulp</p>
+    <h1>Veelgestelde vragen</h1>
+    <p class="lead">Staat je vraag er niet bij? <a href="{% url 'core:contact' %}">Neem contact op</a>.</p>
+  </div>
+</section>
+<section class="section section--tight">
+  <div class="container container--mid">
+    <div class="faq">{% for q, a in faq %}<details{% if forloop.first %} open{% endif %}><summary>{{ q }}</summary><div><p>{{ a }}</p></div></details>{% endfor %}</div>
+  </div>
+</section>
+{% endblock %}

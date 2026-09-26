@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Contact{% endblock %}
+{% block description %}Neem contact op met Vierlief voor vragen, bijzondere wensen of hulp bij je uitnodiging.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container container--mid">
+    <p class="eyebrow">Contact</p>
+    <h1>Hoe kunnen we helpen?</h1>
+    <p class="lead">Stel je vraag of vertel je bijzondere wens. {% if config.support_response_text %}{{ config.support_response_text }}{% endif %}</p>
+  </div>
+</section>
+<section class="section section--tight">
+  <div class="container container--mid contact-grid">
+    <form method="post" class="form card" novalidate>
+      {% csrf_token %}
+      <input type="hidden" name="form_ts" value="{{ form_ts }}">
+      <div class="hp-field" aria-hidden="true"><label>Laat dit veld leeg <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      {% if form.non_field_errors %}<div class="form-errors" role="alert">{{ form.non_field_errors.0 }}</div>{% endif %}
+      <div class="form-row">
+        {% for field in form %}{% if field.name == "name" or field.name == "email" %}
+        <div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<p class="field__error">{{ field.errors.0 }}</p>{% endif %}</div>
+        {% endif %}{% endfor %}
+      </div>
+      <div class="field"><label for="{{ form.topic.id_for_label }}">{{ form.topic.label }}</label>{{ form.topic }}</div>
+      <div class="field"><label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>{{ form.message }}{% if form.message.errors %}<p class="field__error">{{ form.message.errors.0 }}</p>{% endif %}</div>
+      <p class="small muted">We gebruiken je gegevens alleen om je vraag te beantwoorden. Zie ons <a href="{% url 'core:privacy' %}">privacybeleid</a>.</p>
+      <button class="btn btn--primary" type="submit">Verstuur bericht</button>
+    </form>
+    <aside class="card card--flat contact-aside">
+      <h2 class="h-small">Al een uitnodiging?</h2>
+      <p>Log in bij Mijn Vierlief en gebruik <strong>Extra wensen of hulp nodig?</strong>. Dan zien we meteen om welke uitnodiging het gaat.</p>
+      <a class="btn btn--secondary btn--sm" href="{% url 'portal:wish_new' %}">Extra wensen of hulp</a>
+      <hr>
+      <h2 class="h-small">E-mail</h2>
+      <p><a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a></p>
+    </aside>
+  </div>
+</section>
+{% endblock %}

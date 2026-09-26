@@ -1,0 +1,19 @@
+{% extends "beheer/base.html" %}{% load static %}
+{% block title %}Ontwerpen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Ontwerpen</h1></div></div>
+<p class="notice"><strong>Hoe versies werken</strong>Elke uitnodiging gebruikt een vaste ontwerpversie. Een nieuwe versie (bijvoorbeeld v2) verandert bestaande uitnodigingen niet. Je kiest hieronder welke versie nieuwe klanten krijgen; bestaande uitnodigingen zet je per stuk over in het concept. Zie <code>docs/HANDLEIDING.md</code> voor het toevoegen van een ontwerp.</p>
+<section class="panel">
+  <div class="data-table-wrap"><table class="data-table data-table--cards">
+    <thead><tr><th>Ontwerp</th><th>Gelegenheden</th><th>Versies</th><th>Voor nieuwe klanten</th><th class="num">In gebruik</th><th>Zichtbaar</th></tr></thead>
+    <tbody>{% for t, used in rows %}<tr>
+      <td data-label="Ontwerp"><a href="{% url 'beheer:template_edit' t.pk %}"><strong>{{ t.name }}</strong></a><br><span class="small muted">{{ t.slug }}</span></td>
+      <td data-label="Gelegenheden">{{ t.occasion_labels|join:", " }}</td>
+      <td data-label="Versies">{% for v in t.versions.all %}v{{ v.number }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+      <td data-label="Voor nieuwe klanten">{{ t.current_version }}</td>
+      <td data-label="In gebruik" class="num">{{ used }}</td>
+      <td data-label="Zichtbaar">{{ t.is_active|yesno:"ja,nee" }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+{% endblock %}

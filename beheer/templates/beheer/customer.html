@@ -1,0 +1,16 @@
+{% extends "beheer/base.html" %}
+{% block title %}{{ customer.email }}{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow"><a href="{% url 'beheer:customers' %}">Klanten</a></p><h1>{{ customer.email }}</h1></div></div>
+<div class="app-grid app-grid--sidebar">
+  <div class="app-grid">
+    <section class="panel"><h2>Uitnodigingen</h2>{% if invitations %}<ul class="item-list">{% for i in invitations %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'beheer:invitation' i.uid %}">{{ i.title|default:"Naamloos" }}</a><span class="badge badge--{{ i.status }}">{{ i.get_status_display }}</span></div><p class="item__meta">{{ i.get_occasion_display }} · {{ i.template_version }}</p></li>{% endfor %}</ul>{% else %}<p class="muted">Geen uitnodigingen.</p>{% endif %}</section>
+    <section class="panel"><h2>Bestellingen</h2>{% if orders %}<ul class="item-list">{% for o in orders %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'beheer:order' o.uid %}">{{ o.number }}</a><span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span></div><p class="item__meta">{{ o.total_display }} · {{ o.created_at|date:"j-n-Y" }}</p></li>{% endfor %}</ul>{% else %}<p class="muted">Geen bestellingen.</p>{% endif %}</section>
+    <section class="panel"><h2>Aanvragen</h2>{% if wishes %}<ul class="item-list">{% for w in wishes %}<li class="item"><a href="{% url 'beheer:wish' w.uid %}">{{ w.subject }}</a> <span class="badge badge--{{ w.status }}">{{ w.get_status_display }}</span></li>{% endfor %}</ul>{% else %}<p class="muted">Geen aanvragen.</p>{% endif %}</section>
+  </div>
+  <div class="app-grid">
+    <section class="panel"><h2>Account</h2><dl class="kv"><dt>Naam</dt><dd>{{ customer.name|default:"—" }}</dd><dt>Bevestigd</dt><dd>{{ customer.email_verified_at|date:"j-n-Y H:i"|default:"—" }}</dd><dt>Laatst ingelogd</dt><dd>{{ customer.last_login|date:"j-n-Y H:i"|default:"—" }}</dd><dt>Actief</dt><dd>{{ customer.is_active|yesno:"ja,nee" }}</dd></dl></section>
+    <section class="panel danger-zone"><h2>Gegevens verwijderen</h2><p class="small">Verwijdert uitnodigingen, aanmeldingen, uploads en aanvragen. Bestellingen blijven geanonimiseerd bewaard.</p><form method="post" class="form">{% csrf_token %}<input type="hidden" name="actie" value="anonimiseren"><label class="field"><span class="label">Typ <strong>verwijderen</strong></span><input class="input" type="text" name="bevestig" autocomplete="off"></label><button class="btn btn--danger btn--sm" type="submit">Klantgegevens verwijderen</button></form></section>
+  </div>
+</div>
+{% endblock %}

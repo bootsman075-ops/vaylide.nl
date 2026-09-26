@@ -1,0 +1,18 @@
+<div class="ai-help" data-ai data-ai-url="{% url 'studio:ai_text' inv.uid %}" data-ai-field="{{ ai_field }}" hidden>
+  <details class="ai-help__panel">
+    <summary><span aria-hidden="true">&#10022;</span> Tekstvoorstel laten maken</summary>
+    <div class="ai-help__body">
+      <p class="small muted">Je krijgt een voorstel op basis van wat je al hebt ingevuld. Er worden geen gegevens verzonnen en er wordt niets opgeslagen zonder jouw akkoord.</p>
+      <div class="form-row">
+        <label class="field"><span class="label">Toon</span>
+          <select class="input" data-ai-tone><option value="warm">Warm</option><option value="feestelijk">Feestelijk</option><option value="formeel">Formeel</option><option value="speels">Speels</option></select>
+        </label>
+        <label class="field"><span class="label">Waar moet het over gaan? (optioneel)</span>
+          <input class="input" type="text" maxlength="300" data-ai-notes placeholder="Bijv. we vieren het in onze tuin">
+        </label>
+      </div>
+      <button type="button" class="btn btn--secondary btn--sm" data-ai-go>Maak voorstel</button>
+      <div class="ai-help__result" data-ai-result aria-live="polite"></div>
+    </div>
+  </details>
+</div>

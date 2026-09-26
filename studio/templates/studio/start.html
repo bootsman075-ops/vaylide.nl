@@ -1,0 +1,49 @@
+{% extends "studio/base_studio.html" %}{% load static %}
+{% block title %}Maak jouw uitnodiging{% endblock %}
+{% block studio %}
+<div class="studio-intro">
+  <h1>{% if not occasion %}Wat ga je vieren?{% else %}Kies een ontwerp voor je {{ occasion_label|lower }}{% endif %}</h1>
+  <p class="lead">{% if not occasion %}Kies de gelegenheid. Daarna zie je de ontwerpen die erbij passen.{% else %}Open een voorbeeld om het ontwerp op je eigen telefoon te proberen. Je kunt later nog wisselen.{% endif %}</p>
+</div>
+{% if existing %}
+<div class="notice resume-box">
+  <strong>Verder met je ontwerp?</strong>
+  <ul class="resume-list">{% for inv in existing %}<li><a href="{% url 'studio:resume' inv.uid %}">{{ inv.title|default:"Naamloos ontwerp" }}</a> <span class="muted small">({{ inv.get_occasion_display }}, bijgewerkt {{ inv.updated_at|date:"j F" }})</span></li>{% endfor %}</ul>
+</div>
+{% endif %}
+<form method="post" class="form" data-once>
+  {% csrf_token %}
+  <fieldset class="studio-block">
+    <legend class="studio-block__title"><span class="studio-block__num">1</span> Gelegenheid</legend>
+    <div class="occasion-grid">
+      {% for key, label, intro in occasions %}
+      <label class="radio-card occasion-card">
+        <input type="radio" name="occasion" value="{{ key }}"{% if key == occasion %} checked{% endif %} required data-occasion-radio>
+        <strong>{{ label }}</strong><span class="small muted">{{ intro }}</span>
+        <a class="occasion-card__link" href="?gelegenheid={{ key }}{% if chosen %}&amp;ontwerp={{ chosen }}{% endif %}#ontwerpen">Kies</a>
+      </label>
+      {% endfor %}
+    </div>
+    {% if form.occasion.errors %}<p class="field__error">Kies een gelegenheid.</p>{% endif %}
+  </fieldset>
+  <fieldset class="studio-block" id="ontwerpen">
+    <legend class="studio-block__title"><span class="studio-block__num">2</span> Ontwerp</legend>
+    <div class="design-pick-grid">
+      {% for t in templates %}
+      <label class="radio-card design-pick" data-occasions="{{ t.occasions|join:' ' }}">
+        <input type="radio" name="template" value="{{ t.slug }}"{% if t.slug == chosen %} checked{% endif %} required>
+        <img src="{% static 'img/designs/'|add:t.slug|add:'.webp' %}" alt="" width="400" height="500" loading="lazy">
+        <strong>{{ t.name }}</strong>
+        <span class="small muted">{{ t.tagline }}</span>
+        <a class="design-pick__demo" href="{% url 'invitations:demo' t.slug %}{% if occasion %}?gelegenheid={{ occasion }}{% endif %}" target="_blank" rel="noopener">Bekijk voorbeeld<span class="visually-hidden"> van {{ t.name }} (opent in nieuw venster)</span></a>
+      </label>
+      {% endfor %}
+    </div>
+    {% if form.template.errors %}<p class="field__error">{{ form.template.errors.0 }}</p>{% endif %}
+  </fieldset>
+  <div class="step-actions step-actions--start">
+    <p class="small muted">Je begint zonder account. Om je ontwerp te bewaren en later verder te gaan, bevestig je je e-mailadres met een code.</p>
+    <button class="btn btn--primary" type="submit">Begin met dit ontwerp &rarr;</button>
+  </div>
+</form>
+{% endblock %}

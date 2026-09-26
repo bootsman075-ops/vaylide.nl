@@ -47,7 +47,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .inv-banner__cta {
   color: #fbf3ea; font-weight: 600; text-underline-offset: 3px;
 }
-.inv-embed .inv-banner { font-size: .75rem; padding: .35rem .75rem; }
+/* In het telefoonframe op de website staat 'Voorbeeld' al naast de uitnodiging. */
+.inv-embed .inv-banner { display: none; }
 
 /* Openingsscherm: zonder JavaScript is de uitnodiging direct zichtbaar. */
 .cover { display: none; }

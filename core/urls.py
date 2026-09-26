@@ -17,4 +17,5 @@ urlpatterns = [
     path("robots.txt", views.robots_txt, name="robots"),
     path("sitemap.xml", views.sitemap_xml, name="sitemap"),
     path("healthz", views.healthz, name="healthz"),
+    path("intern/taken/", views.cron_jobs, name="cron_jobs"),
 ]

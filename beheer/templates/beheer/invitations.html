@@ -1,0 +1,26 @@
+{% extends "beheer/base.html" %}
+{% block title %}Uitnodigingen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Uitnodigingen</h1></div></div>
+<form method="get" class="toolbar panel">
+  <label class="field"><span class="label">Zoeken</span><input class="input" type="search" name="zoek" value="{{ zoek }}" placeholder="Titel, e-mail of link"></label>
+  <label class="field"><span class="label">Status</span><select class="input" name="status"><option value="">Alle</option>{% for k, l in statuses %}<option value="{{ k }}"{% if status == k %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></label>
+  <button class="btn btn--secondary btn--sm" type="submit">Filteren</button>
+</form>
+<section class="panel">
+  {% if page.object_list %}
+  <div class="data-table-wrap"><table class="data-table data-table--cards">
+    <thead><tr><th>Titel</th><th>Klant</th><th>Ontwerp</th><th>Status</th><th>Online tot</th><th>Bijgewerkt</th></tr></thead>
+    <tbody>{% for i in page.object_list %}<tr>
+      <td data-label="Titel"><a href="{% url 'beheer:invitation' i.uid %}">{{ i.title|default:"Naamloos" }}</a>{% if i.customer_locked %} <span class="badge badge--warning">vergrendeld</span>{% endif %}</td>
+      <td data-label="Klant">{{ i.owner.email|default:"(nog geen account)" }}</td>
+      <td data-label="Ontwerp">{{ i.template_version }}</td>
+      <td data-label="Status"><span class="badge badge--{{ i.status }}">{{ i.get_status_display }}</span></td>
+      <td data-label="Online tot">{{ i.available_until|date:"j-n-Y"|default:"—" }}</td>
+      <td data-label="Bijgewerkt">{{ i.updated_at|date:"j-n-Y H:i" }}{% if i.draft_updated_source == "admin" %} <span class="badge">team</span>{% endif %}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% if page.has_other_pages %}<nav class="pagination">{% if page.has_previous %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.previous_page_number }}&amp;status={{ status }}&amp;zoek={{ zoek|urlencode }}">Vorige</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.next_page_number }}&amp;status={{ status }}&amp;zoek={{ zoek|urlencode }}">Volgende</a>{% endif %}</nav>{% endif %}
+  {% else %}<p class="empty-state">Geen uitnodigingen gevonden.</p>{% endif %}
+</section>
+{% endblock %}

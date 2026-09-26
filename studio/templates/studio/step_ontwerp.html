@@ -1,0 +1,33 @@
+{% extends "studio/base_studio.html" %}{% load static %}
+{% block title %}Ontwerp en gelegenheid{% endblock %}
+{% block studio %}
+<div class="studio-intro">
+  <h1>Ontwerp en gelegenheid</h1>
+  <p class="lead">Wissel van ontwerp of gelegenheid. Je ingevulde gegevens blijven bewaard; alleen de namenvelden passen zich aan de gelegenheid aan.</p>
+</div>
+{% if paid %}<p class="notice notice--warning">Let op: een ander ontwerp of andere gelegenheid wordt pas zichtbaar voor je gasten als je opnieuw publiceert.</p>{% endif %}
+<form method="post" class="form" data-once data-dirty-check>
+  {% csrf_token %}
+  <input type="hidden" name="rev" value="{{ rev }}">
+  <fieldset class="studio-block">
+    <legend class="studio-block__title">Gelegenheid</legend>
+    <div class="occasion-grid occasion-grid--compact">
+      {% for key, label in occasions %}<label class="radio-card"><input type="radio" name="occasion" value="{{ key }}"{% if key == inv.occasion %} checked{% endif %}><strong>{{ label }}</strong></label>{% endfor %}
+    </div>
+  </fieldset>
+  <fieldset class="studio-block">
+    <legend class="studio-block__title">Ontwerp</legend>
+    <div class="design-pick-grid">
+      {% for t in templates %}
+      <label class="radio-card design-pick">
+        <input type="radio" name="template" value="{{ t.slug }}"{% if t.pk == inv.template_version.template_id %} checked{% endif %}>
+        <img src="{% static 'img/designs/'|add:t.slug|add:'.webp' %}" alt="" width="400" height="500" loading="lazy">
+        <strong>{{ t.name }}</strong><span class="small muted">{{ t.occasion_labels|join:", " }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    {% if form.template.errors %}<p class="field__error">{{ form.template.errors.0 }}</p>{% endif %}
+  </fieldset>
+  <div class="step-actions"><button type="submit" class="btn btn--primary step-actions__next">Opslaan en verder &rarr;</button></div>
+</form>
+{% endblock %}

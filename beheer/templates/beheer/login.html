@@ -1,0 +1,16 @@
+{% extends "beheer/base.html" %}
+{% block title %}Inloggen{% endblock %}
+{% block content %}
+<div class="panel auth-card">
+  <h1 class="auth-card__title">Inloggen beheer</h1>
+  <form method="post" class="form" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="form-errors" role="alert">{{ form.non_field_errors.0 }}</div>{% endif %}
+    <div class="field"><label for="id_username">E-mailadres</label><input class="input" type="email" name="username" id="id_username" autocomplete="username" required value="{{ form.username.value|default:'' }}"></div>
+    <div class="field"><label for="id_password">Wachtwoord</label><input class="input" type="password" name="password" id="id_password" autocomplete="current-password" required></div>
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit" class="btn btn--primary btn--block">Inloggen</button>
+  </form>
+  <p class="small muted">Klanten loggen in via <a href="{% url 'accounts:login' %}">Mijn Vierlief</a>.</p>
+</div>
+{% endblock %}

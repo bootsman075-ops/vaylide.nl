@@ -1,0 +1,42 @@
+{% extends "portal/base_portal.html" %}
+{% block title %}Aanmeldingen · {{ inv.title }}{% endblock %}
+{% block portal %}
+<div class="app-head">
+  <div><p class="eyebrow"><a href="{% url 'portal:invitation' inv.uid %}">{{ inv.title }}</a></p><h1>Aanmeldingen</h1></div>
+  <div class="btn-row">{% if stats.total %}<a class="btn btn--secondary" href="{% url 'portal:guests_export' inv.uid %}">Exporteer (CSV voor Excel)</a>{% endif %}</div>
+</div>
+<div class="stat-row">
+  <div class="stat"><span class="stat__num">{{ stats.total }}</span><span class="stat__label">antwoorden</span></div>
+  <div class="stat"><span class="stat__num">{{ stats.yes }}</span><span class="stat__label">aanwezig</span></div>
+  <div class="stat"><span class="stat__num">{{ stats.persons }}</span><span class="stat__label">personen</span></div>
+  <div class="stat"><span class="stat__num">{{ stats.no }}</span><span class="stat__label">afwezig</span></div>
+</div>
+<section class="panel guests-panel">
+  <form method="get" class="toolbar" role="search">
+    <label class="field"><span class="label">Zoek op naam</span><input class="input" type="search" name="zoek" value="{{ zoek }}"></label>
+    <label class="field"><span class="label">Toon</span><select class="input" name="filter"><option value="">Iedereen</option><option value="ja"{% if filter == "ja" %} selected{% endif %}>Aanwezig</option><option value="nee"{% if filter == "nee" %} selected{% endif %}>Afwezig</option></select></label>
+    <button class="btn btn--ghost btn--sm" type="submit">Toepassen</button>
+  </form>
+  {% if page.object_list %}
+  <div class="data-table-wrap">
+    <table class="data-table data-table--cards">
+      <thead><tr><th scope="col">Naam</th><th scope="col">Aanwezig</th><th scope="col" class="num">Personen</th>{% for q in questions %}<th scope="col">{{ q.label }}</th>{% endfor %}<th scope="col">Toelichting</th><th scope="col">Ontvangen</th><th scope="col"><span class="visually-hidden">Acties</span></th></tr></thead>
+      <tbody>
+      {% for r in page.object_list %}
+        <tr>
+          <td data-label="Naam"><strong>{{ r.name }}</strong></td>
+          <td data-label="Aanwezig">{% if r.attending %}ja{% else %}nee{% endif %}</td>
+          <td data-label="Personen" class="num">{{ r.persons }}</td>
+          {% for q in questions %}<td data-label="{{ q.label }}">{% for a in r.answers %}{% if a.id == q.id %}{{ a.value }}{% endif %}{% endfor %}</td>{% endfor %}
+          <td data-label="Toelichting">{{ r.remark }}</td>
+          <td data-label="Ontvangen">{{ r.created_at|date:"j-n-Y H:i" }}{% if r.edit_count %} <span class="small muted">(gewijzigd)</span>{% endif %}</td>
+          <td><form method="post" action="{% url 'portal:delete_guest' inv.uid r.uid %}" data-confirm="De aanmelding van {{ r.name }} verwijderen?">{% csrf_token %}<button type="submit" class="link-button">Verwijderen</button></form></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if page.has_other_pages %}<nav class="pagination" aria-label="Pagina's">{% if page.has_previous %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.previous_page_number }}&amp;filter={{ filter }}&amp;zoek={{ zoek|urlencode }}">Vorige</a>{% endif %}<span>Pagina {{ page.number }} van {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.next_page_number }}&amp;filter={{ filter }}&amp;zoek={{ zoek|urlencode }}">Volgende</a>{% endif %}</nav>{% endif %}
+  {% else %}<p class="empty-state">{% if zoek or filter %}Geen aanmeldingen gevonden met deze filter.{% else %}Nog geen aanmeldingen.{% endif %}</p>{% endif %}
+</section>
+{% endblock %}

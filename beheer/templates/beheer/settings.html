@@ -1,0 +1,18 @@
+{% extends "beheer/base.html" %}
+{% block title %}Instellingen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Instellingen</h1></div></div>
+<div class="app-grid app-grid--sidebar">
+  <form method="post" class="panel form" data-once>
+    {% csrf_token %}
+    <h2>Algemeen en bewaartermijnen</h2>
+    {% for field in form %}<div class="field">{% if field.field.widget.input_type == "checkbox" %}<label class="check">{{ field }}<span>{{ field.label }}</span></label>{% else %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.help_text %}<p class="hint">{{ field.help_text }}</p>{% endif %}{{ field }}{% endif %}{% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>{% endfor %}
+    <button class="btn btn--primary" type="submit">Opslaan</button>
+  </form>
+  <section class="panel">
+    <h2>Koppelingen</h2>
+    <ul class="item-list">{% for label, value, warning in integrations %}<li class="item"><div class="item__top"><strong>{{ label }}</strong>{% if warning %}<span class="badge badge--test">test</span>{% else %}<span class="badge badge--live">ok</span>{% endif %}</div><p class="item__meta">{{ value }}</p></li>{% endfor %}</ul>
+    <p class="small muted">Koppelingen stel je in via omgevingsvariabelen (zie <code>.env.example</code> en <code>README.md</code>), niet in de database.</p>
+  </section>
+</div>
+{% endblock %}

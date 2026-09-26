@@ -1,0 +1,28 @@
+{% extends "beheer/base.html" %}
+{% block title %}Bestellingen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Bestellingen</h1></div></div>
+<form method="get" class="toolbar panel">
+  <label class="field"><span class="label">Zoeken</span><input class="input" type="search" name="zoek" value="{{ zoek }}" placeholder="Nummer, e-mail of titel"></label>
+  <label class="field"><span class="label">Status</span><select class="input" name="status"><option value="">Alle</option>{% for k, l in statuses %}<option value="{{ k }}"{% if status == k %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></label>
+  <label class="field"><span class="label">Verwerking</span><select class="input" name="verwerking"><option value="">Alle</option>{% for k, l in fulfilments %}<option value="{{ k }}"{% if verwerking == k %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></label>
+  <button class="btn btn--secondary btn--sm" type="submit">Filteren</button>
+</form>
+<section class="panel">
+  {% if page.object_list %}
+  <div class="data-table-wrap"><table class="data-table data-table--cards">
+    <thead><tr><th>Nummer</th><th>Datum</th><th>Klant</th><th>Uitnodiging</th><th>Status</th><th>Verwerking</th><th class="num">Totaal</th></tr></thead>
+    <tbody>{% for o in page.object_list %}<tr>
+      <td data-label="Nummer"><a href="{% url 'beheer:order' o.uid %}">{{ o.number }}</a>{% if o.test_mode %} <span class="badge badge--test">test</span>{% endif %}</td>
+      <td data-label="Datum">{{ o.created_at|date:"j-n-Y H:i" }}</td>
+      <td data-label="Klant">{{ o.customer.email }}</td>
+      <td data-label="Uitnodiging">{% if o.invitation %}<a href="{% url 'beheer:invitation' o.invitation.uid %}">{{ o.invitation_title|default:"—" }}</a>{% else %}{{ o.invitation_title|default:o.get_kind_display }}{% endif %}</td>
+      <td data-label="Status"><span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span></td>
+      <td data-label="Verwerking"><span class="badge badge--{{ o.fulfilment_status }}">{{ o.get_fulfilment_status_display }}</span></td>
+      <td data-label="Totaal" class="num">{{ o.total_display }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% if page.has_other_pages %}<nav class="pagination">{% if page.has_previous %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.previous_page_number }}&amp;status={{ status }}&amp;verwerking={{ verwerking }}&amp;zoek={{ zoek|urlencode }}">Vorige</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.next_page_number }}&amp;status={{ status }}&amp;verwerking={{ verwerking }}&amp;zoek={{ zoek|urlencode }}">Volgende</a>{% endif %}</nav>{% endif %}
+  {% else %}<p class="empty-state">Geen bestellingen gevonden.</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "studio/base_studio.html" %}
+{% block title %}Foto's en verhaal{% endblock %}
+{% block studio %}
+<div class="studio-intro">
+  <h1>Foto's, verhaal en muziek</h1>
+  <p class="lead">Upload je foto's en kies per foto welk deel in beeld komt. Locatiegegevens en andere verborgen informatie halen we automatisch weg.</p>
+</div>
+{% include "studio/_conflict.html" %}
+<section class="studio-block" id="uploads" aria-labelledby="blok-upload">
+  <h2 class="studio-block__title" id="blok-upload">Foto's uploaden</h2>
+  <form method="post" action="{% url 'studio:upload' inv.uid %}" enctype="multipart/form-data" class="upload-form" data-upload data-max-bytes="{{ upload_limits.photo_max_bytes }}" data-once>
+    {% csrf_token %}
+    <label class="upload-drop" for="upload-fotos">
+      <span class="upload-drop__title">Kies foto's</span>
+      <span class="hint">JPG, PNG of WebP, maximaal {{ upload_limits.photo_max_bytes|filesizeformat }} per foto. Minimaal {{ upload_limits.photo_min_side }} pixels breed en hoog.</span>
+      <input id="upload-fotos" type="file" name="fotos" accept="image/jpeg,image/png,image/webp" multiple>
+    </label>
+    <p class="upload-status" data-upload-status aria-live="polite"></p>
+    <button type="submit" class="btn btn--secondary btn--sm" data-upload-submit>Uploaden</button>
+  </form>
+</section>
+
+<form method="post" class="form studio-form" data-once data-dirty-check novalidate>
+  {% csrf_token %}
+  <section class="studio-block" aria-labelledby="blok-fotos">
+    <h2 class="studio-block__title" id="blok-fotos">Jouw foto's</h2>
+    {% if photos %}
+    <p class="hint">Kies een hoofdfoto en zet foto's eventueel in de galerij (tot 12). Met de schuifjes bepaal je welk deel zichtbaar is; op de uitnodiging wordt de foto passend bijgesneden.</p>
+    <fieldset>
+      <legend class="visually-hidden">Hoofdfoto</legend>
+      <div class="photo-grid">
+        {% for row in form.photo_rows %}
+        <div class="photo-card" data-photo data-uid="{{ row.uid }}">
+          <div class="photo-card__frame ph" data-focus-frame>
+            <img src="{% url 'studio:media' inv.uid row.asset.uid 'middel' %}" alt="{{ row.asset.original_name }}" data-focus-img width="{{ row.asset.width }}" height="{{ row.asset.height }}" loading="lazy">
+            <span class="photo-card__marker" data-focus-marker aria-hidden="true"></span>
+          </div>
+          <p class="photo-card__meta small muted">{{ row.asset.width }}×{{ row.asset.height }} · {{ row.asset.orientation }}</p>
+          <label class="check"><input type="radio" name="hero" value="{{ row.uid }}"{% if form.hero.value == row.uid %} checked{% endif %}><span>Hoofdfoto</span></label>
+          <label class="check">{{ row.gallery }}<span>In de fotogalerij</span></label>
+          <details class="photo-card__adjust">
+            <summary>Uitsnede aanpassen</summary>
+            <label class="range"><span>Horizontaal</span>{{ row.x }}</label>
+            <label class="range"><span>Verticaal</span>{{ row.y }}</label>
+            <label class="range"><span>Inzoomen</span>{{ row.zoom }}</label>
+            <p class="hint">Tip: tik of sleep in de foto om het middelpunt te kiezen.</p>
+          </details>
+          {% include "studio/_field.html" with field=row.caption %}
+          <button type="submit" class="btn btn--danger btn--sm" form="delete-{{ row.uid }}">Verwijderen</button>
+        </div>
+        {% endfor %}
+      </div>
+      <label class="check photo-none"><input type="radio" name="hero" value=""{% if not form.hero.value %} checked{% endif %}><span>Geen hoofdfoto gebruiken</span></label>
+    </fieldset>
+    {% else %}
+    <p class="empty-state">Je hebt nog geen foto's geüpload. Een uitnodiging zonder foto kan ook: het ontwerp past zich aan.</p>
+    {% endif %}
+  </section>
+
+  <section class="studio-block" aria-labelledby="blok-verhaal">
+    <h2 class="studio-block__title" id="blok-verhaal">Jullie verhaal <span class="badge">Compleet of extra optie</span></h2>
+    {% include "studio/_field.html" with field=form.story_title %}
+    {% include "studio/_field.html" with field=form.story_text %}
+    {% include "studio/_ai.html" with ai_field="story" %}
+  </section>
+
+  <section class="studio-block" aria-labelledby="blok-muziek">
+    <h2 class="studio-block__title" id="blok-muziek">Muziek <span class="badge">Compleet of extra optie</span></h2>
+    <p class="hint">De muziek start nooit vanzelf: gasten zetten die zelf aan. Upload een MP3- of M4A-bestand tot {{ upload_limits.audio_max_bytes|filesizeformat }}.</p>
+    {% if audio %}
+    <fieldset>
+      <legend class="label">Kies de muziek</legend>
+      {% for choice in form.music_asset %}<div class="check-line">{{ choice }}</div>{% endfor %}
+    </fieldset>
+    {% include "studio/_field.html" with field=form.music_title %}
+    {% include "studio/_check.html" with field=form.music_rights %}
+    {% else %}<input type="hidden" name="music_asset" value="">{% endif %}
+    <div class="music-upload">
+      <label class="field"><span class="label">Muziekbestand uploaden</span><input type="file" name="muziek" accept="audio/mpeg,audio/mp4,.mp3,.m4a" form="upload-muziek-form"></label>
+      <button type="submit" class="btn btn--secondary btn--sm" form="upload-muziek-form" formnovalidate>Muziek uploaden</button>
+    </div>
+    {% for a in audio %}<p class="small">{{ a.original_name }} · <button type="submit" class="link-button" form="delete-{{ a.uid }}">verwijderen</button></p>{% endfor %}
+  </section>
+  {% include "studio/_actions.html" %}
+</form>
+
+<form method="post" action="{% url 'studio:upload' inv.uid %}" enctype="multipart/form-data" id="upload-muziek-form">{% csrf_token %}</form>
+{% for row in form.photo_rows %}<form method="post" id="delete-{{ row.uid }}" action="{% url 'studio:delete_asset' inv.uid row.asset.uid %}" data-confirm="Deze foto verwijderen?">{% csrf_token %}</form>{% endfor %}
+{% for a in audio %}<form method="post" id="delete-{{ a.uid }}" action="{% url 'studio:delete_asset' inv.uid a.uid %}" data-confirm="Dit muziekbestand verwijderen?">{% csrf_token %}</form>{% endfor %}
+{% endblock %}

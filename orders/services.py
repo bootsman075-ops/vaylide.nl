@@ -48,21 +48,22 @@ def _create_order(**fields) -> Order:
 
 
 def start_checkout(invitation: Invitation, *, user, package_code: str, optional_codes: list[str], terms_accepted: bool) -> Payment:
-    if invitation.owner_id != user.id:
-        raise CheckoutError("Log in met het e-mailadres waarmee je dit ontwerp hebt bewaard.")
     if not terms_accepted:
         raise CheckoutError("Ga akkoord met de voorwaarden om te bestellen.")
-    if invitation_is_paid(invitation):
-        raise CheckoutError("Deze uitnodiging is al betaald. Je vindt hem in Mijn Vierlief.")
-    blocking = [i for i in publish_issues(invitation.draft_content, invitation.occasion, first_publication=True) if i.blocking]
-    if blocking:
-        raise CheckoutError("Je uitnodiging is nog niet compleet: " + " ".join(i.message for i in blocking))
-    package = Package.objects.filter(code=package_code, is_active=True).first()
-    if package is None:
-        raise CheckoutError("Kies een pakket.")
-    quote = build_quote(invitation.draft_content, package, optional_codes)
-
     with transaction.atomic():
+        # Altijd de actuele, vergrendelde stand gebruiken (nooit een verouderd object).
+        invitation = Invitation.objects.select_for_update().get(pk=invitation.pk)
+        if invitation.owner_id != user.id:
+            raise CheckoutError("Log in met het e-mailadres waarmee je dit ontwerp hebt bewaard.")
+        if invitation_is_paid(invitation):
+            raise CheckoutError("Deze uitnodiging is al betaald. Je vindt hem in Mijn Vierlief.")
+        blocking = [i for i in publish_issues(invitation.draft_content, invitation.occasion, first_publication=True) if i.blocking]
+        if blocking:
+            raise CheckoutError("Je uitnodiging is nog niet compleet: " + " ".join(i.message for i in blocking))
+        package = Package.objects.filter(code=package_code, is_active=True).first()
+        if package is None:
+            raise CheckoutError("Kies een pakket.")
+        quote = build_quote(invitation.draft_content, package, optional_codes)
         # Eerdere, onbetaalde bestellingen voor deze uitnodiging vervallen.
         Order.objects.filter(invitation=invitation, kind=Order.Kind.INVITATION, status__in=[Order.Status.PENDING, Order.Status.FAILED]).update(
             status=Order.Status.CANCELLED

@@ -1,0 +1,63 @@
+{% extends "studio/base_studio.html" %}{% load vl %}
+{% block title %}Bestellen{% endblock %}
+{% block studio %}
+<div class="studio-intro">
+  <h1>Controleer en bestel</h1>
+  <p class="lead">Je betaalt eenmalig. Na een bevestigde betaling wordt je uitnodiging automatisch gepubliceerd.</p>
+</div>
+{% if error %}<div class="form-errors" role="alert">{{ error }}</div>{% endif %}
+{% if issues %}<div class="notice notice--warning"><strong>Nog niet compleet</strong><ul>{% for i in issues %}<li>{{ i.message }} <a href="{% url 'studio:step' inv.uid i.step %}">Aanpassen</a></li>{% endfor %}</ul></div>{% endif %}
+<form method="post" class="form checkout" data-once novalidate>
+  {% csrf_token %}
+  <input type="hidden" name="actie" value="herberekenen" data-checkout-action>
+  <fieldset class="studio-block">
+    <legend class="studio-block__title">Kies je pakket</legend>
+    <div class="package-grid">
+      {% for q in quotes %}
+      <label class="radio-card package-card">
+        <input type="radio" name="package" value="{{ q.package.code }}"{% if q.package.code == quote.package.code %} checked{% endif %} data-recalc>
+        <span class="package-card__head"><strong>{{ q.package.name }}</strong>{% if best and q.package.code == best.package.code %}<span class="badge badge--live">Voordeligst voor jou</span>{% endif %}</span>
+        <span class="package-card__total">{{ q.total_display }}</span>
+        <span class="small muted">{{ q.package.description }} · {{ q.availability_months }} maanden online</span>
+        {% for line in q.required_addon_lines %}<span class="small">+ {{ line.description }} ({{ line.total_display }}): {{ line.reason|lower }}</span>{% endfor %}
+      </label>
+      {% endfor %}
+    </div>
+    <noscript><button type="submit" class="btn btn--ghost btn--sm">Bedrag bijwerken</button></noscript>
+  </fieldset>
+  {% if optional %}
+  <fieldset class="studio-block">
+    <legend class="studio-block__title">Extra opties</legend>
+    {% for a in optional %}<label class="check"><input type="checkbox" name="extras" value="{{ a.code }}"{% if a.code in selected_extras %} checked{% endif %} data-recalc><span>{{ a.name }} ({{ a.price_display }}) <span class="hint">{{ a.description }}</span></span></label>{% endfor %}
+  </fieldset>
+  {% endif %}
+  {% if quote %}
+  <section class="studio-block" aria-labelledby="overzicht-titel">
+    <h2 class="studio-block__title" id="overzicht-titel">Overzicht</h2>
+    <table class="table-simple">
+      <tbody>{% for line in quote.lines %}<tr><td>{{ line.description }}</td><td class="num">{{ line.total_display }}</td></tr>{% endfor %}</tbody>
+      <tfoot><tr><th>Totaal (incl. btw)</th><th class="num">{{ quote.total_display }}</th></tr></tfoot>
+    </table>
+    <p class="small muted">Je uitnodiging blijft {{ quote.availability_months }} maanden online vanaf publicatie. Het bedrag wordt aan de serverzijde berekend.</p>
+  </section>
+  {% endif %}
+  <section class="studio-block" aria-labelledby="account-titel">
+    <h2 class="studio-block__title" id="account-titel">Jouw e-mailadres</h2>
+    {% if anonymous or not user.is_authenticated %}
+      <p>Bevestig je e-mailadres met een code. Daarmee bewaar je je ontwerp, ontvang je je link en log je later in bij Mijn Vierlief.</p>
+      <a class="btn btn--secondary" href="{{ login_url }}">E-mailadres bevestigen</a>
+    {% elif user.is_staff %}
+      <p class="notice notice--warning">Je bent ingelogd als beheerder. Bestellen kan alleen de klant zelf.</p>
+    {% else %}
+      <p>Je bestelt als <strong>{{ user.email }}</strong>.</p>
+    {% endif %}
+  </section>
+  {% if test_payments %}<p class="notice notice--test"><strong>Testbetaling</strong>In deze testomgeving is betalen gesimuleerd: er wordt niets afgeschreven.</p>{% endif %}
+  <label class="check terms-check">{{ form.terms }}<span>Ik ga akkoord met de <a href="{% url 'core:terms' %}" target="_blank" rel="noopener">voorwaarden</a> en wil dat mijn uitnodiging direct na betaling wordt gepubliceerd.</span></label>
+  {% for e in form.terms.errors %}<p class="field__error">{{ e }}</p>{% endfor %}
+  <div class="step-actions">
+    <a class="btn btn--ghost" href="{% url 'studio:step' inv.uid 'voorbeeld' %}">&larr; Terug naar voorbeeld</a>
+    <button type="submit" class="btn btn--primary step-actions__next" name="actie" value="betalen"{% if issues or anonymous or not user.is_authenticated or user.is_staff %} disabled{% endif %}>Betalen{% if quote %} {{ quote.total_display }}{% endif %} &rarr;</button>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "beheer/base.html" %}
+{% block title %}Verwerking{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Verwerking en e-mail</h1></div>
+  <form method="post" data-once>{% csrf_token %}<input type="hidden" name="actie" value="alles-opnieuw"><button class="btn btn--secondary btn--sm" type="submit">Alle mislukte taken opnieuw proberen</button></form></div>
+<p class="notice">Publiceren en e-mails worden direct na betaling geprobeerd. Mislukt dat, dan volgt automatisch een nieuwe poging (na 1, 5, 15 en 60 minuten, 3 en 12 uur), mits <code>manage.py process_jobs</code> periodiek draait. Na de laatste poging staat de taak op 'handmatige actie nodig' en krijg je een e-mail.</p>
+<nav class="toolbar" aria-label="Filter"><ul class="chips">
+  <li><a class="chip" href="?status=problemen"{% if status == "problemen" %} aria-current="true"{% endif %}>Open en mislukt</a></li>
+  <li><a class="chip" href="?status=dead"{% if status == "dead" %} aria-current="true"{% endif %}>Handmatige actie nodig</a></li>
+  <li><a class="chip" href="?status=done"{% if status == "done" %} aria-current="true"{% endif %}>Klaar</a></li>
+  <li><a class="chip" href="?status="{% if not status %} aria-current="true"{% endif %}>Alle</a></li>
+</ul></nav>
+<section class="panel">
+  <h2>Taken</h2>
+  {% if jobs %}
+  <ul class="item-list">{% for j in jobs %}
+    <li class="item">
+      <div class="item__top"><strong>#{{ j.pk }} {{ j.label }}</strong><span class="badge badge--{{ j.status }}">{{ j.get_status_display }}</span></div>
+      <p class="item__meta">{% if j.order %}<a href="{% url 'beheer:order' j.order.uid %}">{{ j.order.number }}</a> · {% endif %}{% if j.invitation %}<a href="{% url 'beheer:invitation' j.invitation.uid %}">{{ j.invitation.title|default:"uitnodiging" }}</a> · {% endif %}{{ j.attempts }}/{{ j.max_attempts }} pogingen · aangemaakt {{ j.created_at|date:"j-n H:i" }}{% if j.status == "failed" %} · volgende poging {{ j.run_after|date:"j-n H:i" }}{% endif %}</p>
+      {% if j.last_error %}<details><summary class="small">Foutmelding</summary><pre class="error-body">{{ j.last_error }}</pre></details>{% endif %}
+      {% if j.status != "done" and j.status != "running" %}<form method="post" data-once>{% csrf_token %}<input type="hidden" name="actie" value="opnieuw"><input type="hidden" name="job" value="{{ j.pk }}"><button class="btn btn--ghost btn--sm" type="submit">Nu opnieuw proberen</button></form>{% endif %}
+    </li>{% endfor %}</ul>
+  {% else %}<p class="empty-state">Geen taken in deze weergave.</p>{% endif %}
+</section>
+<section class="panel">
+  <h2>Uitgaande e-mail (laatste 40)</h2>
+  <div class="data-table-wrap"><table class="data-table data-table--cards"><thead><tr><th>Onderwerp</th><th>Aan</th><th>Status</th><th>Aangemaakt</th></tr></thead><tbody>
+  {% for m in emails %}<tr><td data-label="Onderwerp"><a href="{% url 'beheer:email' m.pk %}">{{ m.subject }}</a></td><td data-label="Aan">{{ m.to }}</td><td data-label="Status"><span class="badge badge--{{ m.status }}">{{ m.get_status_display }}</span>{% if m.last_error %}<br><span class="small">{{ m.last_error|truncatechars:80 }}</span>{% endif %}</td><td data-label="Aangemaakt">{{ m.created_at|date:"j-n H:i" }}</td></tr>{% empty %}<tr><td colspan="4">Nog geen e-mails.</td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% if TEST_MODE %}
+<section class="panel ai-box">
+  <h2>Testmodus: storing simuleren</h2>
+  <p class="small">Laat de volgende publicatie(s) of e-mail(s) bewust mislukken om te zien hoe de klant en het beheer dit te zien krijgen. Alleen beschikbaar in testmodus.</p>
+  <form method="post" class="form-inline">{% csrf_token %}<input type="hidden" name="actie" value="storing">
+    <label class="field"><span class="label">Publicaties laten mislukken</span><input class="input" type="number" name="publish" min="0" max="10" value="{{ faults.publish }}"></label>
+    <label class="field"><span class="label">E-mails laten mislukken</span><input class="input" type="number" name="email" min="0" max="10" value="{{ faults.email }}"></label>
+    <button class="btn btn--secondary btn--sm" type="submit">Instellen</button></form>
+</section>
+{% endif %}
+{% endblock %}

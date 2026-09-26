@@ -1,0 +1,105 @@
+{% extends "beheer/base.html" %}
+{% block title %}{{ inv.title|default:"Uitnodiging" }}{% endblock %}
+{% block content %}
+<div class="app-head">
+  <div><p class="eyebrow"><a href="{% url 'beheer:invitations' %}">Uitnodigingen</a> · {{ inv.get_occasion_display }}</p><h1>{{ inv.title|default:"Naamloos" }}</h1></div>
+  <div class="btn-row">
+    <span class="badge badge--{{ inv.status }}">{{ inv.get_status_display }}</span>
+    {% if inv.is_publicly_visible %}<a class="btn btn--secondary btn--sm" href="{{ inv.public_url }}" target="_blank" rel="noopener">Live bekijken</a>{% endif %}
+    <a class="btn btn--secondary btn--sm" href="{% url 'studio:preview_frame' inv.uid %}" target="_blank" rel="noopener">Concept bekijken</a>
+  </div>
+</div>
+{% if has_changes %}<p class="notice notice--warning"><strong>Concept wijkt af van de gepubliceerde versie</strong>Laatst gewijzigd door {{ inv.get_draft_updated_source_display|lower }} op {{ inv.draft_updated_at|date:"j F H:i" }}. Controleer het concept en publiceer, of herstel een eerdere versie.</p>{% endif %}
+{% if inv.customer_locked %}<p class="notice notice--warning"><strong>Klant kan tijdelijk niet wijzigen</strong>{{ inv.lock_reason }}</p>{% endif %}
+<div class="app-grid app-grid--sidebar">
+  <div class="app-grid">
+    <section class="panel">
+      <h2>Inhoud aanpassen</h2>
+      <p class="small muted">Wijzigingen via deze stappen worden opgeslagen als handmatige aanpassing door het team. Conflicten met gelijktijdige klantwijzigingen worden gemeld en niet ongemerkt overschreven.</p>
+      <div class="btn-row">
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'gegevens' %}">Gegevens</a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'programma' %}">Programma</a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'aanmelden' %}">Aanmelden</a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'fotos' %}">Foto's</a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'stijl' %}">Stijl</a>
+        <a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'ontwerp' %}">Ontwerp</a>
+      </div>
+      {% if issues %}<ul class="issue-list">{% for i in issues %}<li><span class="badge {% if i.blocking %}badge--error{% else %}badge--warning{% endif %}">{% if i.blocking %}Nodig{% else %}Tip{% endif %}</span> {{ i.message }}</li>{% endfor %}</ul>{% endif %}
+      {% if paid %}
+      <form method="post" class="form-inline" data-once>
+        {% csrf_token %}<input type="hidden" name="actie" value="publiceren"><input type="hidden" name="rev" value="{{ inv.draft_rev }}">
+        <label class="field"><span class="label">Notitie bij deze versie</span><input class="input" type="text" name="note" maxlength="200" placeholder="Bijv. tekst aangepast op verzoek"></label>
+        <button class="btn btn--primary btn--sm" type="submit"{% if not has_changes and inv.status == "live" %} disabled title="Geen wijzigingen"{% endif %}>Concept publiceren</button>
+      </form>
+      {% else %}<p class="small muted">Deze uitnodiging is nog niet betaald. Publicatie gebeurt automatisch na betaling.</p>{% endif %}
+    </section>
+    <section class="panel">
+      <h2>Beheer-aanpassingen</h2>
+      <p class="small muted">Staan los van de klantinhoud en worden bewaard in elke versie. Vergrendelde velden kan de klant niet meer wijzigen.</p>
+      <form method="post" class="form" data-once>
+        {% csrf_token %}<input type="hidden" name="actie" value="overrides"><input type="hidden" name="rev" value="{{ inv.draft_rev }}">
+        {% for field in overrides_form %}
+        <div class="field">
+          {% if field.name == "hide_sections" or field.name == "locked_fields" %}<fieldset><legend class="label">{{ field.label }}</legend>{% if field.help_text %}<p class="hint">{{ field.help_text }}</p>{% endif %}<div class="section-toggles">{% for c in field %}<label class="check section-toggle">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div></fieldset>
+          {% else %}<label for="{{ field.id_for_label }}">{{ field.label }}</label>{% if field.help_text %}<p class="hint">{{ field.help_text }}</p>{% endif %}{{ field }}{% endif %}
+          {% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+        <button class="btn btn--secondary btn--sm" type="submit">Opslaan in concept</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>Versies</h2>
+      {% if versions %}
+      <div class="data-table-wrap"><table class="data-table data-table--cards">
+        <thead><tr><th>Versie</th><th>Door</th><th>Notitie</th><th>Ontwerp</th><th>Gepubliceerd</th><th><span class="visually-hidden">Actie</span></th></tr></thead>
+        <tbody>{% for v in versions %}<tr>
+          <td data-label="Versie"><strong>{{ v.number }}</strong>{% if inv.published_version_id == v.pk %} <span class="badge badge--live">online</span>{% endif %}</td>
+          <td data-label="Door">{{ v.get_source_display }}{% if v.created_by %} ({{ v.created_by.email }}){% endif %}<br><span class="small muted">{{ v.created_at|date:"j-n-Y H:i" }}</span></td>
+          <td data-label="Notitie">{{ v.note }}</td>
+          <td data-label="Ontwerp">{{ v.template_version }}</td>
+          <td data-label="Gepubliceerd">{{ v.published_at|date:"j-n-Y H:i"|default:"—" }}</td>
+          <td><form method="post" data-confirm="Versie {{ v.number }} terugzetten in het concept? Het huidige concept wordt eerst bewaard als versie.">{% csrf_token %}<input type="hidden" name="actie" value="herstellen"><input type="hidden" name="versie" value="{{ v.pk }}"><input type="hidden" name="rev" value="{{ inv.draft_rev }}">{% if paid %}<label class="check small"><input type="checkbox" name="direct_publiceren" value="1"><span>direct publiceren</span></label>{% endif %}<button class="btn btn--ghost btn--sm" type="submit">Herstellen</button></form></td>
+        </tr>{% endfor %}</tbody>
+      </table></div>
+      {% else %}<p class="muted small">Nog geen versies. Er wordt een versie gemaakt bij bestellen en bij elke publicatie.</p>{% endif %}
+    </section>
+  </div>
+  <div class="app-grid">
+    <section class="panel">
+      <h2>Gegevens</h2>
+      <dl class="kv">
+        <dt>Klant</dt><dd>{% if inv.owner %}<a href="{% url 'beheer:customer' inv.owner.pk %}">{{ inv.owner.email }}</a>{% else %}(nog geen account){% endif %}</dd>
+        <dt>Link</dt><dd>{% if inv.slug %}<code>{{ inv.public_path }}</code>{% else %}nog niet toegekend{% endif %}</dd>
+        <dt>Ontwerpversie</dt><dd>{{ inv.template_version }}</dd>
+        <dt>Functies</dt><dd>{{ inv.features|join:", "|default:"basis" }}</dd>
+        <dt>Online tot</dt><dd>{{ inv.available_until|date:"j F Y"|default:"—" }}</dd>
+        <dt>Concept-revisie</dt><dd>{{ inv.draft_rev }}</dd>
+        <dt>Aanmeldingen</dt><dd>{{ stats.yes }} ja ({{ stats.persons }} pers.) · {{ stats.no }} nee{% if stats.total %} · <a href="{% url 'beheer:invitation_guests_export' inv.uid %}">CSV</a>{% endif %}</dd>
+      </dl>
+    </section>
+    {% if newer_versions %}
+    <section class="panel">
+      <h2>Nieuwere ontwerpversie</h2>
+      <p class="small">Er is een nieuwere versie van {{ inv.template_version.template.name }}. Overzetten gebeurt in het concept; de gepubliceerde uitnodiging verandert pas na publiceren.</p>
+      {% for tv in newer_versions %}<form method="post" data-once>{% csrf_token %}<input type="hidden" name="actie" value="ontwerpversie"><input type="hidden" name="versie" value="{{ tv.pk }}"><input type="hidden" name="rev" value="{{ inv.draft_rev }}"><button class="btn btn--ghost btn--sm" type="submit">Concept overzetten naar {{ tv }}</button></form>{% endfor %}
+    </section>
+    {% endif %}
+    <section class="panel">
+      <h2>Beschikbaarheid</h2>
+      <form method="post" class="form-inline">{% csrf_token %}<input type="hidden" name="actie" value="verlengen">{% for field in extend_form %}<label class="field"><span class="label">{{ field.label }}</span>{{ field }}</label>{% endfor %}<button class="btn btn--secondary btn--sm" type="submit">Verlengen</button></form>
+      <div class="btn-row">
+        {% if inv.status == "live" %}<form method="post" data-confirm="De uitnodiging offline halen? Gasten zien dan een melding.">{% csrf_token %}<input type="hidden" name="actie" value="offline"><button class="btn btn--ghost btn--sm" type="submit">Offline halen</button></form>
+        {% elif inv.published_version %}<form method="post">{% csrf_token %}<input type="hidden" name="actie" value="online"><button class="btn btn--ghost btn--sm" type="submit">Weer online zetten</button></form>{% endif %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="actie" value="vergrendelen">{% if not inv.customer_locked %}<input class="input" type="text" name="reden" placeholder="Reden (bijv. maatwerk in uitvoering)" aria-label="Reden voor vergrendelen">{% endif %}<button class="btn btn--ghost btn--sm" type="submit">{% if inv.customer_locked %}Klant weer laten wijzigen{% else %}Klant tijdelijk laten wachten{% endif %}</button></form>
+      </div>
+    </section>
+    {% if orders %}<section class="panel"><h2>Bestellingen</h2><ul class="item-list">{% for o in orders %}<li class="item"><div class="item__top"><a href="{% url 'beheer:order' o.uid %}">{{ o.number }}</a><span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span></div><p class="item__meta">{{ o.total_display }} · {{ o.get_fulfilment_status_display }}</p></li>{% endfor %}</ul></section>{% endif %}
+    {% if wishes %}<section class="panel"><h2>Aanvragen</h2><ul class="item-list">{% for w in wishes %}<li class="item"><a href="{% url 'beheer:wish' w.uid %}">{{ w.subject }}</a> <span class="badge badge--{{ w.status }}">{{ w.get_status_display }}</span></li>{% endfor %}</ul></section>{% endif %}
+    <section class="panel danger-zone">
+      <h2>Verwijderen</h2>
+      <form method="post" class="form">{% csrf_token %}<input type="hidden" name="actie" value="verwijderen"><label class="field"><span class="label">Typ <strong>verwijderen</strong></span><input class="input" type="text" name="bevestig" autocomplete="off"></label><button class="btn btn--danger btn--sm" type="submit">Uitnodiging en gegevens verwijderen</button></form>
+    </section>
+  </div>
+</div>
+{% endblock %}

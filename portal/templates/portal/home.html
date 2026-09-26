@@ -1,0 +1,46 @@
+{% extends "portal/base_portal.html" %}{% load static %}
+{% block title %}Mijn Vierlief{% endblock %}
+{% block portal %}
+<div class="app-head">
+  <div><p class="eyebrow">Mijn Vierlief</p><h1>Welkom{% if user.name %}, {{ user.name }}{% endif %}</h1></div>
+  <div class="btn-row"><a class="btn btn--primary" href="{% url 'studio:start' %}">Nieuwe uitnodiging</a><a class="btn btn--secondary" href="{% url 'portal:wish_new' %}">Extra wensen of hulp nodig?</a></div>
+</div>
+<div class="app-grid app-grid--sidebar">
+  <section class="panel" aria-labelledby="uitnodigingen-titel">
+    <h2 id="uitnodigingen-titel">Je uitnodigingen</h2>
+    {% if invitations %}
+    <ul class="item-list">
+      {% for inv in invitations %}
+      <li class="item invite-card">
+        <img class="invite-card__thumb" src="{% static 'img/designs/'|add:inv.template_version.template.slug|add:'.webp' %}" alt="" width="88" height="110" loading="lazy">
+        <div>
+          <div class="item__top">
+            <a class="item__title" href="{% if inv.paid or inv.is_published %}{% url 'portal:invitation' inv.uid %}{% else %}{% url 'studio:resume' inv.uid %}{% endif %}">{{ inv.title|default:"Naamloos ontwerp" }}</a>
+            {% if inv.status == "live" %}<span class="badge badge--live">Online</span>{% elif inv.status == "paid" %}<span class="badge badge--processing">Wordt gepubliceerd</span>{% elif inv.status == "expired" %}<span class="badge badge--expired">Verlopen</span>{% elif inv.status == "offline" %}<span class="badge badge--offline">Offline</span>{% else %}<span class="badge badge--draft">Concept</span>{% endif %}
+          </div>
+          <p class="item__meta">{{ inv.get_occasion_display }} · {{ inv.template_version.template.name }} · bijgewerkt {{ inv.updated_at|date:"j F Y" }}</p>
+          {% if inv.stats %}<p class="item__meta">{{ inv.stats.yes }} aanwezig ({{ inv.stats.persons }} personen) · {{ inv.stats.no }} afwezig</p>{% endif %}
+          <div class="item__actions">
+            {% if inv.paid or inv.is_published %}<a class="btn btn--secondary btn--sm" href="{% url 'portal:invitation' inv.uid %}">Beheren</a>{% if inv.public_url and inv.status == "live" %}<a class="btn btn--ghost btn--sm" href="{{ inv.public_url }}" target="_blank" rel="noopener">Bekijken</a>{% endif %}
+            {% else %}<a class="btn btn--primary btn--sm" href="{% url 'studio:resume' inv.uid %}">Verder gaan</a><a class="btn btn--ghost btn--sm" href="{% url 'studio:step' inv.uid 'voorbeeld' %}">Voorbeeld</a>{% endif %}
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="empty-state">Je hebt nog geen uitnodigingen. <a href="{% url 'studio:start' %}">Begin met je eerste ontwerp</a>.</p>{% endif %}
+  </section>
+  <div class="app-grid">
+    <section class="panel" aria-labelledby="bestellingen-titel">
+      <h2 id="bestellingen-titel">Bestellingen</h2>
+      {% if orders %}<ul class="item-list">{% for o in orders %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'orders:status' o.uid %}">{{ o.number }}</a><span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span></div><p class="item__meta">{{ o.invitation_title|default:o.get_kind_display }} · {{ o.total_display }} · {{ o.created_at|date:"j F Y" }}</p></li>{% endfor %}</ul>
+      {% else %}<p class="muted">Nog geen bestellingen.</p>{% endif %}
+    </section>
+    <section class="panel" aria-labelledby="wensen-titel">
+      <div class="panel__head"><h2 id="wensen-titel">Extra wensen</h2><a class="small" href="{% url 'portal:wishes' %}">Alles</a></div>
+      {% if wishes %}<ul class="item-list">{% for w in wishes %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'portal:wish' w.uid %}">{{ w.subject }}</a><span class="badge badge--{{ w.status }}">{{ w.get_status_display }}</span></div>{% if w.unread_by_customer %}<p class="item__meta"><strong>Nieuw bericht</strong></p>{% endif %}</li>{% endfor %}</ul>
+      {% else %}<p class="muted">Een bijzondere wens of vraag? <a href="{% url 'portal:wish_new' %}">Laat het ons weten</a>.</p>{% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

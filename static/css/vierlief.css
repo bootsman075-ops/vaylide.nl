@@ -124,7 +124,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   .site-header__actions { margin-left: auto; }
 }
 @media (max-width: 560px) {
-  .site-header__cta { display: none; }
+  .site-header .site-header__cta { display: none; }
   .site-header__actions { margin-left: 0; }
   .logo__word { font-size: 1.55rem; }
 }
@@ -208,7 +208,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .card--flat { box-shadow: none; }
 .card h3 { margin-bottom: .4rem; }
 
-.steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+.steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); }
 .steps li { counter-increment: step; position: relative; padding: 1.4rem 1.3rem 1.3rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); }
 .steps li::before { content: counter(step, decimal-leading-zero); display: block; font-family: var(--font-display); font-size: 2.2rem; line-height: 1; color: var(--gold); margin-bottom: .6rem; font-weight: 500; }
 .steps h3 { font-size: 1.35rem; margin-bottom: .3rem; }
@@ -382,3 +382,31 @@ fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 .summary-list dd { margin: 0; font-weight: 600; text-align: right; }
 .test-pay { display: grid; gap: 1rem; border: 2px dashed color-mix(in srgb, var(--bordeaux) 40%, transparent); }
 .test-pay h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); margin: 0; }
+
+/* ---------- Aanvullende onderdelen website ---------- */
+.chips--center { justify-content: center; margin-top: 1rem; }
+.section-more { margin-top: 2rem; }
+.filter-bar { margin-top: 1.6rem; }
+.h-small { font-size: clamp(1.35rem, 3.2vw, 1.6rem); margin-bottom: .6rem; }
+.h-card { font-size: 1.9rem; margin: 0; }
+.price--text { font-size: 2rem; }
+.table-note { margin-top: .8rem; }
+.price-grid { max-width: 52rem; margin: 0 auto; }
+.detail-grid { display: grid; gap: 2.5rem; align-items: start; }
+.detail-grid .btn-row { margin-top: 1.4rem; }
+@media (min-width: 900px) { .detail-grid { grid-template-columns: 1.1fr .9fr; } }
+.detail-facts { margin: 1.4rem 0; max-width: 32rem; }
+.palette-list { list-style: none; padding: 0; margin: 0 0 1.2rem; display: grid; gap: .5rem; }
+.palette-list li { display: flex; align-items: center; gap: .7rem; }
+.palette-list__swatches { display: inline-flex; }
+.palette-list__swatches span { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--paper); margin-left: -6px; box-shadow: 0 0 0 1px rgba(0, 0, 0, .12); }
+.palette-list__swatches span:first-child { margin-left: 0; }
+.occasion-picker { max-width: 22rem; margin-bottom: .5rem; }
+.contact-grid { display: grid; gap: 1.5rem; align-items: start; }
+@media (min-width: 860px) { .contact-grid { grid-template-columns: 1.4fr .8fr; } }
+.contact-aside { display: grid; gap: .6rem; }
+.contact-aside hr { margin: .8rem 0; }
+.cta-band .btn--ghost { color: #FBF3EA; border-color: rgba(251, 243, 234, .5); }
+.cta-band .btn--ghost:hover { background: rgba(255, 255, 255, .08); color: #fff; }
+.cta-band .ornament { color: var(--gold); }
+.icon { width: 20px; height: 20px; flex: none; }

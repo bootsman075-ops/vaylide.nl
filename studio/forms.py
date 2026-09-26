@@ -79,7 +79,7 @@ class DetailsForm(StepForm):
                                  error_messages={"invalid": "Vul een geldige tijd in, bijvoorbeeld 14:00."})
     end_time = forms.TimeField(label="Eindtijd (optioneel)", required=False, widget=TIME_WIDGET,
                                error_messages={"invalid": "Vul een geldige tijd in, bijvoorbeeld 23:30."})
-    timezone = forms.ChoiceField(label="Tijdzone", choices=TIMEZONES, initial="Europe/Amsterdam",
+    timezone = forms.ChoiceField(label="Tijdzone", choices=TIMEZONES, initial="Europe/Amsterdam", required=False,
                                  help_text="De tijden op de uitnodiging en de afteller gebruiken deze tijdzone.")
     venue_name = forms.CharField(label="Naam van de locatie", max_length=120, required=False)
     address = forms.CharField(label="Adres", max_length=300, required=False,

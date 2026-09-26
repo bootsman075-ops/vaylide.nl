@@ -1,0 +1,47 @@
+{% extends "portal/base_portal.html" %}{% load vl %}
+{% block title %}{{ req.subject }}{% endblock %}
+{% block portal %}
+<div class="app-head"><div><p class="eyebrow">{{ req.reference }}{% if req.invitation %} · {{ req.invitation.title }}{% endif %}</p><h1>{{ req.subject }}</h1></div><span class="badge badge--{{ req.status }}">{{ req.get_status_display }}</span></div>
+<ol class="status-steps" aria-label="Status van je aanvraag">
+  {% for key, label in req.Status.choices %}{% if key != "closed" %}<li class="{% if key == req.status %}is-current{% endif %}">{{ label }}</li>{% endif %}{% endfor %}
+</ol>
+<div class="app-grid app-grid--sidebar wish-grid">
+  <div class="app-grid">
+    {% if req.status == "proposal" %}
+    <section class="panel ai-box" aria-labelledby="voorstel-titel">
+      <h2 id="voorstel-titel">Ons voorstel</h2>
+      <p class="msg__body">{{ req.proposal_text }}</p>
+      <p><strong>Prijs: {{ req.proposal_price_display }}</strong></p>
+      <form method="post" class="btn-row" data-once>{% csrf_token %}<button type="submit" name="actie" value="akkoord" class="btn btn--primary">{% if req.proposal_price_cents %}Akkoord en betalen{% else %}Akkoord{% endif %}</button></form>
+      <p class="small muted">Liever iets aanpassen? Stuur hieronder een bericht.</p>
+    </section>
+    {% elif req.status == "awaiting_payment" %}
+    <section class="panel"><h2>Betaling</h2><p>Je bent akkoord met het voorstel. We starten zodra de betaling van {{ req.proposal_price_display }} binnen is.</p><form method="post" data-once>{% csrf_token %}<button type="submit" name="actie" value="betalen" class="btn btn--primary">Betalen</button></form></section>
+    {% endif %}
+    <section class="panel" aria-labelledby="gesprek-titel">
+      <h2 id="gesprek-titel">Gesprek</h2>
+      <div class="thread">
+        <div class="msg msg--customer"><p class="msg__meta">Jij · {{ req.created_at|date:"j F H:i" }}</p><p class="msg__body">{{ req.description }}</p></div>
+        {% for m in thread %}
+        <div class="msg {% if m.from_staff %}msg--staff{% else %}msg--customer{% endif %}">
+          <p class="msg__meta">{% if m.from_staff %}Vierlief{% else %}Jij{% endif %} · {{ m.created_at|date:"j F H:i" }}</p>
+          <p class="msg__body">{{ m.body }}</p>
+          {% for a in m.attachments.all %}<p><a href="{% url 'portal:wish_attachment' req.uid a.uid %}">{{ a.original_name }}</a></p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      <form method="post" enctype="multipart/form-data" class="form" data-once>
+        {% csrf_token %}
+        <div class="field"><label for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>{{ form.body }}{% for e in form.body.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>
+        <div class="field"><label for="{{ form.attachment.id_for_label }}">{{ form.attachment.label }}</label>{{ form.attachment }}{% for e in form.attachment.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>
+        <button type="submit" class="btn btn--secondary">Verstuur bericht</button>
+      </form>
+    </section>
+  </div>
+  <aside class="panel">
+    <h2 class="h-small">Bijlagen</h2>
+    {% if attachments %}<ul class="item-list">{% for a in attachments %}<li><a href="{% url 'portal:wish_attachment' req.uid a.uid %}">{{ a.original_name }}</a> <span class="small muted">({{ a.size_bytes|filesizeformat }})</span></li>{% endfor %}</ul>{% else %}<p class="muted small">Geen bijlagen.</p>{% endif %}
+    <p class="small muted">We doen geen toezeggingen over prijs of planning zonder een voorstel dat jij kunt accepteren.</p>
+  </aside>
+</div>
+{% endblock %}

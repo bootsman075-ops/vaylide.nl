@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Privacy{% endblock %}
+{% block description %}Hoe Vierlief omgaat met persoonsgegevens van klanten en gasten.{% endblock %}
+{% block content %}
+<section class="page-head"><div class="container container--mid">
+  <p class="eyebrow">Privacyverklaring</p>
+  <h1>Privacy</h1>
+  <p class="notice notice--warning"><strong>Concept</strong>Deze tekst is een zorgvuldig opgesteld concept en nog niet juridisch gecontroleerd. De bedrijfsgegevens worden aangevuld vóór livegang.</p>
+</div></section>
+<section class="section section--tight"><div class="container container--mid prose">
+  <h2>Wie zijn wij</h2>
+  <p>Vierlief (werknaam) maakt digitale uitnodigingen. Contact: <a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a>.</p>
+  <h2>Welke gegevens verwerken we</h2>
+  <ul>
+    <li><strong>Klanten:</strong> e-mailadres (om in te loggen en berichten te sturen), eventueel je naam, de gegevens van je uitnodiging, geüploade foto's en muziek, bestel- en betaalgegevens, en berichten over extra wensen.</li>
+    <li><strong>Gasten:</strong> naam, of je komt, het aantal personen, antwoorden op eventuele extra vragen en een optionele toelichting. We vragen gasten niet om een account, e-mailadres of telefoonnummer.</li>
+    <li><strong>Technisch:</strong> een sessiecookie om ingelogd te blijven en je ontwerp te bewaren, een cookie om een gegeven antwoord later te kunnen wijzigen, en een verkorte, niet-herleidbare code van je IP-adres om misbruik te beperken.</li>
+  </ul>
+  <h2>Waarvoor</h2>
+  <p>Om je uitnodiging te maken, te publiceren en aanmeldingen bij te houden; om betalingen te verwerken; om je te informeren over je bestelling; en om vragen te beantwoorden. We gebruiken geen advertentie- of volgcookies.</p>
+  <h2>Wie kan wat zien</h2>
+  <p>Uitnodigingen zijn alleen bereikbaar via hun link en worden afgeschermd voor zoekmachines. Aanmeldingen zijn alleen zichtbaar voor de organisator (en voor ons als dat nodig is voor ondersteuning). Gasten zien elkaars antwoorden niet.</p>
+  <h2>Hoe lang bewaren we gegevens</h2>
+  <ul>
+    <li>Een uitnodiging blijft online zolang je pakket dat aangeeft. Aanmeldingen van gasten verwijderen we {{ config.guest_data_retention_days }} dagen na het einde van die periode.</li>
+    <li>Ontwerpen zonder bevestigd e-mailadres verwijderen we na {{ config.anonymous_draft_retention_days }} dagen.</li>
+    <li>Bestel- en betaalgegevens bewaren we zolang de wet dat voorschrijft (boekhoudplicht).</li>
+  </ul>
+  <h2>Verwerkers</h2>
+  <p>We werken met partijen voor hosting, e-mail en betalingen. Als de optionele tekstassistent is ingeschakeld, gaan de gegevens die jij daarvoor invult naar Anthropic (Claude) om een tekstvoorstel te maken. De definitieve lijst van verwerkers volgt bij livegang.</p>
+  <h2>Jouw rechten</h2>
+  <p>Je kunt je gegevens inzien, laten corrigeren of verwijderen. In Mijn Vierlief kun je zelf je uitnodiging, aanmeldingen en je account verwijderen. Gasten kunnen hun eigen antwoord wijzigen of verwijderen via hun persoonlijke link. Voor andere vragen: <a href="mailto:{{ CONTACT_EMAIL }}">{{ CONTACT_EMAIL }}</a>.</p>
+</div></section>
+{% endblock %}

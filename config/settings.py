@@ -129,6 +129,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "core.context_processors.vierlief",
+                "beheer.context_processors.nav_counts",
             ],
         },
     }
@@ -190,6 +191,7 @@ USE_TZ = True
 # --- Statische bestanden en uploads -----------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT.mkdir(exist_ok=True)
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     ("designs", BASE_DIR / "designs"),

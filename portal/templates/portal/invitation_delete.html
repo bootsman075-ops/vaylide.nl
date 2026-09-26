@@ -1,0 +1,14 @@
+{% extends "portal/base_portal.html" %}
+{% block title %}Uitnodiging verwijderen{% endblock %}
+{% block portal %}
+<section class="panel danger-zone container--narrow">
+  <h1 class="h-small">{{ inv.title|default:"Uitnodiging" }} verwijderen</h1>
+  <p>Hiermee verwijder je de uitnodiging definitief, inclusief {{ stats.total }} aanmelding{{ stats.total|pluralize:"en" }}, alle foto's en muziek. {% if inv.is_published %}De link werkt daarna niet meer.{% endif %} Dit kan niet ongedaan worden gemaakt.</p>
+  <p class="small muted">Gegevens van je bestelling bewaren we voor de boekhouding.</p>
+  <form method="post" class="form" data-once>
+    {% csrf_token %}
+    <label class="field"><span class="label">Typ <strong>verwijderen</strong> om te bevestigen</span><input class="input" type="text" name="bevestig" autocomplete="off" required></label>
+    <div class="btn-row"><button type="submit" class="btn btn--danger">Definitief verwijderen</button><a class="btn btn--ghost" href="{% url 'portal:invitation' inv.uid %}">Annuleren</a></div>
+  </form>
+</section>
+{% endblock %}

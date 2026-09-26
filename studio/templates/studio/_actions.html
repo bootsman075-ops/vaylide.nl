@@ -1,0 +1,6 @@
+<div class="step-actions">
+  <input type="hidden" name="rev" value="{{ rev }}">
+  <button type="submit" name="actie" value="vorige" class="btn btn--ghost" formnovalidate>&larr; Vorige</button>
+  <button type="submit" name="actie" value="opslaan" class="btn btn--secondary" formnovalidate>{% if anonymous %}Opslaan en later verder{% else %}Opslaan{% endif %}</button>
+  <button type="submit" name="actie" value="volgende" class="btn btn--primary step-actions__next" data-default-action>Volgende &rarr;</button>
+</div>

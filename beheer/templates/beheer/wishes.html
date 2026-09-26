@@ -1,0 +1,16 @@
+{% extends "beheer/base.html" %}
+{% block title %}Aanvragen{% endblock %}
+{% block content %}
+<div class="app-head"><div><p class="eyebrow">Beheer</p><h1>Extra wensen en aanvragen</h1></div></div>
+<nav class="toolbar" aria-label="Filter op status"><ul class="chips">
+  <li><a class="chip" href="?status=open"{% if status == "open" %} aria-current="true"{% endif %}>Open</a></li>
+  {% for k, l in statuses %}<li><a class="chip" href="?status={{ k }}"{% if status == k %} aria-current="true"{% endif %}>{{ l }}</a></li>{% endfor %}
+  <li><a class="chip" href="?status="{% if not status %} aria-current="true"{% endif %}>Alle</a></li>
+</ul></nav>
+<section class="panel">
+  {% if page.object_list %}
+  <ul class="item-list">{% for w in page.object_list %}<li class="item"><div class="item__top"><a class="item__title" href="{% url 'beheer:wish' w.uid %}">{% if w.unread_by_staff %}● {% endif %}{{ w.subject }}</a><span class="badge badge--{{ w.status }}">{{ w.get_status_display }}</span></div><p class="item__meta">{{ w.reference }} · {{ w.customer.email }}{% if w.invitation %} · {{ w.invitation.title }}{% endif %} · {{ w.updated_at|date:"j-n-Y H:i" }}{% if w.ai_fit %} · AI: {{ w.get_ai_fit_display|lower }}{% endif %}</p></li>{% endfor %}</ul>
+  {% if page.has_other_pages %}<nav class="pagination">{% if page.has_previous %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.previous_page_number }}&amp;status={{ status }}">Vorige</a>{% endif %}<span>{{ page.number }} / {{ page.paginator.num_pages }}</span>{% if page.has_next %}<a class="btn btn--ghost btn--sm" href="?pagina={{ page.next_page_number }}&amp;status={{ status }}">Volgende</a>{% endif %}</nav>{% endif %}
+  {% else %}<p class="empty-state">Geen aanvragen met deze status.</p>{% endif %}
+</section>
+{% endblock %}

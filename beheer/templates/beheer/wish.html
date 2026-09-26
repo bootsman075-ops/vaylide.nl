@@ -1,0 +1,70 @@
+{% extends "beheer/base.html" %}
+{% block title %}{{ req.reference }}{% endblock %}
+{% block content %}
+<div class="app-head">
+  <div><p class="eyebrow"><a href="{% url 'beheer:wishes' %}">Aanvragen</a> · {{ req.reference }}</p><h1>{{ req.subject }}</h1></div>
+  <span class="badge badge--{{ req.status }}">{{ req.get_status_display }}</span>
+</div>
+<div class="app-grid app-grid--sidebar">
+  <div class="app-grid">
+    <section class="panel ai-box" aria-labelledby="ai-titel">
+      <div class="panel__head"><h2 id="ai-titel">Interne inschatting{% if req.ai_source == "test" %} (testmodus, zonder AI){% elif req.ai_source == "ai" %} (AI){% endif %}</h2>
+        <form method="post">{% csrf_token %}<input type="hidden" name="actie" value="ai-opnieuw"><button class="btn btn--ghost btn--sm" type="submit">Opnieuw laten beoordelen</button></form></div>
+      <p class="small muted">Alleen voor jou zichtbaar. Dit is advies: er is niets toegezegd aan de klant over prijs, haalbaarheid of planning.</p>
+      {% if req.ai_generated_at %}
+      <dl class="kv">
+        <dt>Samenvatting</dt><dd>{{ req.ai_summary }}</dd>
+        <dt>Inschatting</dt><dd><strong>{{ req.get_ai_fit_display }}</strong></dd>
+        <dt>Aanpak</dt><dd class="msg__body">{{ req.ai_approach }}</dd>
+        <dt>Open vragen</dt><dd class="msg__body">{{ req.ai_questions }}</dd>
+      </dl>
+      <p class="small muted">Gemaakt op {{ req.ai_generated_at|date:"j-n-Y H:i" }}{% if not ai_configured %} · Zet ANTHROPIC_API_KEY om echte AI-samenvattingen te krijgen.{% endif %}</p>
+      {% elif assess_job %}<p class="small">Status: {{ assess_job.get_status_display }}{% if assess_job.last_error %} · {{ assess_job.last_error|truncatechars:160 }}{% endif %}</p>
+      {% else %}<p class="small">Nog geen inschatting.</p>{% endif %}
+    </section>
+    <section class="panel" aria-labelledby="gesprek-titel">
+      <h2 id="gesprek-titel">Gesprek</h2>
+      <div class="thread">
+        <div class="msg msg--customer"><p class="msg__meta">{{ req.customer.email }} · {{ req.created_at|date:"j F H:i" }}</p><p class="msg__body">{{ req.description }}</p></div>
+        {% for m in thread %}
+        <div class="msg {% if m.internal %}msg--internal{% elif m.from_staff %}msg--staff{% else %}msg--customer{% endif %}">
+          <p class="msg__meta">{% if m.internal %}Interne notitie{% elif m.from_staff %}Vierlief{% else %}Klant{% endif %}{% if m.author %} ({{ m.author.email }}){% endif %} · {{ m.created_at|date:"j F H:i" }}</p>
+          <p class="msg__body">{{ m.body }}</p>
+          {% for a in m.attachments.all %}<p><a href="{% url 'beheer:wish_attachment' req.uid a.uid %}">{{ a.original_name }}</a></p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+      <form method="post" enctype="multipart/form-data" class="form" data-once>
+        {% csrf_token %}<input type="hidden" name="actie" value="bericht">
+        {% for field in message_form %}{% if field.name == "internal" %}<label class="check">{{ field }}<span>{{ field.label }}</span></label>{% else %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>{% endif %}{% endfor %}
+        <button class="btn btn--secondary" type="submit">Opslaan / versturen</button>
+      </form>
+    </section>
+  </div>
+  <div class="app-grid">
+    <section class="panel">
+      <h2>Klant en context</h2>
+      <dl class="kv"><dt>Klant</dt><dd><a href="{% url 'beheer:customer' req.customer.pk %}">{{ req.customer.email }}</a></dd><dt>Uitnodiging</dt><dd>{% if req.invitation %}<a href="{% url 'beheer:invitation' req.invitation.uid %}">{{ req.invitation.title }}</a>{% else %}—{% endif %}</dd><dt>Ontvangen</dt><dd>{{ req.created_at|date:"j-n-Y H:i" }}</dd></dl>
+      {% if attachments %}<h3 class="h-small">Bijlagen</h3><ul>{% for a in attachments %}<li><a href="{% url 'beheer:wish_attachment' req.uid a.uid %}">{{ a.original_name }}</a> ({{ a.size_bytes|filesizeformat }})</li>{% endfor %}</ul>{% endif %}
+    </section>
+    <section class="panel">
+      <h2>Voorstel sturen</h2>
+      <form method="post" class="form" data-once>
+        {% csrf_token %}<input type="hidden" name="actie" value="voorstel">
+        {% for field in proposal_form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}</div>{% endfor %}
+        <button class="btn btn--primary btn--sm" type="submit">Voorstel versturen</button>
+      </form>
+      {% if req.proposal_sent_at %}<p class="small muted">Laatste voorstel: {{ req.proposal_sent_at|date:"j-n-Y H:i" }} · {{ req.proposal_price_display }}{% if req.accepted_at %} · akkoord op {{ req.accepted_at|date:"j-n-Y" }}{% endif %}</p>{% endif %}
+    </section>
+    <section class="panel">
+      <h2>Status</h2>
+      <form method="post" class="form" data-once>
+        {% csrf_token %}<input type="hidden" name="actie" value="status">
+        {% for field in status_form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}</div>{% endfor %}
+        <button class="btn btn--secondary btn--sm" type="submit">Status bijwerken</button>
+      </form>
+    </section>
+    {% if orders %}<section class="panel"><h2>Betalingen</h2><ul class="item-list">{% for o in orders %}<li class="item"><a href="{% url 'beheer:order' o.uid %}">{{ o.number }}</a> <span class="badge badge--{{ o.status }}">{{ o.get_status_display }}</span> {{ o.total_display }}</li>{% endfor %}</ul></section>{% endif %}
+  </div>
+</div>
+{% endblock %}

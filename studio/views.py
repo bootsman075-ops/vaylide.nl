@@ -61,11 +61,15 @@ def _locked(request, inv: Invitation) -> list[str]:
 
 def _context(request, inv: Invitation, step: str, **extra) -> dict:
     paid = invitation_is_paid(inv)
+    items = progress(step, paid=paid)
+    current = next((i for i in items if i["state"] == "current"), items[0])
     ctx = {
         "inv": inv,
         "step": step,
         "step_label": STEP_LABELS.get(step, ""),
-        "progress": progress(step, paid=paid),
+        "progress": items,
+        "progress_current": current,
+        "progress_pct": round(100 * current["number"] / len(items)),
         "paid": paid,
         "occasion_label": OCCASION_LABELS.get(inv.occasion, ""),
         "is_staff_edit": request.user.is_authenticated and request.user.is_staff,
@@ -117,6 +121,8 @@ def start(request):
             "chosen": chosen,
             "existing": existing,
             "progress": progress("gelegenheid" if not occasion else "ontwerp"),
+            "progress_current": {"number": 1 if not occasion else 2, "label": "Gelegenheid" if not occasion else "Ontwerp"},
+            "progress_pct": round(100 * (1 if not occasion else 2) / 9),
         },
     )
 

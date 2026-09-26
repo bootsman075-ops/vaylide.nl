@@ -1,0 +1,29 @@
+{% extends "portal/base_portal.html" %}
+{% block title %}Extra wensen of hulp{% endblock %}
+{% block portal %}
+<div class="app-head"><div><p class="eyebrow">Extra wensen of hulp nodig?</p><h1>Vertel ons wat je zoekt</h1></div></div>
+<div class="app-grid app-grid--sidebar">
+  <form method="post" enctype="multipart/form-data" class="panel form" data-once novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors.0 }}</div>{% endif %}
+    {% for field in form %}
+    <div class="field{% if field.errors %} field--error{% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {% if field.help_text %}<p class="hint" id="{{ field.auto_id }}_helptext">{{ field.help_text }}</p>{% endif %}
+      {{ field }}
+      {% for e in field.errors %}<p class="field__error">{{ e }}</p>{% endfor %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn--primary">Verstuur aanvraag</button>
+  </form>
+  <aside class="panel">
+    <h2 class="h-small">Wat gebeurt er daarna?</h2>
+    <ol class="checklist-steps">
+      <li>Je krijgt direct een ontvangstbevestiging per e-mail.</li>
+      <li>We bekijken je wens persoonlijk.</li>
+      <li>Past het binnen de standaardmogelijkheden, dan helpen we je verder. Is het maatwerk, dan krijg je eerst een voorstel.</li>
+      <li>We beginnen pas na jouw akkoord en, als er kosten zijn, na betaling.</li>
+    </ol>
+  </aside>
+</div>
+{% endblock %}

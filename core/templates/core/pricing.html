@@ -1,0 +1,47 @@
+{% extends "base.html" %}{% load vl %}
+{% block title %}Prijzen{% endblock %}
+{% block description %}Pakketten en extra opties voor digitale uitnodigingen van Vierlief. Eenmalig betalen, geen kosten per gast.{% endblock %}
+{% block content %}
+<section class="page-head">
+  <div class="container container--mid">
+    <p class="eyebrow">Prijzen</p>
+    <h1>Eén keer betalen, geen kosten per gast</h1>
+    <p class="lead">Je ontwerp maken en bekijken is gratis. Je betaalt pas bij het publiceren. Het totaalbedrag zie je vooraf, afgestemd op de onderdelen die je gebruikt.</p>
+    {% if config.prices_provisional %}<p><span class="provisional">Voorlopige prijzen: nog niet definitief</span></p>{% endif %}
+  </div>
+</section>
+<section class="section section--tight">
+  <div class="container">
+    <div class="grid grid--3">
+      {% for p in packages %}
+      <article class="price-card{% if p.is_featured %} price-card--featured{% endif %}">
+        {% if p.is_featured %}<span class="price-card__badge">Meest compleet</span>{% endif %}
+        <h2 class="h-card">{{ p.name }}</h2>
+        <p class="price">{{ p.price_display }} <small>eenmalig</small></p>
+        <p class="muted">{{ p.description }}</p>
+        <ul class="checklist">{% for h in p.highlights %}<li>{{ h }}</li>{% endfor %}</ul>
+        <a class="btn {% if p.is_featured %}btn--primary{% else %}btn--secondary{% endif %}" href="{% url 'studio:start' %}">Begin met je ontwerp</a>
+      </article>
+      {% endfor %}
+      <article class="price-card">
+        <h2 class="h-card">Op maat</h2>
+        <p class="price price--text">Op aanvraag</p>
+        <p class="muted">Een eigen ontwerp, een andere taal of iets heel bijzonders.</p>
+        <ul class="checklist"><li>Persoonlijk contact</li><li>Eerst een voorstel, dan pas akkoord</li><li>Betalen na je akkoord</li></ul>
+        <a class="btn btn--secondary" href="{% url 'core:contact' %}?onderwerp=maatwerk">Vraag een voorstel aan</a>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="section section--paper">
+  <div class="container container--mid">
+    <h2>Extra opties</h2>
+    <p class="lead">Gebruik je een onderdeel dat niet in je pakket zit, dan wordt de optie automatisch toegevoegd. Bij het afrekenen zie je welk pakket voor jou het voordeligst is.</p>
+    <table class="table-simple">
+      <thead><tr><th scope="col">Optie</th><th scope="col">Omschrijving</th><th scope="col" class="num">Prijs</th></tr></thead>
+      <tbody>{% for a in addons %}<tr><td>{{ a.name }}</td><td>{{ a.description }}</td><td class="num">{{ a.price_display }}</td></tr>{% endfor %}</tbody>
+    </table>
+    <p class="small muted table-note">Alle prijzen zijn inclusief btw.</p>
+  </div>
+</section>
+{% endblock %}

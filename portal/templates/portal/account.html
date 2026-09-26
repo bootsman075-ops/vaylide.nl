@@ -1,0 +1,26 @@
+{% extends "portal/base_portal.html" %}
+{% block title %}Je gegevens{% endblock %}
+{% block portal %}
+<div class="app-head"><div><p class="eyebrow">Mijn Vierlief</p><h1>Je gegevens</h1></div></div>
+<div class="app-grid app-grid--sidebar">
+  <section class="panel">
+    <h2>Account</h2>
+    <dl class="kv"><dt>E-mailadres</dt><dd>{{ user.email }}</dd><dt>Bevestigd op</dt><dd>{{ user.email_verified_at|date:"j F Y"|default:"—" }}</dd><dt>Klant sinds</dt><dd>{{ user.date_joined|date:"j F Y" }}</dd></dl>
+    <form method="post" class="form-inline">
+      {% csrf_token %}<input type="hidden" name="actie" value="naam">
+      <label class="field"><span class="label">Je naam (optioneel)</span><input class="input" type="text" name="name" value="{{ user.name }}" maxlength="120" autocomplete="name"></label>
+      <button type="submit" class="btn btn--secondary btn--sm">Opslaan</button>
+    </form>
+    <p class="small muted">Je logt in met een code die we naar je e-mailadres sturen. Wil je een ander e-mailadres gebruiken? Neem contact op.</p>
+  </section>
+  <section class="panel danger-zone">
+    <h2>Account verwijderen</h2>
+    <p class="small">Verwijdert je account, al je uitnodigingen, aanmeldingen, foto's en extra wensen. Bestelgegevens bewaren we geanonimiseerd voor de boekhouding.</p>
+    <form method="post" class="form" data-once>
+      {% csrf_token %}<input type="hidden" name="actie" value="verwijderen">
+      <label class="field"><span class="label">Typ <strong>verwijderen</strong> om te bevestigen</span><input class="input" type="text" name="bevestig" autocomplete="off"></label>
+      <button type="submit" class="btn btn--danger btn--sm">Account definitief verwijderen</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "beheer/base.html" %}{% load vl %}
+{% block title %}Bestelling {{ order.number }}{% endblock %}
+{% block content %}
+<div class="app-head">
+  <div><p class="eyebrow"><a href="{% url 'beheer:orders' %}">Bestellingen</a></p><h1>{{ order.number }}</h1></div>
+  <div class="btn-row"><span class="badge badge--{{ order.status }}">{{ order.get_status_display }}</span><span class="badge badge--{{ order.fulfilment_status }}">{{ order.get_fulfilment_status_display }}</span>{% if order.test_mode %}<span class="badge badge--test">testbestelling</span>{% endif %}</div>
+</div>
+{% if order.fulfilment_note %}<p class="notice {% if order.fulfilment_status == 'attention' %}notice--error{% else %}notice--warning{% endif %}"><strong>Verwerking</strong>{{ order.fulfilment_note }}</p>{% endif %}
+<div class="app-grid app-grid--sidebar">
+  <div class="app-grid">
+    <section class="panel">
+      <h2>Gegevens</h2>
+      <dl class="kv">
+        <dt>Klant</dt><dd><a href="{% url 'beheer:customer' order.customer.pk %}">{{ order.customer.email }}</a></dd>
+        <dt>Soort</dt><dd>{{ order.get_kind_display }}</dd>
+        <dt>Uitnodiging</dt><dd>{% if order.invitation %}<a href="{% url 'beheer:invitation' order.invitation.uid %}">{{ order.invitation_title }}</a>{% else %}{{ order.invitation_title|default:"—" }}{% endif %}</dd>
+        {% if order.custom_request %}<dt>Aanvraag</dt><dd><a href="{% url 'beheer:wish' order.custom_request.uid %}">{{ order.custom_request.reference }}</a></dd>{% endif %}
+        <dt>Pakket</dt><dd>{{ order.package_name|default:"—" }}</dd>
+        <dt>Functies</dt><dd>{{ order.features|join:", "|default:"basis" }}</dd>
+        <dt>Beschikbaarheid</dt><dd>{{ order.availability_months }} maanden</dd>
+        <dt>Aangemaakt</dt><dd>{{ order.created_at|date:"j F Y H:i" }}</dd>
+        <dt>Betaald</dt><dd>{{ order.paid_at|date:"j F Y H:i"|default:"—" }}</dd>
+        <dt>Voorwaarden</dt><dd>{{ order.terms_accepted_at|date:"j F Y H:i"|default:"—" }}</dd>
+      </dl>
+      <table class="table-simple"><tbody>{% for l in order.lines.all %}<tr><td>{{ l.description }}</td><td class="num">{{ l.total_display }}</td></tr>{% endfor %}</tbody><tfoot><tr><th>Totaal</th><th class="num">{{ order.total_display }}</th></tr></tfoot></table>
+    </section>
+    <section class="panel">
+      <h2>Betalingen</h2>
+      {% if payments %}<div class="data-table-wrap"><table class="data-table data-table--cards"><thead><tr><th>Provider</th><th>Referentie</th><th>Status</th><th>Methode</th><th>Aangemaakt</th><th class="num">Bedrag</th></tr></thead><tbody>
+      {% for p in payments %}<tr><td data-label="Provider">{{ p.provider }}</td><td data-label="Referentie"><code>{{ p.provider_ref }}</code></td><td data-label="Status"><span class="badge badge--{{ p.status }}">{{ p.get_status_display }}</span></td><td data-label="Methode">{{ p.method|default:"—" }}</td><td data-label="Aangemaakt">{{ p.created_at|date:"j-n H:i" }}</td><td data-label="Bedrag" class="num">{{ p.amount_cents|euro }}</td></tr>{% endfor %}
+      </tbody></table></div>{% else %}<p class="muted">Geen betalingen.</p>{% endif %}
+      <h3 class="h-small">Betalingsmeldingen</h3>
+      {% if events %}<ul class="item-list">{% for e in events %}<li class="item"><div class="item__top"><strong>{{ e.source }} · {{ e.remote_status }}</strong><span class="small muted">{{ e.received_at|date:"j-n H:i:s" }}</span></div><p class="item__meta">{{ e.outcome }}</p></li>{% endfor %}</ul>{% else %}<p class="muted small">Nog geen meldingen ontvangen.</p>{% endif %}
+    </section>
+  </div>
+  <div class="app-grid">
+    <section class="panel">
+      <h2>Verwerking</h2>
+      {% if jobs %}<ul class="item-list">{% for j in jobs %}<li class="item"><div class="item__top"><strong>{{ j.label }}</strong><span class="badge badge--{{ j.status }}">{{ j.get_status_display }}</span></div><p class="item__meta">{{ j.attempts }} poging(en){% if j.status == "failed" %} · volgende poging {{ j.run_after|date:"H:i" }}{% endif %}</p>{% if j.last_error %}<details><summary class="small">Laatste fout</summary><pre class="error-body">{{ j.last_error }}</pre></details>{% endif %}</li>{% endfor %}</ul>{% else %}<p class="muted small">Nog geen verwerking.</p>{% endif %}
+      {% if order.status == "paid" and order.fulfilment_status != "done" %}
+      <form method="post" data-once>{% csrf_token %}<input type="hidden" name="actie" value="opnieuw-verwerken"><button class="btn btn--primary btn--sm" type="submit">Verwerking opnieuw starten</button></form>
+      {% endif %}
+      {% if order.fulfilment_status == "attention" %}
+      <form method="post" data-confirm="Markeer als handmatig afgehandeld?">{% csrf_token %}<input type="hidden" name="actie" value="aandacht-afgehandeld"><button class="btn btn--ghost btn--sm" type="submit">Handmatig afgehandeld</button></form>
+      {% endif %}
+    </section>
+    <section class="panel">
+      <h2>E-mails</h2>
+      {% if emails %}<ul class="item-list">{% for m in emails %}<li class="item"><div class="item__top"><a href="{% url 'beheer:email' m.pk %}">{{ m.subject }}</a><span class="badge badge--{{ m.status }}">{{ m.get_status_display }}</span></div></li>{% endfor %}</ul>{% else %}<p class="muted small">Geen e-mails.</p>{% endif %}
+    </section>
+    <section class="panel">
+      <h2>Status handmatig wijzigen</h2>
+      <p class="small muted">Alleen gebruiken voor correcties, bijvoorbeeld na een terugbetaling.</p>
+      <form method="post" class="form-inline" data-confirm="Status van de bestelling handmatig wijzigen?">{% csrf_token %}<input type="hidden" name="actie" value="status"><label class="field"><span class="label">Status</span><select class="input" name="status">{% for k, l in statuses %}<option value="{{ k }}"{% if k == order.status %} selected{% endif %}>{{ l }}</option>{% endfor %}</select></label><button class="btn btn--ghost btn--sm" type="submit">Opslaan</button></form>
+    </section>
+  </div>
+</div>
+{% endblock %}
