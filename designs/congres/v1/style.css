@@ -1,0 +1,20 @@
+/* Congres v1 — blauw, tijdlijn, overzichtelijk.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Syne"; src: url("../../../fonts/syne-latin-wght-normal.woff2") format("woff2"); font-weight: 400 800; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../../../fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+
+body {
+  --a-display: "Syne", system-ui, sans-serif;
+  --a-body: "Manrope", system-ui, sans-serif;
+  --a-script: "Syne", system-ui, sans-serif;
+  --a-ui: "Manrope", system-ui, sans-serif;
+  --a-radius: 10px;
+  --a-names-weight: 700;
+  --a-h2-weight: 700;
+  --a-names-spacing: -.02em;
+}
+
+.a-tagline { font-family: var(--a-body); font-style: normal; }
+.a-lead { font-family: var(--a-body); }
+.a-program__what h3 { font-family: var(--a-body); font-weight: 700; font-size: 1.1rem; }

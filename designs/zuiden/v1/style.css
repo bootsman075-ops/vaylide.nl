@@ -1,0 +1,18 @@
+/* Zuiden v1 — terracotta en oker, zon, linnen.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Fraunces"; src: url("../../../fonts/fraunces-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("../../../fonts/fraunces-latin-wght-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("../../../fonts/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+body {
+  --a-display: "Fraunces", Georgia, serif;
+  --a-body: "Jost", system-ui, sans-serif;
+  --a-script: "Fraunces", Georgia, serif;
+  --a-ui: "Jost", system-ui, sans-serif;
+  --a-radius: 10px;
+  --a-names-weight: 400;
+}
+
+.a-names { color: var(--a-text); }
+.a-photo--boog .a-photo__img { box-shadow: 0 0 0 8px var(--a-surface), 0 24px 40px -26px rgba(0, 0, 0, .5); }

@@ -1,0 +1,114 @@
+{
+  "slug": "ballonfeest",
+  "version": 1,
+  "name": "Ballonfeest",
+  "tagline": "Vrolijk en licht, met ballonnen",
+  "description": "Laat de ballonnen los om de uitnodiging te openen. Ronde vormen, ballonnen en de datum in een cirkel.",
+  "style_notes": "Pastel, ballonnen, ronde vormen",
+  "occasions": [
+    "verjaardag",
+    "babyshower"
+  ],
+  "sort_order": 230,
+  "opening": "ballonnen",
+  "opening_label": "Ballonnen",
+  "atelier": {
+    "opening": "ballonnen",
+    "hero": "klassiek",
+    "sections": "midden",
+    "heading": "groot",
+    "names": "display",
+    "date": "cirkel",
+    "photo": "cirkel",
+    "texture": "geen",
+    "ornament": "ballonnen"
+  },
+  "palettes": [
+    {
+      "key": "pastel",
+      "name": "Pastel",
+      "swatch": [
+        "#FFF7F4",
+        "#F7C8D4",
+        "#B03D62"
+      ],
+      "vars": {
+        "--a-bg": "#FFF7F4",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2F2A33",
+        "--a-muted": "#625A66",
+        "--a-accent": "#B03D62",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F3E1DB",
+        "--a-c2": "#F7C8D4",
+        "--a-c3": "#BFE3E0",
+        "--a-cover-bg": "#FFEFEA",
+        "--a-cover-ink": "#2F2A33",
+        "--a-scheme": "light",
+        "--a-page": "#FFF7F4"
+      }
+    },
+    {
+      "key": "fris",
+      "name": "Fris",
+      "swatch": [
+        "#F3FAF7",
+        "#A8E0D1",
+        "#1D7266"
+      ],
+      "vars": {
+        "--a-bg": "#F3FAF7",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1F2D29",
+        "--a-muted": "#51605B",
+        "--a-accent": "#1D7266",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D8EAE3",
+        "--a-c2": "#A8E0D1",
+        "--a-c3": "#FFD6A5",
+        "--a-cover-bg": "#E6F4EE",
+        "--a-cover-ink": "#1F2D29",
+        "--a-scheme": "light",
+        "--a-page": "#F3FAF7"
+      }
+    },
+    {
+      "key": "goud",
+      "name": "Goud",
+      "swatch": [
+        "#FBF6EC",
+        "#E9CF8F",
+        "#7F5D13"
+      ],
+      "vars": {
+        "--a-bg": "#FBF6EC",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2E2719",
+        "--a-muted": "#615847",
+        "--a-accent": "#7F5D13",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EDE1C8",
+        "--a-c2": "#E9CF8F",
+        "--a-c3": "#F3E3C3",
+        "--a-cover-bg": "#F4EAD4",
+        "--a-cover-ink": "#2E2719",
+        "--a-scheme": "light",
+        "--a-page": "#FBF6EC"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

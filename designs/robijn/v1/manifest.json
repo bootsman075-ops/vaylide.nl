@@ -1,0 +1,118 @@
+{
+  "slug": "robijn",
+  "version": 1,
+  "name": "Robijn",
+  "tagline": "Warm en romantisch, in robijnrood",
+  "description": "Een cadeaulint wordt losgetrokken. Sierlijke cursieve namen, twee ringen, een ronde foto en kaartjes voor elk onderdeel.",
+  "style_notes": "Robijnrood, ringen, cursief",
+  "occasions": [
+    "jubileum",
+    "bruiloft",
+    "verjaardag"
+  ],
+  "sort_order": 300,
+  "opening": "lint",
+  "opening_label": "Cadeaulint",
+  "atelier": {
+    "opening": "lint",
+    "hero": "klassiek",
+    "sections": "kaarten",
+    "heading": "lijn",
+    "names": "cursief",
+    "date": "blok",
+    "photo": "cirkel",
+    "texture": "geen",
+    "ornament": "ringen"
+  },
+  "palettes": [
+    {
+      "key": "robijn",
+      "name": "Robijn",
+      "swatch": [
+        "#FBF3F3",
+        "#E8B9C0",
+        "#931A2E"
+      ],
+      "vars": {
+        "--a-bg": "#FBF3F3",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2D1B1F",
+        "--a-muted": "#665156",
+        "--a-accent": "#931A2E",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F0DADC",
+        "--a-c2": "#E8B9C0",
+        "--a-c3": "#F1DCC7",
+        "--a-cover-bg": "#F3E1E1",
+        "--a-cover-ink": "#2D1B1F",
+        "--a-ribbon": "#931A2E",
+        "--a-scheme": "light",
+        "--a-page": "#FBF3F3"
+      }
+    },
+    {
+      "key": "wijn",
+      "name": "Wijn",
+      "swatch": [
+        "#1E0A10",
+        "#E3B7A0",
+        "#E3B7A0"
+      ],
+      "vars": {
+        "--a-bg": "#1E0A10",
+        "--a-surface": "#2A1018",
+        "--a-ink": "#F6E9E6",
+        "--a-muted": "#D2BBB7",
+        "--a-accent": "#E3B7A0",
+        "--a-accent-ink": "#1E0A10",
+        "--a-line": "#431A25",
+        "--a-c2": "#E3B7A0",
+        "--a-c3": "#8E3A4C",
+        "--a-cover-bg": "#16070C",
+        "--a-cover-ink": "#F6E9E6",
+        "--a-ribbon": "#B8324C",
+        "--a-scheme": "dark",
+        "--a-page": "#1E0A10"
+      }
+    },
+    {
+      "key": "roze",
+      "name": "Roze",
+      "swatch": [
+        "#FDF1F3",
+        "#F4C1CD",
+        "#A0304F"
+      ],
+      "vars": {
+        "--a-bg": "#FDF1F3",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#33202A",
+        "--a-muted": "#67535D",
+        "--a-accent": "#A0304F",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F4DAE0",
+        "--a-c2": "#F4C1CD",
+        "--a-c3": "#EFDCC8",
+        "--a-cover-bg": "#F8E1E6",
+        "--a-cover-ink": "#33202A",
+        "--a-ribbon": "#D9899C",
+        "--a-scheme": "light",
+        "--a-page": "#FDF1F3"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

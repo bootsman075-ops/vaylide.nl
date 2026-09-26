@@ -1,0 +1,114 @@
+{
+  "slug": "regenboog",
+  "version": 1,
+  "name": "Regenboog",
+  "tagline": "Vrolijk en naturel, met een regenboog",
+  "description": "Een zachte sluier trekt op. Een regenboog in aardetinten of pastel, een foto in boogvorm en rustige lijnen.",
+  "style_notes": "Aardetinten, regenboog, zacht",
+  "occasions": [
+    "babyshower",
+    "verjaardag"
+  ],
+  "sort_order": 330,
+  "opening": "sluier",
+  "opening_label": "Zachte sluier",
+  "atelier": {
+    "opening": "sluier",
+    "hero": "klassiek",
+    "sections": "lijnen",
+    "heading": "lijn",
+    "names": "display",
+    "date": "lijn",
+    "photo": "boog",
+    "texture": "geen",
+    "ornament": "regenboog"
+  },
+  "palettes": [
+    {
+      "key": "aarde",
+      "name": "Aarde",
+      "swatch": [
+        "#FBF6F0",
+        "#E0A96D",
+        "#9C4E2C"
+      ],
+      "vars": {
+        "--a-bg": "#FBF6F0",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#3A2B22",
+        "--a-muted": "#67564A",
+        "--a-accent": "#9C4E2C",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EFE2D4",
+        "--a-c2": "#E0A96D",
+        "--a-c3": "#9CAF88",
+        "--a-cover-bg": "#F3E6D8",
+        "--a-cover-ink": "#3A2B22",
+        "--a-scheme": "light",
+        "--a-page": "#FBF6F0"
+      }
+    },
+    {
+      "key": "pastel",
+      "name": "Pastel",
+      "swatch": [
+        "#FBF8F3",
+        "#F5B8B8",
+        "#7A4F8E"
+      ],
+      "vars": {
+        "--a-bg": "#FBF8F3",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2F2A33",
+        "--a-muted": "#615B66",
+        "--a-accent": "#7A4F8E",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EDE6EF",
+        "--a-c2": "#F5B8B8",
+        "--a-c3": "#A9D3E8",
+        "--a-cover-bg": "#F3EDF4",
+        "--a-cover-ink": "#2F2A33",
+        "--a-scheme": "light",
+        "--a-page": "#FBF8F3"
+      }
+    },
+    {
+      "key": "zee",
+      "name": "Zee",
+      "swatch": [
+        "#F2F6F8",
+        "#9CC5D6",
+        "#28607A"
+      ],
+      "vars": {
+        "--a-bg": "#F2F6F8",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1D2B33",
+        "--a-muted": "#4F5E66",
+        "--a-accent": "#28607A",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DCE6EB",
+        "--a-c2": "#9CC5D6",
+        "--a-c3": "#E3C9A3",
+        "--a-cover-bg": "#E2ECF1",
+        "--a-cover-ink": "#1D2B33",
+        "--a-scheme": "light",
+        "--a-page": "#F2F6F8"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

@@ -1,0 +1,13 @@
+<header class="a-hero">
+  <div class="a-frame">
+    <span class="a-frame__corner a-frame__corner--tl" aria-hidden="true"></span><span class="a-frame__corner a-frame__corner--tr" aria-hidden="true"></span><span class="a-frame__corner a-frame__corner--bl" aria-hidden="true"></span><span class="a-frame__corner a-frame__corner--br" aria-hidden="true"></span>
+    {% include "_atelier/v1/parts/ornament.html" with pos="top" %}
+    <p class="a-kicker">{{ v.kicker }}</p>
+    {% include "_atelier/v1/parts/names.html" %}
+    <p class="a-tagline">{{ v.tagline }}</p>
+    {% include "_atelier/v1/parts/date.html" %}
+    {% include "_atelier/v1/parts/meta.html" %}
+    {% include "_atelier/v1/parts/ornament.html" with pos="bottom" %}
+  </div>
+  {% include "_atelier/v1/parts/photo.html" with sizes="(min-width: 900px) 560px, 88vw" %}
+</header>

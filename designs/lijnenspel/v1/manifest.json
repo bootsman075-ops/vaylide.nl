@@ -1,0 +1,115 @@
+{
+  "slug": "lijnenspel",
+  "version": 1,
+  "name": "Lijnenspel",
+  "tagline": "Minimalistisch en redactioneel",
+  "description": "Een zachte sluier trekt op. Grote, strakke letters links uitgelijnd, de feiten in kolommen en veel witruimte.",
+  "style_notes": "Zwart-wit, grote letters, veel witruimte",
+  "occasions": [
+    "bruiloft",
+    "verloving",
+    "zakelijk"
+  ],
+  "sort_order": 140,
+  "opening": "sluier",
+  "opening_label": "Zachte sluier",
+  "atelier": {
+    "opening": "sluier",
+    "hero": "redactioneel",
+    "sections": "tweekolom",
+    "heading": "groot",
+    "names": "display",
+    "date": "cijfers",
+    "photo": "recht",
+    "texture": "geen",
+    "ornament": "lijnen"
+  },
+  "palettes": [
+    {
+      "key": "wit",
+      "name": "Wit",
+      "swatch": [
+        "#FFFFFF",
+        "#E9E9E6",
+        "#111111"
+      ],
+      "vars": {
+        "--a-bg": "#FFFFFF",
+        "--a-surface": "#F6F6F4",
+        "--a-ink": "#111111",
+        "--a-muted": "#595959",
+        "--a-accent": "#111111",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DDDDDD",
+        "--a-c2": "#E9E9E6",
+        "--a-c3": "#F2EEE8",
+        "--a-cover-bg": "#FFFFFF",
+        "--a-cover-ink": "#111111",
+        "--a-scheme": "light",
+        "--a-page": "#FFFFFF"
+      }
+    },
+    {
+      "key": "zand",
+      "name": "Zand",
+      "swatch": [
+        "#F1ECE4",
+        "#E3D6C4",
+        "#5E4529"
+      ],
+      "vars": {
+        "--a-bg": "#F1ECE4",
+        "--a-surface": "#FAF7F2",
+        "--a-ink": "#1E1B17",
+        "--a-muted": "#5C554C",
+        "--a-accent": "#5E4529",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D9D0C3",
+        "--a-c2": "#E3D6C4",
+        "--a-c3": "#EDE5D8",
+        "--a-cover-bg": "#F1ECE4",
+        "--a-cover-ink": "#1E1B17",
+        "--a-scheme": "light",
+        "--a-page": "#F1ECE4"
+      }
+    },
+    {
+      "key": "grafiet",
+      "name": "Grafiet",
+      "swatch": [
+        "#1C1C1C",
+        "#4A4A4A",
+        "#F2F0EC"
+      ],
+      "vars": {
+        "--a-bg": "#1C1C1C",
+        "--a-surface": "#262626",
+        "--a-ink": "#F2F0EC",
+        "--a-muted": "#BDB8B0",
+        "--a-accent": "#F2F0EC",
+        "--a-accent-ink": "#1C1C1C",
+        "--a-line": "#3A3A3A",
+        "--a-c2": "#4A4A4A",
+        "--a-c3": "#333333",
+        "--a-cover-bg": "#1C1C1C",
+        "--a-cover-ink": "#F2F0EC",
+        "--a-scheme": "dark",
+        "--a-page": "#1C1C1C"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

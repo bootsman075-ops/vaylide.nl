@@ -1,0 +1,114 @@
+{
+  "slug": "stipjes",
+  "version": 1,
+  "name": "Stipjes",
+  "tagline": "Speels, met stippen en een kleurband",
+  "description": "Een tik en de confetti vliegt. Een gekleurde band met stippen, ronde kaartjes en een kalenderblaadje voor de datum.",
+  "style_notes": "Stippen, kleurband, speels",
+  "occasions": [
+    "babyshower",
+    "verjaardag"
+  ],
+  "sort_order": 350,
+  "opening": "confetti",
+  "opening_label": "Confetti",
+  "atelier": {
+    "opening": "confetti",
+    "hero": "band",
+    "sections": "kaarten",
+    "heading": "groot",
+    "names": "display",
+    "date": "kalender",
+    "photo": "cirkel",
+    "texture": "stippen",
+    "ornament": "stippen"
+  },
+  "palettes": [
+    {
+      "key": "roze",
+      "name": "Roze",
+      "swatch": [
+        "#FFF5F7",
+        "#F9C6D4",
+        "#B73A67"
+      ],
+      "vars": {
+        "--a-bg": "#FFF5F7",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#33262B",
+        "--a-muted": "#66555C",
+        "--a-accent": "#B73A67",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F7DEE5",
+        "--a-c2": "#F9C6D4",
+        "--a-c3": "#FFE2A8",
+        "--a-cover-bg": "#FFE9EF",
+        "--a-cover-ink": "#33262B",
+        "--a-scheme": "light",
+        "--a-page": "#FFF5F7"
+      }
+    },
+    {
+      "key": "blauw",
+      "name": "Blauw",
+      "swatch": [
+        "#F3F8FF",
+        "#C8DAFF",
+        "#2B58B8"
+      ],
+      "vars": {
+        "--a-bg": "#F3F8FF",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1F2A3D",
+        "--a-muted": "#505C70",
+        "--a-accent": "#2B58B8",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DCE7F7",
+        "--a-c2": "#C8DAFF",
+        "--a-c3": "#FFE2A8",
+        "--a-cover-bg": "#E5EEFD",
+        "--a-cover-ink": "#1F2A3D",
+        "--a-scheme": "light",
+        "--a-page": "#F3F8FF"
+      }
+    },
+    {
+      "key": "geel",
+      "name": "Geel",
+      "swatch": [
+        "#FFFBEF",
+        "#FFE08A",
+        "#7F5C00"
+      ],
+      "vars": {
+        "--a-bg": "#FFFBEF",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2E2715",
+        "--a-muted": "#615843",
+        "--a-accent": "#7F5C00",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F3EACB",
+        "--a-c2": "#FFE08A",
+        "--a-c3": "#BDE3F0",
+        "--a-cover-bg": "#FFF3CF",
+        "--a-cover-ink": "#2E2715",
+        "--a-scheme": "light",
+        "--a-page": "#FFFBEF"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

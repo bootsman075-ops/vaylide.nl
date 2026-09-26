@@ -1,0 +1,115 @@
+{
+  "slug": "polaroid",
+  "version": 1,
+  "name": "Polaroid",
+  "tagline": "Speels, met handgeschreven letters en foto's",
+  "description": "Een polaroid ontwikkelt zich na een tik. Handgeschreven koppen, schuin geplakte kaartjes en kleine hartjes.",
+  "style_notes": "Kraftpapier, polaroids, handschrift",
+  "occasions": [
+    "verloving",
+    "verjaardag",
+    "jubileum"
+  ],
+  "sort_order": 170,
+  "opening": "polaroid",
+  "opening_label": "Polaroid",
+  "atelier": {
+    "opening": "polaroid",
+    "hero": "polaroid",
+    "sections": "kaarten",
+    "heading": "script",
+    "names": "script",
+    "date": "lijn",
+    "photo": "polaroid",
+    "texture": "papier",
+    "ornament": "harten"
+  },
+  "palettes": [
+    {
+      "key": "kraft",
+      "name": "Kraft",
+      "swatch": [
+        "#EFE4D2",
+        "#E7B8A5",
+        "#9C3632"
+      ],
+      "vars": {
+        "--a-bg": "#EFE4D2",
+        "--a-surface": "#FBF7F0",
+        "--a-ink": "#2E2620",
+        "--a-muted": "#5E5247",
+        "--a-accent": "#9C3632",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D9C8AF",
+        "--a-c2": "#E7B8A5",
+        "--a-c3": "#B7C7B0",
+        "--a-cover-bg": "#E4D6BF",
+        "--a-cover-ink": "#2E2620",
+        "--a-scheme": "light",
+        "--a-page": "#EFE4D2"
+      }
+    },
+    {
+      "key": "wit",
+      "name": "Wit",
+      "swatch": [
+        "#F7F6F2",
+        "#F6D98B",
+        "#2D5A87"
+      ],
+      "vars": {
+        "--a-bg": "#F7F6F2",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#24272B",
+        "--a-muted": "#595E63",
+        "--a-accent": "#2D5A87",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E2E0DA",
+        "--a-c2": "#F6D98B",
+        "--a-c3": "#BFD5E6",
+        "--a-cover-bg": "#ECEAE4",
+        "--a-cover-ink": "#24272B",
+        "--a-scheme": "light",
+        "--a-page": "#F7F6F2"
+      }
+    },
+    {
+      "key": "zwart",
+      "name": "Zwart",
+      "swatch": [
+        "#232323",
+        "#E07A5F",
+        "#F2C14E"
+      ],
+      "vars": {
+        "--a-bg": "#232323",
+        "--a-surface": "#2E2E2E",
+        "--a-ink": "#F3EFE7",
+        "--a-muted": "#C4BCB0",
+        "--a-accent": "#F2C14E",
+        "--a-accent-ink": "#232323",
+        "--a-line": "#403F3C",
+        "--a-c2": "#E07A5F",
+        "--a-c3": "#81B29A",
+        "--a-cover-bg": "#1B1B1B",
+        "--a-cover-ink": "#F3EFE7",
+        "--a-scheme": "dark",
+        "--a-page": "#232323"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

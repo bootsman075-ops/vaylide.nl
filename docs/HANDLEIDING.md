@@ -84,10 +84,52 @@ Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publ
 - **Teksten** van de homepage, "Zo werkt het", Inspiratie, Over ons en de veelgestelde vragen: `core/content.py`. De paginaopbouw staat in `core/templates/core/`.
 - **Beelden**: `static/img/site/`. Vervang een beeld door een eigen foto met dezelfde bestandsnaam en ongeveer dezelfde verhouding (bijvoorbeeld `hero.webp` 1800 × 1100 en `hero-900.webp` 900 × 760 voor telefoons). Gebruik alleen foto's waarvan je de rechten hebt. Hoe de huidige beelden gemaakt zijn en hoe je ze opnieuw maakt: `tools/merkbeelden/README.md`.
 - **Tegels per gelegenheid en de kaart op de homepage** zijn schermafbeeldingen van de voorbeelduitnodigingen. Na een nieuw ontwerp of een nieuwe kleur kun je ze opnieuw maken met `tools/merkbeelden/voorbeelden.cjs`.
+- **Uitgelichte ontwerpen op de homepage**: de drie codes in `HOME_DESIGNS` in `core/content.py`. De collectie toont altijd alle zichtbare ontwerpen; bij een filter op gelegenheid staan de ontwerpen die voor die gelegenheid zijn gemaakt (de eerste in hun lijst `occasions`) vooraan.
+- **Kaartbeelden van de ontwerpen** (`static/img/designs/<code>.webp`, 800 × 1000) maak je opnieuw met `node e2e/make_design_images.cjs` (uitleg bovenin dat bestand).
+- **Voorbeeldbeelden in de uitnodigingen** zijn eigen, getekende illustraties uit `tools/generate_demo_images.py` (map `static/img/demo/`). Welke beelden een ontwerp in zijn voorbeeld gebruikt, staat in `DESIGN_IMAGES` in `invitations/demo.py`.
 
 ## Een nieuw ontwerp toevoegen
 
-Een ontwerp is een map met drie bestanden. Er is geen database-werk nodig.
+Een ontwerp is een map met drie bestanden. Er is geen database-werk nodig. Er zijn twee manieren:
+
+- **Atelier-ontwerp (snelst, aanbevolen)**: je kiest uit vaste bouwstenen (opening, kop, secties, versiering) en geeft letters en kleuren op. Zo zijn de 30 ontwerpen vanaf Eucalyptus gemaakt. Zie hieronder.
+- **Volledig eigen ontwerp**: eigen HTML en CSS, zoals Liefde op papier, Avondgoud en Puur moment. Zie "Volledig eigen ontwerp".
+
+### Atelier-ontwerp
+
+De gedeelde opbouw staat in `designs/_atelier/v1/`: `base.html` (volgorde van de onderdelen), `atelier.css` (alle opmaak), en de mappen `openings/`, `heroes/`, `ornaments/` en `parts/`. Een Atelier-ontwerp heeft in `manifest.json` een blok `atelier` met per onderdeel één keuze:
+
+| Onderdeel | Keuzes |
+|---|---|
+| `opening` | `envelop`, `vouwkaart`, `gordijn`, `lint` (cadeaulint), `sluier`, `confetti`, `ballonnen`, `sterren` (sterrenhemel), `schuif` (schuifpaneel), `polaroid` |
+| `hero` (kop) | `klassiek`, `gesplitst` (tekst en foto naast elkaar), `kader`, `redactioneel`, `monogram` (initialen groot), `polaroid`, `volbeeld` (foto over de hele breedte), `band` (gekleurd vlak), `getal` (leeftijd of aantal jaren groot) |
+| `sections` | `lijnen`, `kaarten`, `genummerd`, `tweekolom`, `midden`, `tijdlijn` |
+| `heading` (koppen) | `lijn`, `ornament`, `script`, `kapitaal`, `groot` |
+| `names` | `display`, `script`, `kapitaal`, `cursief`, `stapel` |
+| `date` | `blok`, `lijn`, `cirkel`, `cijfers`, `kalender` |
+| `photo` | `boog`, `cirkel`, `rond`, `recht`, `polaroid` |
+| `texture` | `geen`, `papier`, `stippen`, `linnen`, `ruit`, `sterren`, `confetti` |
+| `ornament` | `geen`, `eucalyptus`, `botanisch`, `bloemen`, `pampas`, `palm`, `lauwerkrans`, `deco`, `geometrisch`, `sterren`, `confetti`, `ballonnen`, `harten`, `zon`, `golven`, `wolken`, `regenboog`, `ringen`, `lijnen`, `fonkel`, `stippen` |
+
+Een onbekende keuze geeft bij het inlezen een duidelijke melding. De kop `getal` toont bij een verjaardag de leeftijd en bij een jubileum of zakelijk evenement het aantal jaren (als de klant dat invult); anders de initialen.
+
+Zo voeg je er een toe:
+
+1. **Beschrijf het ontwerp** in `tools/atelier/specs.py`: kopieer een bestaand ontwerp dat erop lijkt en pas aan:
+   - `slug`, `name`, `sort_order`, `tagline`, `description`, `style_notes`;
+   - `occasions`: de eerste is de gelegenheid waarvoor het ontwerp gemaakt is (bepaalt de volgorde in de collectie en het standaardvoorbeeld);
+   - `atelier`: de keuzes uit de tabel;
+   - `fonts`: letters per rol (`display`, `body`, `script`, `ui`, en optioneel `text` voor ondertitel en welkomsttekst en `number` voor cijfers). Kies uit de lijst `FONTS` in `tools/atelier/ontwerpen.py`; de bestanden staan in `static/fonts/` (open source, licentie ernaast);
+   - `palettes`: drie kleurvarianten met onder meer `bg`, `surface`, `ink`, `muted`, `accent`, `accent_ink`, `line`, `c2`, `c3` en de kleuren van de opening (`cover_bg`, `cover_ink`, …);
+   - eventueel `tokens` en `css` voor eigen accenten.
+2. **Schrijf de bestanden**: `.venv/bin/python tools/atelier/ontwerpen.py mijn-ontwerp`. Het script controleert eerst het contrast van alle tekstkleuren (minimaal 4,5:1) en stopt met een melding als een kleur te licht is. Bestaande mappen worden niet overschreven.
+3. **Inlezen en bekijken**: `python manage.py sync_designs` en open `/voorbeeld/mijn-ontwerp/` (met `?gelegenheid=…&kleur=…`).
+4. **Voorbeeldbeelden en kaartbeeld** (optioneel): voeg het ontwerp toe aan `DESIGN_IMAGES` in `invitations/demo.py` en maak het kaartbeeld met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs mijn-ontwerp`.
+5. **Testen**: `python manage.py test tests`. De tests controleren onder meer de keuzes, het contrast van elke kleurvariant, de weergave per gelegenheid en lange namen. Draai ook de browsercontrole (zie `docs/CONTROLES.md`).
+
+**Let op:** `designs/_atelier/v1/` wordt door alle Atelier-ontwerpen gedeeld. Een wijziging daarin verandert dus ook bestaande uitnodigingen. Maak na de livegang voor zulke wijzigingen een `_atelier/v2` en een nieuwe versie van de ontwerpen die ervan gebruikmaken.
+
+### Volledig eigen ontwerp
 
 ```
 designs/
@@ -99,7 +141,7 @@ designs/
 static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), optioneel
 ```
 
-1. **Kopieer** het bestaande ontwerp dat het meest lijkt op wat je wilt, bijvoorbeeld `designs/puur-moment/v1`, naar `designs/mijn-ontwerp/v1`.
+1. **Kopieer** het bestaande eigen ontwerp dat het meest lijkt op wat je wilt, bijvoorbeeld `designs/puur-moment/v1`, naar `designs/mijn-ontwerp/v1`.
 2. **Pas `manifest.json` aan**:
    - `slug`: gelijk aan de mapnaam (`mijn-ontwerp`);
    - `version`: `1`;

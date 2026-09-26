@@ -3,7 +3,7 @@
 Gebruik (alleen lokaal/testomgeving):
     .venv/bin/python e2e/fixtures.py > /tmp/fixtures.json
 Maakt per ontwerp: lange namen + verschillende fotoformaten, minimale gegevens,
-en een verstreken evenement. Alles valt onder het klantaccount
+een verstreken evenement en lange woorden in de titel (zoals "Nieuwjaarsreceptie"). Alles valt onder het klantaccount
 controle@vierlief.test en is fictief.
 """
 import io
@@ -68,6 +68,15 @@ def publish(invitation, owner, package="compleet"):
     invitation.refresh_from_db()
     return invitation
 
+
+LONG_WORDS = {
+    "bruiloft": {"partner_1": "Maximiliaan", "partner_2": "Wilhelmina-Charlotte"},
+    "verloving": {"partner_1": "Maximiliaan", "partner_2": "Wilhelmina-Charlotte"},
+    "verjaardag": {"person_name": "Wilhelmina-Charlotte", "age": "100"},
+    "jubileum": {"honorees": "Familie Vandenbroucke-Hoogeveen", "years": "125"},
+    "babyshower": {"parents": "Anne-Wilhelmina & Maximiliaan", "baby_name": ""},
+    "zakelijk": {"event_title": "Nieuwjaarsreceptie", "organization": "Internationale Handelsvereniging", "years": "100"},
+}
 
 owner, _ = User.objects.get_or_create(email="controle@vierlief.test")
 owner.email_verified_at = timezone.now()
@@ -134,5 +143,16 @@ for template in Template.objects.all():
 
     publish_draft(inv, user=owner, source="system", expected_rev=None)
     out[f"{slug}:verstreken"] = inv.public_path
+
+    # 4. Lange woorden in de titel, voor de gelegenheid waarvoor het ontwerp is gemaakt.
+    occasion = template.occasions[0] if template.occasions else "bruiloft"
+    inv = create_draft(occasion=occasion, template=template, owner=owner)
+    content = dict(inv.draft_content)
+    content["names"] = LONG_WORDS[occasion]
+    content.update({"date": (today + timedelta(days=60)).isoformat(), "start_time": "19:30", "venue_name": "Testlocatie", "address": ""})
+    content["rsvp"] = dict(content["rsvp"], deadline=(today + timedelta(days=45)).isoformat(), max_party_size=2)
+    inv = save_draft(inv, expected_rev=None, content=content, user=owner)
+    inv = publish(inv, owner, package="essentieel")
+    out[f"{slug}:woord"] = inv.public_path
 
 print(json.dumps(out, indent=2))

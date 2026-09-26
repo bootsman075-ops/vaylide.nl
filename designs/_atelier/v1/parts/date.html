@@ -1,0 +1,7 @@
+{# Verwacht: a (atelier-instellingen). Datum in de gekozen vorm. #}{% if v.date %}
+{% if a.date == "blok" %}<p class="a-date a-date--blok"><span class="a-date__weekday">{{ v.weekday }}</span><span class="a-date__day">{{ v.day }}</span><span class="a-date__month">{{ v.month_name }} {{ v.year }}</span></p>
+{% elif a.date == "cirkel" %}<p class="a-date a-date--cirkel"><span class="a-date__circle"><span class="a-date__day">{{ v.day }}</span><span class="a-date__month">{{ v.month_name }}</span></span><span class="a-date__rest">{{ v.weekday }} · {{ v.year }}</span></p>
+{% elif a.date == "cijfers" %}<p class="a-date a-date--cijfers"><span class="visually-hidden">{{ v.date_display }}</span><span aria-hidden="true">{{ v.date_numeric }}</span></p>
+{% elif a.date == "kalender" %}<p class="a-date a-date--kalender"><span class="a-date__cal"><span class="a-date__month">{{ v.month_name }}</span><span class="a-date__day">{{ v.day }}</span><span class="a-date__weekday">{{ v.weekday }}</span></span><span class="a-date__year">{{ v.year }}</span></p>
+{% else %}<p class="a-date a-date--lijn">{{ v.date_display|capfirst }}</p>{% endif %}
+{% endif %}

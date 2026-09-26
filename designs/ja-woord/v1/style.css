@@ -1,0 +1,21 @@
+/* Ja-woord v1 — champagne, monogram, ringen.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Italiana"; src: url("../../../fonts/italiana-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Tenor Sans"; src: url("../../../fonts/tenor-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Great Vibes"; src: url("../../../fonts/great-vibes-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+
+body {
+  --a-display: "Italiana", Georgia, serif;
+  --a-body: "Tenor Sans", system-ui, sans-serif;
+  --a-script: "Great Vibes", cursive;
+  --a-ui: "Tenor Sans", system-ui, sans-serif;
+  --a-text-font: "Instrument Serif", Georgia, serif;
+  --a-number-font: "Instrument Serif", Georgia, serif;
+  --a-names-spacing: .18em;
+}
+
+.a-kicker { font-family: var(--a-script); font-size: clamp(2rem, 8vw, 2.6rem); font-weight: 400; letter-spacing: 0; text-transform: none; }
+.a-monogram { font-size: clamp(8rem, 40vw, 16rem); letter-spacing: .02em; }

@@ -1,0 +1,115 @@
+{
+  "slug": "neon",
+  "version": 1,
+  "name": "Neonnacht",
+  "tagline": "Feestelijk en donker, met gloeiende letters",
+  "description": "Een sluier trekt op en de letters gaan gloeien als neon. Een groot getal, strakke lijnen en een donkere achtergrond.",
+  "style_notes": "Donker, neonlicht, gloeiende letters",
+  "occasions": [
+    "verjaardag",
+    "zakelijk"
+  ],
+  "sort_order": 220,
+  "opening": "sluier",
+  "opening_label": "Zachte sluier",
+  "atelier": {
+    "opening": "sluier",
+    "hero": "getal",
+    "sections": "lijnen",
+    "heading": "groot",
+    "names": "display",
+    "date": "cijfers",
+    "photo": "rond",
+    "texture": "geen",
+    "ornament": "lijnen"
+  },
+  "palettes": [
+    {
+      "key": "roze",
+      "name": "Roze neon",
+      "swatch": [
+        "#120B1E",
+        "#7A2FF7",
+        "#FF4FD8"
+      ],
+      "vars": {
+        "--a-bg": "#120B1E",
+        "--a-surface": "#1C1330",
+        "--a-ink": "#FBF3FF",
+        "--a-muted": "#CDBFDD",
+        "--a-accent": "#FF4FD8",
+        "--a-accent-ink": "#120B1E",
+        "--a-accent-text": "#FF8AE5",
+        "--a-line": "#3A2656",
+        "--a-c2": "#7A2FF7",
+        "--a-c3": "#2DE2E6",
+        "--a-cover-bg": "#0D0716",
+        "--a-cover-ink": "#FBF3FF",
+        "--a-scheme": "dark",
+        "--a-page": "#120B1E"
+      }
+    },
+    {
+      "key": "blauw",
+      "name": "Blauw neon",
+      "swatch": [
+        "#07121F",
+        "#2F6BFF",
+        "#37E2FF"
+      ],
+      "vars": {
+        "--a-bg": "#07121F",
+        "--a-surface": "#0E1C2E",
+        "--a-ink": "#EEF8FF",
+        "--a-muted": "#B5C6D6",
+        "--a-accent": "#37E2FF",
+        "--a-accent-ink": "#07121F",
+        "--a-line": "#1D3350",
+        "--a-c2": "#2F6BFF",
+        "--a-c3": "#B06CFF",
+        "--a-cover-bg": "#040C16",
+        "--a-cover-ink": "#EEF8FF",
+        "--a-scheme": "dark",
+        "--a-page": "#07121F"
+      }
+    },
+    {
+      "key": "groen",
+      "name": "Groen neon",
+      "swatch": [
+        "#0B1410",
+        "#2EE6A6",
+        "#7CFF6B"
+      ],
+      "vars": {
+        "--a-bg": "#0B1410",
+        "--a-surface": "#122019",
+        "--a-ink": "#F1FFF3",
+        "--a-muted": "#BCD1C2",
+        "--a-accent": "#7CFF6B",
+        "--a-accent-ink": "#0B1410",
+        "--a-line": "#20382C",
+        "--a-c2": "#2EE6A6",
+        "--a-c3": "#E6FF4F",
+        "--a-cover-bg": "#060D09",
+        "--a-cover-ink": "#F1FFF3",
+        "--a-scheme": "dark",
+        "--a-page": "#0B1410"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

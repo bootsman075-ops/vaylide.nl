@@ -1,0 +1,21 @@
+/* Rozentuin v1 — zacht roze, bloemen, sierlijk handschrift.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "EB Garamond"; src: url("../../../fonts/eb-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 400 800; font-display: swap; }
+@font-face { font-family: "EB Garamond"; src: url("../../../fonts/eb-garamond-latin-wght-italic.woff2") format("woff2"); font-weight: 400 800; font-style: italic; font-display: swap; }
+@font-face { font-family: "Parisienne"; src: url("../../../fonts/parisienne-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("../../../fonts/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+
+body {
+  --a-display: "EB Garamond", Garamond, Georgia, serif;
+  --a-body: "EB Garamond", Garamond, Georgia, serif;
+  --a-script: "Parisienne", cursive;
+  --a-ui: "Figtree", system-ui, sans-serif;
+  --a-names-font: var(--a-script);
+  --a-radius: 14px;
+  --inv-font-size: 1.1rem;
+}
+
+.a-names { color: var(--a-text); }
+.a-sec-kaarten .a-sec { box-shadow: none; border: 1px solid var(--a-line); }
+.a-date--lijn { font-style: italic; }

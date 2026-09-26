@@ -12,14 +12,14 @@
   <fieldset class="studio-block">
     <legend class="studio-block__title">Gelegenheid</legend>
     <div class="occasion-grid occasion-grid--compact">
-      {% for key, label in occasions %}<label class="radio-card"><input type="radio" name="occasion" value="{{ key }}"{% if key == inv.occasion %} checked{% endif %}><strong>{{ label }}</strong></label>{% endfor %}
+      {% for key, label in occasions %}<label class="radio-card"><input type="radio" name="occasion" value="{{ key }}"{% if key == inv.occasion %} checked{% endif %} data-occasion-radio><strong>{{ label }}</strong></label>{% endfor %}
     </div>
   </fieldset>
   <fieldset class="studio-block">
     <legend class="studio-block__title">Ontwerp</legend>
     <div class="design-pick-grid">
       {% for t in templates %}
-      <label class="radio-card design-pick">
+      <label class="radio-card design-pick" data-occasions="{{ t.occasions|join:' ' }}">
         <input type="radio" name="template" value="{{ t.slug }}"{% if t.pk == inv.template_version.template_id %} checked{% endif %}>
         <img src="{% design_image t.slug %}" alt="" width="400" height="500" loading="lazy">
         <strong>{{ t.name }}</strong><span class="small muted">{{ t.occasion_labels|join:", " }}</span>

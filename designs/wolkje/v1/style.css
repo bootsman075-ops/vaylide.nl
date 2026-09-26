@@ -1,0 +1,19 @@
+/* Wolkje v1 — zachtblauw, wolkjes, rond.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Quicksand"; src: url("../../../fonts/quicksand-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Nunito"; src: url("../../../fonts/nunito-latin-wght-normal.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+
+body {
+  --a-display: "Quicksand", system-ui, sans-serif;
+  --a-body: "Nunito", system-ui, sans-serif;
+  --a-script: "Quicksand", system-ui, sans-serif;
+  --a-ui: "Nunito", system-ui, sans-serif;
+  --a-radius: 24px;
+  --a-names-weight: 600;
+  --a-h2-weight: 600;
+}
+
+.a-tagline { font-family: var(--a-body); font-style: normal; }
+.a-lead { font-family: var(--a-body); }
+.a-sec-kaarten .a-sec { box-shadow: 0 14px 30px -24px color-mix(in srgb, var(--a-accent) 70%, transparent); }

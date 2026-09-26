@@ -1,0 +1,19 @@
+/* Ballonfeest v1 — pastel, ballonnen, ronde vormen.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Fredoka"; src: url("../../../fonts/fredoka-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Quicksand"; src: url("../../../fonts/quicksand-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+
+body {
+  --a-display: "Fredoka", system-ui, sans-serif;
+  --a-body: "Quicksand", system-ui, sans-serif;
+  --a-script: "Fredoka", system-ui, sans-serif;
+  --a-ui: "Quicksand", system-ui, sans-serif;
+  --a-radius: 20px;
+  --a-names-weight: 600;
+  --a-h2-weight: 600;
+}
+
+.a-tagline { font-family: var(--a-body); font-style: normal; font-weight: 500; }
+.a-sec__body { font-weight: 500; }
+.a-lead { font-family: var(--a-body); }

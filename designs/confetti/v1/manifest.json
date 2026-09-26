@@ -1,0 +1,115 @@
+{
+  "slug": "confetti",
+  "version": 1,
+  "name": "Confetti",
+  "tagline": "Vrolijk en kleurrijk, met een groot getal",
+  "description": "Een tik en de confetti vliegt in het rond. De leeftijd staat groot in beeld, met vrolijke kaartjes en een kalenderblaadje.",
+  "style_notes": "Kleurrijk, confetti, groot getal",
+  "occasions": [
+    "verjaardag",
+    "babyshower",
+    "zakelijk"
+  ],
+  "sort_order": 210,
+  "opening": "confetti",
+  "opening_label": "Confetti",
+  "atelier": {
+    "opening": "confetti",
+    "hero": "getal",
+    "sections": "kaarten",
+    "heading": "groot",
+    "names": "display",
+    "date": "kalender",
+    "photo": "cirkel",
+    "texture": "confetti",
+    "ornament": "confetti"
+  },
+  "palettes": [
+    {
+      "key": "vrolijk",
+      "name": "Vrolijk",
+      "swatch": [
+        "#FFF8F0",
+        "#FFC857",
+        "#B83C0B"
+      ],
+      "vars": {
+        "--a-bg": "#FFF8F0",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2B2320",
+        "--a-muted": "#645750",
+        "--a-accent": "#B83C0B",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F2E3D3",
+        "--a-c2": "#FFC857",
+        "--a-c3": "#5FC8D8",
+        "--a-cover-bg": "#FFF1E3",
+        "--a-cover-ink": "#2B2320",
+        "--a-scheme": "light",
+        "--a-page": "#FFF8F0"
+      }
+    },
+    {
+      "key": "pastel",
+      "name": "Pastel",
+      "swatch": [
+        "#F7F4FF",
+        "#FFB5C2",
+        "#5B3FCB"
+      ],
+      "vars": {
+        "--a-bg": "#F7F4FF",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#29243A",
+        "--a-muted": "#5E586F",
+        "--a-accent": "#5B3FCB",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E4DEF5",
+        "--a-c2": "#FFB5C2",
+        "--a-c3": "#9ED9CC",
+        "--a-cover-bg": "#EFEAFF",
+        "--a-cover-ink": "#29243A",
+        "--a-scheme": "light",
+        "--a-page": "#F7F4FF"
+      }
+    },
+    {
+      "key": "nacht",
+      "name": "Nacht",
+      "swatch": [
+        "#161616",
+        "#FF6B9A",
+        "#FFD23F"
+      ],
+      "vars": {
+        "--a-bg": "#161616",
+        "--a-surface": "#222222",
+        "--a-ink": "#F7F3EC",
+        "--a-muted": "#C8C0B4",
+        "--a-accent": "#FFD23F",
+        "--a-accent-ink": "#161616",
+        "--a-line": "#363636",
+        "--a-c2": "#FF6B9A",
+        "--a-c3": "#3EC1D3",
+        "--a-cover-bg": "#101010",
+        "--a-cover-ink": "#F7F3EC",
+        "--a-scheme": "dark",
+        "--a-page": "#161616"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

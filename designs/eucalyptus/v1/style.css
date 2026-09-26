@@ -1,0 +1,20 @@
+/* Eucalyptus v1 — salie, zacht papier, sierlijke letters.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Great Vibes"; src: url("../../../fonts/great-vibes-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("../../../fonts/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+body {
+  --a-display: "Cormorant Garamond", Georgia, serif;
+  --a-body: "Cormorant Garamond", Georgia, serif;
+  --a-script: "Great Vibes", cursive;
+  --a-ui: "Jost", system-ui, sans-serif;
+  --a-names-font: var(--a-script);
+  --a-radius: 4px;
+  --inv-font-size: 1.12rem;
+}
+
+.a-names { color: var(--a-text); }
+.a-lead { font-style: italic; }

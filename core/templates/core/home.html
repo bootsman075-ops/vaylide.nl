@@ -79,8 +79,8 @@
   <div class="container designs-row">
     <div class="designs-row__text">
       <h2 id="ontwerpen-titel">Onze ontwerpen</h2>
-      <p>Elk ontwerp heeft een eigen opening en vier kleuren. Probeer ze op je eigen telefoon.</p>
-      <a class="link-arrow" href="{% url 'core:designs' %}">Bekijk alle</a>
+      <p>Kies uit {{ design_count }} ontwerpen, elk met een eigen opening en kleurvarianten. Probeer ze op je eigen telefoon.</p>
+      <a class="link-arrow" href="{% url 'core:designs' %}">Bekijk alle {{ design_count }}</a>
     </div>
     <div class="grid grid--trio">
       {% for card in cards %}{% include "partials/design_card.html" %}{% endfor %}

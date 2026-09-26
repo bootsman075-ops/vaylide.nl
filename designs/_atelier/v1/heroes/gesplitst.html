@@ -1,0 +1,13 @@
+<header class="a-hero">
+  <div class="a-hero__grid">
+    <div class="a-hero__text">
+      {% include "_atelier/v1/parts/ornament.html" with pos="top" %}
+      <p class="a-kicker">{{ v.kicker }}</p>
+      {% include "_atelier/v1/parts/names.html" %}
+      <p class="a-tagline">{{ v.tagline }}</p>
+      {% include "_atelier/v1/parts/date.html" %}
+      {% include "_atelier/v1/parts/meta.html" %}
+    </div>
+    {% include "_atelier/v1/parts/photo.html" with sizes="(min-width: 900px) 50vw, 92vw" %}
+  </div>
+</header>

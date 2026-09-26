@@ -1,0 +1,19 @@
+/* Tropisch v1 — jungle, palmbladeren, zomer.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Fraunces"; src: url("../../../fonts/fraunces-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("../../../fonts/fraunces-latin-wght-italic.woff2") format("woff2"); font-weight: 100 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Quicksand"; src: url("../../../fonts/quicksand-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+
+body {
+  --a-display: "Fraunces", Georgia, serif;
+  --a-body: "Quicksand", system-ui, sans-serif;
+  --a-script: "Fraunces", Georgia, serif;
+  --a-ui: "Quicksand", system-ui, sans-serif;
+  --a-radius: 16px;
+  --a-names-weight: 500;
+}
+
+.a-names { color: var(--a-text); }
+.a-sec__body { font-weight: 500; }
+.a-tagline { font-family: var(--a-body); font-style: normal; font-weight: 500; }

@@ -1,0 +1,19 @@
+/* Strak zakelijk v1 — marine, strak, professioneel.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Manrope"; src: url("../../../fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+
+body {
+  --a-display: "Manrope", system-ui, sans-serif;
+  --a-body: "Manrope", system-ui, sans-serif;
+  --a-script: "Manrope", system-ui, sans-serif;
+  --a-ui: "Manrope", system-ui, sans-serif;
+  --a-radius: 6px;
+  --a-names-weight: 700;
+  --a-names-spacing: -.035em;
+  --a-h2-weight: 700;
+}
+
+.a-tagline { font-family: var(--a-body); font-style: normal; }
+.a-lead { font-family: var(--a-body); font-size: 1.2rem; }
+.a-program__what h3, .a-location__venue, .a-contact__name, .cd__num { font-weight: 700; }

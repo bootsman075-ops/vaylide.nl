@@ -14,6 +14,7 @@
 {% boot_script %}
 {% block preload %}{% endblock %}
 <link rel="stylesheet" href="{% static 'invitations/invite-base.css' %}">
+{% block extra_css %}{% endblock %}
 <link rel="stylesheet" href="{% static v.stylesheet %}">
 <script src="{% static 'invitations/invite.js' %}" defer></script>
 </head>

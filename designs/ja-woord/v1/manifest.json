@@ -1,0 +1,117 @@
+{
+  "slug": "ja-woord",
+  "version": 1,
+  "name": "Ja-woord",
+  "tagline": "Elegant, met jullie initialen groot in beeld",
+  "description": "Een cadeaulint wordt losgetrokken. Jullie initialen staan groot op de achtergrond, met twee ringen en een sierlijke kop.",
+  "style_notes": "Champagne, monogram, ringen",
+  "occasions": [
+    "verloving",
+    "bruiloft"
+  ],
+  "sort_order": 160,
+  "opening": "lint",
+  "opening_label": "Cadeaulint",
+  "atelier": {
+    "opening": "lint",
+    "hero": "monogram",
+    "sections": "midden",
+    "heading": "script",
+    "names": "kapitaal",
+    "date": "lijn",
+    "photo": "cirkel",
+    "texture": "geen",
+    "ornament": "ringen"
+  },
+  "palettes": [
+    {
+      "key": "champagne",
+      "name": "Champagne",
+      "swatch": [
+        "#F8F3EA",
+        "#EAD7BA",
+        "#826339"
+      ],
+      "vars": {
+        "--a-bg": "#F8F3EA",
+        "--a-surface": "#FFFDF8",
+        "--a-ink": "#2E271F",
+        "--a-muted": "#645849",
+        "--a-accent": "#826339",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E6DCCB",
+        "--a-c2": "#EAD7BA",
+        "--a-c3": "#F1E3E0",
+        "--a-cover-bg": "#EFE5D6",
+        "--a-cover-ink": "#2E271F",
+        "--a-ribbon": "#C9A76A",
+        "--a-scheme": "light",
+        "--a-page": "#F8F3EA"
+      }
+    },
+    {
+      "key": "blush",
+      "name": "Blush",
+      "swatch": [
+        "#FAF0EE",
+        "#F1CDD2",
+        "#94455B"
+      ],
+      "vars": {
+        "--a-bg": "#FAF0EE",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#35262A",
+        "--a-muted": "#68565A",
+        "--a-accent": "#94455B",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EFDADA",
+        "--a-c2": "#F1CDD2",
+        "--a-c3": "#EADCC9",
+        "--a-cover-bg": "#F3E1DF",
+        "--a-cover-ink": "#35262A",
+        "--a-ribbon": "#D9A2AE",
+        "--a-scheme": "light",
+        "--a-page": "#FAF0EE"
+      }
+    },
+    {
+      "key": "nacht",
+      "name": "Nacht",
+      "swatch": [
+        "#1E1B22",
+        "#8E7866",
+        "#D9B99B"
+      ],
+      "vars": {
+        "--a-bg": "#1E1B22",
+        "--a-surface": "#28242D",
+        "--a-ink": "#F4EDE6",
+        "--a-muted": "#C9BDB5",
+        "--a-accent": "#D9B99B",
+        "--a-accent-ink": "#1E1B22",
+        "--a-line": "#3B3542",
+        "--a-c2": "#8E7866",
+        "--a-c3": "#4A4152",
+        "--a-cover-bg": "#17151A",
+        "--a-cover-ink": "#F4EDE6",
+        "--a-ribbon": "#D9B99B",
+        "--a-scheme": "dark",
+        "--a-page": "#1E1B22"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

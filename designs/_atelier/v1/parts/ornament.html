@@ -1,0 +1,1 @@
+{# Verwacht: a (atelier-instellingen), pos (top, bottom, closing, cover). Versiering is decoratief. #}{% if a.ornament and a.ornament != "geen" %}<div class="a-orn a-orn--{{ pos }}" aria-hidden="true">{% include "_atelier/v1/ornaments/"|add:a.ornament|add:".html" %}</div>{% endif %}

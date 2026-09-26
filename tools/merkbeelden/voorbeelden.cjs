@@ -8,15 +8,16 @@ const { chromium } = require("playwright");
 const BASE = process.argv[2] || "http://127.0.0.1:8000";
 const OUT = path.resolve(__dirname, "../../static/img/site");
 // gelegenheid, ontwerp, kleur, openen?
+// Per gelegenheid een ontwerp dat ervoor gemaakt is (andere dan de drie uitgelichte op de homepage).
 const TILES = [
-  ["bruiloft", "liefde-op-papier", "salie", true],
-  ["verloving", "puur-moment", "zand", false],
-  ["verjaardag", "avondgoud", "nachtblauw", false],
-  ["jubileum", "avondgoud", "smaragd", true],
-  ["babyshower", "liefde-op-papier", "lavendel", true],
-  ["zakelijk", "puur-moment", "inkt", false],
+  ["bruiloft", "eucalyptus", "salie", true],
+  ["verloving", "ja-woord", "champagne", true],
+  ["verjaardag", "neon", "roze", true],
+  ["jubileum", "lauwerkrans", "goud", true],
+  ["babyshower", "stipjes", "roze", true],
+  ["zakelijk", "gala", "zwart-champagne", true],
 ];
-const HIDE = ".lp-cover__hint,.lp-cover__music,.ag-cover__hint,.ag-cover__music,.pm-open,.music{display:none!important}";
+const HIDE = ".lp-cover__hint,.lp-cover__music,.ag-cover__hint,.ag-cover__music,.pm-open,.a-cover__hint,.a-cover__music,.music{display:none!important}";
 
 async function toWebp(page, png, width, height, quality) {
   const data = await page.evaluate(async ([b64, w, h, q]) => {
@@ -47,7 +48,8 @@ async function shoot(context, url, open) {
   if (open) {
     await page.evaluate(() => document.querySelector("[data-open]").click());
     await page.waitForTimeout(2500);
-    await page.evaluate(() => window.scrollTo(0, 0));
+    // Na het openen krijgt de kop de focus (voor toetsenbord en schermlezer); geen focusrand in de afbeelding.
+    await page.evaluate(() => { window.scrollTo(0, 0); if (document.activeElement) document.activeElement.blur(); });
   }
   await page.addStyleTag({ content: HIDE });
   await page.waitForTimeout(500);

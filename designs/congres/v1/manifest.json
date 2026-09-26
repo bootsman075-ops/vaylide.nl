@@ -1,0 +1,114 @@
+{
+  "slug": "congres",
+  "version": 1,
+  "name": "Congres",
+  "tagline": "Overzichtelijk, met het programma centraal",
+  "description": "Een paneel schuift opzij. Een gekleurde band met de titel, een tijdlijn voor het programma en een lichte ruitstructuur.",
+  "style_notes": "Blauw, tijdlijn, overzichtelijk",
+  "occasions": [
+    "zakelijk",
+    "jubileum"
+  ],
+  "sort_order": 380,
+  "opening": "schuif",
+  "opening_label": "Schuifpaneel",
+  "atelier": {
+    "opening": "schuif",
+    "hero": "band",
+    "sections": "tijdlijn",
+    "heading": "groot",
+    "names": "display",
+    "date": "kalender",
+    "photo": "rond",
+    "texture": "ruit",
+    "ornament": "geometrisch"
+  },
+  "palettes": [
+    {
+      "key": "blauw",
+      "name": "Blauw",
+      "swatch": [
+        "#F4F6FB",
+        "#C7D1F2",
+        "#243B8F"
+      ],
+      "vars": {
+        "--a-bg": "#F4F6FB",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#10182E",
+        "--a-muted": "#4D5670",
+        "--a-accent": "#243B8F",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DADFF0",
+        "--a-c2": "#C7D1F2",
+        "--a-c3": "#E6EAF7",
+        "--a-cover-bg": "#243B8F",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#F4F6FB"
+      }
+    },
+    {
+      "key": "groen",
+      "name": "Groen",
+      "swatch": [
+        "#F2F6F3",
+        "#C2DACE",
+        "#1E5B45"
+      ],
+      "vars": {
+        "--a-bg": "#F2F6F3",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#11231B",
+        "--a-muted": "#4B5B53",
+        "--a-accent": "#1E5B45",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D7E2DB",
+        "--a-c2": "#C2DACE",
+        "--a-c3": "#E5EEE8",
+        "--a-cover-bg": "#1E5B45",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#F2F6F3"
+      }
+    },
+    {
+      "key": "oranje",
+      "name": "Oranje",
+      "swatch": [
+        "#FBF5F0",
+        "#F2C4A8",
+        "#A13F17"
+      ],
+      "vars": {
+        "--a-bg": "#FBF5F0",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2A1A10",
+        "--a-muted": "#64544A",
+        "--a-accent": "#A13F17",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F0E1D5",
+        "--a-c2": "#F2C4A8",
+        "--a-c3": "#F6E9DE",
+        "--a-cover-bg": "#A13F17",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#FBF5F0"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

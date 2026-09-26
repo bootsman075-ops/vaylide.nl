@@ -1,0 +1,21 @@
+/* Glitter & goud v1 — zwart en goud, fonkeling, glamour.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Abril Fatface"; src: url("../../../fonts/abril-fatface-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Josefin Sans"; src: url("../../../fonts/josefin-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 700; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+
+body {
+  --a-display: "Abril Fatface", Georgia, serif;
+  --a-body: "Josefin Sans", system-ui, sans-serif;
+  --a-script: "Abril Fatface", Georgia, serif;
+  --a-ui: "Josefin Sans", system-ui, sans-serif;
+  --a-text-font: "Instrument Serif", Georgia, serif;
+  --a-radius: 8px;
+  --a-names-spacing: .1em;
+}
+
+.a-number { color: var(--a-text); }
+.a-sec__body { font-weight: 300; }
+.a-names { font-family: var(--a-body); font-weight: 600; }

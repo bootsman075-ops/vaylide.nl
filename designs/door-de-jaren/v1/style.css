@@ -1,0 +1,19 @@
+/* Door de jaren v1 — sepia, typemachine, tijdlijn.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Lora"; src: url("../../../fonts/lora-latin-wght-normal.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Lora"; src: url("../../../fonts/lora-latin-wght-italic.woff2") format("woff2"); font-weight: 400 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Courier Prime"; src: url("../../../fonts/courier-prime-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+body {
+  --a-display: "Lora", Georgia, serif;
+  --a-body: "Lora", Georgia, serif;
+  --a-script: "Courier Prime", "Courier New", monospace;
+  --a-ui: "Courier Prime", "Courier New", monospace;
+  --a-radius: 2px;
+}
+
+body[data-palette="sepia"] .ph__img { filter: sepia(.35) saturate(.85); }
+body[data-palette="zwart-wit"] .ph__img { filter: grayscale(1) contrast(1.05); }
+.a-photo__caption, .a-snap__caption { font-size: 1.1rem; }
+.a-tagline { font-family: var(--a-ui); font-style: normal; font-size: 1rem; }

@@ -1,0 +1,114 @@
+{
+  "slug": "gouden-jaren",
+  "version": 1,
+  "name": "Gouden jaren",
+  "tagline": "Groots, met een gouden getal",
+  "description": "Een vouwkaart opent zich. Het aantal jaren in grote, sierlijke cijfers, fonkeling en onderdelen in twee kolommen.",
+  "style_notes": "Ivoor en goud, groot getal, sierlijk",
+  "occasions": [
+    "jubileum",
+    "verjaardag"
+  ],
+  "sort_order": 280,
+  "opening": "vouwkaart",
+  "opening_label": "Vouwkaart",
+  "atelier": {
+    "opening": "vouwkaart",
+    "hero": "getal",
+    "sections": "tweekolom",
+    "heading": "groot",
+    "names": "cursief",
+    "date": "kalender",
+    "photo": "rond",
+    "texture": "geen",
+    "ornament": "fonkel"
+  },
+  "palettes": [
+    {
+      "key": "ivoor-goud",
+      "name": "Ivoor & goud",
+      "swatch": [
+        "#FBF7EE",
+        "#E2C27E",
+        "#7F5A1C"
+      ],
+      "vars": {
+        "--a-bg": "#FBF7EE",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#231D14",
+        "--a-muted": "#5A5043",
+        "--a-accent": "#7F5A1C",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EDE2CC",
+        "--a-c2": "#E2C27E",
+        "--a-c3": "#F3E6CF",
+        "--a-cover-bg": "#EFE3C8",
+        "--a-cover-ink": "#231D14",
+        "--a-scheme": "light",
+        "--a-page": "#FBF7EE"
+      }
+    },
+    {
+      "key": "bordeaux-goud",
+      "name": "Bordeaux & goud",
+      "swatch": [
+        "#2A0E14",
+        "#D9B46A",
+        "#D9B46A"
+      ],
+      "vars": {
+        "--a-bg": "#2A0E14",
+        "--a-surface": "#36141C",
+        "--a-ink": "#F6EADB",
+        "--a-muted": "#D6C1B0",
+        "--a-accent": "#D9B46A",
+        "--a-accent-ink": "#2A0E14",
+        "--a-line": "#4A2029",
+        "--a-c2": "#D9B46A",
+        "--a-c3": "#8E5B4B",
+        "--a-cover-bg": "#1F0A0F",
+        "--a-cover-ink": "#F6EADB",
+        "--a-scheme": "dark",
+        "--a-page": "#2A0E14"
+      }
+    },
+    {
+      "key": "groen-goud",
+      "name": "Groen & goud",
+      "swatch": [
+        "#0F2A22",
+        "#D6B874",
+        "#D6B874"
+      ],
+      "vars": {
+        "--a-bg": "#0F2A22",
+        "--a-surface": "#15362C",
+        "--a-ink": "#F1ECDD",
+        "--a-muted": "#C9C6B4",
+        "--a-accent": "#D6B874",
+        "--a-accent-ink": "#0F2A22",
+        "--a-line": "#244A3E",
+        "--a-c2": "#D6B874",
+        "--a-c3": "#5F8A74",
+        "--a-cover-bg": "#0A1F19",
+        "--a-cover-ink": "#F1ECDD",
+        "--a-scheme": "dark",
+        "--a-page": "#0F2A22"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

@@ -1,0 +1,11 @@
+<section class="cover a-cover a-cover--confetti a-names-{{ a.names }}" data-cover data-duration="2000" aria-label="Openingsscherm">
+  <div class="a-burst" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="a-cover__inner">
+    <p class="a-cover__big" aria-hidden="true">{% if v.number %}{{ v.number }}{% else %}{{ v.monogram }}{% endif %}</p>
+    <p class="a-cover__kicker">{{ v.kicker }}</p>
+    <p class="a-cover__title a-cover__title--{{ v.names_size }}">{{ v.title }}</p>
+    {% if v.date_numeric %}<p class="a-cover__date">{{ v.date_numeric }}</p>{% endif %}
+    <a href="#uitnodiging" class="a-cover__btn" data-open>{% if v.formal %}Open de uitnodiging{% else %}Open het feest{% endif %}</a>
+    {% include "_atelier/v1/parts/music.html" %}
+  </div>
+</section>

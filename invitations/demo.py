@@ -22,6 +22,37 @@ DESIGN_IMAGES = {
     "liefde-op-papier": ["waterverf-bloesem", "bloemblaadjes", "waterverf-lavendel", "zee-horizon", "duinen-staand"],
     "avondgoud": ["goud-lichtjes", "kaarslicht", "bloemblaadjes", "zee-horizon", "duinen-ochtend"],
     "puur-moment": ["duinen-ochtend", "zee-horizon", "duinen-staand", "waterverf-lavendel", "bloemblaadjes"],
+    # Atelier-ontwerpen: eerste beeld is de kop, de rest de fotogalerij.
+    "eucalyptus": ["eucalyptus", "bloemblaadjes", "zee-horizon", "duinen-staand", "waterverf-bloesem"],
+    "gatsby": ["zijde-goud", "goud-lichtjes", "kaarslicht", "stadslicht", "zee-horizon"],
+    "rozentuin": ["rozen", "bloemblaadjes", "waterverf-bloesem", "duinen-staand", "zee-horizon"],
+    "lijnenspel": ["architectuur", "zee-horizon", "duinen-staand", "bloemblaadjes", "duinen-ochtend"],
+    "zuiden": ["terracotta", "pampas", "duinen-ochtend", "zee-horizon", "duinen-staand"],
+    "ja-woord": ["zijde-goud", "bloemblaadjes", "waterverf-bloesem", "zee-horizon", "duinen-staand"],
+    "polaroid": ["duinen-ochtend", "zee-horizon", "bloemblaadjes", "palmbladeren", "duinen-staand"],
+    "sterrennacht": ["sterrenhemel", "kaarslicht", "goud-lichtjes", "zee-horizon", "duinen-staand"],
+    "pampas": ["pampas", "duinen-ochtend", "bloemblaadjes", "terracotta", "duinen-staand"],
+    "monogram": ["waterverf-lavendel", "zee-horizon", "architectuur", "duinen-staand", "bloemblaadjes"],
+    "confetti": ["confetti", "ballonnen", "goud-lichtjes", "kaarslicht", "neon"],
+    "neon": ["neon", "stadslicht", "confetti", "goud-lichtjes", "kaarslicht"],
+    "ballonfeest": ["ballonnen", "confetti", "bloemblaadjes", "wolken", "zee-horizon"],
+    "glitter": ["zijde-goud", "goud-lichtjes", "kaarslicht", "confetti", "stadslicht"],
+    "tropisch": ["palmbladeren", "zee-horizon", "terracotta", "duinen-ochtend", "confetti"],
+    "lauwerkrans": ["zijde-goud", "kaarslicht", "waterverf-bloesem", "duinen-ochtend", "zee-horizon"],
+    "zilveren-feest": ["zijde-zilver", "zee-horizon", "waterverf-lavendel", "duinen-staand", "kaarslicht"],
+    "gouden-jaren": ["zijde-goud", "goud-lichtjes", "kaarslicht", "duinen-ochtend", "bloemblaadjes"],
+    "door-de-jaren": ["duinen-ochtend", "zee-horizon", "bloemblaadjes", "duinen-staand", "waterverf-bloesem"],
+    "robijn": ["rozen", "kaarslicht", "bloemblaadjes", "goud-lichtjes", "zee-horizon"],
+    "wolkje": ["wolken", "ballonnen", "waterverf-lavendel", "zee-horizon", "duinen-staand"],
+    "maanlicht": ["sterrenhemel", "wolken", "waterverf-lavendel", "zee-horizon", "duinen-staand"],
+    "regenboog": ["wolken", "terracotta", "pampas", "duinen-ochtend", "bloemblaadjes"],
+    "lentebloesem": ["bloesemtak", "bloemblaadjes", "waterverf-bloesem", "wolken", "zee-horizon"],
+    "stipjes": ["confetti", "ballonnen", "bloemblaadjes", "wolken", "waterverf-bloesem"],
+    "strak": ["architectuur", "stadslicht", "zee-horizon", "duinen-staand", "duinen-ochtend"],
+    "gala": ["stadslicht", "kaarslicht", "goud-lichtjes", "zijde-goud", "zee-horizon"],
+    "congres": ["architectuur", "stadslicht", "zee-horizon", "confetti", "duinen-staand"],
+    "borrel": ["terracotta", "kaarslicht", "goud-lichtjes", "stadslicht", "zee-horizon"],
+    "mijlpaal": ["zijde-goud", "stadslicht", "architectuur", "goud-lichtjes", "zee-horizon"],
 }
 IMAGE_SIZES = {
     "waterverf-bloesem": (1200, 1500),
@@ -32,6 +63,21 @@ IMAGE_SIZES = {
     "zee-horizon": (1500, 1500),
     "bloemblaadjes": (1600, 1100),
     "duinen-staand": (1200, 1500),
+    "eucalyptus": (1200, 1500),
+    "pampas": (1200, 1500),
+    "sterrenhemel": (1500, 1200),
+    "confetti": (1600, 1100),
+    "neon": (1200, 1500),
+    "palmbladeren": (1500, 1200),
+    "terracotta": (1200, 1500),
+    "architectuur": (1800, 1200),
+    "stadslicht": (1800, 1200),
+    "wolken": (1500, 1200),
+    "zijde-goud": (1500, 1200),
+    "zijde-zilver": (1500, 1200),
+    "rozen": (1200, 1500),
+    "bloesemtak": (1500, 1200),
+    "ballonnen": (1200, 1500),
 }
 
 
@@ -153,7 +199,7 @@ def demo_content(design_slug: str, occasion: str, palette_key: str = "") -> dict
         content["closing_text"] = "We kijken ernaar uit je te zien!"
         content["contact"]["name"] = "Mila (vriendin)"
     elif occasion == "zakelijk":
-        content["names"] = {"event_title": "Jubileumborrel", "organization": "Studio Voorbeeld"}
+        content["names"] = {"event_title": "Jubileumborrel", "organization": "Studio Voorbeeld", "years": "10"}
         content.update({"start_time": "16:00", "end_time": "19:00"})
         content["welcome_text"] = "Graag nodigen wij u uit om samen met ons team tien jaar Studio Voorbeeld te vieren."
         content["program"] = [

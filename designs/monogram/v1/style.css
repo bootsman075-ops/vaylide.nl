@@ -1,0 +1,17 @@
+/* Monogram v1 — marine, strak, genummerd.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Bodoni Moda"; src: url("../../../fonts/bodoni-moda-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "Bodoni Moda"; src: url("../../../fonts/bodoni-moda-latin-wght-italic.woff2") format("woff2"); font-weight: 400 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("../../../fonts/montserrat-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+body {
+  --a-display: "Bodoni Moda", Didot, Georgia, serif;
+  --a-body: "Montserrat", system-ui, sans-serif;
+  --a-script: "Bodoni Moda", Didot, Georgia, serif;
+  --a-ui: "Montserrat", system-ui, sans-serif;
+  --a-radius: 2px;
+}
+
+.a-sec__body { font-size: 1rem; }
+.a-band .a-names { font-style: italic; }

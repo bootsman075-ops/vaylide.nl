@@ -1,0 +1,11 @@
+<section class="cover a-cover a-cover--polaroid a-names-{{ a.names }}" data-cover data-duration="2400" aria-label="Openingsscherm">
+  <div class="a-cover__inner">
+    <a href="#uitnodiging" class="a-snap" data-open aria-label="Open de uitnodiging">
+      <span class="a-snap__photo ph" aria-hidden="true">{% if v.hero %}{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="320px" %}{% endif %}</span>
+      <span class="a-snap__caption a-snap__caption--{{ v.names_size }}" aria-hidden="true">{{ v.title }}</span>
+    </a>
+    <p class="a-cover__kicker">{{ v.kicker }}{% if v.date_numeric %} · {{ v.date_numeric }}{% endif %}</p>
+    <p class="a-cover__hint">Tik op de foto om hem te ontwikkelen</p>
+    {% include "_atelier/v1/parts/music.html" %}
+  </div>
+</section>

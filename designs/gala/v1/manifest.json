@@ -1,0 +1,118 @@
+{
+  "slug": "gala",
+  "version": 1,
+  "name": "Gala",
+  "tagline": "Stijlvol en avondlijk, met een groot doek",
+  "description": "Een fluwelen gordijn opent zich. Een grote foto met de titel erop, hoofdletters, fonkeling en een donkere achtergrond.",
+  "style_notes": "Zwart en champagne, fluweel, avond",
+  "occasions": [
+    "zakelijk",
+    "bruiloft",
+    "jubileum"
+  ],
+  "sort_order": 370,
+  "opening": "gordijn",
+  "opening_label": "Gordijn",
+  "atelier": {
+    "opening": "gordijn",
+    "hero": "volbeeld",
+    "sections": "midden",
+    "heading": "kapitaal",
+    "names": "kapitaal",
+    "date": "cijfers",
+    "photo": "rond",
+    "texture": "geen",
+    "ornament": "fonkel"
+  },
+  "palettes": [
+    {
+      "key": "zwart-champagne",
+      "name": "Zwart & champagne",
+      "swatch": [
+        "#0D0D0D",
+        "#D8C3A0",
+        "#D8C3A0"
+      ],
+      "vars": {
+        "--a-bg": "#0D0D0D",
+        "--a-surface": "#171717",
+        "--a-ink": "#F4EEE4",
+        "--a-muted": "#CCC3B6",
+        "--a-accent": "#D8C3A0",
+        "--a-accent-ink": "#0D0D0D",
+        "--a-line": "#33302B",
+        "--a-c2": "#D8C3A0",
+        "--a-c3": "#6D6250",
+        "--a-cover-bg": "#080808",
+        "--a-cover-ink": "#F4EEE4",
+        "--a-curtain": "#4A0F1C",
+        "--a-scheme": "dark",
+        "--a-page": "#0D0D0D"
+      }
+    },
+    {
+      "key": "nachtblauw",
+      "name": "Nachtblauw",
+      "swatch": [
+        "#0B1224",
+        "#CDB67E",
+        "#CDB67E"
+      ],
+      "vars": {
+        "--a-bg": "#0B1224",
+        "--a-surface": "#131C33",
+        "--a-ink": "#F1ECE1",
+        "--a-muted": "#C3C0B8",
+        "--a-accent": "#CDB67E",
+        "--a-accent-ink": "#0B1224",
+        "--a-line": "#27304A",
+        "--a-c2": "#CDB67E",
+        "--a-c3": "#4E5B7C",
+        "--a-cover-bg": "#070C18",
+        "--a-cover-ink": "#F1ECE1",
+        "--a-curtain": "#1B2A55",
+        "--a-scheme": "dark",
+        "--a-page": "#0B1224"
+      }
+    },
+    {
+      "key": "bordeaux",
+      "name": "Bordeaux",
+      "swatch": [
+        "#1F0A0F",
+        "#D6B07A",
+        "#D6B07A"
+      ],
+      "vars": {
+        "--a-bg": "#1F0A0F",
+        "--a-surface": "#2A1016",
+        "--a-ink": "#F5EAE2",
+        "--a-muted": "#D0BDB4",
+        "--a-accent": "#D6B07A",
+        "--a-accent-ink": "#1F0A0F",
+        "--a-line": "#43202A",
+        "--a-c2": "#D6B07A",
+        "--a-c3": "#7E3A48",
+        "--a-cover-bg": "#16070B",
+        "--a-cover-ink": "#F5EAE2",
+        "--a-curtain": "#5A1422",
+        "--a-scheme": "dark",
+        "--a-page": "#1F0A0F"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

@@ -1,0 +1,17 @@
+/* Robijn v1 — robijnrood, ringen, cursief.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Playfair Display"; src: url("../../../fonts/playfair-display-latin-wght-normal.woff2") format("woff2"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "Playfair Display"; src: url("../../../fonts/playfair-display-latin-wght-italic.woff2") format("woff2"); font-weight: 400 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("../../../fonts/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+
+body {
+  --a-display: "Playfair Display", Georgia, serif;
+  --a-body: "Figtree", system-ui, sans-serif;
+  --a-script: "Playfair Display", Georgia, serif;
+  --a-ui: "Figtree", system-ui, sans-serif;
+  --a-radius: 12px;
+}
+
+.a-names { color: var(--a-text); }
+.a-lead { font-style: italic; }

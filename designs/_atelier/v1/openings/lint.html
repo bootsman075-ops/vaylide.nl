@@ -1,0 +1,18 @@
+<section class="cover a-cover a-cover--lint a-names-{{ a.names }}" data-cover data-duration="2300" aria-label="Openingsscherm">
+  <div class="a-cover__inner">
+    <div class="a-gift">
+      <div class="a-gift__card" aria-hidden="true">
+        <div class="a-gift__label">
+          <span class="a-cover__kicker">{{ v.kicker }}</span>
+          <span class="a-cover__title a-cover__title--{{ v.names_size }}">{{ v.title }}</span>
+          {% if v.date_numeric %}<span class="a-cover__date">{{ v.date_numeric }}</span>{% endif %}
+        </div>
+      </div>
+      <span class="a-ribbon a-ribbon--h" aria-hidden="true"></span>
+      <span class="a-ribbon a-ribbon--v" aria-hidden="true"></span>
+      <a href="#uitnodiging" class="a-bow" data-open aria-label="Open de uitnodiging"><span class="a-bow__loop a-bow__loop--l"></span><span class="a-bow__loop a-bow__loop--r"></span><span class="a-bow__knot"></span></a>
+    </div>
+    <p class="a-cover__hint">Trek aan het lint om te openen</p>
+    {% include "_atelier/v1/parts/music.html" %}
+  </div>
+</section>

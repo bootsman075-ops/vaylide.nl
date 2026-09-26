@@ -1,0 +1,19 @@
+/* Gatsby v1 — zwart en goud, art deco, strakke hoofdletters.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Marcellus"; src: url("../../../fonts/marcellus-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Josefin Sans"; src: url("../../../fonts/josefin-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 700; font-display: swap; }
+
+body {
+  --a-display: "Marcellus", Georgia, serif;
+  --a-body: "Josefin Sans", system-ui, sans-serif;
+  --a-script: "Marcellus", Georgia, serif;
+  --a-ui: "Josefin Sans", system-ui, sans-serif;
+  --a-radius: 0px;
+  --a-names-spacing: .14em;
+}
+
+.a-kicker { letter-spacing: .38em; }
+.a-frame { background: var(--a-surface); }
+.a-sec__body { font-weight: 300; }
+.a-h2 { letter-spacing: .32em; }

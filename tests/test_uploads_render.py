@@ -263,7 +263,7 @@ class NewDesignTests(VierliefTestCase):
         template.save()
         self.assertEqual(design_image_path("nieuw-ontwerp-test"), "img/designs/_standaard.webp")
         self.assertEqual(design_image_path("liefde-op-papier"), "img/designs/liefde-op-papier.webp")
-        for url in ["/ontwerpen/", "/", "/maken/?gelegenheid=bruiloft"]:
+        for url in ["/ontwerpen/", "/ontwerpen/?gelegenheid=bruiloft", "/maken/?gelegenheid=bruiloft"]:
             response = Client().get(url)
             self.assertContains(response, "Nieuw ontwerp test", msg_prefix=url)
             self.assertContains(response, "img/designs/_standaard.webp", msg_prefix=url)

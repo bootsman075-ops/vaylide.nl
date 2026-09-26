@@ -9,7 +9,9 @@ Vierlief is een werkende eerste versie **in testmodus**. Betalingen zijn gesimul
 Wat er staat:
 
 - **Website**: homepage, collectie, ontwerpdetail met werkend voorbeeld, zo werkt het, prijzen, inspiratie, over ons, veelgestelde vragen, contact, zoeken, privacy en voorwaarden (de juridische teksten zijn nog concept).
-- **Drie uitnodigingsontwerpen**, elk met een eigen opening en vier kleurvarianten: Liefde op papier (envelop met lakzegel), Avondgoud (gouden dubbele deur) en Puur moment (doorschijnend vel).
+- **33 uitnodigingsontwerpen**:
+  - drie volledig eigen ontwerpen met elk vier kleurvarianten: Liefde op papier (envelop met lakzegel), Avondgoud (gouden dubbele deur) en Puur moment (doorschijnend vel);
+  - 30 Atelier-ontwerpen, **vijf per gelegenheid**, elk met een eigen opening (envelop, vouwkaart, gordijn, cadeaulint, sluier, confetti, ballonnen, sterrenhemel, schuifpaneel of polaroid) en drie kleurvarianten. Ze delen één opbouw in `designs/_atelier/v1/`. Overzicht en keuzes: `docs/AANPAK.md` onder "Uitbreiding: 30 nieuwe ontwerpen"; zelf een ontwerp toevoegen: `docs/HANDLEIDING.md`.
 - **Samenstellen in stappen**: gelegenheid, ontwerp, gegevens, programma, aanmelden, foto's, stijl, voorbeeld en bestellen. Voortgang wordt per stap bewaard, ook zonder account.
 - **Bestellen en betalen**: testbetaling (of Mollie, zodra er een sleutel is). Publiceren gebeurt alleen na een serverzijdige betalingsbevestiging, via een takenwachtrij met herhalingen.
 - **Gasten**: aanmelden zonder account, eigen antwoord later wijzigen, agenda, route, delen.
@@ -21,8 +23,9 @@ Gedane rondes:
 1. Bouw van het hele platform.
 2. Strakker en sneller: rustiger vormgeving, minder tekst, snellere pagina's.
 3. Vormgeving volgens de voorbeeldfoto van de eigenaar: goud, crème en bosgroen, nieuw hartlogo en de pagina's Inspiratie, Over ons en Zoeken. De keuzes en afwijkingen staan in `docs/AANPAK.md` onder "Nieuwe vormgeving".
+4. 30 nieuwe ontwerpen, vijf per gelegenheid, met eigen voorbeeldbeelden en kaartbeelden. De homepage licht drie ontwerpen uit, de collectie zet per gelegenheid de passende ontwerpen vooraan, en zakelijke evenementen kunnen een aantal jaren opgeven.
 
-Wat getest is en hoe: `docs/CONTROLES.md`. Kort: 102 tests (SQLite en PostgreSQL 16), een browsercontrole op 204 pagina's (vier schermformaten), en axe en contrast zonder bevindingen.
+Wat getest is en hoe: `docs/CONTROLES.md`. Kort: 116 tests (SQLite en PostgreSQL 16), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), en toegankelijkheid en contrast van alle ontwerpen in alle kleuren. Eén aandachtspunt uit een oud ontwerp staat in `docs/CONTROLES.md` (de decoratieve initialen op het lakzegel van Liefde op papier).
 
 Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUBCKzn63jE8Mk9x28M
 
@@ -53,11 +56,12 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 
 1. **Eigen repository** aanmaken en pushen (zie hierboven).
 2. **Livegang**: Mollie, SMTP, domein, hosting, bedrijfsgegevens en juridische controle van privacy en voorwaarden. De checklist staat in `docs/LIVEGANG.md`.
-3. **Eigen foto's** (optioneel): de sfeerbeelden op de website zijn eigen, getekende beelden. Eigen foto's met de juiste rechten kunnen ze vervangen; zie `docs/HANDLEIDING.md` onder "Teksten en beelden van de website".
-4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie.
-5. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt.
-6. **Docker**: de image is getest in ronde 2, niet opnieuw na de nieuwe vormgeving.
-7. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
+3. **Eigen foto's** (optioneel): de sfeerbeelden op de website en de beelden in de voorbeelduitnodigingen zijn eigen, getekende beelden. Eigen foto's met de juiste rechten kunnen ze vervangen; zie `docs/HANDLEIDING.md` onder "Teksten en beelden van de website".
+4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Dat geldt ook voor de 30 nieuwe ontwerpen. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie.
+5. **Collectie kiezen** (optioneel): welke drie ontwerpen de homepage uitlicht (`HOME_DESIGNS` in `core/content.py`), en eventueel de volgorde of zichtbaarheid per ontwerp in Beheer → Ontwerpen.
+6. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt.
+7. **Docker**: de image is getest in ronde 2, niet opnieuw na de nieuwe vormgeving en de nieuwe ontwerpen.
+8. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
 
 ## Goed om te weten
 

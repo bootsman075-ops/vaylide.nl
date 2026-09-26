@@ -1,0 +1,115 @@
+{
+  "slug": "zuiden",
+  "version": 1,
+  "name": "Zuiden",
+  "tagline": "Warm en zonnig, met aardetinten",
+  "description": "Een cadeaulint wordt losgetrokken. Terracotta, een zon, een foto in boogvorm naast de tekst en een kalenderblaadje voor de datum.",
+  "style_notes": "Terracotta en oker, zon, linnen",
+  "occasions": [
+    "bruiloft",
+    "verjaardag",
+    "jubileum"
+  ],
+  "sort_order": 150,
+  "opening": "lint",
+  "opening_label": "Cadeaulint",
+  "atelier": {
+    "opening": "lint",
+    "hero": "gesplitst",
+    "sections": "kaarten",
+    "heading": "lijn",
+    "names": "cursief",
+    "date": "kalender",
+    "photo": "boog",
+    "texture": "linnen",
+    "ornament": "zon"
+  },
+  "palettes": [
+    {
+      "key": "terracotta",
+      "name": "Terracotta",
+      "swatch": [
+        "#F6EEE6",
+        "#E7B79B",
+        "#A0472A"
+      ],
+      "vars": {
+        "--a-bg": "#F6EEE6",
+        "--a-surface": "#FFFBF7",
+        "--a-ink": "#33241C",
+        "--a-muted": "#67554A",
+        "--a-accent": "#A0472A",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E4D3C3",
+        "--a-c2": "#E7B79B",
+        "--a-c3": "#C9C39B",
+        "--a-cover-bg": "#EADBCB",
+        "--a-cover-ink": "#33241C",
+        "--a-scheme": "light",
+        "--a-page": "#F6EEE6"
+      }
+    },
+    {
+      "key": "oker",
+      "name": "Oker",
+      "swatch": [
+        "#F7F0E1",
+        "#EBCB8B",
+        "#865515"
+      ],
+      "vars": {
+        "--a-bg": "#F7F0E1",
+        "--a-surface": "#FFFBF2",
+        "--a-ink": "#33271A",
+        "--a-muted": "#66584A",
+        "--a-accent": "#865515",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E6D8BD",
+        "--a-c2": "#EBCB8B",
+        "--a-c3": "#C9B99A",
+        "--a-cover-bg": "#EDE0C5",
+        "--a-cover-ink": "#33271A",
+        "--a-scheme": "light",
+        "--a-page": "#F7F0E1"
+      }
+    },
+    {
+      "key": "olijf",
+      "name": "Olijf",
+      "swatch": [
+        "#F2F0E4",
+        "#D6D3A8",
+        "#5A5F2F"
+      ],
+      "vars": {
+        "--a-bg": "#F2F0E4",
+        "--a-surface": "#FCFBF5",
+        "--a-ink": "#2B2B1F",
+        "--a-muted": "#5D5C4B",
+        "--a-accent": "#5A5F2F",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DEDBC6",
+        "--a-c2": "#D6D3A8",
+        "--a-c3": "#E3C3A5",
+        "--a-cover-bg": "#E6E3D1",
+        "--a-cover-ink": "#2B2B1F",
+        "--a-scheme": "light",
+        "--a-page": "#F2F0E4"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

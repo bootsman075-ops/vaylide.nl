@@ -1,0 +1,115 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Atelier v1: gedeelde opbouw voor de Atelier-ontwerpen. Elk ontwerp kiest in zijn manifest ("atelier") #}
+{# een opening, kop, secties, letters en versiering; de eigen stijl staat in style.css van het ontwerp. #}
+{# Wijzig een uitgebrachte versie niet: maak _atelier/v2 en laat ontwerpen daar in een nieuwe versie naar overstappen. #}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'designs/_atelier/v1/atelier.css' %}">{% endblock %}
+
+{% block cover %}{% with a=v.template_version.manifest.atelier %}{% include "_atelier/v1/openings/"|add:a.opening|add:".html" %}{% endwith %}{% endblock %}
+
+{% block content %}{% with a=v.template_version.manifest.atelier %}
+<div class="a-page a-hero-{{ a.hero }} a-sec-{{ a.sections }} a-head-{{ a.heading }} a-names-{{ a.names }} a-date-{{ a.date }} a-photo-{{ a.photo }} a-tex-{{ a.texture }} a-orn-{{ a.ornament }}">
+{% include "_atelier/v1/heroes/"|add:a.hero|add:".html" %}
+
+<div class="a-sections">
+{% if v.welcome %}
+<section class="a-sec a-welcome" data-reveal aria-label="Welkom">
+  <div class="a-sec__body a-lead">{% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="a-sec a-countdown" data-reveal aria-labelledby="a-cd-title">
+  <h2 id="a-cd-title" class="a-h2">{% if v.is_past %}Terugblik{% else %}Nog even{% endif %}</h2>
+  <div class="a-sec__body">
+    {% include "invitations/partials/countdown.html" %}
+    {% include "invitations/partials/calendar_buttons.html" %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="a-sec a-story" data-reveal aria-labelledby="a-story-title">
+  <h2 id="a-story-title" class="a-h2">{{ v.story_title }}</h2>
+  <div class="a-sec__body">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="a-sec a-program" data-reveal aria-labelledby="a-program-title">
+  <h2 id="a-program-title" class="a-h2">Programma</h2>
+  <ol class="a-sec__body a-program__list">
+    {% for item in v.program %}<li><span class="a-program__time">{% if item.time %}{{ item.time }}{% endif %}</span><div class="a-program__what"><h3>{{ item.title }}</h3>{% if item.description %}<p>{{ item.description }}</p>{% endif %}</div></li>{% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="a-sec a-location" data-reveal aria-labelledby="a-location-title">
+  <h2 id="a-location-title" class="a-h2">Locatie</h2>
+  <div class="a-sec__body">
+    {% if v.venue %}<p class="a-location__venue">{{ v.venue }}</p>{% endif %}
+    {% if v.address_lines %}<address>{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+    {% if v.date_display %}<p class="a-muted">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}</p>{% endif %}
+    {% if v.route_url %}<p class="a-actions"><a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Route plannen</a></p>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="a-sec a-dresscode" data-reveal aria-labelledby="a-dress-title">
+  <h2 id="a-dress-title" class="a-h2">Dresscode</h2>
+  <div class="a-sec__body">
+    {% for p in v.dresscode_text %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+    {% if v.dresscode_colors %}<ul class="a-swatches" aria-label="Kleuren voor de dresscode">{% for c in v.dresscode_colors %}<li style="background:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}</ul>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="a-sec a-practical" data-reveal aria-labelledby="a-practical-title">
+  <h2 id="a-practical-title" class="a-h2">Goed om te weten</h2>
+  <dl class="a-sec__body a-practical__list">
+    {% for item in v.practical %}<div>{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="a-sec a-gallery" data-reveal aria-labelledby="a-gallery-title">
+  <h2 id="a-gallery-title" class="a-h2">Momenten</h2>
+  <ul class="a-sec__body a-gallery__grid">
+    {% for photo in v.gallery %}<li class="a-gallery__item a-gallery__item--{{ photo.orientation }}"><figure class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 900px) 360px, 46vw" %}</figure>{% if photo.caption %}<p class="a-caption">{{ photo.caption }}</p>{% endif %}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="a-sec a-rsvp" id="aanmelden" data-reveal aria-labelledby="a-rsvp-title">
+  <h2 id="a-rsvp-title" class="a-h2">{% if v.formal %}Aanmelden{% else %}Ben jij erbij?{% endif %}</h2>
+  <div class="a-sec__body a-panel">{% include "invitations/partials/rsvp.html" %}</div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="a-sec a-contact" data-reveal aria-labelledby="a-contact-title">
+  <h2 id="a-contact-title" class="a-h2">{% if v.formal %}Contact{% else %}Vragen{% endif %}</h2>
+  <div class="a-sec__body">
+    {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+    <p class="a-contact__name">{{ v.contact.name }}</p>
+    <p class="a-contact__links">
+      {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+      {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+      {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+    </p>
+  </div>
+</section>
+{% endif %}
+</div>
+
+<section class="a-closing" data-reveal aria-label="Afsluiting">
+  {% include "_atelier/v1/parts/ornament.html" with pos="closing" %}
+  {% if v.show.closing %}{% for p in v.closing %}<p class="a-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+</div>
+{% endwith %}{% endblock %}

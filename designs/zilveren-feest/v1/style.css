@@ -1,0 +1,21 @@
+/* Zilveren feest v1 — zilver, kader, ingetogen chic.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Italiana"; src: url("../../../fonts/italiana-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("../../../fonts/montserrat-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("../../../fonts/instrument-serif-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+
+body {
+  --a-display: "Italiana", Georgia, serif;
+  --a-body: "Montserrat", system-ui, sans-serif;
+  --a-script: "Italiana", Georgia, serif;
+  --a-ui: "Montserrat", system-ui, sans-serif;
+  --a-text-font: "Instrument Serif", Georgia, serif;
+  --a-number-font: "Instrument Serif", Georgia, serif;
+  --a-radius: 4px;
+  --a-names-spacing: .16em;
+}
+
+.a-sec__body { font-size: 1rem; font-weight: 400; }
+.a-names { font-weight: 400; }

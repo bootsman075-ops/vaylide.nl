@@ -1,0 +1,115 @@
+{
+  "slug": "pampas",
+  "version": 1,
+  "name": "Pampas",
+  "tagline": "Boho en naturel, met pampasgras",
+  "description": "Een zachte sluier trekt op. Pampasgras, een hoge foto in boogvorm, hoofdletters met veel ruimte en linnen tinten.",
+  "style_notes": "Zand, pampasgras, linnen",
+  "occasions": [
+    "verloving",
+    "bruiloft",
+    "babyshower"
+  ],
+  "sort_order": 190,
+  "opening": "sluier",
+  "opening_label": "Zachte sluier",
+  "atelier": {
+    "opening": "sluier",
+    "hero": "klassiek",
+    "sections": "lijnen",
+    "heading": "ornament",
+    "names": "kapitaal",
+    "date": "lijn",
+    "photo": "boog",
+    "texture": "linnen",
+    "ornament": "pampas"
+  },
+  "palettes": [
+    {
+      "key": "zand",
+      "name": "Zand",
+      "swatch": [
+        "#F4EDE3",
+        "#E5D2B8",
+        "#7F5C3E"
+      ],
+      "vars": {
+        "--a-bg": "#F4EDE3",
+        "--a-surface": "#FBF7F1",
+        "--a-ink": "#3B3027",
+        "--a-muted": "#685B4E",
+        "--a-accent": "#7F5C3E",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E2D5C4",
+        "--a-c2": "#E5D2B8",
+        "--a-c3": "#D9C7B0",
+        "--a-cover-bg": "#EDE2D3",
+        "--a-cover-ink": "#3B3027",
+        "--a-scheme": "light",
+        "--a-page": "#F4EDE3"
+      }
+    },
+    {
+      "key": "roest",
+      "name": "Roest",
+      "swatch": [
+        "#F3E9E1",
+        "#E9C1A6",
+        "#944725"
+      ],
+      "vars": {
+        "--a-bg": "#F3E9E1",
+        "--a-surface": "#FBF6F2",
+        "--a-ink": "#3A2A22",
+        "--a-muted": "#67544A",
+        "--a-accent": "#944725",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E4D2C5",
+        "--a-c2": "#E9C1A6",
+        "--a-c3": "#D8C9B4",
+        "--a-cover-bg": "#EBDDD1",
+        "--a-cover-ink": "#3A2A22",
+        "--a-scheme": "light",
+        "--a-page": "#F3E9E1"
+      }
+    },
+    {
+      "key": "taupe",
+      "name": "Taupe",
+      "swatch": [
+        "#EFEBE6",
+        "#D8CFC4",
+        "#5E544D"
+      ],
+      "vars": {
+        "--a-bg": "#EFEBE6",
+        "--a-surface": "#F9F7F4",
+        "--a-ink": "#2F2A26",
+        "--a-muted": "#5F5852",
+        "--a-accent": "#5E544D",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DCD5CD",
+        "--a-c2": "#D8CFC4",
+        "--a-c3": "#E4DCD0",
+        "--a-cover-bg": "#E6E0D9",
+        "--a-cover-ink": "#2F2A26",
+        "--a-scheme": "light",
+        "--a-page": "#EFEBE6"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

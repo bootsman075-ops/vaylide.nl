@@ -1,0 +1,115 @@
+{
+  "slug": "door-de-jaren",
+  "version": 1,
+  "name": "Door de jaren",
+  "tagline": "Nostalgisch, met een tijdlijn",
+  "description": "Een oude foto ontwikkelt zich na een tik. Typemachineletters, een tijdlijn voor het programma en foto's in sepia.",
+  "style_notes": "Sepia, typemachine, tijdlijn",
+  "occasions": [
+    "jubileum",
+    "verjaardag",
+    "zakelijk"
+  ],
+  "sort_order": 290,
+  "opening": "polaroid",
+  "opening_label": "Polaroid",
+  "atelier": {
+    "opening": "polaroid",
+    "hero": "polaroid",
+    "sections": "tijdlijn",
+    "heading": "kapitaal",
+    "names": "display",
+    "date": "lijn",
+    "photo": "polaroid",
+    "texture": "papier",
+    "ornament": "lijnen"
+  },
+  "palettes": [
+    {
+      "key": "sepia",
+      "name": "Sepia",
+      "swatch": [
+        "#F3EBDD",
+        "#D9C3A0",
+        "#734829"
+      ],
+      "vars": {
+        "--a-bg": "#F3EBDD",
+        "--a-surface": "#FBF6EC",
+        "--a-ink": "#2B2118",
+        "--a-muted": "#5B4F41",
+        "--a-accent": "#734829",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DECFB6",
+        "--a-c2": "#D9C3A0",
+        "--a-c3": "#C9B79C",
+        "--a-cover-bg": "#E8DCC6",
+        "--a-cover-ink": "#2B2118",
+        "--a-scheme": "light",
+        "--a-page": "#F3EBDD"
+      }
+    },
+    {
+      "key": "zwart-wit",
+      "name": "Zwart-wit",
+      "swatch": [
+        "#F4F4F2",
+        "#D9D9D5",
+        "#2B2B2B"
+      ],
+      "vars": {
+        "--a-bg": "#F4F4F2",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1D1D1D",
+        "--a-muted": "#555555",
+        "--a-accent": "#2B2B2B",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DCDCD8",
+        "--a-c2": "#D9D9D5",
+        "--a-c3": "#EBEBE7",
+        "--a-cover-bg": "#E8E8E4",
+        "--a-cover-ink": "#1D1D1D",
+        "--a-scheme": "light",
+        "--a-page": "#F4F4F2"
+      }
+    },
+    {
+      "key": "blauw",
+      "name": "Blauw",
+      "swatch": [
+        "#EEF1F4",
+        "#C7D3DF",
+        "#2E4A66"
+      ],
+      "vars": {
+        "--a-bg": "#EEF1F4",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1C2733",
+        "--a-muted": "#505C69",
+        "--a-accent": "#2E4A66",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D6DDE4",
+        "--a-c2": "#C7D3DF",
+        "--a-c3": "#E6E1D6",
+        "--a-cover-bg": "#E1E7ED",
+        "--a-cover-ink": "#1C2733",
+        "--a-scheme": "light",
+        "--a-page": "#EEF1F4"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

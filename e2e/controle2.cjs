@@ -1,17 +1,26 @@
 // Controle 2: vormgeving en gebruik in de browser (Playwright).
-// Gebruik: node e2e/controle2.cjs <basis-url> <fixtures.json> <uitvoermap> <beheerwachtwoord>
+// Gebruik (vanuit de projectmap): node e2e/controle2.cjs <basis-url> <fixtures.json> <uitvoermap> <beheerwachtwoord>
+// Optioneel, om het werk te verdelen over parallelle runs:
+//   VIEWPORTS=360,390   alleen deze schermformaten
+//   CHECKS=0            geen gedragscontroles (minder beweging, toetsenbord, muziek, vangnet, tijdzone, zonder JS)
+//   SHOTS=viewport      schermafbeelding van het zichtbare deel in plaats van de hele pagina (scheelt veel ruimte)
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 
 const [base, fixturesFile, outDir, staffPassword] = process.argv.slice(2);
 const fixtures = JSON.parse(fs.readFileSync(fixturesFile, "utf8"));
+const onlyViewports = (process.env.VIEWPORTS || "").split(",").filter(Boolean);
+const runChecks = process.env.CHECKS !== "0";
+const fullShots = process.env.SHOTS !== "viewport";
 const viewports = [
   { name: "360", width: 360, height: 740 },
   { name: "390", width: 390, height: 844 },
   { name: "768", width: 768, height: 1024 },
   { name: "1366", width: 1366, height: 900 },
-];
+].filter((vp) => !onlyViewports.length || onlyViewports.includes(vp.name));
+// Alle ontwerpen uit designs/ (mappen die met _ beginnen zijn gedeelde onderdelen).
+const designs = fs.readdirSync(path.join(process.cwd(), "designs")).filter((d) => !d.startsWith("_")).sort();
 const report = { pages: [], checks: [] };
 
 async function scrollThrough(page) {
@@ -22,7 +31,7 @@ async function scrollThrough(page) {
   await page.waitForTimeout(700);
 }
 
-async function audit(page, vp, name, url, { open = false, full = true } = {}) {
+async function audit(page, vp, name, url, { open = false, full = fullShots } = {}) {
   const errors = [];
   const failed = [];
   const onError = (e) => errors.push(String(e));
@@ -48,7 +57,32 @@ async function audit(page, vp, name, url, { open = false, full = true } = {}) {
       }
       if (r.right > doc.clientWidth + 1 && !el.closest(".data-table-wrap, .beheer-nav, .preview-frame, pre")) overflowing.push(`${el.tagName.toLowerCase()}.${(el.className || "").toString().split(" ")[0]} → ${Math.round(r.right)}px`);
     });
-    return { overflow: doc.scrollWidth - doc.clientWidth, overflowing: overflowing.slice(0, 5) };
+    // Tekst die buiten beeld loopt, ook als een omringend vak hem afsnijdt (bijv. een lang woord in een titel).
+    const clipped = [];
+    const vw = doc.clientWidth;
+    document.querySelectorAll("body *").forEach((el) => {
+      if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1)) return;
+      if (el.closest("[aria-hidden='true'], .visually-hidden, script, style, noscript")) return;
+      if (typeof el.checkVisibility === "function" && !el.checkVisibility({ opacityProperty: true, visibilityProperty: true })) return;
+      const r = el.getBoundingClientRect();
+      if (r.width <= 1 || r.height <= 1) return;  // verborgen voor het oog, alleen voor schermlezers
+      if (r.right <= 0 || r.left >= vw) return;  // bewust buiten beeld geplaatst (zoals het spamveld)
+      for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+        const ox = getComputedStyle(a).overflowX;
+        if (ox === "auto" || ox === "scroll") return;  // eigen scrollrij
+      }
+      // Alleen de eigen tekst meten (verborgen hulptekst voor schermlezers in een kind telt niet mee).
+      let left = Infinity, right = -Infinity;
+      for (const n of el.childNodes) {
+        if (n.nodeType !== 3 || !n.textContent.trim()) continue;
+        const range = document.createRange();
+        range.selectNodeContents(n);
+        for (const q of range.getClientRects()) { if (q.width) { left = Math.min(left, q.left); right = Math.max(right, q.right); } }
+      }
+      const t = { left, right };
+      if (right > vw + 1 || left < -1) clipped.push(`${el.tagName.toLowerCase()}.${(el.className || "").toString().split(" ")[0]} "${el.textContent.trim().slice(0, 30)}" ${Math.round(t.left)}–${Math.round(t.right)}px`);
+    });
+    return { overflow: doc.scrollWidth - doc.clientWidth, overflowing: overflowing.slice(0, 5), clipped: clipped.slice(0, 5) };
   });
   const dir = path.join(outDir, vp.name);
   fs.mkdirSync(dir, { recursive: true });
@@ -63,22 +97,32 @@ async function audit(page, vp, name, url, { open = false, full = true } = {}) {
     const msg = errors.findIndex((e) => e.includes("status of 404"));
     if (msg !== -1) errors.splice(msg, 1);
   }
-  const entry = { viewport: vp.name, name, url, status, overflow: metrics.overflow, overflowing: metrics.overflowing, errors, failed, file };
+  const entry = { viewport: vp.name, name, url, status, overflow: metrics.overflow, overflowing: metrics.overflowing, clipped: metrics.clipped, errors, failed, file };
   report.pages.push(entry);
-  const flag = (entry.overflow > 0 || entry.overflowing.length || entry.errors.length || entry.failed.length || (entry.status >= 400 && name !== "404")) ? "LET OP" : "ok";
-  console.log(`${flag} [${vp.name}] ${name} status=${entry.status} overflow=${entry.overflow} errors=${entry.errors.length} failed=${entry.failed.length}`);
+  const flag = (entry.overflow > 0 || entry.overflowing.length || entry.clipped.length || entry.errors.length || entry.failed.length || (entry.status >= 400 && name !== "404")) ? "LET OP" : "ok";
+  console.log(`${flag} [${vp.name}] ${name} status=${entry.status} overflow=${entry.overflow} errors=${entry.errors.length} failed=${entry.failed.length}${entry.clipped.length ? " tekst-buiten-beeld: " + entry.clipped.join("; ") : ""}`);
   return entry;
 }
 
 async function loginCustomer(context) {
+  // Parallelle runs vragen voor hetzelfde account een code aan; een nieuwere code maakt de vorige ongeldig.
+  // Daarom maximaal drie pogingen, telkens met een verse code.
   const page = await context.newPage();
-  await page.goto(base + "/inloggen/");
-  await page.fill("#id_email", "controle@vierlief.test");
-  await page.click("button[type=submit]");
-  const code = (await page.textContent(".test-code")).trim();
-  await page.fill("#id_code", code);
-  await page.click("button[type=submit]");
-  await page.waitForURL("**/account/**");
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    await page.goto(base + "/inloggen/");
+    await page.fill("#id_email", "controle@vierlief.test");
+    await page.click("button[type=submit]");
+    const code = (await page.textContent(".test-code")).trim();
+    await page.fill("#id_code", code);
+    await page.click("button[type=submit]");
+    try {
+      await page.waitForURL("**/account/**", { timeout: 10000 });
+      break;
+    } catch (e) {
+      if (attempt === 3) throw e;
+      await page.waitForTimeout(1000 * attempt);
+    }
+  }
   await page.close();
 }
 
@@ -105,7 +149,8 @@ async function loginStaff(context) {
     const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, locale: "nl-NL", timezoneId: "Europe/Amsterdam" });
     const page = await context.newPage();
     for (const [name, url] of publicPages) await audit(page, vp, name, url);
-    for (const slug of ["liefde-op-papier", "avondgoud", "puur-moment"]) {
+    for (const slug of designs) {
+      await page.evaluate(() => { try { sessionStorage.clear(); } catch (e) {} });
       await audit(page, vp, `demo-${slug}`, `/voorbeeld/${slug}/`, { open: true });
     }
     for (const [key, url] of Object.entries(fixtures)) {
@@ -142,7 +187,7 @@ async function loginStaff(context) {
   // ---- Gedragscontroles op telefoonformaat ----
   const check = (name, ok, detail) => { report.checks.push({ name, ok, detail }); console.log(`${ok ? "ok    " : "FOUT  "} ${name}: ${detail}`); };
   // Per ontwerp: minder beweging, toetsenbord, muziek, script dat niet laadt en een andere tijdzone.
-  for (const slug of ["liefde-op-papier", "avondgoud", "puur-moment"]) {
+  for (const slug of runChecks ? designs : []) {
     const demo = `/voorbeeld/${slug}/`;
     {
       const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
@@ -205,7 +250,7 @@ async function loginStaff(context) {
     }
   }
   // Zonder JavaScript: elke uitnodiging direct leesbaar (per ontwerp de variant met lange teksten).
-  for (const [key, url] of Object.entries(fixtures).filter(([k]) => k.endsWith(":lang"))) {
+  for (const [key, url] of Object.entries(fixtures).filter(([k]) => runChecks && k.endsWith(":lang"))) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
     const p = await ctx.newPage();
     await p.goto(base + url, { waitUntil: "networkidle" });
@@ -216,8 +261,8 @@ async function loginStaff(context) {
     await p.screenshot({ path: path.join(outDir, `check-no-js-${key.split(":")[0]}.png`), fullPage: false });
     await ctx.close();
   }
-  fs.writeFileSync(path.join(outDir, "rapport.json"), JSON.stringify(report, null, 2));
-  const problems = report.pages.filter((e) => e.overflow > 0 || e.overflowing.length || e.errors.length || e.failed.length || (e.status >= 400 && e.name !== "404"));
+  fs.writeFileSync(path.join(outDir, onlyViewports.length || !runChecks ? `rapport-${onlyViewports.join("-") || "alle"}${runChecks ? "" : "-zonder-gedrag"}.json` : "rapport.json"), JSON.stringify(report, null, 2));
+  const problems = report.pages.filter((e) => e.overflow > 0 || e.overflowing.length || e.clipped.length || e.errors.length || e.failed.length || (e.status >= 400 && e.name !== "404"));
   console.log(`\nPagina's gecontroleerd: ${report.pages.length}, met aandachtspunten: ${problems.length}, gedragscontroles: ${report.checks.filter(c => c.ok).length}/${report.checks.length} ok`);
   await browser.close();
 })();

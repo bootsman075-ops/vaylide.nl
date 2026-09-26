@@ -1,0 +1,1 @@
+{% if v.time_display or v.venue %}<p class="a-meta">{% if v.time_display %}<span class="a-meta__time">{{ v.time_display }}</span>{% endif %}{% if v.time_display and v.venue %}<span class="a-meta__sep" aria-hidden="true"></span>{% endif %}{% if v.venue %}<span class="a-meta__venue">{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}

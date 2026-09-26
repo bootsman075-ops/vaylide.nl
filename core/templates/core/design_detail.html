@@ -37,7 +37,7 @@
 {% if others %}
 <section class="section section--line" aria-labelledby="andere-titel">
   <div class="container">
-    <div class="section-head"><h2 id="andere-titel">Andere ontwerpen</h2></div>
+    <div class="section-head"><h2 id="andere-titel">Meer voor {{ occasion_label|lower }}</h2><a class="link-arrow" href="{% url 'core:designs' %}?gelegenheid={{ occasion }}">Bekijk alle</a></div>
     <div class="grid grid--3">{% for card in others %}{% include "partials/design_card.html" %}{% endfor %}</div>
   </div>
 </section>

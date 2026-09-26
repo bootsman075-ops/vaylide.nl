@@ -1,0 +1,118 @@
+{
+  "slug": "maanlicht",
+  "version": 1,
+  "name": "Maanlicht",
+  "tagline": "Dromerig, met de maan en sterren",
+  "description": "Een sterrenhemel schuift weg. Een maansikkel met sterren, sierlijke cursieve namen en zachte kleuren.",
+  "style_notes": "Nachtblauw of lavendel, maan, sterren",
+  "occasions": [
+    "babyshower",
+    "verloving"
+  ],
+  "sort_order": 320,
+  "opening": "sterren",
+  "opening_label": "Sterrenhemel",
+  "atelier": {
+    "opening": "sterren",
+    "hero": "klassiek",
+    "sections": "midden",
+    "heading": "ornament",
+    "names": "cursief",
+    "date": "blok",
+    "photo": "cirkel",
+    "texture": "sterren",
+    "ornament": "sterren"
+  },
+  "palettes": [
+    {
+      "key": "nacht",
+      "name": "Nacht",
+      "swatch": [
+        "#1D2440",
+        "#F3D9A4",
+        "#F3D9A4"
+      ],
+      "vars": {
+        "--a-bg": "#1D2440",
+        "--a-surface": "#252D4D",
+        "--a-ink": "#F6F1E6",
+        "--a-muted": "#C9C7D2",
+        "--a-accent": "#F3D9A4",
+        "--a-accent-ink": "#1D2440",
+        "--a-line": "#343D63",
+        "--a-c2": "#F3D9A4",
+        "--a-c3": "#A9B8E0",
+        "--a-cover-bg": "#151B33",
+        "--a-cover-ink": "#F6F1E6",
+        "--a-scheme": "dark",
+        "--a-page": "#1D2440"
+      }
+    },
+    {
+      "key": "lavendel",
+      "name": "Lavendel",
+      "swatch": [
+        "#F5F2FA",
+        "#E7C98F",
+        "#5C4B88"
+      ],
+      "vars": {
+        "--a-bg": "#F5F2FA",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2B2640",
+        "--a-muted": "#5C5670",
+        "--a-accent": "#5C4B88",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E4DEF0",
+        "--a-c2": "#E7C98F",
+        "--a-c3": "#C9C1E3",
+        "--a-cover-bg": "#2B2640",
+        "--a-cover-ink": "#F5F2FA",
+        "--a-cover-btn": "#E7C98F",
+        "--a-cover-btn-ink": "#2B2640",
+        "--a-scheme": "light",
+        "--a-page": "#F5F2FA"
+      }
+    },
+    {
+      "key": "zachtblauw",
+      "name": "Zachtblauw",
+      "swatch": [
+        "#F0F4FA",
+        "#E7C98F",
+        "#34578A"
+      ],
+      "vars": {
+        "--a-bg": "#F0F4FA",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1F2B3D",
+        "--a-muted": "#505D6E",
+        "--a-accent": "#34578A",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DAE3EF",
+        "--a-c2": "#E7C98F",
+        "--a-c3": "#BFD0E8",
+        "--a-cover-bg": "#1E2E4A",
+        "--a-cover-ink": "#F0F4FA",
+        "--a-cover-btn": "#E7C98F",
+        "--a-cover-btn-ink": "#1E2E4A",
+        "--a-scheme": "light",
+        "--a-page": "#F0F4FA"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

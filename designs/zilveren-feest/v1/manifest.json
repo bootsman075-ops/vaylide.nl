@@ -1,0 +1,117 @@
+{
+  "slug": "zilveren-feest",
+  "version": 1,
+  "name": "Zilveren feest",
+  "tagline": "Ingetogen en chic, in zilvertinten",
+  "description": "Een zilveren gordijn opent zich. Een kader met strakke lijnen, hoofdletters en de datum in cijfers.",
+  "style_notes": "Zilver, kader, ingetogen chic",
+  "occasions": [
+    "jubileum",
+    "bruiloft"
+  ],
+  "sort_order": 270,
+  "opening": "gordijn",
+  "opening_label": "Gordijn",
+  "atelier": {
+    "opening": "gordijn",
+    "hero": "kader",
+    "sections": "lijnen",
+    "heading": "kapitaal",
+    "names": "kapitaal",
+    "date": "cijfers",
+    "photo": "rond",
+    "texture": "linnen",
+    "ornament": "geometrisch"
+  },
+  "palettes": [
+    {
+      "key": "zilver",
+      "name": "Zilver",
+      "swatch": [
+        "#F3F4F6",
+        "#D5DAE0",
+        "#56606C"
+      ],
+      "vars": {
+        "--a-bg": "#F3F4F6",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#22262B",
+        "--a-muted": "#58606A",
+        "--a-accent": "#56606C",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DDE0E4",
+        "--a-c2": "#D5DAE0",
+        "--a-c3": "#E9E4DC",
+        "--a-cover-bg": "#1F2329",
+        "--a-cover-ink": "#F3F4F6",
+        "--a-curtain": "#8A939E",
+        "--a-scheme": "light",
+        "--a-page": "#F3F4F6"
+      }
+    },
+    {
+      "key": "parel",
+      "name": "Parel",
+      "swatch": [
+        "#F7F5F2",
+        "#E2DBD1",
+        "#665F55"
+      ],
+      "vars": {
+        "--a-bg": "#F7F5F2",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#29251F",
+        "--a-muted": "#5F584F",
+        "--a-accent": "#665F55",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E4DFD8",
+        "--a-c2": "#E2DBD1",
+        "--a-c3": "#EEE8DF",
+        "--a-cover-bg": "#2B2722",
+        "--a-cover-ink": "#F7F5F2",
+        "--a-curtain": "#A59D92",
+        "--a-scheme": "light",
+        "--a-page": "#F7F5F2"
+      }
+    },
+    {
+      "key": "nacht",
+      "name": "Nacht",
+      "swatch": [
+        "#15181D",
+        "#C5CCD6",
+        "#C5CCD6"
+      ],
+      "vars": {
+        "--a-bg": "#15181D",
+        "--a-surface": "#1D2128",
+        "--a-ink": "#EEF0F3",
+        "--a-muted": "#B8BEC7",
+        "--a-accent": "#C5CCD6",
+        "--a-accent-ink": "#15181D",
+        "--a-line": "#2E343E",
+        "--a-c2": "#C5CCD6",
+        "--a-c3": "#5B6472",
+        "--a-cover-bg": "#0F1115",
+        "--a-cover-ink": "#EEF0F3",
+        "--a-curtain": "#4A525E",
+        "--a-scheme": "dark",
+        "--a-page": "#15181D"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

@@ -1,0 +1,118 @@
+{
+  "slug": "rozentuin",
+  "version": 1,
+  "name": "Rozentuin",
+  "tagline": "Romantisch, met rozen en sierlijk schrift",
+  "description": "Een envelop met zegel opent zich en de kaart schuift naar buiten. Bloemen, een ronde foto en elke sectie op een eigen kaartje.",
+  "style_notes": "Zacht roze, bloemen, sierlijk handschrift",
+  "occasions": [
+    "bruiloft",
+    "verloving",
+    "babyshower"
+  ],
+  "sort_order": 130,
+  "opening": "envelop",
+  "opening_label": "Envelop met zegel",
+  "atelier": {
+    "opening": "envelop",
+    "hero": "klassiek",
+    "sections": "kaarten",
+    "heading": "script",
+    "names": "script",
+    "date": "lijn",
+    "photo": "cirkel",
+    "texture": "geen",
+    "ornament": "bloemen"
+  },
+  "palettes": [
+    {
+      "key": "blush",
+      "name": "Blush",
+      "swatch": [
+        "#FBF3F1",
+        "#F2C9CF",
+        "#9E4A63"
+      ],
+      "vars": {
+        "--a-bg": "#FBF3F1",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#3A2A2E",
+        "--a-muted": "#6A565B",
+        "--a-accent": "#9E4A63",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#EFDCDD",
+        "--a-c2": "#F2C9CF",
+        "--a-c3": "#CFDCC6",
+        "--a-cover-bg": "#F5E4E3",
+        "--a-cover-ink": "#3A2A2E",
+        "--a-env": "#F0D6D6",
+        "--a-scheme": "light",
+        "--a-page": "#FBF3F1"
+      }
+    },
+    {
+      "key": "perzik",
+      "name": "Perzik",
+      "swatch": [
+        "#FCF4EC",
+        "#F5CDB4",
+        "#9C5132"
+      ],
+      "vars": {
+        "--a-bg": "#FCF4EC",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#3B2A22",
+        "--a-muted": "#6B584C",
+        "--a-accent": "#9C5132",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F0DECF",
+        "--a-c2": "#F5CDB4",
+        "--a-c3": "#D6DDC4",
+        "--a-cover-bg": "#F6E6D8",
+        "--a-cover-ink": "#3B2A22",
+        "--a-env": "#F2DCC8",
+        "--a-scheme": "light",
+        "--a-page": "#FCF4EC"
+      }
+    },
+    {
+      "key": "lila",
+      "name": "Lila",
+      "swatch": [
+        "#F7F3F9",
+        "#DCC9E8",
+        "#72528A"
+      ],
+      "vars": {
+        "--a-bg": "#F7F3F9",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2F2836",
+        "--a-muted": "#625A6B",
+        "--a-accent": "#72528A",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#E6DDEC",
+        "--a-c2": "#DCC9E8",
+        "--a-c3": "#D3E0CE",
+        "--a-cover-bg": "#ECE3F1",
+        "--a-cover-ink": "#2F2836",
+        "--a-env": "#E4D6EC",
+        "--a-scheme": "light",
+        "--a-page": "#F7F3F9"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

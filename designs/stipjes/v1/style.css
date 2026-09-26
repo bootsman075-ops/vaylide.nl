@@ -1,0 +1,19 @@
+/* Stipjes v1 — stippen, kleurband, speels.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Fredoka"; src: url("../../../fonts/fredoka-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Nunito"; src: url("../../../fonts/nunito-latin-wght-normal.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+
+body {
+  --a-display: "Fredoka", system-ui, sans-serif;
+  --a-body: "Nunito", system-ui, sans-serif;
+  --a-script: "Fredoka", system-ui, sans-serif;
+  --a-ui: "Nunito", system-ui, sans-serif;
+  --a-radius: 20px;
+  --a-names-weight: 600;
+  --a-h2-weight: 600;
+}
+
+.a-band { background-image: radial-gradient(color-mix(in srgb, var(--a-accent-ink) 22%, transparent) 3px, transparent 3.6px); background-size: 26px 26px; }
+.a-tagline { font-family: var(--a-body); font-style: normal; }
+.a-lead { font-family: var(--a-body); }

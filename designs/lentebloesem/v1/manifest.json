@@ -1,0 +1,118 @@
+{
+  "slug": "lentebloesem",
+  "version": 1,
+  "name": "Lentebloesem",
+  "tagline": "Lieflijk, met bloesem in een kader",
+  "description": "Een envelop met zegel opent zich. Een kader met bloemen, sierlijk handschrift en elk onderdeel op een kaartje.",
+  "style_notes": "Bloesem, kader, handschrift",
+  "occasions": [
+    "babyshower",
+    "bruiloft",
+    "verloving"
+  ],
+  "sort_order": 340,
+  "opening": "envelop",
+  "opening_label": "Envelop met zegel",
+  "atelier": {
+    "opening": "envelop",
+    "hero": "kader",
+    "sections": "kaarten",
+    "heading": "script",
+    "names": "script",
+    "date": "blok",
+    "photo": "boog",
+    "texture": "papier",
+    "ornament": "bloemen"
+  },
+  "palettes": [
+    {
+      "key": "bloesem",
+      "name": "Bloesem",
+      "swatch": [
+        "#FDF6F4",
+        "#F4C9D2",
+        "#983E57"
+      ],
+      "vars": {
+        "--a-bg": "#FDF6F4",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#3A2A2C",
+        "--a-muted": "#695659",
+        "--a-accent": "#983E57",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F2DEDF",
+        "--a-c2": "#F4C9D2",
+        "--a-c3": "#D7E3CF",
+        "--a-cover-bg": "#F7E7E6",
+        "--a-cover-ink": "#3A2A2C",
+        "--a-env": "#F5DADE",
+        "--a-scheme": "light",
+        "--a-page": "#FDF6F4"
+      }
+    },
+    {
+      "key": "salie",
+      "name": "Salie",
+      "swatch": [
+        "#F4F6F1",
+        "#F1D3D9",
+        "#4A6242"
+      ],
+      "vars": {
+        "--a-bg": "#F4F6F1",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#263024",
+        "--a-muted": "#555F52",
+        "--a-accent": "#4A6242",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DEE5D9",
+        "--a-c2": "#F1D3D9",
+        "--a-c3": "#CBD9C3",
+        "--a-cover-bg": "#E6ECE2",
+        "--a-cover-ink": "#263024",
+        "--a-env": "#DCE5D5",
+        "--a-scheme": "light",
+        "--a-page": "#F4F6F1"
+      }
+    },
+    {
+      "key": "boter",
+      "name": "Boter",
+      "swatch": [
+        "#FDF9EE",
+        "#F5D98F",
+        "#7D5A12"
+      ],
+      "vars": {
+        "--a-bg": "#FDF9EE",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#2E2717",
+        "--a-muted": "#615846",
+        "--a-accent": "#7D5A12",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F0E7CF",
+        "--a-c2": "#F5D98F",
+        "--a-c3": "#D8E3CC",
+        "--a-cover-bg": "#F6EED8",
+        "--a-cover-ink": "#2E2717",
+        "--a-env": "#F2E6C3",
+        "--a-scheme": "light",
+        "--a-page": "#FDF9EE"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

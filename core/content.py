@@ -13,6 +13,9 @@ STEPS_SHORT = [
 
 HERO_CHECKS = ["Snel en eenvoudig", "Stijlvolle ontwerpen", "Automatisch online", "RSVP & gastenlijst"]
 
+# Homepage: drie uitgelichte ontwerpen (codes). Ontbreekt er een, dan vullen de eerste uit de collectie aan.
+HOME_DESIGNS = ["liefde-op-papier", "sterrennacht", "confetti"]
+
 # Donker paneel op de homepage: onderdelen die elke uitnodiging kan hebben.
 HOME_FEATURES = [
     ("wekker", "Afteller"),

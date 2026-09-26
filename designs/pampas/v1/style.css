@@ -1,0 +1,18 @@
+/* Pampas v1 — zand, pampasgras, linnen.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Gilda Display"; src: url("../../../fonts/gilda-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Jost"; src: url("../../../fonts/jost-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+
+body {
+  --a-display: "Gilda Display", Georgia, serif;
+  --a-body: "Jost", system-ui, sans-serif;
+  --a-script: "Gilda Display", Georgia, serif;
+  --a-ui: "Jost", system-ui, sans-serif;
+  --a-names-spacing: .2em;
+  --a-radius: 6px;
+}
+
+.a-photo--boog { width: min(100%, 22rem); }
+.a-photo--boog .a-photo__img { aspect-ratio: 3 / 5; }
+.a-sec__body { font-weight: 300; }

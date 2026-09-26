@@ -6,7 +6,7 @@ Alle beelden van de website zijn eigen werk: er zitten geen foto's of stockbeeld
 | --- | --- | --- |
 | `static/img/site/hero*.webp`, `groen*.webp`, `maatwerk*.webp` | Sfeerbeelden (gouden licht, groen, papier) | `scenes.js` via `render.cjs` |
 | `static/img/apple-touch-icon.png`, `og-vierlief.jpg`, `og-uitnodiging.jpg`, `designs/_standaard.webp` | App-icoon, deelafbeeldingen, standaardbeeld voor nieuwe ontwerpen | `merk.html` via `render.cjs` |
-| `static/img/site/gelegenheid-*.webp`, `kaart-voorbeeld.webp` | Tegels per gelegenheid en de kaart op de homepage | Schermafbeeldingen van de echte voorbeelduitnodigingen, via `voorbeelden.cjs` |
+| `static/img/site/gelegenheid-*.webp`, `kaart-voorbeeld.webp` | Tegels per gelegenheid en de kaart op de homepage | Schermafbeeldingen van de echte voorbeelduitnodigingen, via `voorbeelden.cjs`. Welk ontwerp en welke kleur een tegel toont, staat in `TILES` bovenin dat bestand |
 
 Opnieuw maken (Node met Playwright en Chromium nodig):
 

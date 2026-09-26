@@ -11,10 +11,10 @@ from django.views.decorators.http import require_http_methods
 
 from catalog.assets import design_image_url
 from catalog.models import AddOn, Package, Template
-from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS
+from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS, by_occasion
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
-from .content import FAQ, FEATURES, HERO_CHECKS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
+from .content import FAQ, FEATURES, HERO_CHECKS, HOME_DESIGNS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
 from .forms import ContactForm
 from .models import ContactMessage, SiteConfig
 from .utils import form_age_seconds, ip_fingerprint, rate_limit, signed_timestamp
@@ -42,12 +42,16 @@ def _design_cards(designs, occasion=""):
 
 def home(request):
     designs = _designs()
+    by_slug = {d.slug: d for d in designs}
+    featured = [by_slug[s] for s in HOME_DESIGNS if s in by_slug]
+    featured += [d for d in designs if d not in featured][: max(0, 3 - len(featured))]
     cheapest = Package.objects.filter(is_active=True).order_by("price_cents").first()
     return render(
         request,
         "core/home.html",
         {
-            "cards": _design_cards(designs),
+            "cards": _design_cards(featured[:3]),
+            "design_count": len(designs),
             "checks": HERO_CHECKS,
             "tiles": OCCASION_TILES,
             "steps": STEPS_SHORT,
@@ -63,7 +67,7 @@ def designs(request):
     if occasion not in OCCASION_LABELS:
         occasion = ""
     all_designs = _designs()
-    shown = [d for d in all_designs if not occasion or occasion in d.occasions]
+    shown = by_occasion([d for d in all_designs if not occasion or occasion in d.occasions], occasion)
     return render(
         request,
         "core/designs.html",
@@ -94,7 +98,8 @@ def design_detail(request, slug):
             "occasion_choices": [(k, OCCASION_LABELS[k]) for k in template.occasions if k in OCCASION_LABELS],
             "demo_url": f"{reverse('invitations:demo', args=[slug])}?gelegenheid={occasion}",
             "start_url": f"{reverse('studio:start')}?ontwerp={slug}&gelegenheid={occasion}",
-            "others": [c for c in _design_cards(_designs()) if c["template"].pk != template.pk],
+            "others": _design_cards([t for t in by_occasion(_designs(), occasion) if t.pk != template.pk and t.supports(occasion)][:3], occasion),
+            "occasion_label": OCCASION_LABELS.get(occasion, ""),
         },
     )
 

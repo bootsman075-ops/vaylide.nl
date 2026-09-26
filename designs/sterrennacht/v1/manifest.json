@@ -1,0 +1,115 @@
+{
+  "slug": "sterrennacht",
+  "version": 1,
+  "name": "Onder de sterren",
+  "tagline": "Sfeervol, met een sterrenhemel en de maan",
+  "description": "Een sterrenhemel schuift omhoog. Daaronder een grote foto met jullie namen erop, sterren en een maansikkel.",
+  "style_notes": "Middernachtblauw, sterren, maan",
+  "occasions": [
+    "verloving",
+    "bruiloft",
+    "jubileum"
+  ],
+  "sort_order": 180,
+  "opening": "sterren",
+  "opening_label": "Sterrenhemel",
+  "atelier": {
+    "opening": "sterren",
+    "hero": "volbeeld",
+    "sections": "midden",
+    "heading": "kapitaal",
+    "names": "cursief",
+    "date": "blok",
+    "photo": "rond",
+    "texture": "sterren",
+    "ornament": "sterren"
+  },
+  "palettes": [
+    {
+      "key": "middernacht",
+      "name": "Middernacht",
+      "swatch": [
+        "#0E1630",
+        "#E8C987",
+        "#E8C987"
+      ],
+      "vars": {
+        "--a-bg": "#0E1630",
+        "--a-surface": "#16203F",
+        "--a-ink": "#F1ECE2",
+        "--a-muted": "#C3C2CC",
+        "--a-accent": "#E8C987",
+        "--a-accent-ink": "#0E1630",
+        "--a-line": "#2C3760",
+        "--a-c2": "#E8C987",
+        "--a-c3": "#9FB3D9",
+        "--a-cover-bg": "#0B1128",
+        "--a-cover-ink": "#F6F1E7",
+        "--a-scheme": "dark",
+        "--a-page": "#0E1630"
+      }
+    },
+    {
+      "key": "aubergine",
+      "name": "Aubergine",
+      "swatch": [
+        "#1E1427",
+        "#E6B8A2",
+        "#E6B8A2"
+      ],
+      "vars": {
+        "--a-bg": "#1E1427",
+        "--a-surface": "#291C35",
+        "--a-ink": "#F4ECE8",
+        "--a-muted": "#CDBFC8",
+        "--a-accent": "#E6B8A2",
+        "--a-accent-ink": "#1E1427",
+        "--a-line": "#3D2D4C",
+        "--a-c2": "#E6B8A2",
+        "--a-c3": "#B39CD0",
+        "--a-cover-bg": "#170F1F",
+        "--a-cover-ink": "#F4ECE8",
+        "--a-scheme": "dark",
+        "--a-page": "#1E1427"
+      }
+    },
+    {
+      "key": "inkt",
+      "name": "Inkt",
+      "swatch": [
+        "#10151B",
+        "#C8D3DE",
+        "#C8D3DE"
+      ],
+      "vars": {
+        "--a-bg": "#10151B",
+        "--a-surface": "#18202A",
+        "--a-ink": "#EEF1F4",
+        "--a-muted": "#B9C1CA",
+        "--a-accent": "#C8D3DE",
+        "--a-accent-ink": "#10151B",
+        "--a-line": "#2A3340",
+        "--a-c2": "#C8D3DE",
+        "--a-c3": "#8FA3B8",
+        "--a-cover-bg": "#0B0F14",
+        "--a-cover-ink": "#EEF1F4",
+        "--a-scheme": "dark",
+        "--a-page": "#10151B"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

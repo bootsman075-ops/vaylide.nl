@@ -6,7 +6,7 @@
   <div class="container">
     <p class="eyebrow">Collectie</p>
     <h1>{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Onze ontwerpen{% endif %}</h1>
-    <p class="lead">Elk ontwerp heeft een eigen opening en vier kleurvarianten.</p>
+    <p class="lead">Elk ontwerp heeft een eigen opening en kleurvarianten om uit te kiezen.</p>
     <nav class="filter-bar" aria-label="Filter op gelegenheid">
       <ul class="chips">
         <li><a class="chip" href="{% url 'core:designs' %}"{% if not occasion %} aria-current="true"{% endif %}>Alle</a></li>

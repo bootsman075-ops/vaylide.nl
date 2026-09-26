@@ -219,8 +219,16 @@ def build_view(
         kicker = organization or "Uitnodiging"
         tagline = f"{organization} nodigt u graag uit" if organization else "Graag nodigen wij u uit"
     names = [n for n in names if n] or [title]
+    # Groot getal voor ontwerpen die de leeftijd of het aantal jaren uitlichten.
+    number = ""
+    if occasion == "verjaardag":
+        number = names_raw.get("age", "").strip()
+    elif occasion in ("jubileum", "zakelijk"):
+        number = names_raw.get("years", "").strip()
+    number = number if number.isdigit() and len(number) <= 3 else ""
     longest = max(len(n) for n in names)
-    names_size = "xlong" if longest > 18 else ("long" if longest > 11 else "normal")
+    longest_word = max((len(w) for n in names for w in re.split(r"[\s-]+", n) if w), default=0)
+    names_size = "xlong" if longest > 18 or longest_word > 15 else ("long" if longest > 11 else "normal")
     headline = (overrides.get("headline") or content.get("headline") or "").strip()
     if headline:
         kicker = headline
@@ -391,6 +399,7 @@ def build_view(
         "names": names,
         "is_couple": len(names) == 2,
         "names_size": names_size,
+        "number": number,
         "kicker": kicker,
         "tagline": tagline,
         "monogram": monogram(occasion, content),

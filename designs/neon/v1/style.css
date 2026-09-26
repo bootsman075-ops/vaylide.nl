@@ -1,0 +1,19 @@
+/* Neonnacht v1 — donker, neonlicht, gloeiende letters.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Tilt Neon"; src: url("../../../fonts/tilt-neon-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../../../fonts/manrope-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-display: swap; }
+
+body {
+  --a-display: "Tilt Neon", system-ui, sans-serif;
+  --a-body: "Manrope", system-ui, sans-serif;
+  --a-script: "Tilt Neon", system-ui, sans-serif;
+  --a-ui: "Manrope", system-ui, sans-serif;
+  --a-radius: 14px;
+}
+
+.a-names, .a-number, .a-h2, .a-cover__title, .a-cover__big { text-shadow: 0 0 4px color-mix(in srgb, var(--a-accent) 80%, transparent), 0 0 18px color-mix(in srgb, var(--a-accent) 55%, transparent), 0 0 40px color-mix(in srgb, var(--a-accent) 35%, transparent); }
+.a-number { color: var(--a-ink); }
+.a-sec-lijnen .a-sec + .a-sec { border-top-color: color-mix(in srgb, var(--a-accent) 60%, transparent); }
+.a-photo--rond .a-photo__img { box-shadow: 0 0 0 2px var(--a-accent), 0 0 28px color-mix(in srgb, var(--a-accent) 45%, transparent); }
+.a-tagline { font-family: var(--a-body); font-style: normal; }

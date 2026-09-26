@@ -101,6 +101,12 @@ def validate_manifest(path: Path, data: dict) -> None:
     unknown = [o for o in data["occasions"] if o not in OCCASIONS]
     if unknown:
         raise DesignError(f"{where}: onbekende gelegenheid: {', '.join(unknown)}. Kies uit: {', '.join(OCCASIONS)}.")
+    if "atelier" in data:
+        from .atelier import atelier_errors
+
+        problems = atelier_errors(data["atelier"])
+        if problems:
+            raise DesignError(f"{where}: {'; '.join(problems)}.")
 
 
 def design_manifests() -> list[tuple[Path, dict]]:

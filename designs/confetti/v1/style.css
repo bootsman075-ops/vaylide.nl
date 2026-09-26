@@ -1,0 +1,19 @@
+/* Confetti v1 — kleurrijk, confetti, groot getal.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Fredoka"; src: url("../../../fonts/fredoka-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Nunito"; src: url("../../../fonts/nunito-latin-wght-normal.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+
+body {
+  --a-display: "Fredoka", system-ui, sans-serif;
+  --a-body: "Nunito", system-ui, sans-serif;
+  --a-script: "Fredoka", system-ui, sans-serif;
+  --a-ui: "Nunito", system-ui, sans-serif;
+  --a-radius: 18px;
+  --a-names-weight: 600;
+  --a-h2-weight: 600;
+}
+
+.a-number { font-weight: 700; text-shadow: .045em .045em 0 var(--a-c2), .09em .09em 0 var(--a-c3); }
+.a-tagline { font-family: var(--a-body); font-style: normal; }
+.a-lead { font-family: var(--a-body); }

@@ -1,0 +1,19 @@
+/* Mijlpaal v1 — grafiet en goud, groot getal, krachtig.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Montserrat"; src: url("../../../fonts/montserrat-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Lora"; src: url("../../../fonts/lora-latin-wght-normal.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Lora"; src: url("../../../fonts/lora-latin-wght-italic.woff2") format("woff2"); font-weight: 400 700; font-style: italic; font-display: swap; }
+
+body {
+  --a-display: "Montserrat", system-ui, sans-serif;
+  --a-body: "Lora", Georgia, serif;
+  --a-script: "Montserrat", system-ui, sans-serif;
+  --a-ui: "Montserrat", system-ui, sans-serif;
+  --a-radius: 4px;
+  --a-names-weight: 700;
+  --a-names-spacing: -.02em;
+}
+
+.a-number { font-weight: 800; letter-spacing: -.05em; }
+.a-tagline { font-style: italic; font-family: var(--a-body); }

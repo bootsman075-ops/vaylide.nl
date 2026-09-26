@@ -1,0 +1,114 @@
+{
+  "slug": "wolkje",
+  "version": 1,
+  "name": "Wolkje",
+  "tagline": "Zacht en rond, met wolkjes",
+  "description": "Laat de ballonnen los om te openen. Wolkjes, zachte kleuren, ronde kaartjes en de datum in een cirkel.",
+  "style_notes": "Zachtblauw, wolkjes, rond",
+  "occasions": [
+    "babyshower",
+    "verjaardag"
+  ],
+  "sort_order": 310,
+  "opening": "ballonnen",
+  "opening_label": "Ballonnen",
+  "atelier": {
+    "opening": "ballonnen",
+    "hero": "klassiek",
+    "sections": "kaarten",
+    "heading": "groot",
+    "names": "display",
+    "date": "cirkel",
+    "photo": "cirkel",
+    "texture": "geen",
+    "ornament": "wolken"
+  },
+  "palettes": [
+    {
+      "key": "lichtblauw",
+      "name": "Lichtblauw",
+      "swatch": [
+        "#F2F7FC",
+        "#CFE3F5",
+        "#2C6599"
+      ],
+      "vars": {
+        "--a-bg": "#F2F7FC",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#24303D",
+        "--a-muted": "#53606D",
+        "--a-accent": "#2C6599",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DCE8F4",
+        "--a-c2": "#CFE3F5",
+        "--a-c3": "#F6E3C8",
+        "--a-cover-bg": "#E4EFF9",
+        "--a-cover-ink": "#24303D",
+        "--a-scheme": "light",
+        "--a-page": "#F2F7FC"
+      }
+    },
+    {
+      "key": "roze",
+      "name": "Roze",
+      "swatch": [
+        "#FDF3F6",
+        "#F7D3E0",
+        "#A63A63"
+      ],
+      "vars": {
+        "--a-bg": "#FDF3F6",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#35262D",
+        "--a-muted": "#66555D",
+        "--a-accent": "#A63A63",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#F5DDE5",
+        "--a-c2": "#F7D3E0",
+        "--a-c3": "#D9EAF5",
+        "--a-cover-bg": "#FBE6EE",
+        "--a-cover-ink": "#35262D",
+        "--a-scheme": "light",
+        "--a-page": "#FDF3F6"
+      }
+    },
+    {
+      "key": "mint",
+      "name": "Mint",
+      "swatch": [
+        "#F1FAF6",
+        "#CDEEDF",
+        "#1C7053"
+      ],
+      "vars": {
+        "--a-bg": "#F1FAF6",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1F2E28",
+        "--a-muted": "#4F5F58",
+        "--a-accent": "#1C7053",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D6EDE3",
+        "--a-c2": "#CDEEDF",
+        "--a-c3": "#FCE7C8",
+        "--a-cover-bg": "#E1F4EB",
+        "--a-cover-ink": "#1F2E28",
+        "--a-scheme": "light",
+        "--a-page": "#F1FAF6"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

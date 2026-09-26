@@ -1,0 +1,114 @@
+{
+  "slug": "strak",
+  "version": 1,
+  "name": "Strak zakelijk",
+  "tagline": "Helder en professioneel",
+  "description": "Een paneel schuift opzij. Grote, strakke letters, de feiten in kolommen, genummerde onderdelen en een kalenderblaadje.",
+  "style_notes": "Marine, strak, professioneel",
+  "occasions": [
+    "zakelijk",
+    "jubileum"
+  ],
+  "sort_order": 360,
+  "opening": "schuif",
+  "opening_label": "Schuifpaneel",
+  "atelier": {
+    "opening": "schuif",
+    "hero": "redactioneel",
+    "sections": "genummerd",
+    "heading": "kapitaal",
+    "names": "display",
+    "date": "kalender",
+    "photo": "recht",
+    "texture": "geen",
+    "ornament": "geen"
+  },
+  "palettes": [
+    {
+      "key": "marine",
+      "name": "Marine",
+      "swatch": [
+        "#F6F7F9",
+        "#C9D5EA",
+        "#1F3A68"
+      ],
+      "vars": {
+        "--a-bg": "#F6F7F9",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#111A2B",
+        "--a-muted": "#4E5869",
+        "--a-accent": "#1F3A68",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D9DEE6",
+        "--a-c2": "#C9D5EA",
+        "--a-c3": "#E8EDF5",
+        "--a-cover-bg": "#1F3A68",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#F6F7F9"
+      }
+    },
+    {
+      "key": "antraciet",
+      "name": "Antraciet",
+      "swatch": [
+        "#F5F5F4",
+        "#D6D6D3",
+        "#2E2E2E"
+      ],
+      "vars": {
+        "--a-bg": "#F5F5F4",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#1A1A1A",
+        "--a-muted": "#555553",
+        "--a-accent": "#2E2E2E",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#DEDEDC",
+        "--a-c2": "#D6D6D3",
+        "--a-c3": "#EBEBE9",
+        "--a-cover-bg": "#2E2E2E",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#F5F5F4"
+      }
+    },
+    {
+      "key": "bosgroen",
+      "name": "Bosgroen",
+      "swatch": [
+        "#F3F6F4",
+        "#C6D8CF",
+        "#1F5140"
+      ],
+      "vars": {
+        "--a-bg": "#F3F6F4",
+        "--a-surface": "#FFFFFF",
+        "--a-ink": "#12211B",
+        "--a-muted": "#4D5B55",
+        "--a-accent": "#1F5140",
+        "--a-accent-ink": "#FFFFFF",
+        "--a-line": "#D8E1DC",
+        "--a-c2": "#C6D8CF",
+        "--a-c3": "#E7EDE9",
+        "--a-cover-bg": "#1F5140",
+        "--a-cover-ink": "#FFFFFF",
+        "--a-scheme": "light",
+        "--a-page": "#F3F6F4"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "changelog": "Eerste versie."
+}

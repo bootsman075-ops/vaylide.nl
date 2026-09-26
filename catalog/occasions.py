@@ -89,6 +89,7 @@ OCCASIONS: dict[str, dict] = {
         "name_fields": [
             ("event_title", "Naam van het evenement", True, 90, "Bijv. Jubileumborrel of Productlancering."),
             ("organization", "Organisatie", True, 90, ""),
+            ("years", "Aantal jaar (optioneel)", False, 3, "Alleen bij een jubileum, bijv. 10. Sommige ontwerpen zetten dit getal groot in beeld."),
         ],
         "default_headline": "Graag nodigen wij u uit",
         "invite_line": "nodigt u uit",
@@ -98,6 +99,13 @@ OCCASIONS: dict[str, dict] = {
         "formal": True,
     },
 }
+
+
+def by_occasion(designs, occasion: str) -> list:
+    """Eerst de ontwerpen die voor deze gelegenheid zijn gemaakt (eerste in hun lijst), daarna de rest."""
+    if not occasion:
+        return list(designs)
+    return sorted(designs, key=lambda t: (0 if (t.occasions or [""])[0] == occasion else 1, t.sort_order, t.name))
 
 
 def occasion_config(key: str) -> dict:

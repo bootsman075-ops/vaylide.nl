@@ -1,0 +1,14 @@
+<header class="a-hero">
+  <div class="a-hero__text">
+    <p class="a-kicker">{{ v.kicker }}</p>
+    {% include "_atelier/v1/parts/names.html" %}
+    <p class="a-tagline">{{ v.tagline }}</p>
+  </div>
+  <dl class="a-facts">
+    {% if v.date_display %}<div><dt>Datum</dt><dd>{{ v.date_display|capfirst }}</dd></div>{% endif %}
+    {% if v.time_display %}<div><dt>Tijd</dt><dd>{{ v.time_display }}{% include "invitations/partials/time_note.html" %}</dd></div>{% endif %}
+    {% if v.venue %}<div><dt>Locatie</dt><dd>{{ v.venue }}</dd></div>{% endif %}
+  </dl>
+  {% include "_atelier/v1/parts/photo.html" with sizes="(min-width: 1100px) 1040px, 94vw" %}
+  {% include "_atelier/v1/parts/ornament.html" with pos="bottom" %}
+</header>

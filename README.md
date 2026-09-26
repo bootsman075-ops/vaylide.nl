@@ -43,7 +43,7 @@ Open daarna http://127.0.0.1:8000.
 | Wat | Waar |
 |---|---|
 | Website | `/` |
-| Ontwerpen en werkende voorbeelden | `/ontwerpen/`, `/voorbeeld/liefde-op-papier/`, `/voorbeeld/avondgoud/`, `/voorbeeld/puur-moment/` |
+| Ontwerpen en werkende voorbeelden | `/ontwerpen/` (33 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/` of `/voorbeeld/sterrennacht/` |
 | Zelf een uitnodiging maken | `/maken/` |
 | Mijn Vierlief (klant) | `/account/` |
 | Beheer (eigenaar) | `/beheer/`, inloggen met het account uit `createsuperuser` |
@@ -89,7 +89,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-102 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in de vorige ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+116 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 
@@ -117,7 +117,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `config/` | Instellingen en URL's |
 | `core/` | Website-pagina's (teksten in `core/content.py`, iconen in `core/icons.py`, zoeken in `core/search.py`), contact, beveiligingsheaders, AI-hulp, privacy en bewaartermijnen |
 | `catalog/` | Ontwerpen en ontwerpversies, pakketten, opties, gelegenheden |
-| `designs/<ontwerp>/v<N>/` | De uitnodigingsontwerpen: `manifest.json`, `invitation.html`, `style.css` |
+| `designs/<ontwerp>/v<N>/` | De uitnodigingsontwerpen: `manifest.json`, `invitation.html`, `style.css`. De 30 Atelier-ontwerpen delen hun opbouw in `designs/_atelier/v1/` |
 | `invitations/` | Uitnodigingen, versies, foto's, weergave, aanmeldingen van gasten, QR, agenda |
 | `studio/` | Samenstellen in stappen (de vragenlijst) |
 | `orders/` | Bestellen, prijsberekening, betaalproviders (test en Mollie), verwerking na betaling |
@@ -128,7 +128,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `accounts/` | Klantaccounts (inlogcode per e-mail) en beheerders |
 | `tests/` | Geautomatiseerde tests |
 | `e2e/` | Browsercontroles en scripts voor de afbeeldingen |
-| `tools/` | Maakt de eigen beelden: abstracte voorbeeldafbeeldingen en (in `tools/merkbeelden/`) de sfeer- en merkbeelden van de website |
+| `tools/` | Maakt de eigen beelden: abstracte voorbeeldafbeeldingen en (in `tools/merkbeelden/`) de sfeer- en merkbeelden van de website; in `tools/atelier/` de beschrijving en het script voor de Atelier-ontwerpen |
 
 ## Beveiliging in het kort
 

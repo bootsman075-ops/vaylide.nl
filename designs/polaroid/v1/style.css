@@ -1,0 +1,22 @@
+/* Polaroid v1 — kraftpapier, polaroids, handschrift.
+   Opbouw, opening en versiering: designs/_atelier/v1. Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Nunito"; src: url("../../../fonts/nunito-latin-wght-normal.woff2") format("woff2"); font-weight: 200 1000; font-display: swap; }
+@font-face { font-family: "Caveat"; src: url("../../../fonts/caveat-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+body {
+  --a-display: "Nunito", system-ui, sans-serif;
+  --a-body: "Nunito", system-ui, sans-serif;
+  --a-script: "Caveat", cursive;
+  --a-ui: "Nunito", system-ui, sans-serif;
+  --a-names-font: var(--a-script);
+  --a-radius: 4px;
+  --a-names-scale: 1.08;
+}
+
+.a-sec-kaarten .a-sec { position: relative; box-shadow: 0 10px 24px -18px rgba(0, 0, 0, .5); }
+.a-sec-kaarten .a-sec:nth-child(odd) { rotate: -.7deg; }
+.a-sec-kaarten .a-sec:nth-child(even) { rotate: .6deg; }
+.a-sec-kaarten .a-sec:not(.a-welcome)::before { content: ""; position: absolute; top: -11px; left: 50%; width: 96px; height: 22px; margin-left: -48px; background: color-mix(in srgb, var(--a-c2) 75%, transparent); rotate: -3deg; }
+.a-tagline { font-family: var(--a-script); font-style: normal; font-size: 1.6rem; }
+.a-date--lijn { font-family: var(--a-script); font-size: 1.8rem; }
