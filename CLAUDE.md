@@ -1,0 +1,57 @@
+# Vierlief: werkafspraken voor Claude
+
+Vierlief is een Django-platform (Django 5.2 LTS, Python 3.11+) waarop klanten zelf een digitale uitnodiging samenstellen, betalen en delen, met aanmelden voor gasten (RSVP), een klantomgeving (Mijn Vierlief) en een beheeromgeving voor de eigenaar. Alle teksten voor gebruikers zijn Nederlands: kort, vriendelijk en zonder jargon.
+
+Lees bij de start eerst `docs/OVERDRACHT.md` (stand van zaken en open punten). Daarna, als het nodig is: `docs/AANPAK.md` (keuzes en aannames), `docs/HANDLEIDING.md` (beheer, ontwerpen toevoegen), `docs/CONTROLES.md` (wat getest is) en `docs/LIVEGANG.md` (nodig voor livegang).
+
+## Commando's
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+cp .env.example .env                      # zet een eigen DJANGO_SECRET_KEY; geen echte sleutels in git
+.venv/bin/python manage.py migrate        # leest ook de ontwerpen in (sync_designs)
+.venv/bin/python manage.py createsuperuser
+.venv/bin/python manage.py runserver      # http://127.0.0.1:8000, testmodus
+.venv/bin/python manage.py test tests     # 102 tests, moeten altijd slagen
+```
+
+Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py` en `e2e/controle2.cjs`). Beelden opnieuw maken: `tools/merkbeelden/README.md`.
+
+## Waar zit wat
+
+| Onderdeel | Plek |
+|---|---|
+| Websitepagina's | `core/views.py`, `core/templates/core/`, teksten in `core/content.py`, iconen in `core/icons.py` (`{% icon "naam" %}`), zoeken in `core/search.py` |
+| Kop, voet, logo | `templates/partials/` |
+| Huisstijl | `static/css/vierlief.css` (tokens in `:root`), app-schermen in `static/css/app.css` |
+| Uitnodigingsontwerpen | `designs/<code>/v<N>/` (manifest, template, stylesheet), weergave in `invitations/` |
+| Samenstellen, bestellen, betalen | `studio/`, `orders/` (testbetaling en Mollie achter één koppeling) |
+| Verwerking na betaling en e-mail | `processing/` (takenwachtrij met herhalingen) |
+| Klantomgeving, extra wensen, beheer | `portal/`, `wishes/`, `beheer/` |
+| Beveiligingsheaders en CSP | `core/middleware.py`, `core/csp.py` |
+
+## Vaste regels van de eigenaar
+
+Niet van afwijken zonder zijn uitdrukkelijke akkoord.
+
+1. Beveilig klant- en beheerfuncties aan de serverzijde. Geheime sleutels nooit in de browser of de broncode, alleen via omgevingsvariabelen (`.env` staat in `.gitignore`).
+2. Iedere klant heeft alleen toegang tot eigen gegevens, uploads en evenementen. Een moeilijk te raden link vervangt geen toegangscontrole. Een uitnodiging van een ander geeft een 404.
+3. Gasten kunnen nooit andere antwoorden of de gastenlijst bekijken of opvragen.
+4. Privé-uitnodigingen en gastenlijsten komen niet in zoekmachines (`noindex`, `robots.txt`). Het zoeken op de site doorzoekt alleen openbare inhoud.
+5. Ontbrekende koppelingen draaien in een herkenbare testmodus (testbalk). Presenteer browseropslag of een gesimuleerde betaling nooit als een werkende productiedienst.
+6. Publiceer alleen na een geldige serverzijdige betalingsbevestiging, nooit omdat de klant op een bedankpagina komt.
+7. AI zegt geen maatwerk, prijs, haalbaarheid of opleverdatum toe. Bij een extra wens krijgt de klant alleen een ontvangstbevestiging.
+8. Geen verzonnen reviews, klantenaantallen of onbevestigde leveringsbeloften.
+9. Sluit geen betaalde diensten af en publiceer niet naar productie zonder akkoord van de eigenaar. Configuratievoorbeelden zonder echte geheimen.
+10. Claim alleen controles die echt zijn uitgevoerd, en claim nooit iets gezien te hebben wat je niet kon openen.
+11. Vaste teksten op de homepage: de kop "Een bijzondere dag verdient een bijzondere uitnodiging." en de knoppen "Bekijk de ontwerpen" en "Maak jouw uitnodiging".
+
+## Werkwijze
+
+- Elke nieuwe functie of wijziging krijgt een test in `tests/`; `manage.py test tests` moet slagen.
+- Een uitnodigingsontwerp aanpassen gaat via een nieuwe versie (`designs/<code>/v2/`). Bestaande uitnodigingen blijven op hun eigen versie (zie `docs/HANDLEIDING.md`).
+- Vormgeving: gebruik de tokens uit `static/css/vierlief.css`. Kleine tekst op een lichte achtergrond gebruikt `--accent-text` (contrast minstens 4,5:1), knoppen `--accent`.
+- De Content-Security-Policy is streng: geen inline `<script>` of `<style>`-blokken (inline `style`-attributen mogen). JavaScript hoort in `static/js/`. Het enige inline script is het startscript uit `core/csp.py`, met een hash in de CSP.
+- Pagina's werken ook zonder JavaScript; JavaScript is een verbetering.
+- Na werk aan de vormgeving: controleer op 360, 390, 768 en 1366 pixels breed (`e2e/controle2.cjs`) en draai de toegankelijkheidscontrole.
+- Werk de documentatie bij bij elke wijziging. In `docs/CONTROLES.md` komen alleen controles die echt zijn uitgevoerd.

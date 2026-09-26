@@ -14,6 +14,8 @@ De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
 
 | Bestand | Inhoud |
 |---|---|
+| [docs/OVERDRACHT.md](docs/OVERDRACHT.md) | Stand van zaken, open punten en hoe je verder bouwt (begin hier) |
+| [CLAUDE.md](CLAUDE.md) | Werkafspraken en vaste regels voor Claude Code |
 | [docs/AANPAK.md](docs/AANPAK.md) | Aanpak, techniekkeuze, aannames en de status van de referenties |
 | [docs/HANDLEIDING.md](docs/HANDLEIDING.md) | De beheeromgeving gebruiken en ontwerpen toevoegen of aanpassen |
 | [docs/CONTROLES.md](docs/CONTROLES.md) | Uitgevoerde controles (Controle 1 en 2) met resultaten |
