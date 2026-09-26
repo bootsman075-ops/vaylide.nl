@@ -10,8 +10,6 @@ De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
 
 > **Status: eerste versie in testmodus.** Betalingen zijn gesimuleerd, e-mails worden alleen bewaard (niet verstuurd) en de AI-hulp draait zonder sleutel met vaste voorbeeldteksten. Op elke pagina staat een testbalk. Wat nodig is om live te gaan: [docs/LIVEGANG.md](docs/LIVEGANG.md).
 
-Vierlief is een apart project in de map `vierlief/`. Het deelt niets met de Vantor-website en staat in `.vercelignore`, zodat de Vantor-deployment het niet meeneemt.
-
 ## Documentatie
 
 | Bestand | Inhoud |
@@ -26,7 +24,6 @@ Vierlief is een apart project in de map `vierlief/`. Het deelt niets met de Vant
 Nodig: Python 3.11 of nieuwer.
 
 ```bash
-cd vierlief
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 cp .env.example .env

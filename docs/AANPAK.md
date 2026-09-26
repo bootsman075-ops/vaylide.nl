@@ -6,7 +6,7 @@ Een complete eerste versie van Vierlief waarin standaardbestellingen zelfstandig
 
 ## Uitgangssituatie
 
-De repository bevatte alleen de statische Vantor-website (HTML, gehost op Vercel), zonder database of serverlogica. Vierlief heeft een database, betalingen, accounts en uploads nodig. Daarom staat het als apart project in de map `vierlief/`, zonder gedeelde code. Aan de Vantor-website is niets veranderd. De enige wijziging buiten de map is één regel in `.vercelignore`, zodat de Vantor-deployment de Vierlief-map niet meeneemt.
+Vierlief is een nieuw, zelfstandig project met een eigen repository. Er was nog geen bestaande techniek om op voort te bouwen, dus de keuze hieronder is gemaakt voor een platform met een database, betalingen, accounts en uploads.
 
 ## Techniekkeuze
 

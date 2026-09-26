@@ -81,7 +81,6 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 
 - `python manage.py check --deploy` met productie-instellingen: alleen de bewuste meldingen W005 en W021.
 - Docker: de image bouwt vanaf nul, start met migraties op een leeg volume, laadt de ontwerpen, draait als gewone gebruiker (uid 10001), serveert statische bestanden en de eigen 404, en de onderhoudscommando's werken.
-- De eigen controles van de Vantor-website (`tools/build-pages.py`, `tools/check-site.py`) zijn gedraaid en slagen ook met de Vierlief-map erbij. Het bouwscript veranderde bij het draaien de datums in `sitemap.xml`; die wijziging is teruggedraaid.
 
 ## Niet gecontroleerd
 
