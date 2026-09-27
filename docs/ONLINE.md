@@ -19,9 +19,50 @@ Dit stappenplan gaat uit van het domein van de eigenaar: `vaylide.com`.
    en de bedrijfsgegevens klaar zijn. De checklist staat in `docs/LIVEGANG.md`. In live-modus weigert de
    app te starten zonder echte betaalprovider, e-mail en https.
 
+## Aanbevolen route: GitHub en Render
+
+Voor deze route staat alles klaar in `render.yaml`, een zogeheten blueprint. Render maakt daarmee in één
+keer de site aan (servers in Frankfurt, EU), met een blijvende schijf voor foto's en een PostgreSQL-database.
+De geheime sleutel van de site maakt Render zelf aan. Er komt geen eigen serverbeheer bij kijken.
+
+1. **GitHub**: maak op github.com een lege privé-repository aan, bijvoorbeeld `vaylide`, zonder README.
+   Zet het project erin met `git remote add origin git@github.com:<eigenaar>/vaylide.git` en
+   `git push -u origin main`. Claude kan dat ook doen zodra de repository bestaat.
+2. **Render-account**: maak een account op render.com en koppel je GitHub-account. Render is een betaalde
+   dienst. De blueprint gebruikt het abonnement "Starter" voor de site (nodig voor een blijvende schijf),
+   een kleine database ("Basic 256 MB") en 1 GB schijf. De actuele prijzen staan op render.com.
+3. **Blueprint**: kies in Render **New → Blueprint**, kies de repository en bevestig. Render vraagt om drie
+   waarden:
+   - `VIERLIEF_CONTACT_EMAIL`: het e-mailadres waarop je bereikbaar wilt zijn;
+   - `VIERLIEF_DJANGO_ADMIN_PATH`: een pad voor het noodbeheer dat niet makkelijk te raden is, eindigend
+     op `/`;
+   - `VIERLIEF_PREVIEW_PASSWORD`: het wachtwoord voor de testversie, lang en willekeurig. De gebruikersnaam
+     is `voorbeeld`.
+4. **Eerste start**: Render bouwt en start de site. Die staat dan op een adres als
+   `https://vaylide.onrender.com` (het precieze adres staat in Render). Open het: eerst komt het
+   inlogvenster van de browser, daarna de site met de testbalk.
+5. **Beheeraccount**: open in Render de **Shell** van de dienst en voer `python manage.py createsuperuser`
+   uit, met een sterk wachtwoord van minstens 12 tekens. Log daarna in op `/beheer/`.
+6. **Domein**: voeg bij de dienst onder **Settings → Custom Domains** `vaylide.com` en `www.vaylide.com`
+   toe. Render laat zien welke DNS-records je bij je domeinbedrijf instelt (zie stap 2 hieronder). Het
+   https-certificaat maakt Render zelf aan zodra de DNS klopt.
+7. **Controle**: volg stap 4 hieronder op `https://www.vaylide.com`.
+
+Nog niet in de blueprint, want pas nodig voor live: een klok die elke paar minuten `POST /intern/taken/`
+aanroept met de header `Authorization: Bearer <VIERLIEF_CRON_TOKEN>` (mislukte taken opnieuw proberen), en
+één keer per nacht met `?retentie=1` (bewaartermijnen). Voor de testversie is dat niet nodig: taken lopen
+direct na een testbetaling.
+
+Wat vooraf is gecontroleerd: `render.yaml` is geldig. De bouwstap (statische bestanden) en de start van de
+database op een lege PostgreSQL-database zijn lokaal nagebootst met dezelfde instellingen. Daarna zijn de
+belangrijkste adressen binnen het programma opgevraagd: het wachtwoord, de doorsturing naar https, de
+domeinen, `/healthz`, het logo en het noodbeheer. **Op Render zelf is de blueprint niet getest.** Loop de
+eerste keer samen na en kijk bij een foutmelding in het logboek van de dienst in Render.
+
 ## 1. Hosting kiezen (keuze van de eigenaar)
 
-Er is nog niets afgesloten. Twee mogelijkheden die bij dit project passen:
+Er is nog niets afgesloten. De aanbevolen route staat hierboven. Andere mogelijkheden die bij dit project
+passen:
 
 - **Een platform dat de app voor je draait** en een `Procfile` begrijpt. Het project heeft er een:
   `release` (database bijwerken), `web` (de site) en `worker` (taken na betaling). Kies een aanbieder

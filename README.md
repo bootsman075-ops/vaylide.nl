@@ -112,6 +112,8 @@ Plaats een reverse proxy met https vóór de container en zet `VIERLIEF_TRUSTED_
 
 **Platforms met een Procfile**: `Procfile` bevat `release` (migraties), `web` (gunicorn) en `worker`.
 
+**Render**: `render.yaml` zet de site als testversie met een wachtwoord op Render (Frankfurt), met een blijvende schijf en PostgreSQL. Stappen: [docs/ONLINE.md](docs/ONLINE.md). Lokaal nagebootst, nog niet op Render zelf getest.
+
 Controleer na installatie met `python manage.py check --deploy`. Er horen dan alleen de bewust open gelaten meldingen W005 en W021 over HSTS-subdomeinen en de preload-lijst te staan.
 
 ## Projectstructuur

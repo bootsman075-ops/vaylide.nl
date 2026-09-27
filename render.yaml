@@ -1,0 +1,65 @@
+# Render-blueprint voor Vaylide: de site als testversie met een wachtwoord, in Frankfurt (EU).
+# Maakt een webdienst met een blijvende schijf voor foto's en een PostgreSQL-database aan.
+# Gebruik: Render → New → Blueprint → kies de GitHub-repository. Uitleg: docs/ONLINE.md.
+# Let op: deze blueprint is lokaal nagebootst, niet op Render zelf getest. Loop de eerste keer samen na.
+services:
+  - type: web
+    name: vaylide
+    runtime: python
+    region: frankfurt
+    plan: starter
+    buildCommand: >-
+      pip install -r requirements.txt &&
+      DJANGO_DEBUG=false VIERLIEF_ALLOW_DEV_SECRET=true VIERLIEF_DATA_DIR=/tmp/build-data
+      python manage.py collectstatic --noinput
+    startCommand: >-
+      python manage.py migrate --noinput &&
+      gunicorn config.wsgi --bind 0.0.0.0:$PORT --workers 2 --timeout 60 --access-logfile -
+    healthCheckPath: /healthz
+    disk:
+      name: vaylide-gegevens
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: VIERLIEF_MODE
+        value: test
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: vaylide-db
+          property: connectionString
+      - key: DJANGO_ALLOWED_HOSTS
+        value: vaylide.com,www.vaylide.com
+      - key: DJANGO_CSRF_TRUSTED_ORIGINS
+        value: https://vaylide.com,https://www.vaylide.com
+      # Het adres in links in e-mails en QR-codes. Zolang het domein nog niet is gekoppeld,
+      # kun je hier het …onrender.com-adres van de dienst invullen.
+      - key: VIERLIEF_BASE_URL
+        value: https://www.vaylide.com
+      - key: VIERLIEF_DATA_DIR
+        value: /var/data
+      - key: VIERLIEF_UPLOAD_DIR
+        value: /var/data/uploads
+      - key: VIERLIEF_TRUSTED_PROXY_HOPS
+        value: "1"
+      # Hieronder vraagt Render om een waarde bij het aanmaken.
+      - key: VIERLIEF_CONTACT_EMAIL
+        sync: false
+      - key: VIERLIEF_DJANGO_ADMIN_PATH
+        sync: false
+      - key: VIERLIEF_PREVIEW_USER
+        value: voorbeeld
+      - key: VIERLIEF_PREVIEW_PASSWORD
+        sync: false
+
+databases:
+  - name: vaylide-db
+    region: frankfurt
+    plan: basic-256mb
+    databaseName: vaylide
+    user: vaylide

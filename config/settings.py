@@ -73,6 +73,9 @@ if not SECRET_KEY:
         )
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],testserver")
+# Render geeft elke dienst een eigen adres (…onrender.com), bruikbaar zolang het eigen domein nog niet is gekoppeld.
+if env("RENDER_EXTERNAL_HOSTNAME"):
+    ALLOWED_HOSTS.append(env("RENDER_EXTERNAL_HOSTNAME"))
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 
 # Publieke basis-URL voor links in e-mails en QR-codes (zonder slash aan het eind).
