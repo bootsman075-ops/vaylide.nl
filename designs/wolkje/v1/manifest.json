@@ -110,5 +110,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "wolkjes",
+    "knal": "bellen",
+    "viering": "bellen",
+    "namen": "pop",
+    "onthul": "zoom",
+    "extra": [
+      "tik"
+    ]
+  }
 }

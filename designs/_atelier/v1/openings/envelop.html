@@ -1,14 +1,15 @@
-<section class="cover a-cover a-cover--envelop a-names-{{ a.names }}" data-cover data-duration="2600" aria-label="Openingsscherm">
+<section class="cover a-cover a-cover--envelop a-names-{{ a.names }}" data-cover data-duration="2600" data-fx-delay="120" aria-label="Openingsscherm">
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="a-cover__inner">
     <p class="a-cover__kicker">Een uitnodiging voor jou</p>
-    <div class="a-env-wrap">
+    <div class="a-env-wrap" data-fx-tilt>
       <div class="a-env" aria-hidden="true">
         <div class="a-env__back"></div>
         <div class="a-env__card"><span class="a-env__kicker">{{ v.kicker }}</span><span class="a-env__names a-env__names--{{ v.names_size }}">{{ v.title }}</span><span class="a-env__date">{{ v.date_numeric }}</span></div>
         <div class="a-env__front"><span class="a-env__to a-env__to--{{ v.names_size }}">{{ v.title }}</span></div>
         <div class="a-env__flap"></div>
       </div>
-      <a href="#uitnodiging" class="a-seal" data-open aria-label="Open de uitnodiging"><span aria-hidden="true">{{ v.monogram }}</span></a>
+      <a href="#uitnodiging" class="a-seal fx-pulse" data-open data-fx-origin aria-label="Open de uitnodiging"><span aria-hidden="true">{{ v.monogram }}</span></a>
     </div>
     <p class="a-cover__hint">Tik op het zegel om te openen</p>
     {% include "_atelier/v1/parts/music.html" %}

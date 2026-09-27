@@ -111,5 +111,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "confetti",
+    "knal": "kanon",
+    "viering": "kanon",
+    "namen": "pop",
+    "onthul": "zoom",
+    "extra": [
+      "tik"
+    ]
+  }
 }

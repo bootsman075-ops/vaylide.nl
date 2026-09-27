@@ -111,5 +111,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "film",
+    "knal": "flits",
+    "viering": "confetti",
+    "namen": "zacht",
+    "onthul": "kanteling",
+    "extra": [
+      "kenburns"
+    ]
+  }
 }

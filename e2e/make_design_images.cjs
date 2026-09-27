@@ -32,9 +32,10 @@ function designs() {
     const context = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 800 / w, bypassCSP: true });
     const page = await context.newPage();
     await page.goto(`${base}/voorbeeld/${slug}/${open ? "#uitnodiging" : ""}`, { waitUntil: "networkidle" });
-    await page.addStyleTag({ content: ".inv-banner, .music { display: none !important; } *, *::before, *::after { animation-play-state: paused !important; }" });
+    await page.addStyleTag({ content: ".inv-banner, .music, .fx-toggle { display: none !important; } *, *::before, *::after { animation-play-state: paused !important; }" });
     await page.evaluate(async () => { await document.fonts.ready; window.scrollTo(0, 0); });
-    await page.waitForTimeout(open ? 1400 : 500);
+    // Wachten tot de zwevende deeltjes (effects.js) goed in beeld zijn.
+    await page.waitForTimeout(open ? 2200 : 1800);
     await page.screenshot({ path: `${outDir}/${slug}.png` });
     await context.close();
     console.log("ok", slug);

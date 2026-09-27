@@ -29,6 +29,8 @@ async function scrollThrough(page) {
     window.scrollTo({ top: 0, behavior: "instant" });
   });
   await page.waitForTimeout(700);
+  // Wachten tot eenmalige animaties (onthullen, na elkaar invloeien) klaar zijn; doorlopende tellen niet mee.
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running" || a.effect.getTiming().iterations === Infinity), null, { timeout: 6000 }).catch(() => {});
 }
 
 async function audit(page, vp, name, url, { open = false, full = fullShots } = {}) {
@@ -39,7 +41,8 @@ async function audit(page, vp, name, url, { open = false, full = fullShots } = {
   const onResponse = (r) => { if (r.status() >= 400 && !r.url().includes("favicon")) failed.push(`${r.status()} ${r.url().replace(base, "")}`); };
   page.on("pageerror", onError); page.on("console", onConsole); page.on("response", onResponse);
   const response = await page.goto(base + url, { waitUntil: "networkidle" });
-  if (open && await page.$("[data-open]")) { await page.click("[data-open]", { force: true }); await page.waitForTimeout(3300); }
+  // Na het openen wachten tot de entree van de kop klaar is (effects.js zet dan 'fx-done').
+  if (open && await page.$("[data-open]")) { await page.click("[data-open]", { force: true }); await page.waitForTimeout(3300); await page.waitForFunction(() => !document.documentElement.classList.contains("fx") || document.documentElement.classList.contains("fx-done"), null, { timeout: 10000 }).catch(() => {}); await page.waitForTimeout(300); }
   await scrollThrough(page);
   const metrics = await page.evaluate(() => {
     const doc = document.documentElement;

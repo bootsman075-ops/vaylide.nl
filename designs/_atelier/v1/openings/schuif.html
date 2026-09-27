@@ -1,11 +1,12 @@
-<section class="cover a-cover a-cover--schuif a-names-{{ a.names }}" data-cover data-duration="1500" aria-label="Openingsscherm">
+<section class="cover a-cover a-cover--schuif a-names-{{ a.names }}" data-cover data-duration="1500" data-fx-delay="60" aria-label="Openingsscherm">
   <div class="a-panel-slide">
+    <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
     <div class="a-cover__inner">
       <p class="a-cover__kicker">{{ v.kicker }}</p>
       <p class="a-cover__title a-cover__title--{{ v.names_size }}">{{ v.title }}</p>
       {% if v.date_display %}<p class="a-cover__date">{{ v.date_display|capfirst }}</p>{% endif %}
       <span class="a-cover__rule" aria-hidden="true"></span>
-      <a href="#uitnodiging" class="a-cover__btn" data-open>Bekijk de uitnodiging <span aria-hidden="true">→</span></a>
+      <a href="#uitnodiging" class="a-cover__btn fx-pulse" data-open data-fx-origin>Bekijk de uitnodiging <span aria-hidden="true">→</span></a>
       {% include "_atelier/v1/parts/music.html" %}
     </div>
   </div>

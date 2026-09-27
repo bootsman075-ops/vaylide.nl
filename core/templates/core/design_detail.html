@@ -10,6 +10,7 @@
       <p class="lead">{{ template.description }}</p>
       <dl class="meta-list">
         <div><dt>Opening</dt><dd>{{ version.manifest.opening_label }}</dd></div>
+        {% if effects_text %}<div><dt>Effecten</dt><dd>{{ effects_text }} Gasten kunnen de beweging met één tik stilzetten.</dd></div>{% endif %}
         <div><dt>Geschikt voor</dt><dd>{{ template.occasion_labels|join:", "|lower }}</dd></div>
         <div><dt>Kleuren</dt><dd><ul class="palette-list" aria-label="Kleurvarianten">{% for p in version.palettes %}<li><span class="palette-list__swatches" aria-hidden="true">{% for c in p.swatch %}<span style="background:{{ c }}"></span>{% endfor %}</span>{{ p.name }}</li>{% endfor %}</ul></dd></div>
       </dl>

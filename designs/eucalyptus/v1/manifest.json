@@ -111,5 +111,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "bladeren",
+    "knal": "bladeren",
+    "viering": "bladeren",
+    "namen": "schrijf",
+    "onthul": "zacht",
+    "extra": [
+      "kenburns",
+      "kantel"
+    ]
+  }
 }

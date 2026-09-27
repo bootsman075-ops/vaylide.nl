@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods
 from catalog.assets import design_image_url
 from catalog.models import AddOn, Package, Template
 from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS, by_occasion
+from catalog.effects import effect_card_label, effect_summary
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
 from .content import FAQ, FEATURES, HERO_CHECKS, HOME_DESIGNS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
@@ -33,6 +34,7 @@ def _design_cards(designs, occasion=""):
             {
                 "template": template,
                 "opening_label": version.manifest.get("opening_label", ""),
+                "effect_label": effect_card_label(version.manifest.get("effects"), version.manifest.get("opening_label", "")),
                 "detail_url": reverse("core:design_detail", args=[template.slug]) + query,
                 "image": design_image_url(template.slug),
             }
@@ -100,6 +102,7 @@ def design_detail(request, slug):
             "start_url": f"{reverse('studio:start')}?ontwerp={slug}&gelegenheid={occasion}",
             "others": _design_cards([t for t in by_occasion(_designs(), occasion) if t.pk != template.pk and t.supports(occasion)][:3], occasion),
             "occasion_label": OCCASION_LABELS.get(occasion, ""),
+            "effects_text": effect_summary(version.manifest.get("effects")),
         },
     )
 

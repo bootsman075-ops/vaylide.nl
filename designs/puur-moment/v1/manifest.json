@@ -20,5 +20,6 @@
      "vars": {"--pm-bg": "#1B1D1E", "--pm-surface": "#242728", "--pm-ink": "#EDE8DF", "--pm-muted": "#B5AFA5", "--pm-accent": "#D2C1A2", "--pm-line": "#3A3E40", "--pm-vellum": "rgba(30, 32, 33, 0.72)"}}
   ],
   "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "bokeh", "knal": "bokeh", "viering": "bokeh", "namen": "zacht", "onthul": "zacht", "extra": ["kenburns"]},
   "changelog": "Eerste versie."
 }

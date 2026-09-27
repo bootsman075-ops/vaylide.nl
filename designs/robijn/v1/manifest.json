@@ -47,7 +47,8 @@
         "--a-cover-ink": "#2D1B1F",
         "--a-ribbon": "#931A2E",
         "--a-scheme": "light",
-        "--a-page": "#FBF3F3"
+        "--a-page": "#FBF3F3",
+        "--fx-shine": "#B96A77"
       }
     },
     {
@@ -72,7 +73,8 @@
         "--a-cover-ink": "#F6E9E6",
         "--a-ribbon": "#B8324C",
         "--a-scheme": "dark",
-        "--a-page": "#1E0A10"
+        "--a-page": "#1E0A10",
+        "--fx-shine": "#F4E2D9"
       }
     },
     {
@@ -97,7 +99,8 @@
         "--a-cover-ink": "#33202A",
         "--a-ribbon": "#D9899C",
         "--a-scheme": "light",
-        "--a-page": "#FDF1F3"
+        "--a-page": "#FDF1F3",
+        "--fx-shine": "#B8647B"
       }
     }
   ],
@@ -114,5 +117,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "blaadjes",
+    "knal": "harten",
+    "viering": "harten",
+    "namen": "folie",
+    "onthul": "zacht",
+    "extra": [
+      "kantel",
+      "tik"
+    ]
+  }
 }

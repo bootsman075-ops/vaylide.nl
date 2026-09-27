@@ -117,10 +117,12 @@
     function open() {
       if (opened) return;
       opened = true;
-      var duration = reduceMotion ? 250 : parseInt(cover.getAttribute("data-duration") || "2200", 10);
+      /* Rustig openen bij 'minder beweging' of als de gast de beweging heeft stilgezet (effects.js). */
+      var calm = reduceMotion || html.classList.contains("fx-paused");
+      var duration = calm ? 250 : parseInt(cover.getAttribute("data-duration") || "2200", 10);
       html.classList.add("is-opening");
-      if (reduceMotion) html.classList.add("is-opening-reduced");
-      document.dispatchEvent(new CustomEvent("invite:opening", { detail: { reduceMotion: reduceMotion } }));
+      if (calm) html.classList.add("is-opening-reduced");
+      document.dispatchEvent(new CustomEvent("invite:opening", { detail: { reduceMotion: calm } }));
       window.setTimeout(function () { finish(false); }, duration);
     }
 
@@ -138,7 +140,7 @@
           heading.focus({ preventScroll: true });
         }
       }
-      document.dispatchEvent(new CustomEvent("invite:opened"));
+      document.dispatchEvent(new CustomEvent("invite:opened", { detail: { instant: !!instant } }));
     }
   })();
 
@@ -169,7 +171,19 @@
     el.querySelectorAll("[data-unit]").forEach(function (n) { parts[n.getAttribute("data-unit")] = n; });
     var done = el.parentNode.querySelector("[data-countdown-done]");
     function pad(n) { return n < 10 ? "0" + n : String(n); }
+    function show(node, value) {
+      if (!node || node.textContent === value) return;
+      node.textContent = value;
+      /* Cijfer klapt om (alleen met beweging; zie effects.css). */
+      if (html.classList.contains("fx-motion")) {
+        node.classList.remove("is-tick");
+        void node.offsetWidth;
+        node.classList.add("is-tick");
+      }
+    }
     function update() {
+      /* Stilgezet met de knop 'Beweging': de afteller loopt pas verder als de beweging weer aan staat. */
+      if (html.classList.contains("fx-paused")) return true;
       var diff = Math.max(0, target - Date.now());
       if (diff <= 0) {
         el.hidden = true;
@@ -178,10 +192,10 @@
       }
       var s = Math.floor(diff / 1000);
       var days = Math.floor(s / 86400);
-      if (parts.days) parts.days.textContent = days;
-      if (parts.hours) parts.hours.textContent = pad(Math.floor((s % 86400) / 3600));
-      if (parts.minutes) parts.minutes.textContent = pad(Math.floor((s % 3600) / 60));
-      if (parts.seconds) parts.seconds.textContent = pad(s % 60);
+      show(parts.days, String(days));
+      show(parts.hours, pad(Math.floor((s % 86400) / 3600)));
+      show(parts.minutes, pad(Math.floor((s % 3600) / 60)));
+      show(parts.seconds, pad(s % 60));
       var dayLabel = parts.days && parts.days.nextElementSibling;
       if (dayLabel) dayLabel.textContent = days === 1 ? "dag" : "dagen";
       return true;
@@ -307,8 +321,11 @@
       setStatus("");
       var errors = localCheck();
       if (Object.keys(errors).length) { showErrors(errors); setStatus("Controleer de gemarkeerde velden.", true); return; }
+      var attending = !!form.querySelector("input[name='attending'][value='ja']:checked");
       if (demo) {
         setStatus("Dit is een voorbeeld: je antwoord is niet opgeslagen. In een echte uitnodiging komt het direct bij de organisator binnen.");
+        /* Het feestje komt uit de verstuurknop: die is op dit moment in beeld. */
+        document.dispatchEvent(new CustomEvent("invite:rsvp", { detail: { attending: attending, demo: true, target: form.querySelector("[data-rsvp-submit]") || form } }));
         return;
       }
       busy = true;
@@ -344,6 +361,7 @@
           }
           form.replaceWith(box);
           box.focus();
+          document.dispatchEvent(new CustomEvent("invite:rsvp", { detail: { attending: attending, demo: false, target: box } }));
           return;
         }
         busy = false;

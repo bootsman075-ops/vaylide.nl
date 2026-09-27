@@ -3,7 +3,7 @@
   "version": 1,
   "name": "Glitter & goud",
   "tagline": "Glamour, met goud en fonkeling",
-  "description": "Een gordijn schuift open voor een groot gouden getal. Fonkelende sterretjes, hoofdletters en een donkere achtergrond.",
+  "description": "Een zwart cadeau met een gouden strik: plof, en er vliegen cadeautjes en glitter uit. Een groot gouden getal, fonkelende sterretjes, hoofdletters en een donkere achtergrond.",
   "style_notes": "Zwart en goud, fonkeling, glamour",
   "occasions": [
     "verjaardag",
@@ -11,10 +11,10 @@
     "zakelijk"
   ],
   "sort_order": 240,
-  "opening": "gordijn",
-  "opening_label": "Gordijn",
+  "opening": "cadeau",
+  "opening_label": "Cadeau om uit te pakken",
   "atelier": {
-    "opening": "gordijn",
+    "opening": "cadeau",
     "hero": "getal",
     "sections": "midden",
     "heading": "kapitaal",
@@ -45,9 +45,10 @@
         "--a-c3": "#8C7A52",
         "--a-cover-bg": "#0A0A0A",
         "--a-cover-ink": "#F5EFE6",
-        "--a-curtain": "#8C6A2C",
+        "--a-wrap": "#2A241A",
         "--a-scheme": "dark",
-        "--a-page": "#121212"
+        "--a-page": "#121212",
+        "--fx-shine": "#E1BE6A"
       }
     },
     {
@@ -72,9 +73,11 @@
         "--a-cover-ink": "#FFF4F2",
         "--a-cover-btn": "#E7B7A7",
         "--a-cover-btn-ink": "#33232A",
-        "--a-curtain": "#C9868F",
+        "--a-wrap": "#94485A",
+        "--a-ribbon": "#D9B26F",
         "--a-scheme": "light",
-        "--a-page": "#FFF4F2"
+        "--a-page": "#FFF4F2",
+        "--fx-shine": "#94485A"
       }
     },
     {
@@ -97,9 +100,10 @@
         "--a-c3": "#6F7C92",
         "--a-cover-bg": "#0A0E17",
         "--a-cover-ink": "#EEF1F5",
-        "--a-curtain": "#3E4A60",
+        "--a-wrap": "#2A3550",
         "--a-scheme": "dark",
-        "--a-page": "#0F1420"
+        "--a-page": "#0F1420",
+        "--fx-shine": "#C9D1DC"
       }
     }
   ],
@@ -116,5 +120,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "glitter",
+    "knal": "cadeautjes",
+    "viering": "vonken",
+    "namen": "folie",
+    "onthul": "zoom",
+    "extra": [
+      "disco",
+      "tik"
+    ]
+  }
 }

@@ -14,6 +14,7 @@ from urllib.parse import quote, urlencode
 from django.templatetags.static import static
 from django.utils import timezone
 
+from catalog.effects import effect_view
 from catalog.occasions import display_title, monogram, occasion_config
 
 from .content import HEX_COLOR, TIMEZONE_LABELS, event_times, normalize_content, parse_date
@@ -464,6 +465,7 @@ def build_view(
         "share_text": share_text,
         "template_version": template_version,
         "design_slug": template_version.template.slug,
+        "effects": effect_view((template_version.manifest or {}).get("effects")),
         "stylesheet": template_version.stylesheet,
         "notice": (overrides.get("notice") or "").strip()[:300],
     }

@@ -2,6 +2,6 @@
   <a class="design-card__link" href="{{ card.detail_url }}">
     <span class="design-card__visual"><img src="{{ card.image }}" alt="" width="800" height="1000" loading="lazy" decoding="async"></span>
     <span class="design-card__name">{{ card.template.name }}</span>
-    <span class="design-card__meta">{{ card.opening_label }}</span>
+    <span class="design-card__meta">{{ card.opening_label }}{% if card.effect_label %} · {{ card.effect_label }}{% endif %}</span>
   </a>
 </article>

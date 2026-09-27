@@ -110,5 +110,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "champagne",
+    "knal": "champagne",
+    "viering": "champagne",
+    "namen": "pop",
+    "onthul": "wissel",
+    "extra": [
+      "kantel",
+      "tik"
+    ]
+  }
 }

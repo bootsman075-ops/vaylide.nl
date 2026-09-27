@@ -46,7 +46,8 @@
         "--a-cover-ink": "#2E271F",
         "--a-ribbon": "#C9A76A",
         "--a-scheme": "light",
-        "--a-page": "#F8F3EA"
+        "--a-page": "#F8F3EA",
+        "--fx-shine": "#826339"
       }
     },
     {
@@ -71,7 +72,8 @@
         "--a-cover-ink": "#35262A",
         "--a-ribbon": "#D9A2AE",
         "--a-scheme": "light",
-        "--a-page": "#FAF0EE"
+        "--a-page": "#FAF0EE",
+        "--fx-shine": "#94455B"
       }
     },
     {
@@ -96,7 +98,8 @@
         "--a-cover-ink": "#F4EDE6",
         "--a-ribbon": "#D9B99B",
         "--a-scheme": "dark",
-        "--a-page": "#1E1B22"
+        "--a-page": "#1E1B22",
+        "--fx-shine": "#D9B99B"
       }
     }
   ],
@@ -113,5 +116,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "champagne",
+    "knal": "champagne",
+    "viering": "harten",
+    "namen": "folie",
+    "onthul": "zoom",
+    "extra": [
+      "kantel",
+      "tik"
+    ]
+  }
 }

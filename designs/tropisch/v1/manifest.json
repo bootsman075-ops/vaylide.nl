@@ -111,5 +111,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "blaadjes",
+    "knal": "blaadjes",
+    "viering": "confetti",
+    "namen": "zacht",
+    "onthul": "wissel",
+    "extra": [
+      "kenburns",
+      "kantel"
+    ]
+  }
 }

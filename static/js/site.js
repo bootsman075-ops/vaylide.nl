@@ -39,6 +39,42 @@
     lazyFrames.forEach(loadFrame);
   }
 
+  // Ontwerpkaarten: kantelen met de muis en één keer glanzen als ze in beeld komen (niet bij 'minder beweging').
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cards = document.querySelectorAll(".design-card");
+  if (!calm && cards.length) {
+    if (window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      cards.forEach(function (card) {
+        var link = card.querySelector(".design-card__link");
+        var visual = card.querySelector(".design-card__visual");
+        if (!link || !visual) return;
+        link.addEventListener("pointermove", function (event) {
+          var r = visual.getBoundingClientRect();
+          var x = (event.clientX - r.left) / r.width - 0.5;
+          var y = (event.clientY - r.top) / r.height - 0.5;
+          visual.style.setProperty("--card-ry", (x * 10).toFixed(2) + "deg");
+          visual.style.setProperty("--card-rx", (-y * 10).toFixed(2) + "deg");
+        });
+        link.addEventListener("pointerleave", function () {
+          visual.style.removeProperty("--card-ry");
+          visual.style.removeProperty("--card-rx");
+        });
+      });
+    }
+    if ("IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var card = entry.target;
+          seen.unobserve(card);
+          card.classList.add("is-seen");
+          window.setTimeout(function () { card.classList.remove("is-seen"); }, 1800);
+        });
+      }, { threshold: 0.6 });
+      cards.forEach(function (card) { seen.observe(card); });
+    }
+  }
+
   // Veelgestelde vragen: een link naar #vraag-3 opent die vraag.
   function openTarget() {
     var id = window.location.hash.slice(1);

@@ -61,7 +61,6 @@ body {
 .ag-door--left .ag-door__frame::after { bottom: 8px; left: 8px; border-right: 0; border-top: 0; }
 .ag-door--right .ag-door__frame::before { top: 8px; right: 8px; border-left: 0; border-bottom: 0; }
 .ag-door--right .ag-door__frame::after { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
-.ag-sparkle { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .ag-cover__center { position: relative; z-index: 2; display: grid; justify-items: center; gap: 1.1rem; padding: 1.5rem; text-align: center; transition: opacity .5s ease, transform .6s ease; }
 .ag-cover__kicker { font-family: "Figtree", sans-serif; font-size: .78rem; letter-spacing: .32em; text-transform: uppercase; color: var(--ag-gold); }
 .ag-medallion {
@@ -201,3 +200,33 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .ag-medallion { animation: none; }
 }
+
+/* ---------- Effecten (invitations/static/invitations/effects.js en effects.css) ---------- */
+body { --fx-1: var(--ag-gold); --fx-2: var(--ag-gold-2); --fx-3: var(--ag-gold); --fx-4: var(--ag-gold-2); --fx-bg: var(--ag-bg); --fx-shine: var(--ag-gold); }
+/* Een lichtbundel door de kier als de deuren opengaan, met stralen erachter. */
+.ag-doors::after {
+  content: ""; position: absolute; top: -10%; bottom: -10%; left: 50%; z-index: -1; width: 90vw; margin-left: -45vw; opacity: 0; pointer-events: none;
+  background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(255, 251, 240, .95), color-mix(in srgb, var(--ag-gold-2) 55%, transparent) 30%, color-mix(in srgb, var(--ag-gold) 18%, transparent) 55%, transparent 72%);
+  scale: .03 1;
+}
+.fx-motion.is-opening .ag-doors::after { animation: ag-beam 1.8s cubic-bezier(.3, 0, .2, 1) .4s both; }
+@keyframes ag-beam { 0% { opacity: 0; scale: .03 1; } 22% { opacity: 1; } 100% { opacity: 0; scale: 1.2 1; } }
+.fx-stralen .ag-cover::before {
+  content: ""; position: absolute; left: 50%; top: 50%; z-index: -1; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; opacity: 0; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--ag-gold) 22%, transparent) 0deg 4deg, transparent 4deg 13deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, .5) 18%, transparent 46%); mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, .5) 18%, transparent 46%);
+}
+.fx-motion.fx-stralen.is-opening .ag-cover::before { animation: ag-rays 2.1s ease .5s both; }
+@keyframes ag-rays { 0% { opacity: 0; rotate: 0deg; } 30% { opacity: 1; } 100% { opacity: 0; rotate: 28deg; } }
+/* Een glans loopt rond over het gouden medaillon. */
+.ag-medallion__shine {
+  position: absolute; inset: 0; z-index: 1; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 0deg, transparent 0 68%, rgba(255, 250, 235, .85) 80%, transparent 92%);
+  -webkit-mask: radial-gradient(circle, transparent calc(50% - 8px), #000 calc(50% - 7px)); mask: radial-gradient(circle, transparent calc(50% - 8px), #000 calc(50% - 7px));
+}
+.fx-motion .ag-medallion__shine { animation: fx-spin 3.4s linear infinite; animation-play-state: var(--fx-play, running); }
+/* Kop: de onderdelen komen na elkaar terwijl de deuren opengaan; de foto opent als een gordijn. */
+.fx-motion.fx-start :is(.ag-hero__text, .ag-frame) { animation: none; }
+.fx-motion:is(.has-cover, .is-opening) .ag-frame { opacity: 0; }
+.fx-motion.fx-start:not(.fx-done) .ag-frame { animation: ag-frame-in 1.8s var(--fx-ease) .7s both; }
+@keyframes ag-frame-in { from { opacity: 0; clip-path: inset(0 50% 0 50%); } to { opacity: 1; clip-path: inset(-12px -12px -12px -12px); } }

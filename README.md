@@ -89,7 +89,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-116 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+132 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 
@@ -118,6 +118,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `core/` | Website-pagina's (teksten in `core/content.py`, iconen in `core/icons.py`, zoeken in `core/search.py`), contact, beveiligingsheaders, AI-hulp, privacy en bewaartermijnen |
 | `catalog/` | Ontwerpen en ontwerpversies, pakketten, opties, gelegenheden |
 | `designs/<ontwerp>/v<N>/` | De uitnodigingsontwerpen: `manifest.json`, `invitation.html`, `style.css`. De 30 Atelier-ontwerpen delen hun opbouw in `designs/_atelier/v1/` |
+| `invitations/static/invitations/effects.js`, `effects.css` | De effecten op de uitnodigingen (zwevende deeltjes, knal bij openen, feestje na aanmelden, knop 'Beweging'); keuzes per ontwerp in het manifest, opties in `catalog/effects.py` |
 | `invitations/` | Uitnodigingen, versies, foto's, weergave, aanmeldingen van gasten, QR, agenda |
 | `studio/` | Samenstellen in stappen (de vragenlijst) |
 | `orders/` | Bestellen, prijsberekening, betaalproviders (test en Mollie), verwerking na betaling |

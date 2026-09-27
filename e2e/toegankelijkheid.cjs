@@ -52,11 +52,18 @@ function check(decoratief) {
     let fg = parse(cs.color);
     if (!fg || fg.a === 0) continue;
     const candidates = [];
+    // Verloop dat in de letters zelf zit (background-clip: text, zoals de glans bij 'folie'):
+    // die kleuren zijn tekstkleuren, geen achtergrond. Elke kleur moet genoeg contrast hebben.
+    const fgs = [];
     let solid = null, photo = false;
     let stack = [];
     for (let n = el; n; n = n.parentElement) {
       const s = getComputedStyle(n);
       const bi = s.backgroundImage;
+      if (bi && bi !== "none" && (s.backgroundClip === "text" || s.webkitBackgroundClip === "text")) {
+        for (const m of bi.matchAll(/rgba?\([^)]+\)/g)) { const c = parse(m[0]); if (c && c.a >= 0.5) fgs.push(c); }
+        continue;
+      }
       if (bi && bi !== "none") {
         if (bi.includes("gradient")) {
           const stops = [...bi.matchAll(/rgba?\([^)]+\)/g)].map((m) => parse(m[0])).filter(Boolean);
@@ -79,9 +86,12 @@ function check(decoratief) {
     let bg = solid;
     for (const layer of stack.reverse()) bg = blend(layer, bg);
     const all = [bg, ...candidates.map((c) => (c.a < 1 ? blend(c, bg) : c))];
-    const fgFinal = fg.a < 1 ? blend(fg, bg) : fg;
+    let fgFinal = fg.a < 1 ? blend(fg, bg) : fg;
     let worst = Infinity, worstBg = null;
-    for (const c of all) { const q = ratio(fgFinal, c); if (q < worst) { worst = q; worstBg = c; } }
+    for (const f of [fg, ...fgs]) {
+      const ff = f.a < 1 ? blend(f, bg) : f;
+      for (const c of all) { const q = ratio(ff, c); if (q < worst) { worst = q; worstBg = c; fgFinal = ff; } }
+    }
     const size = parseFloat(cs.fontSize), weight = parseInt(cs.fontWeight, 10);
     const large = size >= 24 || (size >= 18.66 && weight >= 700);
     const need = large ? 3 : 4.5;
@@ -96,9 +106,12 @@ function check(decoratief) {
 const results = [];
 async function run(page, name, url, open) {
   await page.goto(base + url, { waitUntil: "networkidle" });
-  if (open && await page.$("[data-open]")) { await page.evaluate(() => document.querySelector("[data-open]").click()); await page.waitForTimeout(3300); }
+  // Na het openen wachten tot de entree van de kop klaar is (effects.js zet dan 'fx-done').
+  if (open && await page.$("[data-open]")) { await page.evaluate(() => document.querySelector("[data-open]").click()); await page.waitForTimeout(3300); await page.waitForFunction(() => !document.documentElement.classList.contains("fx") || document.documentElement.classList.contains("fx-done"), null, { timeout: 10000 }).catch(() => {}); await page.waitForTimeout(300); }
   await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo({ top: y, behavior: "instant" }); await new Promise((r) => setTimeout(r, 30)); } window.scrollTo(0, 0); });
   await page.waitForTimeout(700);
+  // Wachten tot eenmalige animaties (onthullen, na elkaar invloeien) klaar zijn; doorlopende tellen niet mee.
+  await page.waitForFunction(() => document.getAnimations().every((a) => a.playState !== "running" || a.effect.getTiming().iterations === Infinity), null, { timeout: 6000 }).catch(() => {});
   await page.evaluate(axeSrc);
   const violations = await page.evaluate(async () => {
     const res = await axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"] } });

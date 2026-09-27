@@ -4,14 +4,15 @@
 <link rel="preload" href="{% static 'fonts/dm-sans-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
 
 {% block cover %}
-<section class="cover pm-cover{% if not v.hero %} pm-cover--plain{% endif %}" data-cover data-duration="1900" aria-label="Openingsscherm">
-  {% if v.hero %}<div class="pm-cover__photo ph" aria-hidden="true">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</div>{% endif %}
+<section class="cover pm-cover{% if not v.hero %} pm-cover--plain{% endif %}" data-cover data-duration="1900" data-fx-delay="150" aria-label="Openingsscherm">
+  {% if v.hero %}<div class="pm-cover__photo ph fx-kb" aria-hidden="true">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</div>{% endif %}
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="pm-vellum">
     <p class="pm-vellum__label">{{ v.kicker }}</p>
     {% if v.date_numeric %}<p class="pm-vellum__date">{{ v.date_numeric }}</p>{% endif %}
     <p class="pm-vellum__names">{{ v.title }}</p>
     <div class="pm-vellum__actions">
-      <a href="#uitnodiging" class="pm-open" data-open>Open de uitnodiging</a>
+      <a href="#uitnodiging" class="pm-open fx-pulse" data-open data-fx-origin>Open de uitnodiging</a>
       {% if v.show.music %}<button type="button" class="pm-open pm-open--ghost" data-open data-open-music>Openen met muziek</button>{% endif %}
     </div>
   </div>
@@ -20,14 +21,14 @@
 
 {% block content %}
 <header class="pm-hero">
-  {% if v.hero %}<figure class="pm-hero__photo ph">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</figure>{% endif %}
+  {% if v.hero %}<figure class="pm-hero__photo ph fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</figure>{% endif %}
   <div class="pm-hero__text">
-    <p class="pm-kicker">{{ v.kicker }}</p>
-    <h1 class="pm-names pm-names--{{ v.names_size }}">
+    <p class="pm-kicker fx-intro" style="--fx-d:1">{{ v.kicker }}</p>
+    <h1 class="pm-names pm-names--{{ v.names_size }} fx-names">
       {% if v.is_couple %}{{ v.names.0 }} <span class="pm-names__amp" aria-label="en">&amp;</span> {{ v.names.1 }}{% else %}{{ v.names.0 }}{% endif %}
     </h1>
-    <p class="pm-tagline">{{ v.tagline }}</p>
-    <dl class="pm-facts">
+    <p class="pm-tagline fx-intro" style="--fx-d:4">{{ v.tagline }}</p>
+    <dl class="pm-facts fx-intro" style="--fx-d:5">
       {% if v.date_display %}<div><dt>Datum</dt><dd>{{ v.date_display|capfirst }}</dd></div>{% endif %}
       {% if v.time_display %}<div><dt>Tijd</dt><dd>{{ v.time_display }}{% include "invitations/partials/time_note.html" %}</dd></div>{% endif %}
       {% if v.venue %}<div><dt>Locatie</dt><dd>{{ v.venue }}</dd></div>{% endif %}

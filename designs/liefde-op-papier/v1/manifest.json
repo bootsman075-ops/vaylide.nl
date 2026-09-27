@@ -20,5 +20,6 @@
      "vars": {"--lp-paper": "#FAF6EE", "--lp-card": "#FFFDF8", "--lp-ink": "#3A2328", "--lp-muted": "#684F54", "--lp-accent": "#6E1F31", "--lp-soft": "#EAD9BF", "--lp-seal": "#6E1F31", "--lp-seal-2": "#93354A", "--lp-line": "#C4A36A", "--lp-envelope": "#F1E6D3", "--lp-envelope-2": "#E6D6BC"}}
   ],
   "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "blaadjes", "knal": "blaadjes", "viering": "harten", "namen": "schrijf", "onthul": "zacht", "extra": ["kenburns", "kantel", "tik"]},
   "changelog": "Eerste versie."
 }

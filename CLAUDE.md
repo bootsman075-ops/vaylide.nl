@@ -12,10 +12,10 @@ cp .env.example .env                      # zet een eigen DJANGO_SECRET_KEY; gee
 .venv/bin/python manage.py migrate        # leest ook de ontwerpen in (sync_designs)
 .venv/bin/python manage.py createsuperuser
 .venv/bin/python manage.py runserver      # http://127.0.0.1:8000, testmodus
-.venv/bin/python manage.py test tests     # 116 tests, moeten altijd slagen
+.venv/bin/python manage.py test tests     # 132 tests, moeten altijd slagen
 ```
 
-Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py`, `e2e/controle2.cjs` en `e2e/toegankelijkheid.cjs`). Beelden opnieuw maken: `tools/merkbeelden/README.md` (website), `tools/generate_demo_images.py` (voorbeeldbeelden) en `e2e/make_design_images.cjs` (kaartbeelden van de ontwerpen).
+Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py`, `e2e/controle2.cjs`, `e2e/toegankelijkheid.cjs` en `e2e/effecten.cjs`). Beelden opnieuw maken: `tools/merkbeelden/README.md` (website), `tools/generate_demo_images.py` (voorbeeldbeelden) en `e2e/make_design_images.cjs` (kaartbeelden van de ontwerpen).
 
 ## Waar zit wat
 
@@ -25,6 +25,7 @@ Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `doc
 | Kop, voet, logo | `templates/partials/` |
 | Huisstijl | `static/css/vierlief.css` (tokens in `:root`), app-schermen in `static/css/app.css` |
 | Uitnodigingsontwerpen | `designs/<code>/v<N>/` (manifest, template, stylesheet), weergave in `invitations/`. 30 ontwerpen delen de Atelier-opbouw in `designs/_atelier/v1/`; beschrijving en generator in `tools/atelier/`, keuzes en contrastcontrole in `catalog/atelier.py` |
+| Effecten op uitnodigingen | `invitations/static/invitations/effects.js` en `effects.css`; keuzes per ontwerp in het manifest (`effects`), opties en websiteteksten in `catalog/effects.py` |
 | Samenstellen, bestellen, betalen | `studio/`, `orders/` (testbetaling en Mollie achter één koppeling) |
 | Verwerking na betaling en e-mail | `processing/` (takenwachtrij met herhalingen) |
 | Klantomgeving, extra wensen, beheer | `portal/`, `wishes/`, `beheer/` |
@@ -50,6 +51,7 @@ Niet van afwijken zonder zijn uitdrukkelijke akkoord.
 
 - Elke nieuwe functie of wijziging krijgt een test in `tests/`; `manage.py test tests` moet slagen.
 - Een uitnodigingsontwerp aanpassen gaat via een nieuwe versie (`designs/<code>/v2/`). Bestaande uitnodigingen blijven op hun eigen versie (zie `docs/HANDLEIDING.md`). Let op: `designs/_atelier/v1/` is gedeeld door 30 ontwerpen; wijzigingen daar na de livegang via `_atelier/v2`.
+- Beweging en effecten: alles wat beweegt staat onder `.fx-motion` (niet bij 'minder beweging' of als de gast op 'Beweging' tikte), doorlopende animaties gebruiken `animation-play-state: var(--fx-play, running)`, deeltjes staan achter de tekst en er zijn geen flitsen (hoogstens één). Zie `docs/HANDLEIDING.md` onder "Effecten"; controleer met `e2e/effecten.cjs`.
 - Nieuwe kleurvarianten: tekstkleuren minimaal 4,5:1 contrast (`palette_problems` in `catalog/atelier.py`; de tests controleren alle Atelier-kleurvarianten).
 - Vormgeving: gebruik de tokens uit `static/css/vierlief.css`. Kleine tekst op een lichte achtergrond gebruikt `--accent-text` (contrast minstens 4,5:1), knoppen `--accent`.
 - De Content-Security-Policy is streng: geen inline `<script>` of `<style>`-blokken (inline `style`-attributen mogen). JavaScript hoort in `static/js/`. Het enige inline script is het startscript uit `core/csp.py`, met een hash in de CSP.

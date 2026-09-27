@@ -114,5 +114,17 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "bloesem",
+    "knal": "bloesem",
+    "viering": "bloesem",
+    "namen": "schrijf",
+    "onthul": "zacht",
+    "extra": [
+      "kenburns",
+      "kantel",
+      "tik"
+    ]
+  }
 }

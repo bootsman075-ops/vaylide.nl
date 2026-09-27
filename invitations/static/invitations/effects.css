@@ -1,0 +1,171 @@
+/* Vierlief: opmaak voor de effecten (zie effects.js en catalog/effects.py).
+   Alles wat beweegt staat onder .fx-motion; dat zet het script alleen als beweging mag
+   (niet bij 'minder beweging' en niet na een tik op 'Beweging'). Doorlopende animaties
+   gebruiken animation-play-state: var(--fx-play), zodat ze samen stil te zetten zijn.
+   Zonder script of zonder beweging is alles direct en volledig zichtbaar. */
+
+:root { --fx-ease: cubic-bezier(.2, .7, .2, 1); }
+.fx-paused { --fx-play: paused; }
+
+/* ---------- Vlakken voor de deeltjes ---------- */
+.fx-slot { position: absolute; inset: 0; z-index: var(--fx-z, 0); overflow: hidden; pointer-events: none; }
+.fx-slot--page { position: fixed; inset: 0 0 auto 0; height: 100vh; height: 100lvh; }
+.fx-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s ease; }
+.fx-slot.is-running .fx-canvas { opacity: 1; }
+/* Achter de tekst iets rustiger dan op het openingsscherm; grote vormen nog wat zachter. */
+.fx-slot--page.is-running .fx-canvas { opacity: var(--fx-page-opacity, .85); }
+:is([data-fx-sfeer="ballonnen"], [data-fx-sfeer="neon"], [data-fx-sfeer="stippen"], [data-fx-sfeer="cadeautjes"]) { --fx-page-opacity: .6; }
+:is([data-fx-sfeer="wolkjes"], [data-fx-sfeer="harten"], [data-fx-sfeer="geometrie"]) { --fx-page-opacity: .7; }
+[data-fx-sfeer="raster"] { --fx-page-opacity: .5; }
+.fx .inv-main, .fx .inv-colophon { position: relative; z-index: 1; }
+.fx-burst { position: fixed; inset: 0; z-index: 70; pointer-events: none; }
+.fx-burst .fx-canvas { opacity: 1; transition: none; }
+.fx-flash { position: fixed; inset: 0; z-index: 80; background: #fff; opacity: 0; pointer-events: none; }
+
+/* ---------- Knop 'Beweging' (links onder; muziek staat rechts) ---------- */
+.fx-toggle {
+  position: fixed; left: max(1rem, env(safe-area-inset-left)); bottom: max(1rem, env(safe-area-inset-bottom)); z-index: 55;
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: .55rem .95rem;
+  border-radius: 999px; border: 1px solid var(--inv-music-border, rgba(0, 0, 0, .15));
+  background: var(--inv-music-bg, rgba(255, 255, 255, .92)); color: var(--inv-music-text, #2a1e1f);
+  font-family: var(--inv-font-ui, system-ui, sans-serif); font-size: .9rem; font-weight: 600; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .12); backdrop-filter: blur(6px);
+}
+.fx-toggle__icon { position: relative; display: inline-block; width: 14px; height: 14px; }
+.fx-toggle__icon::before, .fx-toggle__icon::after { content: ""; position: absolute; top: 1px; bottom: 1px; width: 4px; border-radius: 1px; background: currentColor; }
+.fx-toggle__icon::before { left: 2px; }
+.fx-toggle__icon::after { right: 2px; }
+.fx-toggle[aria-pressed="true"] .fx-toggle__icon::before { left: 3px; width: 0; height: 0; top: 1px; bottom: auto; border-radius: 0; background: none; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
+.fx-toggle[aria-pressed="true"] .fx-toggle__icon::after { display: none; }
+.inv-embed .fx-toggle { left: .6rem; bottom: .6rem; }
+@media (max-width: 599px) {
+  .fx-toggle { width: 48px; height: 48px; padding: 0; justify-content: center; }
+  .fx-toggle__label { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+@media print { .fx-toggle, .fx-slot, .fx-burst { display: none !important; } }
+
+/* ---------- Namen: onthulling na het openen ---------- */
+/* Zolang het openingsscherm er staat, wacht de kop onzichtbaar op zijn entree. */
+.fx-motion:is(.has-cover, .is-opening) :is(.fx-intro, .fx-names) { opacity: 0; }
+
+.fx-motion.fx-start:not(.fx-done) .fx-intro { animation: fx-rise 1s var(--fx-ease) calc(.2s + var(--fx-d, 0) * .16s) both; }
+.fx-motion.fx-start:not(.fx-done) .fx-names { animation: fx-names-zacht 1.5s var(--fx-ease) .35s both; }
+.fx-motion.fx-namen-schrijf.fx-start:not(.fx-done) .fx-names {
+  -webkit-mask-image: linear-gradient(90deg, #000 44%, transparent 56%); mask-image: linear-gradient(90deg, #000 44%, transparent 56%);
+  -webkit-mask-size: 260% 100%; mask-size: 260% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  animation: fx-names-schrijf 2.2s cubic-bezier(.45, .05, .35, 1) .4s both;
+}
+.fx-motion.fx-namen-pop.fx-start:not(.fx-done) .fx-names { animation: fx-pop .9s cubic-bezier(.3, 1.4, .5, 1) .35s both; }
+.fx-motion.fx-namen-gloed.fx-start:not(.fx-done) .fx-names { animation: fx-neon-on 1.3s linear .35s both; }
+
+@keyframes fx-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes fx-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fx-names-zacht { from { opacity: 0; filter: blur(14px); transform: scale(1.06); } to { opacity: 1; filter: blur(0); transform: none; } }
+@keyframes fx-names-schrijf {
+  from { opacity: .001; -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  4% { opacity: 1; }
+  to { opacity: 1; -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
+@keyframes fx-pop { 0% { opacity: 0; transform: scale(.55) rotate(-5deg); } 60% { opacity: 1; transform: scale(1.07) rotate(1.5deg); } 100% { opacity: 1; transform: none; } }
+/* Neon gaat aan: twee korte haperingen (ruim onder drie flitsen per seconde). */
+@keyframes fx-neon-on { 0% { opacity: 0; } 12% { opacity: 1; } 22% { opacity: .45; } 30% { opacity: 1; } 62% { opacity: 1; } 70% { opacity: .55; } 78%, 100% { opacity: 1; } }
+
+/* Folie: een lichtstreep glijdt af en toe over de namen. --fx-shine houdt minstens 3:1 contrast. */
+.fx-motion.fx-namen-folie .fx-names > span, .fx-motion.fx-namen-folie .fx-shimmer {
+  background-image: linear-gradient(105deg, currentColor 40%, var(--fx-shine, currentColor) 50%, currentColor 60%);
+  background-size: 300% 100%; background-position: 100% 0; background-repeat: no-repeat;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: fx-folie 7.5s ease-in-out 2.4s infinite; animation-play-state: var(--fx-play, running);
+}
+@keyframes fx-folie { 0%, 68% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+
+/* Gloed (neon): altijd een zachte gloed, af en toe een haperinkje. */
+:where(.fx-namen-gloed .fx-names, .fx-namen-gloed .fx-shimmer) { text-shadow: 0 0 .06em currentColor, 0 0 .32em color-mix(in srgb, currentColor 55%, transparent); }
+.fx-motion.fx-namen-gloed.fx-done .fx-names { animation: fx-neon-idle 9s linear 1s infinite; animation-play-state: var(--fx-play, running); }
+@keyframes fx-neon-idle { 0%, 91%, 93%, 100% { opacity: 1; } 92% { opacity: .7; } }
+
+/* ---------- Onthullen bij scrollen: varianten ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .invite-ready.fx-onthul-zacht [data-reveal] { transform: translateY(10px); filter: blur(8px); transition: opacity 1s ease, transform 1s var(--fx-ease), filter 1s ease; }
+  .invite-ready.fx-onthul-zoom [data-reveal] { transform: scale(.94); transition: opacity .9s ease, transform 1s cubic-bezier(.2, 1.2, .3, 1); }
+  .invite-ready.fx-onthul-kanteling [data-reveal] { transform: perspective(900px) rotateX(16deg) translateY(28px); transform-origin: 50% 0; transition: opacity .9s ease, transform 1.1s var(--fx-ease); }
+  .invite-ready.fx-onthul-wissel [data-reveal] { transform: translateX(-34px); transition: opacity .9s ease, transform 1s var(--fx-ease); }
+  .invite-ready.fx-onthul-wissel [data-reveal]:nth-of-type(even) { transform: translateX(34px); }
+  .invite-ready:is(.fx-onthul-zacht, .fx-onthul-zoom, .fx-onthul-kanteling, .fx-onthul-wissel) [data-reveal].is-visible:nth-of-type(n) { transform: none; filter: none; }
+
+  /* Onderdelen binnen een sectie komen na elkaar (volgorde in --fx-i, gezet door effects.js). */
+  .fx-motion [data-reveal] :is(.a-program__list, .a-practical__list, .a-gallery__grid, .a-swatches, .cd, [data-fx-stagger]) > * {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity .7s ease, transform .7s var(--fx-ease); transition-delay: calc(.25s + var(--fx-i, 0) * .09s);
+  }
+  .fx-motion [data-reveal].is-visible :is(.a-program__list, .a-practical__list, .a-gallery__grid, .a-swatches, .cd, [data-fx-stagger]) > * { opacity: 1; transform: none; }
+}
+
+/* ---------- Versieringen die zichzelf tekenen ---------- */
+.fx-motion .fx-drawable .fx-stroke { stroke-dasharray: var(--fx-len) var(--fx-len); stroke-dashoffset: var(--fx-len); transition: stroke-dashoffset 2.4s cubic-bezier(.45, .05, .3, 1); }
+.fx-motion .fx-drawable .fx-fill { opacity: 0; transition: opacity 1.2s ease 1.1s; }
+.fx-motion .fx-drawable.is-drawn .fx-stroke { stroke-dashoffset: 0; }
+.fx-motion .fx-drawable.is-drawn .fx-fill { opacity: 1; }
+.fx-motion .fx-drawable.is-instant :is(.fx-stroke, .fx-fill) { transition: none; }
+
+/* ---------- Kantelen met de muis (alleen op computers met een muis) ---------- */
+.fx-kantel.fx-motion [data-fx-tilt] { rotate: var(--fx-rot, 0deg); }
+.fx-kantel.fx-motion :has(> [data-fx-tilt]) { perspective: 1100px; }
+
+/* ---------- Foto's: langzaam inzoomen (Ken Burns) ---------- */
+.fx-motion.fx-kenburns .fx-kb .ph__img, .fx-motion.fx-kenburns .fx-kb.ph__img { animation: fx-kenburns 24s ease-in-out infinite alternate; animation-play-state: var(--fx-play, running); }
+@keyframes fx-kenburns { from { scale: 1; translate: 0 0; } to { scale: 1.09; translate: -1.2% -1.6%; } }
+
+/* ---------- Lichtstralen (art deco) en discolicht ---------- */
+:where(.fx-stralen .fx-rays, .fx-disco .fx-rays) { position: relative; }
+.fx-stralen .fx-rays, .fx-disco .fx-rays { isolation: isolate; overflow: clip; }
+.fx-stralen .fx-rays::after {
+  content: ""; position: absolute; left: 50%; top: var(--fx-rays-y, 40%); z-index: 0; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--fx-1) var(--fx-rays-strength, 13%), transparent) 0deg 4deg, transparent 4deg 14deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, .55) 16%, transparent 44%); mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, .55) 16%, transparent 44%);
+}
+.fx-motion.fx-stralen .fx-rays::after { animation: fx-spin 140s linear infinite; animation-play-state: var(--fx-play, running); }
+.fx-disco .fx-rays::after {
+  /* Twee kleine, herhalende patronen van lichtstipjes (goedkoop om te tekenen), zie ook atelier.css. */
+  content: ""; position: absolute; left: 50%; top: 45%; z-index: 0; width: 124vmax; height: 124vmax; margin: -62vmax 0 0 -62vmax; pointer-events: none; opacity: .75;
+  background:
+    radial-gradient(circle, color-mix(in srgb, var(--fx-1) 55%, transparent) 0 .34vmax, transparent .55vmax) 0 0 / 23vmax 19vmax,
+    radial-gradient(circle, color-mix(in srgb, var(--fx-2) 58%, transparent) 0 .28vmax, transparent .48vmax) 9vmax 11vmax / 29vmax 25vmax;
+}
+.fx-motion.fx-disco .fx-rays::after { animation: fx-spin 60s linear infinite; animation-play-state: var(--fx-play, running); }
+@keyframes fx-spin { to { rotate: 360deg; } }
+
+/* ---------- Zachte kleurvlekken die langzaam bewegen (aura) ---------- */
+.fx-aura body::before {
+  content: ""; position: fixed; inset: -25%; z-index: 0; pointer-events: none; opacity: .55;
+  background:
+    radial-gradient(38vmax 38vmax at 22% 28%, color-mix(in srgb, var(--fx-2) 55%, transparent), transparent 70%),
+    radial-gradient(34vmax 34vmax at 78% 64%, color-mix(in srgb, var(--fx-3) 55%, transparent), transparent 70%),
+    radial-gradient(26vmax 26vmax at 58% 18%, color-mix(in srgb, var(--fx-1) 22%, transparent), transparent 70%);
+}
+.fx-motion.fx-aura body::before { animation: fx-aura 22s ease-in-out infinite alternate; animation-play-state: var(--fx-play, running); }
+@keyframes fx-aura { 0% { translate: 0 0; rotate: 0deg; scale: 1; } 50% { translate: 4% -3%; rotate: 8deg; scale: 1.08; } 100% { translate: -3% 4%; rotate: -6deg; scale: .96; } }
+
+/* ---------- Afteller: cijfers die omklappen ---------- */
+.fx-motion .cd__num.is-tick { animation: fx-tick .5s var(--fx-ease); }
+/* Alleen beweging, geen vervaging: het cijfer blijft op elk moment volledig leesbaar. */
+@keyframes fx-tick { from { transform: translateY(-26%) rotateX(55deg); } to { transform: none; } }
+
+/* ---------- Knoppen die uitnodigen tot tikken: een zachte ring ---------- */
+:where(.fx-motion .fx-pulse) { position: relative; }
+.fx-motion .fx-pulse::after {
+  content: ""; position: absolute; inset: -5px; border-radius: inherit; border: 2px solid var(--fx-pulse, currentColor); pointer-events: none;
+  opacity: 0; animation: fx-ring 2.8s ease-out 1.2s infinite; animation-play-state: var(--fx-play, running);
+}
+@keyframes fx-ring { 0% { opacity: .6; transform: scale(.94); } 70%, 100% { opacity: 0; transform: scale(1.22); } }
+.is-opening .fx-pulse::after { animation: none; opacity: 0; }
+
+/* ---------- Galerij: foto's reageren op de muis ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .fx-motion :is(.a-gallery__item, .ag-gallery__item, .lp-gallery__item, .pm-gallery__item) .ph__img { transition: transform .8s var(--fx-ease); }
+  .fx-motion :is(.a-gallery__item, .ag-gallery__item, .lp-gallery__item, .pm-gallery__item):hover .ph__img { transform: scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-slot, .fx-burst, .fx-flash { display: none !important; }
+}

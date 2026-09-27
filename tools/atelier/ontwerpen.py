@@ -15,6 +15,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(ROOT))
 from catalog.atelier import ATELIER_VARS, OPENING_LABELS, palette_problems  # noqa: E402
+from catalog.effects import effects_errors, shine_color  # noqa: E402
 from tools.atelier.specs import DESIGNS  # noqa: E402
 
 FONTS = {
@@ -54,20 +55,39 @@ VAR_NAMES = ATELIER_VARS
 SECTIONS = ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"]
 
 
+def names_colors(spec: dict, colors: dict) -> tuple[str, str]:
+    """Kleur van de namen en de achtergrond eronder, per kleurvariant."""
+    hero = spec["atelier"]["hero"]
+    if hero == "band":
+        return colors.get("band_ink", colors["accent_ink"]), colors.get("band", colors["accent"])
+    if hero == "volbeeld":
+        return colors.get("hero_ink", "#FFFDF9"), colors.get("cover_bg", colors["ink"])
+    if ".a-names { color: var(--a-text); }" in spec.get("css", ""):
+        return colors.get("accent_text", colors["accent"]), colors["bg"]
+    return colors["ink"], colors["bg"]
+
+
 def manifest(spec: dict) -> dict:
+    effects = spec.get("effects")
     palettes = []
     for pal in spec["palettes"]:
         colors = dict(pal["colors"])
         colors.setdefault("scheme", "light")
         vars_ = {VAR_NAMES[k]: v for k, v in colors.items()}
         vars_["--a-page"] = colors["bg"]
+        if effects and effects.get("namen") == "folie":
+            fg, bg = names_colors(spec, colors)
+            vars_["--fx-shine"] = shine_color(fg, bg, colors.get("accent_text", colors["accent"]))
         palettes.append({"key": pal["key"], "name": pal["name"], "swatch": [colors["bg"], colors.get("c2", colors["line"]), colors["accent"]], "vars": vars_})
-    return {
+    data = {
         "slug": spec["slug"], "version": 1, "name": spec["name"], "tagline": spec["tagline"], "description": spec["description"],
         "style_notes": spec["style_notes"], "occasions": spec["occasions"], "sort_order": spec["sort_order"],
         "opening": spec["atelier"]["opening"], "opening_label": OPENING_LABELS[spec["atelier"]["opening"]],
         "atelier": spec["atelier"], "palettes": palettes, "sections": SECTIONS, "changelog": "Eerste versie.",
     }
+    if effects:
+        data["effects"] = effects
+    return data
 
 
 def font_faces(keys: list[str]) -> str:
@@ -126,6 +146,8 @@ def write(spec: dict, overwrite: bool) -> str:
         problems += [f"{pal['key']}: {p}" for p in palette_problems(pal["colors"], spec["atelier"])]
     if problems:
         raise SystemExit(f"Contrast te laag in {spec['slug']}:\n  " + "\n  ".join(problems))
+    if spec.get("effects") and effects_errors(spec["effects"]):
+        raise SystemExit(f"Effecten kloppen niet in {spec['slug']}: " + "; ".join(effects_errors(spec["effects"])))
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "manifest.json").write_text(json.dumps(manifest(spec), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (folder / "invitation.html").write_text(template(spec), encoding="utf-8")

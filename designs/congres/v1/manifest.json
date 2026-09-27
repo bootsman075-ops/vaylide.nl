@@ -110,5 +110,13 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "netwerk",
+    "knal": "netwerk",
+    "viering": "lijnen",
+    "namen": "zacht",
+    "onthul": "omhoog",
+    "extra": []
+  }
 }

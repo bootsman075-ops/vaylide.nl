@@ -3,17 +3,17 @@
   "version": 1,
   "name": "Regenboog",
   "tagline": "Vrolijk en naturel, met een regenboog",
-  "description": "Een zachte sluier trekt op. Een regenboog in aardetinten of pastel, een foto in boogvorm en rustige lijnen.",
+  "description": "Een cadeau om uit te pakken: de strik gaat los, plof, en er springen cadeautjes uit. Een regenboog in aardetinten of pastel, een foto in boogvorm en rustige lijnen.",
   "style_notes": "Aardetinten, regenboog, zacht",
   "occasions": [
     "babyshower",
     "verjaardag"
   ],
   "sort_order": 330,
-  "opening": "sluier",
-  "opening_label": "Zachte sluier",
+  "opening": "cadeau",
+  "opening_label": "Cadeau om uit te pakken",
   "atelier": {
-    "opening": "sluier",
+    "opening": "cadeau",
     "hero": "klassiek",
     "sections": "lijnen",
     "heading": "lijn",
@@ -110,5 +110,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "bellen",
+    "knal": "cadeautjes",
+    "viering": "cadeautjes",
+    "namen": "zacht",
+    "onthul": "zoom",
+    "extra": [
+      "aura",
+      "tik"
+    ]
+  }
 }

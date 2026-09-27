@@ -5,7 +5,7 @@ deze keuzes. De sjablonen en de opmaak staan in designs/_atelier/v1/.
 """
 
 ATELIER_OPTIONS = {
-    "opening": ["envelop", "vouwkaart", "gordijn", "lint", "sluier", "confetti", "ballonnen", "sterren", "schuif", "polaroid"],
+    "opening": ["envelop", "vouwkaart", "gordijn", "lint", "sluier", "confetti", "ballonnen", "sterren", "schuif", "polaroid", "cadeau"],
     "hero": ["klassiek", "gesplitst", "kader", "redactioneel", "monogram", "polaroid", "volbeeld", "band", "getal"],
     "sections": ["lijnen", "kaarten", "genummerd", "tweekolom", "midden", "tijdlijn"],
     "heading": ["lijn", "ornament", "script", "kapitaal", "groot"],
@@ -29,6 +29,7 @@ OPENING_LABELS = {
     "sterren": "Sterrenhemel",
     "schuif": "Schuifpaneel",
     "polaroid": "Polaroid",
+    "cadeau": "Cadeau om uit te pakken",
 }
 
 
@@ -50,7 +51,7 @@ ATELIER_VARS = {
     "accent_ink": "--a-accent-ink", "accent_text": "--a-accent-text", "line": "--a-line", "c2": "--a-c2", "c3": "--a-c3",
     "cover_bg": "--a-cover-bg", "cover_ink": "--a-cover-ink", "cover_card": "--a-cover-card", "cover_btn": "--a-cover-btn",
     "cover_btn_ink": "--a-cover-btn-ink", "cover_accent": "--a-cover-accent", "env": "--a-env", "seal": "--a-seal",
-    "curtain": "--a-curtain", "ribbon": "--a-ribbon", "band": "--a-band", "band_ink": "--a-band-ink", "hero_ink": "--a-hero-ink",
+    "curtain": "--a-curtain", "ribbon": "--a-ribbon", "wrap": "--a-wrap", "band": "--a-band", "band_ink": "--a-band-ink", "hero_ink": "--a-hero-ink",
     "hero_accent": "--a-hero-accent", "moon": "--a-moon", "orn": "--a-orn", "scheme": "--a-scheme",
 }
 

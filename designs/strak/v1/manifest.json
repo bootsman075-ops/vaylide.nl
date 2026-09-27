@@ -110,5 +110,13 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "raster",
+    "knal": "lijnen",
+    "viering": "lijnen",
+    "namen": "zacht",
+    "onthul": "wissel",
+    "extra": []
+  }
 }

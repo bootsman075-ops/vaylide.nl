@@ -1,5 +1,6 @@
-<header class="a-hero{% if not v.hero %} a-hero--nophoto{% endif %}">
-  {% if v.hero %}<div class="a-hero__bg ph" aria-hidden="true">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</div>{% endif %}
+<header class="fx-rays a-hero{% if not v.hero %} a-hero--nophoto{% endif %}">
+  {% if v.hero %}<div class="a-hero__bg ph fx-kb" aria-hidden="true">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="100vw" %}</div>{% endif %}
+  <div class="fx-slot fx-slot--zone" data-fx-slot="zone" aria-hidden="true"></div>
   <div class="a-hero__text">
     {% include "_atelier/v1/parts/ornament.html" with pos="top" %}
     <p class="a-kicker">{{ v.kicker }}</p>

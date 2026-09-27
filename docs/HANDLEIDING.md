@@ -101,7 +101,7 @@ De gedeelde opbouw staat in `designs/_atelier/v1/`: `base.html` (volgorde van de
 
 | Onderdeel | Keuzes |
 |---|---|
-| `opening` | `envelop`, `vouwkaart`, `gordijn`, `lint` (cadeaulint), `sluier`, `confetti`, `ballonnen`, `sterren` (sterrenhemel), `schuif` (schuifpaneel), `polaroid` |
+| `opening` | `envelop`, `vouwkaart`, `gordijn`, `lint` (cadeaulint), `sluier`, `confetti`, `ballonnen`, `sterren` (sterrenhemel), `schuif` (schuifpaneel), `polaroid`, `cadeau` (een doos om uit te pakken: papier in `wrap`, anders `c2`; lint en strik in `ribbon`, anders de accentkleur; het papier volgt `texture`: stippen, glitter bij `sterren`, anders strepen) |
 | `hero` (kop) | `klassiek`, `gesplitst` (tekst en foto naast elkaar), `kader`, `redactioneel`, `monogram` (initialen groot), `polaroid`, `volbeeld` (foto over de hele breedte), `band` (gekleurd vlak), `getal` (leeftijd of aantal jaren groot) |
 | `sections` | `lijnen`, `kaarten`, `genummerd`, `tweekolom`, `midden`, `tijdlijn` |
 | `heading` (koppen) | `lijn`, `ornament`, `script`, `kapitaal`, `groot` |
@@ -163,6 +163,43 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
 6. **Bekijken**: `/voorbeeld/mijn-ontwerp/` (met `?gelegenheid=verjaardag&kleur=<key>` om te wisselen). Het ontwerp gebruikt automatisch de voorbeeldgegevens.
 7. **Publiceren**: controleer het in **Beheer → Ontwerpen** (zichtbaar, volgorde) en zet het live met een nieuwe deployment.
 8. **Testen**: `python manage.py test tests`. Het is ook verstandig de browsercontrole te draaien (zie `docs/CONTROLES.md`).
+
+## Effecten
+
+Elk ontwerp heeft bewegende effecten: zwevende deeltjes (sfeer), een knal op het moment dat de uitnodiging opengaat, een feestje als een gast laat weten dat hij komt, een entree voor de namen, onthullingen bij het scrollen en een paar extra's. De keuzes staan per ontwerp in `manifest.json` in het blok `effects` (bij Atelier-ontwerpen in `tools/atelier/specs.py`, de generator zet ze in het manifest). De werking staat in `invitations/static/invitations/effects.js` en `effects.css`, de toegestane waarden in `catalog/effects.py`.
+
+```json
+"effects": {"sfeer": "blaadjes", "knal": "blaadjes", "viering": "harten", "namen": "schrijf", "onthul": "zacht", "extra": ["kenburns", "kantel", "tik"]}
+```
+
+| Onderdeel | Keuzes |
+|---|---|
+| `sfeer`: zwevende deeltjes, op het openingsscherm en achter de tekst | `geen`, `blaadjes` (bloemblaadjes), `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `harten`, `ballonnen`, `bellen` (zeepbellen), `champagne`, `bokeh` (zachte lichtjes), `stippen`, `stofjes`, `zonlicht`, `neon`, `geometrie` (lijnvormen), `wolkjes`, `goudstof`, `glitter`, `sterren` (met vallende sterren), `netwerk`, `raster` (lichtgolf over puntjes), `film` (korrel en krasjes), `cadeautjes` (vallende cadeautjes met wat confetti) |
+| `knal` (bij het openen) en `viering` (na "Ja, ik kom") | `geen`, `blaadjes`, `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `kanon` (twee confettikanonnen), `vonken` (vonken en glanzende confetti), `sterren`, `harten`, `bellen`, `ballonnen`, `lijnen` (lichtlijnen), `neon`, `flits` (cameraflits), `champagne`, `stippen`, `netwerk`, `bokeh`, `cadeautjes` (plof, en een fontein van cadeautjes met confetti; past bij de opening `cadeau`) |
+| `namen` | `zacht` (uit de mist), `schrijf` (alsof ze geschreven worden), `folie` (een lichtstreep glijdt af en toe over de namen), `gloed` (neon dat aangaat), `pop` (springt tevoorschijn) |
+| `onthul`: secties bij het scrollen | `omhoog`, `zacht`, `zoom`, `kanteling`, `wissel` (afwisselend van links en rechts) |
+| `extra` (lijst) | `kenburns` (foto's zoomen langzaam in), `kantel` (het openingsscherm kantelt mee met de muis), `tik` (een vonkje bij een tik), `stralen` (draaiende lichtstralen), `disco` (draaiende lichtspikkels), `aura` (zachte kleurvlekken die bewegen) |
+
+Een onbekende keuze geeft bij het inlezen een duidelijke melding. Op de ontwerppagina van de website staat automatisch een zin over de effecten, en de kaarten in de collectie noemen de sfeer.
+
+**Kleuren.** De deeltjes nemen de kleuren van de kleurvariant over via `--fx-1` tot en met `--fx-4` en `--fx-bg` (bij Atelier: accent, `c2`, `c3`; eigen ontwerpen zetten ze in hun `style.css`). Een kleur die bijna gelijk is aan de achtergrond, maakt het script lichter of donkerder. Bij `folie` heeft de lichtstreep een eigen kleur (`--fx-shine`) met minstens 3:1 contrast op de achtergrond; de Atelier-generator berekent die per kleurvariant en de tests controleren het.
+
+**Haakjes in een eigen ontwerp** (Atelier heeft ze al):
+
+- `<div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>` in het openingsscherm: daar zweven de deeltjes (de pagina zelf heeft er al een);
+- `data-fx-origin` op het element waar de knal vandaan komt (zegel, strik, knop), `data-fx-delay="…"` (milliseconden) op het openingsscherm voor het moment van de knal, en eventueel `data-fx-intro="…"` voor het moment waarop de kop verschijnt;
+- `data-fx-tilt` op het voorwerp dat met de muis mag kantelen, `fx-pulse` op de knop die uitnodigt tot tikken (een zachte ring);
+- `fx-names` op de `h1` met de namen, `fx-intro` met `style="--fx-d:1"` (volgorde) op de andere onderdelen van de kop;
+- `fx-kb` op een fotovak (`.ph`) voor langzaam inzoomen, `fx-rays` op de kop voor stralen of disco, `data-fx-draw` op een lijntekening (SVG) die zichzelf moet tekenen.
+
+**Vaste afspraken voor beweging:**
+
+- Alles wat beweegt, staat onder `.fx-motion`. Die klasse zet het script niet bij "minder beweging" in het systeem, en niet als een gast op de knop **Beweging** (links onder, ook op het openingsscherm) heeft getikt. Die keuze wordt op dat apparaat onthouden.
+- Doorlopende animaties gebruiken `animation-play-state: var(--fx-play, running)`, zodat de knop ze stilzet. Ook de afteller loopt dan niet door.
+- Geen flitsen: hoogstens één flits (de cameraflits bij het openen), neon hapert hoogstens twee keer in een seconde.
+- Deeltjes staan achter de tekst, nooit erover. De inhoud hangt nooit af van een effect en blijft zonder script gewoon leesbaar.
+
+**Controleren:** `node e2e/effecten.cjs <basis-url> <uitvoermap> [code ...]` (met `PERF=1` ook een meting op een vier keer vertraagde processor). Zie `docs/CONTROLES.md`.
 
 ## Een bestaand ontwerp aanpassen
 

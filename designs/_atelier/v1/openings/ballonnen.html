@@ -1,10 +1,11 @@
-<section class="cover a-cover a-cover--ballonnen a-names-{{ a.names }}" data-cover data-duration="2300" aria-label="Openingsscherm">
+<section class="cover a-cover a-cover--ballonnen a-names-{{ a.names }}" data-cover data-duration="2300" data-fx-delay="120" aria-label="Openingsscherm">
   <div class="a-balloons" aria-hidden="true"><span class="a-balloon"></span><span class="a-balloon"></span><span class="a-balloon"></span><span class="a-balloon"></span><span class="a-balloon"></span></div>
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="a-cover__inner">
     <p class="a-cover__kicker">{{ v.kicker }}</p>
     <p class="a-cover__title a-cover__title--{{ v.names_size }}">{{ v.title }}</p>
     {% if v.date_numeric %}<p class="a-cover__date">{{ v.date_numeric }}</p>{% endif %}
-    <a href="#uitnodiging" class="a-cover__btn" data-open>Laat de ballonnen los</a>
+    <a href="#uitnodiging" class="a-cover__btn fx-pulse" data-open data-fx-origin>Laat de ballonnen los</a>
     {% include "_atelier/v1/parts/music.html" %}
   </div>
 </section>

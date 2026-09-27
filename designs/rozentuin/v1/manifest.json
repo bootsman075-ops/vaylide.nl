@@ -114,5 +114,17 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "blaadjes",
+    "knal": "blaadjes",
+    "viering": "harten",
+    "namen": "schrijf",
+    "onthul": "omhoog",
+    "extra": [
+      "kenburns",
+      "kantel",
+      "tik"
+    ]
+  }
 }

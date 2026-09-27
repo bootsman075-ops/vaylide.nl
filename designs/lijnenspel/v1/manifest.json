@@ -111,5 +111,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "stofjes",
+    "knal": "lijnen",
+    "viering": "lijnen",
+    "namen": "zacht",
+    "onthul": "wissel",
+    "extra": [
+      "kenburns"
+    ]
+  }
 }

@@ -46,7 +46,8 @@
         "--a-cover-ink": "#F3F4F6",
         "--a-curtain": "#8A939E",
         "--a-scheme": "light",
-        "--a-page": "#F3F4F6"
+        "--a-page": "#F3F4F6",
+        "--fx-shine": "#56606C"
       }
     },
     {
@@ -71,7 +72,8 @@
         "--a-cover-ink": "#F7F5F2",
         "--a-curtain": "#A59D92",
         "--a-scheme": "light",
-        "--a-page": "#F7F5F2"
+        "--a-page": "#F7F5F2",
+        "--fx-shine": "#665F55"
       }
     },
     {
@@ -96,7 +98,8 @@
         "--a-cover-ink": "#EEF0F3",
         "--a-curtain": "#4A525E",
         "--a-scheme": "dark",
-        "--a-page": "#15181D"
+        "--a-page": "#15181D",
+        "--fx-shine": "#C5CCD6"
       }
     }
   ],
@@ -113,5 +116,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "goudstof",
+    "knal": "vonken",
+    "viering": "vonken",
+    "namen": "folie",
+    "onthul": "zacht",
+    "extra": [
+      "stralen",
+      "kantel"
+    ]
+  }
 }

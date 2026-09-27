@@ -1,7 +1,7 @@
-<header class="a-hero">
+<header class="fx-rays a-hero">
   <div class="a-hero__text">
-    {% if a.ornament == "lauwerkrans" %}<div class="a-wreath"><div class="a-orn a-orn--wreath" aria-hidden="true">{% include "_atelier/v1/ornaments/lauwerkrans.html" %}</div><p class="a-number{% if not v.number %} a-number--mono{% endif %}" aria-hidden="true">{% if v.number %}{{ v.number }}{% else %}{{ v.monogram }}{% endif %}</p></div>
-    {% else %}{% include "_atelier/v1/parts/ornament.html" with pos="top" %}<p class="a-number{% if not v.number %} a-number--mono{% endif %}" aria-hidden="true">{% if v.number %}{{ v.number }}{% else %}{{ v.monogram }}{% endif %}</p>{% endif %}
+    {% if a.ornament == "lauwerkrans" %}<div class="a-wreath"><div class="a-orn a-orn--wreath" aria-hidden="true">{% include "_atelier/v1/ornaments/lauwerkrans.html" %}</div><p class="a-number{% if not v.number %} a-number--mono{% endif %} fx-shimmer" aria-hidden="true">{% if v.number %}{{ v.number }}{% else %}{{ v.monogram }}{% endif %}</p></div>
+    {% else %}{% include "_atelier/v1/parts/ornament.html" with pos="top" %}<p class="a-number{% if not v.number %} a-number--mono{% endif %} fx-shimmer" aria-hidden="true">{% if v.number %}{{ v.number }}{% else %}{{ v.monogram }}{% endif %}</p>{% endif %}
     <p class="a-kicker">{{ v.kicker }}</p>
     {% include "_atelier/v1/parts/names.html" %}
     <p class="a-tagline">{{ v.tagline }}</p>

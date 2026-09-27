@@ -84,7 +84,7 @@ De eigenaar leverde een voorbeeldfoto van de gewenste website (kop, hero met fot
 
 Op verzoek van de eigenaar ("een stuk of 30, met verschillende designs, verdeeld over de categorieën") zijn er 30 ontwerpen bijgekomen: **vijf per gelegenheid**. Samen met de eerste drie zijn het er 33.
 
-**Aanpak.** Dertig losse ontwerpen met elk eigen HTML zouden lastig te onderhouden zijn en de kans op fouten in toegankelijkheid vergroten. Daarom delen ze één opbouw, **Atelier** (`designs/_atelier/v1/`), met tien openingen, negen koppen, zes soorten secties, vijf kopstijlen, vijf naamstijlen, vijf datumstijlen, vijf fotovormen, zeven achtergrondstructuren en twintig versieringen. Elk ontwerp is een eigen combinatie daarvan met eigen letters en kleuren, en soms eigen accenten in `style.css`. De beschrijving van alle 30 staat in `tools/atelier/specs.py`; `tools/atelier/ontwerpen.py` schrijft daaruit de ontwerpmappen. Zo blijven gedrag en toegankelijkheid (minder beweging, toetsenbord, vangnet zonder script) voor alle ontwerpen gelijk, en is een nieuw ontwerp een kwestie van kiezen en kleuren (zie `docs/HANDLEIDING.md`).
+**Aanpak.** Dertig losse ontwerpen met elk eigen HTML zouden lastig te onderhouden zijn en de kans op fouten in toegankelijkheid vergroten. Daarom delen ze één opbouw, **Atelier** (`designs/_atelier/v1/`), met tien openingen (sinds ronde 5 elf), negen koppen, zes soorten secties, vijf kopstijlen, vijf naamstijlen, vijf datumstijlen, vijf fotovormen, zeven achtergrondstructuren en twintig versieringen. Elk ontwerp is een eigen combinatie daarvan met eigen letters en kleuren, en soms eigen accenten in `style.css`. De beschrijving van alle 30 staat in `tools/atelier/specs.py`; `tools/atelier/ontwerpen.py` schrijft daaruit de ontwerpmappen. Zo blijven gedrag en toegankelijkheid (minder beweging, toetsenbord, vangnet zonder script) voor alle ontwerpen gelijk, en is een nieuw ontwerp een kwestie van kiezen en kleuren (zie `docs/HANDLEIDING.md`).
 
 | Gelegenheid | Ontwerp | Opening | Stijl | Ook geschikt voor |
 |---|---|---|---|---|
@@ -101,7 +101,7 @@ Op verzoek van de eigenaar ("een stuk of 30, met verschillende designs, verdeeld
 | Verjaardag | Confetti | Confetti | Kleurrijk, confetti, groot getal | babyshower, zakelijk evenement |
 |  | Neonnacht | Zachte sluier | Donker, neonlicht, gloeiende letters | zakelijk evenement |
 |  | Ballonfeest | Ballonnen | Pastel, ballonnen, ronde vormen | babyshower |
-|  | Glitter & goud | Gordijn | Zwart en goud, fonkeling, glamour | jubileum, zakelijk evenement |
+|  | Glitter & goud | Cadeau (was: gordijn) | Zwart en goud, fonkeling, glamour | jubileum, zakelijk evenement |
 |  | Tropisch | Vouwkaart | Jungle, palmbladeren, zomer | bruiloft, zakelijk evenement |
 | Jubileum | Lauwerkrans | Envelop met zegel | Goud en ivoor, lauwerkrans, klassiek | bruiloft, verjaardag |
 |  | Zilveren feest | Gordijn | Zilver, kader, ingetogen chic | bruiloft |
@@ -110,9 +110,9 @@ Op verzoek van de eigenaar ("een stuk of 30, met verschillende designs, verdeeld
 |  | Robijn | Cadeaulint | Robijnrood, ringen, cursief | bruiloft, verjaardag |
 | Babyshower | Wolkje | Ballonnen | Zachtblauw, wolkjes, rond | verjaardag |
 |  | Maanlicht | Sterrenhemel | Nachtblauw of lavendel, maan, sterren | verloving |
-|  | Regenboog | Zachte sluier | Aardetinten, regenboog, zacht | verjaardag |
+|  | Regenboog | Cadeau (was: zachte sluier) | Aardetinten, regenboog, zacht | verjaardag |
 |  | Lentebloesem | Envelop met zegel | Bloesem, kader, handschrift | bruiloft, verloving |
-|  | Stipjes | Confetti | Stippen, kleurband, speels | verjaardag |
+|  | Stipjes | Cadeau (was: confetti) | Stippen, kleurband, speels | verjaardag |
 | Zakelijk evenement | Strak zakelijk | Schuifpaneel | Marine, strak, professioneel | jubileum |
 |  | Gala | Gordijn | Zwart en champagne, fluweel, avond | bruiloft, jubileum |
 |  | Congres | Schuifpaneel | Blauw, tijdlijn, overzichtelijk | jubileum |
@@ -129,6 +129,72 @@ Op verzoek van de eigenaar ("een stuk of 30, met verschillende designs, verdeeld
 - **Zakelijk evenement** heeft een extra, optioneel veld "Aantal jaar", zodat een ontwerp als Mijlpaal bij een bedrijfsjubileum het getal groot kan tonen. Zonder getal tonen zulke ontwerpen de initialen.
 - **Website**: de homepage licht drie ontwerpen uit (`HOME_DESIGNS` in `core/content.py`) en noemt het aantal, en de tegels per gelegenheid tonen een nieuw ontwerp voor die gelegenheid; de collectie zet bij een filter eerst de ontwerpen die voor die gelegenheid zijn gemaakt; een ontwerppagina toont drie andere ontwerpen voor dezelfde gelegenheid; bij het samenstellen worden de ontwerpen op de gekozen gelegenheid gefilterd.
 - Net als de eerste drie zijn deze ontwerpen **niet vergeleken met de referentiesites of de schermopname** (zie hieronder).
+
+## Ronde 5: effecten en beweging
+
+De vraag van de eigenaar: "al die kaarten die we nu hebben op het platform echt zo speciaal mogelijk maken, met effecten en bewegende dingen: echt eyecatchers, zodat je er een wilt hebben."
+
+**Aanpak.** Eén gedeelde effectenlaag voor alle 33 ontwerpen (`invitations/static/invitations/effects.js` en `effects.css`), waaruit elk ontwerp in zijn manifest een eigen combinatie kiest (`effects`, keuzes in `catalog/effects.py`, uitleg in `docs/HANDLEIDING.md` onder "Effecten"). Zo gelden toegankelijkheid, snelheid en de knop om beweging stil te zetten overal hetzelfde. Er zijn geen externe bibliotheken of diensten bij gekomen.
+
+- **Sfeer**: zwevende deeltjes op het openingsscherm en achter de tekst, getekend op een canvas. 23 soorten: bloemblaadjes, bloesem, blaadjes, lauwerblaadjes, pluimen, confetti, hartjes, ballonnen met touwtjes, zeepbellen met een regenboogrand, champagnebubbels, zachte lichtjes, stippen, stofjes, zonnestofjes, neonvormen, lijnvormen, wolkjes, goudstof, glitter, een sterrenhemel met vallende sterren, een netwerk, een lichtgolf over een puntjesraster en filmkorrel met krasjes. De deeltjes nemen de kleuren van de gekozen kleurvariant over.
+- **Knal** op het moment dat de uitnodiging opengaat, vanuit het zegel, de strik of de knop: onder meer een regen van bloemblaadjes, twee confettikanonnen, vonken met glanzende confetti, sterrenstof, een wolk hartjes, een lucht vol ballonnen, stralende lichtlijnen, een champagneknal en een cameraflits.
+- **Feestje na aanmelden**: als een gast "Ja, ik kom" invult, volgt een uitbarsting in de stijl van het ontwerp. In het voorbeeld is dat ook te zien; de melding zegt daar nog steeds duidelijk dat het antwoord niet is opgeslagen.
+- **Openingen**: de envelop zweeft en het zegel pulseert, bij openen breekt het zegel en komt er licht uit de envelop; de vouwkaart gluurt af en toe open; het gordijn ademt en achter het doek wacht een spotlicht; de strik wiebelt en over het lint glijdt een glans; de sluier drijft; de maan gloeit; het schuifpaneel krijgt een lichtstreep en een pijltje dat de weg wijst; de polaroid zweeft. Avondgoud krijgt een lichtbundel door de kier van de deuren en een glans die rond het medaillon loopt, Puur moment een lichtstreep over het doorschijnende vel.
+- **Cadeau** (nieuwe opening, op verzoek van de eigenaar: "En ik wil dat het mooi uitpakt. En flop, cadeautjes. Um, bedenk het maar. Ik wil dat erin hebben."; "flop" is gelezen als "plof"): een ingepakte doos in de kleuren van het ontwerp, met stippen, glitter of strepen op het papier. In rust springt de doos af en toe even op, alsof er iets in zit, en wiebelt de strik. Bij het openen schudt de doos, gaat de strik los, springt het deksel er met een plof af, komt er licht uit de doos en vliegen de cadeautjes er in een fontein uit, met confetti en glinsters. Ook het nieuwe effect **cadeautjes** is los te kiezen: als sfeer (vallende cadeautjes), bij het openen en als feestje na aanmelden. Glitter & goud, Regenboog en Stipjes openen nu als cadeau; Stipjes heeft ook vallende cadeautjes als sfeer, en bij Ballonfeest volgen na "Ja, ik kom" cadeautjes.
+- **Kop na het openen**: de onderdelen verschijnen na elkaar, al terwijl het openingsscherm vervaagt. De versiering tekent zichzelf, de namen komen uit de mist, worden "geschreven", springen tevoorschijn of gaan aan als neon; bij goud en zilver glijdt er af en toe een lichtstreep over de namen (folie). Een groot getal telt op (30, 40, 10), foto's openen in een cirkel of boog en zoomen daarna heel langzaam in.
+- **Scrollen**: secties verschijnen op vijf manieren (omhoog, uit de mist, zoom, kanteling, afwisselend links en rechts); onderdelen binnen een sectie komen na elkaar, lijnen bij koppen en de tijdlijn tekenen zich, de cijfers van de afteller klappen om.
+- **Website**: de kaarten in de collectie kantelen mee met de muis, er glijdt een glansstreep over bij aanwijzen en één keer als ze in beeld komen, en onder elke kaart staat de sfeer ("Envelop met zegel · bloemblaadjes"). Op de ontwerppagina staat een zin over de effecten. De kaartbeelden zijn opnieuw gemaakt en tonen de effecten.
+
+Per ontwerp:
+
+| Ontwerp | Sfeer | Bij het openen | Na aanmelden | Namen | Extra |
+|---|---|---|---|---|---|
+| Liefde op papier | Bloemblaadjes | Bloemblaadjes | Hartjes | geschreven | inzoomende foto's, kantelen met de muis, vonkje bij een tik |
+| Avondgoud | Goudstof | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | lichtstralen, inzoomende foto's, kantelen met de muis |
+| Puur moment | Zachte lichtjes | Zachte lichtjes | Zachte lichtjes | uit de mist | inzoomende foto's |
+| Eucalyptus | Blaadjes | Opwaaiende blaadjes | Opwaaiende blaadjes | geschreven | inzoomende foto's, kantelen met de muis |
+| Gatsby | Goudstof | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | lichtstralen, kantelen met de muis |
+| Rozentuin | Bloemblaadjes | Bloemblaadjes | Hartjes | geschreven | inzoomende foto's, kantelen met de muis, vonkje bij een tik |
+| Lijnenspel | Stofjes in het licht | Lichtlijnen | Lichtlijnen | uit de mist | inzoomende foto's |
+| Zuiden | Zonnestofjes | Bloemblaadjes | Bloemblaadjes | uit de mist | lichtstralen, inzoomende foto's, kantelen met de muis |
+| Ja-woord | Champagnebubbels | Champagneknal | Hartjes | folieglans | kantelen met de muis, vonkje bij een tik |
+| Polaroid | Hartjes | Flits | Hartjes | geschreven | vonkje bij een tik |
+| Onder de sterren | Sterrenhemel | Sterrenstof | Sterrenstof | uit de mist | inzoomende foto's |
+| Pampas | Pluimen | Opwaaiende pluimen | Opwaaiende pluimen | uit de mist | inzoomende foto's, bewegende kleurvlekken |
+| Monogram | Lijnvormen | Lichtlijnen | Vonken en glanzende confetti | uit de mist | – |
+| Confetti | Confetti | Confettikanonnen | Confettikanonnen | springt tevoorschijn | vonkje bij een tik |
+| Neonnacht | Neonvormen | Neonvonken | Neonvonken | neon gaat aan | vonkje bij een tik |
+| Ballonfeest | Ballonnen | Ballonnen | Cadeautjes | springt tevoorschijn | vonkje bij een tik |
+| Glitter & goud | Glitter | Cadeautjes (uit het cadeau) | Vonken en glanzende confetti | folieglans | discolicht, vonkje bij een tik |
+| Tropisch | Bloemblaadjes | Bloemblaadjes | Confetti | uit de mist | inzoomende foto's, kantelen met de muis |
+| Lauwerkrans | Lauwerblaadjes | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | kantelen met de muis |
+| Zilveren feest | Goudstof | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | lichtstralen, kantelen met de muis |
+| Gouden jaren | Goudstof | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | lichtstralen, kantelen met de muis |
+| Door de jaren | Filmkorrel | Flits | Confetti | uit de mist | inzoomende foto's |
+| Robijn | Bloemblaadjes | Hartjes | Hartjes | folieglans | kantelen met de muis, vonkje bij een tik |
+| Wolkje | Wolkjes | Zeepbellen | Zeepbellen | springt tevoorschijn | vonkje bij een tik |
+| Maanlicht | Sterrenhemel | Sterrenstof | Sterrenstof | uit de mist | vonkje bij een tik |
+| Regenboog | Zeepbellen | Cadeautjes (uit het cadeau) | Cadeautjes | uit de mist | bewegende kleurvlekken, vonkje bij een tik |
+| Lentebloesem | Bloesem | Bloesem | Bloesem | geschreven | inzoomende foto's, kantelen met de muis, vonkje bij een tik |
+| Stipjes | Cadeautjes | Cadeautjes (uit het cadeau) | Cadeautjes | springt tevoorschijn | vonkje bij een tik |
+| Strak zakelijk | Lichtgolf | Lichtlijnen | Lichtlijnen | uit de mist | – |
+| Gala | Goudstof | Vonken en glanzende confetti | Vonken en glanzende confetti | folieglans | lichtstralen, inzoomende foto's, kantelen met de muis |
+| Congres | Netwerk | Uitwaaierend netwerk | Lichtlijnen | uit de mist | – |
+| Borrel | Champagnebubbels | Champagneknal | Champagneknal | springt tevoorschijn | kantelen met de muis, vonkje bij een tik |
+| Mijlpaal | Goudstof | Confettikanonnen | Vonken en glanzende confetti | folieglans | lichtstralen |
+
+**Keuzes en aannames:**
+
+- **Aangepast in versie 1, geen versie 2.** De regel is dat een ontwerp via een nieuwe versie verandert, zodat bestaande uitnodigingen niet onverwacht wijzigen. Vierlief staat nog in testmodus en er bestaan geen echte uitnodigingen; de handleiding staat in dat geval toe dat een versie wordt bijgewerkt (`sync_designs --update-manifest`). Een tweede versie van alle 33 ontwerpen zou de eigenaar alleen extra werk in Beheer geven. **Na de livegang** gaan zulke wijzigingen wel via een nieuwe versie. Wie een bestaande ontwikkeldatabase heeft, draait eenmalig `python manage.py sync_designs --update-manifest`.
+- **Beweging stilzetten (WCAG 2.2.2).** Beweging die vanzelf start en langer dan vijf seconden doorgaat, moet te pauzeren zijn. Daarom staat er links onder een knop **Beweging** (ook op het openingsscherm), een schakelknop met een vaste naam. Hij zet de deeltjes, alle doorlopende animaties en de afteller stil, en de keuze wordt op dat apparaat onthouden (alleen in de browser, niet op de server). Bij "minder beweging" in het systeem beweegt er niets en is de knop niet nodig.
+- **Geen flitsen.** De cameraflits is één enkele flits; neon hapert bij het aangaan hoogstens twee keer in een seconde, ruim onder de grens van drie per seconde.
+- **Leesbaarheid.** Deeltjes staan achter de tekst, nooit erover, en achter lopende tekst iets zachter dan op het openingsscherm. De lichtstreep bij folie heeft per kleurvariant een eigen kleur met minstens 3:1 contrast (de namen zijn grote tekst); de tests controleren dat. De inhoud hangt nooit af van een effect: zonder script, met minder beweging of met de knop uit is alles direct zichtbaar.
+- **Snelheid.** Deeltjes worden één keer als klein plaatje getekend en daarna alleen verplaatst. Rustig zwevende deeltjes tekenen 30 beelden per seconde (de knal en het feestje 60), achter de tekst op een iets lagere resolutie dan op het openingsscherm. Het tekenen stopt als het vlak niet in beeld is, als het tabblad op de achtergrond staat en als de beweging uit staat; op eenvoudige toestellen (weinig rekenkernen of geheugen) en bij haperend beeld worden het vanzelf minder deeltjes. Gloed wordt vooraf getekend, niet per beeld berekend. Het script is ongeveer 19 kB (gecomprimeerd) en laadt pas na de pagina. Metingen staan in `docs/CONTROLES.md` onder "Belasting door de effecten".
+- **Kantelen met de muis** alleen op een computer met muis; op een telefoon zweven de voorwerpen zacht. Een vonkje bij een tik alleen bij speelse ontwerpen, niet bij de zakelijke.
+- **Avondgoud** had een eigen script voor fonkelend goud; dat is vervangen door de gedeelde effectenlaag.
+- **Liefde op papier**: het zegel is zo aangepast dat de initialen erop beter leesbaar zijn (was een aandachtspunt uit ronde 4).
+- Ook deze ronde is **niet vergeleken met de referentiesites of de schermopname** (zie hieronder).
+- **Stijlvoorbeeld voor de website**: aan het eind van deze ronde stuurde de eigenaar een schermopname (19 seconden) van een websitesjabloon, "Mariana" van Scrolltide, als voorbeeld voor de indeling van de website. De opname is beeld voor beeld bekeken (het geluid niet); de pagina van de sjabloon zelf was in deze werkomgeving geblokkeerd. Na overleg is besloten **de website te laten zoals hij is**.
 
 ## Referenties en schermopname
 

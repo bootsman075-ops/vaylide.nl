@@ -111,5 +111,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "neon",
+    "knal": "neon",
+    "viering": "neon",
+    "namen": "gloed",
+    "onthul": "zacht",
+    "extra": [
+      "tik"
+    ]
+  }
 }

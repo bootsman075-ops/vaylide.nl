@@ -110,5 +110,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "ballonnen",
+    "knal": "ballonnen",
+    "viering": "cadeautjes",
+    "namen": "pop",
+    "onthul": "zoom",
+    "extra": [
+      "tik"
+    ]
+  }
 }

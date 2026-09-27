@@ -111,5 +111,17 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "zonlicht",
+    "knal": "blaadjes",
+    "viering": "blaadjes",
+    "namen": "zacht",
+    "onthul": "zacht",
+    "extra": [
+      "stralen",
+      "kenburns",
+      "kantel"
+    ]
+  }
 }

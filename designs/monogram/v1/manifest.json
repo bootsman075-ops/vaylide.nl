@@ -111,5 +111,13 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "geometrie",
+    "knal": "lijnen",
+    "viering": "vonken",
+    "namen": "zacht",
+    "onthul": "wissel",
+    "extra": []
+  }
 }

@@ -111,5 +111,16 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "pluisjes",
+    "knal": "pluisjes",
+    "viering": "pluisjes",
+    "namen": "zacht",
+    "onthul": "zacht",
+    "extra": [
+      "kenburns",
+      "aura"
+    ]
+  }
 }

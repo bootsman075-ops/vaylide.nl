@@ -1,10 +1,11 @@
-<section class="cover a-cover a-cover--sterren a-names-{{ a.names }}" data-cover data-duration="2200" aria-label="Openingsscherm">
+<section class="cover a-cover a-cover--sterren a-names-{{ a.names }}" data-cover data-duration="2200" data-fx-delay="140" aria-label="Openingsscherm">
   <div class="a-sky" aria-hidden="true"><span class="a-moon"></span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="a-cover__inner">
     <p class="a-cover__kicker">{{ v.kicker }}</p>
     <p class="a-cover__title a-cover__title--{{ v.names_size }}">{{ v.title }}</p>
     {% if v.date_numeric %}<p class="a-cover__date">{{ v.date_numeric }}</p>{% endif %}
-    <a href="#uitnodiging" class="a-cover__btn" data-open>Open de uitnodiging</a>
+    <a href="#uitnodiging" class="a-cover__btn fx-pulse" data-open data-fx-origin>Open de uitnodiging</a>
     {% include "_atelier/v1/parts/music.html" %}
   </div>
 </section>

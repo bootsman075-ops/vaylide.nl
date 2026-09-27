@@ -47,7 +47,8 @@
         "--a-cover-ink": "#2A241A",
         "--a-env": "#EBDFC6",
         "--a-scheme": "light",
-        "--a-page": "#FAF6EC"
+        "--a-page": "#FAF6EC",
+        "--fx-shine": "#7A5B22"
       }
     },
     {
@@ -72,7 +73,8 @@
         "--a-cover-ink": "#23272C",
         "--a-env": "#DCE0E5",
         "--a-scheme": "light",
-        "--a-page": "#F4F5F6"
+        "--a-page": "#F4F5F6",
+        "--fx-shine": "#56606C"
       }
     },
     {
@@ -97,7 +99,8 @@
         "--a-cover-ink": "#1F2A1D",
         "--a-env": "#DDE5D6",
         "--a-scheme": "light",
-        "--a-page": "#F2F4EF"
+        "--a-page": "#F2F4EF",
+        "--fx-shine": "#3F5A3A"
       }
     }
   ],
@@ -114,5 +117,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "lauwerblaadjes",
+    "knal": "vonken",
+    "viering": "vonken",
+    "namen": "folie",
+    "onthul": "omhoog",
+    "extra": [
+      "kantel"
+    ]
+  }
 }

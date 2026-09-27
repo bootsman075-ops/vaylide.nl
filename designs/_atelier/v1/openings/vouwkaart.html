@@ -1,8 +1,9 @@
-<section class="cover a-cover a-cover--vouwkaart a-names-{{ a.names }}" data-cover data-duration="2200" aria-label="Openingsscherm">
+<section class="cover a-cover a-cover--vouwkaart a-names-{{ a.names }}" data-cover data-duration="2200" data-fx-delay="420" aria-label="Openingsscherm">
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="a-cover__inner">
-    <div class="a-book">
+    <div class="a-book" data-fx-tilt>
       <div class="a-book__inside" aria-hidden="true"><span class="a-book__line">{{ v.tagline }}</span></div>
-      <a href="#uitnodiging" class="a-book__front" data-open aria-label="Open de uitnodiging">
+      <a href="#uitnodiging" class="a-book__front" data-open data-fx-origin aria-label="Open de uitnodiging">
         <span class="a-book__content" aria-hidden="true">
           {% include "_atelier/v1/parts/ornament.html" with pos="cover" %}
           <span class="a-cover__kicker">{{ v.kicker }}</span>

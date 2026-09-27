@@ -111,5 +111,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "harten",
+    "knal": "flits",
+    "viering": "harten",
+    "namen": "schrijf",
+    "onthul": "kanteling",
+    "extra": [
+      "tik"
+    ]
+  }
 }

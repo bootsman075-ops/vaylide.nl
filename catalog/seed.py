@@ -107,6 +107,12 @@ def validate_manifest(path: Path, data: dict) -> None:
         problems = atelier_errors(data["atelier"])
         if problems:
             raise DesignError(f"{where}: {'; '.join(problems)}.")
+    if "effects" in data:
+        from .effects import effects_errors
+
+        problems = effects_errors(data["effects"])
+        if problems:
+            raise DesignError(f"{where}: {'; '.join(problems)}.")
 
 
 def design_manifests() -> list[tuple[Path, dict]]:

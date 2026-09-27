@@ -46,7 +46,8 @@
         "--a-cover-ink": "#1E1E1C",
         "--a-ribbon": "#735B2E",
         "--a-scheme": "light",
-        "--a-page": "#F5F4F1"
+        "--a-page": "#F5F4F1",
+        "--fx-shine": "#735B2E"
       }
     },
     {
@@ -71,7 +72,8 @@
         "--a-cover-ink": "#F2EEE6",
         "--a-ribbon": "#D1B375",
         "--a-scheme": "dark",
-        "--a-page": "#101B2E"
+        "--a-page": "#101B2E",
+        "--fx-shine": "#D1B375"
       }
     },
     {
@@ -96,7 +98,8 @@
         "--a-cover-ink": "#0F1B33",
         "--a-ribbon": "#2451A6",
         "--a-scheme": "light",
-        "--a-page": "#FFFFFF"
+        "--a-page": "#FFFFFF",
+        "--fx-shine": "#2451A6"
       }
     }
   ],
@@ -113,5 +116,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "goudstof",
+    "knal": "kanon",
+    "viering": "vonken",
+    "namen": "folie",
+    "onthul": "omhoog",
+    "extra": [
+      "stralen"
+    ]
+  }
 }

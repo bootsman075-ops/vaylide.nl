@@ -37,7 +37,7 @@ body {
   background-image: var(--lp-grain), radial-gradient(ellipse at 50% 40%, var(--lp-card) 0%, var(--lp-paper) 55%, var(--lp-envelope-2) 130%);
   padding: 1.5rem 1rem;
 }
-.lp-cover__inner { display: grid; justify-items: center; gap: 1.4rem; width: min(90vw, 460px); text-align: center; }
+.lp-cover__inner { position: relative; z-index: 1; display: grid; justify-items: center; gap: 1.4rem; width: min(90vw, 460px); text-align: center; }
 .lp-cover__to {
   font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 1.35rem; color: var(--lp-muted);
   transition: opacity .4s ease;
@@ -80,7 +80,7 @@ body {
   width: clamp(68px, 19vw, 88px); aspect-ratio: 1; transform: translate(-50%, -50%);
   display: grid; place-items: center; text-decoration: none;
   border-radius: 48% 52% 50% 50% / 51% 47% 53% 49%;
-  background: radial-gradient(circle at 34% 30%, var(--lp-seal-2) 0%, var(--lp-seal) 52%, color-mix(in srgb, var(--lp-seal) 72%, #000) 100%);
+  background: radial-gradient(circle at 30% 24%, var(--lp-seal-2) 0%, var(--lp-seal) 22%, color-mix(in srgb, var(--lp-seal) 78%, #000) 100%);
   box-shadow: 0 8px 18px -4px rgba(50, 10, 20, .45), inset 0 -4px 7px rgba(0, 0, 0, .28), inset 0 3px 6px rgba(255, 255, 255, .28);
   animation: lp-seal-breathe 2.8s ease-in-out infinite;
   cursor: pointer;
@@ -89,10 +89,13 @@ body {
   content: ""; position: absolute; inset: 13%; border-radius: 50%;
   border: 1.5px solid rgba(255, 240, 235, .38);
 }
+/* De initialen staan in het vlakke, ingedrukte midden van het zegel: goed leesbaar in elke kleur. */
 .lp-seal__mono {
-  position: relative; font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 600;
-  font-size: clamp(1.15rem, 5vw, 1.5rem); color: rgba(255, 242, 238, .95); letter-spacing: .02em;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+  position: relative; display: grid; place-items: center; width: 70%; aspect-ratio: 1; border-radius: 50%;
+  background: var(--lp-seal); box-shadow: inset 0 2px 5px rgba(0, 0, 0, .35), inset 0 -1px 2px rgba(255, 255, 255, .16);
+  font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 600;
+  font-size: clamp(1.15rem, 5vw, 1.5rem); color: #FFF6F3; letter-spacing: .02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .45);
 }
 .lp-seal:hover { filter: brightness(1.06); }
 .lp-seal:focus-visible { outline: 3px solid var(--lp-accent); outline-offset: 6px; }
@@ -242,10 +245,31 @@ body {
 .lp-closing__mono {
   width: 64px; height: 64px; margin: 1.6rem auto 2rem; display: grid; place-items: center; border-radius: 50%;
   background: radial-gradient(circle at 34% 30%, var(--lp-seal-2), var(--lp-seal) 55%, color-mix(in srgb, var(--lp-seal) 72%, #000));
-  color: rgba(255, 242, 238, .95); font-style: italic; font-weight: 600; font-size: 1.1rem;
+  color: #FFF6F3; font-style: italic; font-weight: 600; font-size: 1.1rem;
 }
+.lp-closing__mono span { display: grid; place-items: center; width: 72%; aspect-ratio: 1; border-radius: 50%; background: var(--lp-seal); box-shadow: inset 0 2px 4px rgba(0, 0, 0, .3); }
 .inv-colophon { color: var(--lp-muted); }
 
 @media (prefers-reduced-motion: reduce) {
   .lp-seal { animation: none; }
 }
+
+/* ---------- Effecten (invitations/static/invitations/effects.js en effects.css) ---------- */
+body { --fx-1: var(--lp-accent); --fx-2: var(--lp-soft); --fx-3: var(--lp-seal-2); --fx-4: var(--lp-card); --fx-bg: var(--lp-paper); }
+.lp-seal { --fx-pulse: var(--lp-seal); }
+/* De envelop zweeft zacht zolang hij dicht is; stil onder de muis. */
+.fx-motion .lp-env-wrap { animation: lp-float 5.5s ease-in-out infinite; animation-play-state: var(--fx-play, running); }
+.fx-motion .lp-env-wrap:hover { animation-play-state: paused; }
+@keyframes lp-float { 50% { translate: 0 -8px; } }
+/* Licht uit de envelop als de klep opengaat */
+.lp-env__back::after {
+  content: ""; position: absolute; left: 4%; right: 4%; top: -14%; height: 76%; border-radius: 50%; pointer-events: none; opacity: 0;
+  background: radial-gradient(closest-side, rgba(255, 252, 244, .95), rgba(255, 240, 228, .45) 55%, transparent);
+}
+.fx-motion.is-opening .lp-env__back::after { animation: lp-glow 1.7s ease .7s both; }
+@keyframes lp-glow { 0% { opacity: 0; scale: .7; } 45% { opacity: 1; } 100% { opacity: 0; scale: 1.35; } }
+/* Kop: de onderdelen komen na elkaar (effects.css), de boog met de foto groeit omhoog. */
+.fx-motion.fx-start :is(.lp-hero__card, .lp-arch) { animation: none; }
+.fx-motion:is(.has-cover, .is-opening) .lp-arch { opacity: 0; }
+.fx-motion.fx-start:not(.fx-done) .lp-arch { animation: lp-arch-in 1.9s var(--fx-ease) .55s both; }
+@keyframes lp-arch-in { from { opacity: 0; clip-path: inset(100% 0 0 0 round 999px 999px 22px 22px); } to { opacity: 1; clip-path: inset(0 0 0 0 round 999px 999px 22px 22px); } }

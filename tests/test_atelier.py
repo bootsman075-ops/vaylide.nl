@@ -114,7 +114,7 @@ class AtelierRenderTests(VierliefTestCase):
         cases = [("confetti", "verjaardag", "30"), ("lauwerkrans", "jubileum", "40"), ("mijlpaal", "zakelijk", "10")]
         for slug, occasion, number in cases:
             response = Client().get(f"/voorbeeld/{slug}/", {"gelegenheid": occasion})
-            self.assertContains(response, f'<p class="a-number" aria-hidden="true">{number}</p>', html=False, msg_prefix=slug)
+            self.assertContains(response, f'<p class="a-number fx-shimmer" aria-hidden="true">{number}</p>', html=False, msg_prefix=slug)
         # Zonder getal: de initialen in plaats van een leeg vlak.
         template = Template.objects.get(slug="mijlpaal")
         content = demo_content("mijlpaal", "zakelijk")
@@ -160,7 +160,7 @@ class AtelierJourneyTests(VierliefTestCase):
         c.post(f"/maken/{uid}/stijl/", {"rev": inv.draft_rev, "actie": "volgende", "palette": "blauw", "opening": "on", "s_countdown": "on"})
         preview = c.get(f"/maken/{uid}/voorbeeld/weergave/")
         self.assertContains(preview, "a-cover--sluier")
-        self.assertContains(preview, '<p class="a-number" aria-hidden="true">30</p>', html=False)
+        self.assertContains(preview, '<p class="a-number fx-shimmer" aria-hidden="true">30</p>', html=False)
         self.assertContains(preview, "--a-accent:")
         inv.refresh_from_db()
         self.pay(inv, owner)

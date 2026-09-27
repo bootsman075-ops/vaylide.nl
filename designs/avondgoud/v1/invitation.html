@@ -1,18 +1,18 @@
 {% extends "invitations/base_invitation.html" %}{% load static %}
 {# Avondgoud v1 — donker, feestelijk en elegant. Wijzig een uitgebrachte versie niet: maak een v2. #}
-{% block preload %}<link rel="preload" href="{% static 'fonts/cinzel-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
-<script src="{% static 'designs/avondgoud/v1/sparkle.js' %}" defer></script>{% endblock %}
+{% block preload %}<link rel="preload" href="{% static 'fonts/cinzel-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
 
 {% block cover %}
-<section class="cover ag-cover" data-cover data-duration="2500" aria-label="Openingsscherm">
+<section class="cover ag-cover" data-cover data-duration="2500" data-fx-delay="220" data-fx-intro="750" aria-label="Openingsscherm">
   <div class="ag-doors" aria-hidden="true">
     <div class="ag-door ag-door--left"><span class="ag-door__frame"></span></div>
     <div class="ag-door ag-door--right"><span class="ag-door__frame"></span></div>
   </div>
-  <canvas class="ag-sparkle" data-sparkle aria-hidden="true"></canvas>
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true" style="--fx-z: 1"></div>
   <div class="ag-cover__center">
     <p class="ag-cover__kicker">{{ v.kicker }}</p>
-    <a href="#uitnodiging" class="ag-medallion" data-open aria-label="Open de uitnodiging">
+    <a href="#uitnodiging" class="ag-medallion" data-open data-fx-origin data-fx-tilt aria-label="Open de uitnodiging">
+      <span class="ag-medallion__shine" aria-hidden="true"></span>
       <span class="ag-medallion__mono" aria-hidden="true">{{ v.monogram }}</span>
     </a>
     <p class="ag-cover__title">{{ v.title }}</p>
@@ -23,24 +23,24 @@
 {% endblock %}
 
 {% block content %}
-<header class="ag-hero">
+<header class="ag-hero fx-rays">
   <div class="ag-hero__text">
-    <p class="ag-kicker">{{ v.kicker }}</p>
-    <h1 class="ag-names ag-names--{{ v.names_size }}">
+    <p class="ag-kicker fx-intro" style="--fx-d:1">{{ v.kicker }}</p>
+    <h1 class="ag-names ag-names--{{ v.names_size }} fx-names">
       {% if v.is_couple %}<span>{{ v.names.0 }}</span><span class="ag-names__amp" aria-label="en">&amp;</span><span>{{ v.names.1 }}</span>
       {% else %}<span>{{ v.names.0 }}</span>{% endif %}
     </h1>
-    <p class="ag-tagline">{{ v.tagline }}</p>
+    <p class="ag-tagline fx-intro" style="--fx-d:5">{{ v.tagline }}</p>
     {% if v.date %}
-    <div class="ag-date">
+    <div class="ag-date fx-intro" style="--fx-d:6">
       <span class="ag-date__weekday">{{ v.weekday }}</span>
       <span class="ag-date__day">{{ v.day }}</span>
       <span class="ag-date__month">{{ v.month_name }} {{ v.year }}</span>
     </div>
     {% endif %}
-    {% if v.time_display or v.venue %}<p class="ag-hero__meta">{% if v.time_display %}<span class="ag-hero__time">{{ v.time_display }}</span>{% endif %}{% if v.time_display and v.venue %}<span class="ag-dot" aria-hidden="true"></span>{% endif %}{% if v.venue %}<span class="ag-hero__venue">{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+    {% if v.time_display or v.venue %}<p class="ag-hero__meta fx-intro" style="--fx-d:7">{% if v.time_display %}<span class="ag-hero__time">{{ v.time_display }}</span>{% endif %}{% if v.time_display and v.venue %}<span class="ag-dot" aria-hidden="true"></span>{% endif %}{% if v.venue %}<span class="ag-hero__venue">{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
   </div>
-  {% if v.hero %}<figure class="ag-frame"><div class="ph ag-frame__img">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 440px, 84vw" %}</div></figure>{% endif %}
+  {% if v.hero %}<figure class="ag-frame"><div class="ph ag-frame__img fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 440px, 84vw" %}</div></figure>{% endif %}
 </header>
 
 {% if v.welcome %}

@@ -20,5 +20,6 @@
      "vars": {"--ag-bg": "#0B211C", "--ag-bg-2": "#112C26", "--ag-ink": "#F1EFE6", "--ag-muted": "#C6CDC2", "--ag-gold": "#D4B676", "--ag-gold-2": "#EFDDAF", "--ag-glow": "rgba(212, 182, 118, 0.14)"}}
   ],
   "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "goudstof", "knal": "vonken", "viering": "vonken", "namen": "folie", "onthul": "zoom", "extra": ["stralen", "kenburns", "kantel"]},
   "changelog": "Eerste versie."
 }

@@ -4,10 +4,11 @@
 <link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
 
 {% block cover %}
-<section class="cover lp-cover" data-cover data-duration="2700" aria-label="Openingsscherm">
+<section class="cover lp-cover" data-cover data-duration="2700" data-fx-delay="160" aria-label="Openingsscherm">
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <div class="lp-cover__inner">
     <p class="lp-cover__to">Een uitnodiging voor jou</p>
-    <div class="lp-env-wrap">
+    <div class="lp-env-wrap" data-fx-tilt>
     <div class="lp-env" aria-hidden="true">
       <div class="lp-env__back"></div>
       <div class="lp-env__card">
@@ -18,7 +19,7 @@
       <div class="lp-env__pocket"></div>
       <div class="lp-env__flap"></div>
     </div>
-    <a href="#uitnodiging" class="lp-seal" data-open aria-label="Open de uitnodiging">
+    <a href="#uitnodiging" class="lp-seal fx-pulse" data-open data-fx-origin aria-label="Open de uitnodiging">
       <span class="lp-seal__mono" aria-hidden="true">{{ v.monogram }}</span>
     </a>
     </div>
@@ -31,23 +32,23 @@
 {% block content %}
 <header class="lp-hero">
   <div class="lp-hero__card">
-    <svg class="lp-sprig lp-sprig--top" viewBox="0 0 240 48" aria-hidden="true" focusable="false"><path d="M8 40c38-2 70-14 112-30M120 10c34 16 72 26 112 30M58 30c-6-10-2-18 8-22-2 10-2 16-8 22Zm28-10c-4-10 2-17 12-19-3 9-5 15-12 19Zm66 0c4-10-2-17-12-19 3 9 5 15 12 19Zm28 10c6-10 2-18-8-22 2 10 2 16 8 22Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="120" cy="10" r="3.2" fill="currentColor"/></svg>
-    <p class="lp-kicker">{{ v.kicker }}</p>
-    <h1 class="lp-names lp-names--{{ v.names_size }}">
+    <svg class="lp-sprig lp-sprig--top" viewBox="0 0 240 48" aria-hidden="true" focusable="false" data-fx-draw><path d="M8 40c38-2 70-14 112-30M120 10c34 16 72 26 112 30M58 30c-6-10-2-18 8-22-2 10-2 16-8 22Zm28-10c-4-10 2-17 12-19-3 9-5 15-12 19Zm66 0c4-10-2-17-12-19 3 9 5 15 12 19Zm28 10c6-10 2-18-8-22 2 10 2 16 8 22Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="120" cy="10" r="3.2" fill="currentColor"/></svg>
+    <p class="lp-kicker fx-intro" style="--fx-d:1">{{ v.kicker }}</p>
+    <h1 class="lp-names lp-names--{{ v.names_size }} fx-names">
       {% if v.is_couple %}<span class="lp-names__one">{{ v.names.0 }}</span><span class="lp-names__amp" aria-label="en">&amp;</span><span class="lp-names__two">{{ v.names.1 }}</span>
       {% else %}<span class="lp-names__one">{{ v.names.0 }}</span>{% endif %}
     </h1>
-    <p class="lp-tagline">{{ v.tagline }}</p>
+    <p class="lp-tagline fx-intro" style="--fx-d:5">{{ v.tagline }}</p>
     {% if v.date %}
-    <div class="lp-date">
+    <div class="lp-date fx-intro" style="--fx-d:6">
       <span class="lp-date__weekday">{{ v.weekday }}</span>
       <span class="lp-date__day">{{ v.day }}</span>
       <span class="lp-date__month">{{ v.month_name }} {{ v.year }}</span>
     </div>
     {% endif %}
-    {% if v.time_display or v.venue %}<p class="lp-hero__meta">{% if v.time_display %}{{ v.time_display }}{% endif %}{% if v.time_display and v.venue %}<span aria-hidden="true"> · </span>{% endif %}{{ v.venue }}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+    {% if v.time_display or v.venue %}<p class="lp-hero__meta fx-intro" style="--fx-d:7">{% if v.time_display %}{{ v.time_display }}{% endif %}{% if v.time_display and v.venue %}<span aria-hidden="true"> · </span>{% endif %}{{ v.venue }}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
   </div>
-  {% if v.hero %}<figure class="lp-arch"><div class="ph lp-arch__img">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 420px, 80vw" %}</div></figure>{% endif %}
+  {% if v.hero %}<figure class="lp-arch"><div class="ph lp-arch__img fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero eager=True sizes="(min-width: 900px) 420px, 80vw" %}</div></figure>{% endif %}
 </header>
 
 {% if v.welcome %}
@@ -153,7 +154,7 @@
 
 <section class="lp-section lp-closing" data-reveal aria-label="Afsluiting">
   {% if v.show.closing %}{% for p in v.closing %}<p class="lp-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
-  <p class="lp-closing__mono" aria-hidden="true">{{ v.monogram }}</p>
+  <p class="lp-closing__mono" aria-hidden="true"><span>{{ v.monogram }}</span></p>
   {% include "invitations/partials/share_buttons.html" %}
 </section>
 {% endblock %}

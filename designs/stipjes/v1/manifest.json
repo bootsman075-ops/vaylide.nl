@@ -3,17 +3,17 @@
   "version": 1,
   "name": "Stipjes",
   "tagline": "Speels, met stippen en een kleurband",
-  "description": "Een tik en de confetti vliegt. Een gekleurde band met stippen, ronde kaartjes en een kalenderblaadje voor de datum.",
+  "description": "Een cadeau met stippen om uit te pakken: plof, en de cadeautjes vliegen eruit. Een gekleurde band met stippen, ronde kaartjes en een kalenderblaadje voor de datum.",
   "style_notes": "Stippen, kleurband, speels",
   "occasions": [
     "babyshower",
     "verjaardag"
   ],
   "sort_order": 350,
-  "opening": "confetti",
-  "opening_label": "Confetti",
+  "opening": "cadeau",
+  "opening_label": "Cadeau om uit te pakken",
   "atelier": {
-    "opening": "confetti",
+    "opening": "cadeau",
     "hero": "band",
     "sections": "kaarten",
     "heading": "groot",
@@ -110,5 +110,15 @@
     "closing",
     "music"
   ],
-  "changelog": "Eerste versie."
+  "changelog": "Eerste versie.",
+  "effects": {
+    "sfeer": "cadeautjes",
+    "knal": "cadeautjes",
+    "viering": "cadeautjes",
+    "namen": "pop",
+    "onthul": "zoom",
+    "extra": [
+      "tik"
+    ]
+  }
 }
