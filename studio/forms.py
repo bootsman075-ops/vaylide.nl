@@ -20,6 +20,7 @@ from invitations.content import (
     MAX_QUESTIONS,
     QUESTION_TYPES,
     TIMEZONES,
+    event_expected,
     parse_date,
 )
 
@@ -95,6 +96,9 @@ class DetailsForm(StepForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         cfg = occasion_config(self.occasion)
+        self.event_optional = bool(cfg.get("event_optional"))
+        if self.event_optional:
+            self.fields["venue_name"].help_text = "Bijvoorbeeld 'Bij ons thuis' of de naam van het restaurant."
         self.name_keys = []
         new_fields = {}
         for key, label, required, max_len, help_text in cfg["name_fields"]:
@@ -162,6 +166,9 @@ class DetailsForm(StepForm):
         for name, key, label, required in self.name_keys:
             if required and not _s(d.get(name)):
                 errors[name] = f"Vul '{label.lower()}' in."
+        # Bij een kerstkaart is het evenement optioneel: leeg laten is een kerstgroet zonder uitnodiging.
+        if self.event_optional and not any(_s(d.get(k)) for k in ("date", "start_time", "end_time", "venue_name", "address")):
+            return errors
         if not d.get("date"):
             errors["date"] = "Vul de datum in."
         if not d.get("start_time"):
@@ -382,7 +389,8 @@ class RsvpSettingsForm(StepForm):
 
     def missing(self) -> dict[str, str]:
         d = self.cleaned_data
-        if d.get("enabled") and not d.get("deadline"):
+        # Een kerstkaart zonder evenement toont geen aanmelden; dan is ook geen deadline nodig.
+        if d.get("enabled") and not d.get("deadline") and event_expected(self.content, self.occasion):
             return {"deadline": "Kies tot wanneer gasten zich kunnen aanmelden."}
         return {}
 
