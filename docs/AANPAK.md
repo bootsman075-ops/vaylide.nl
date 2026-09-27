@@ -2,11 +2,11 @@
 
 ## Doel
 
-Een complete eerste versie van Vaylia (eerst de werknaam Vierlief) waarin standaardbestellingen zelfstandig verlopen: van ontwerp kiezen tot een gepubliceerde uitnodiging met aanmeldingen. De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
+Een complete eerste versie van Vaylide (eerst de werknaam Vierlief) waarin standaardbestellingen zelfstandig verlopen: van ontwerp kiezen tot een gepubliceerde uitnodiging met aanmeldingen. De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
 
 ## Uitgangssituatie
 
-Vaylia is een nieuw, zelfstandig project met een eigen repository. Er was nog geen bestaande techniek om op voort te bouwen, dus de keuze hieronder is gemaakt voor een platform met een database, betalingen, accounts en uploads.
+Vaylide is een nieuw, zelfstandig project met een eigen repository. Er was nog geen bestaande techniek om op voort te bouwen, dus de keuze hieronder is gemaakt voor een platform met een database, betalingen, accounts en uploads.
 
 ## Techniekkeuze
 
@@ -25,13 +25,13 @@ Vaylia is een nieuw, zelfstandig project met een eigen repository. Er was nog ge
 - **Concept en gepubliceerde versie zijn gescheiden.** Wijzigingen gaan pas live na publiceren, op dezelfde link. Elke publicatie is een bewaarde versie die hersteld kan worden.
 - **Conflicten worden gemeld.** Elk opslaan controleert of het concept intussen door een ander is gewijzigd (door de klant of het team). Zo ja, dan wordt niets overschreven: de klant ziet wat er veranderd is en kiest zelf. Beheer kan velden ook vergrendelen.
 - **Verwerking na betaling via een takenwachtrij.** Publiceren en e-mailen zijn taken met een unieke sleutel. Herhaalde betalingsmeldingen leveren dus geen dubbele publicaties of e-mails op. Mislukte taken worden automatisch opnieuw geprobeerd en daarna aan de eigenaar gemeld.
-- **Vormgeving naar de voorbeeldfoto van de eigenaar**: warm crème, goud en diep bosgroen, Playfair Display voor koppen en DM Sans voor tekst, zachte panelen met ronde hoeken en dunne gouden lijniconen. Eén duidelijke knop per blok en korte teksten. De website, het samenstellen, Mijn Vaylia en het beheer delen één stijlblad met dezelfde kleuren en lettertypen. Zie "Nieuwe vormgeving" hieronder.
+- **Vormgeving naar de voorbeeldfoto van de eigenaar**: warm crème, goud en diep bosgroen, Playfair Display voor koppen en DM Sans voor tekst, zachte panelen met ronde hoeken en dunne gouden lijniconen. Eén duidelijke knop per blok en korte teksten. De website, het samenstellen, Mijn Vaylide en het beheer delen één stijlblad met dezelfde kleuren en lettertypen. Zie "Nieuwe vormgeving" hieronder.
 - **Snel**: pagina's worden op de server opgebouwd, tekst wordt gecomprimeerd, statische bestanden krijgen een versiekenmerk en lange cachetijd, en foto's komen in passende formaten.
 - **Externe diensten zitten achter een eigen koppeling**, met een herkenbare testvariant: de betaalprovider (test of Mollie), e-mail (bewaren of SMTP) en AI (vaste teksten of Claude).
 
 ## De tien stappen uit de opdracht
 
-| Opdracht | In Vaylia |
+| Opdracht | In Vaylide |
 |---|---|
 | 1. Gelegenheid kiezen | `/maken/`: bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk |
 | 2. Ontwerp kiezen en uitproberen | Stap *Ontwerp*, met werkende voorbeelden per ontwerp en per gelegenheid |
@@ -42,15 +42,15 @@ Vaylia is een nieuw, zelfstandig project met een eigen repository. Er was nog ge
 | 7. Fouten corrigeren | Het voorbeeld toont een controlelijst met directe links naar de stap waar iets ontbreekt |
 | 8. Bestelling en totaalprijs | Stap *Bestellen*: pakket, automatisch benodigde opties, totaal aan de serverzijde berekend |
 | 9. Betalen | Testbetaalpagina (nu) of Mollie (na aansluiten) |
-| 10. Publicatie en klantomgeving | Statuspagina met de link, e-mail met link en QR-code, en in *Mijn Vaylia* de link, de QR-code (PNG en SVG) en de aanmeldingen |
+| 10. Publicatie en klantomgeving | Statuspagina met de link, e-mail met link en QR-code, en in *Mijn Vaylide* de link, de QR-code (PNG en SVG) en de aanmeldingen |
 
-Een voortgangsindicator toont steeds waar de klant is. Zonder account wordt het ontwerp in de sessie bewaard. Met **Opslaan en later verder** krijgt de klant een inlogcode per e-mail en staat het concept daarna in *Mijn Vaylia*. Bij bestellen is een geverifieerd e-mailadres nodig; dat wordt op dat moment duidelijk gemeld.
+Een voortgangsindicator toont steeds waar de klant is. Zonder account wordt het ontwerp in de sessie bewaard. Met **Opslaan en later verder** krijgt de klant een inlogcode per e-mail en staat het concept daarna in *Mijn Vaylide*. Bij bestellen is een geverifieerd e-mailadres nodig; dat wordt op dat moment duidelijk gemeld.
 
 ## Aannames
 
 Deze keuzes zijn gemaakt om door te kunnen bouwen. Alle zijn aan te passen.
 
-- **Naam en domein:** eerst de werknaam "Vierlief"; sinds ronde 6 heet het merk "Vaylia" (zie "Ronde 6: Vaylia"). Het domein staat niet vast, dus het adres is instelbaar (`VIERLIEF_BASE_URL`).
+- **Naam en domein:** eerst de werknaam "Vierlief", daarna kort "Vaylia"; sinds ronde 6 heet het merk "Vaylide" (zie "Ronde 6: Vaylide"). Het adres van de site is instelbaar (`VIERLIEF_BASE_URL`); het domein van de eigenaar is `vaylide.com`.
 - **Taal:** alleen Nederlands in deze versie.
 - **Prijzen (voorlopig, incl. btw):** *Essentieel* € 39 (6 maanden online) en *Compleet* € 69 (12 maanden, met verhaal, fotogalerij tot 12 foto's, muziek en extra vragen). Losse opties: muziek € 9, fotogalerij € 12, verhaal € 6, extra vragen € 6 en 12 maanden langer online € 12. Op de site staat "Voorlopige prijzen". Alles is instelbaar in Beheer.
 - **Inloggen klanten:** met een eenmalige code per e-mail, zonder wachtwoord. De code is 20 minuten geldig, met maximaal 5 pogingen. Zo is het e-mailadres meteen geverifieerd en zijn er geen vergeten wachtwoorden. **Beheerders** loggen in met e-mail en wachtwoord op `/beheer/inloggen/`.
@@ -67,7 +67,7 @@ Deze keuzes zijn gemaakt om door te kunnen bouwen. Alle zijn aan te passen.
 
 De eigenaar leverde een voorbeeldfoto van de gewenste website (kop, hero met foto en zwevende kaart, tegels per gelegenheid, "Zo werkt het" in vier stappen, een donker blok "Meer dan een uitnodiging", populaire ontwerpen, een review en "Liever iets unieks?"). De website volgt die opbouw, kleuren en letters. Bewust anders:
 
-| In de voorbeeldfoto | In Vaylia | Waarom |
+| In de voorbeeldfoto | In Vaylide | Waarom |
 |---|---|---|
 | Kop "Bijzondere momenten verdienen een bijzondere uitnodiging" | "Een bijzondere dag verdient een *bijzondere* uitnodiging." in dezelfde opmaak | Deze kop en de knoppen "Bekijk de ontwerpen" en "Maak jouw uitnodiging" zijn vastgelegd in de opdracht |
 | Foto's van een bruidspaar, ringen, ballonnen, een vrouw met laptop | Eigen sfeerbeelden (gouden licht, groen, papier) en schermafbeeldingen van de echte voorbeelduitnodigingen | De foto's uit de voorbeeldfoto zijn niet los beschikbaar, te klein en de rechten zijn onbekend. Alle beelden zijn te vervangen door eigen foto's met dezelfde bestandsnaam (zie `tools/merkbeelden/README.md`) |
@@ -75,10 +75,10 @@ De eigenaar leverde een voorbeeldfoto van de gewenste website (kop, hero met fot
 | Review met vijf sterren ("Sanne & Tim") | Weggelaten | Geen verzonnen reviews |
 | "Populaire ontwerpen", hartjes om te bewaren | "Onze ontwerpen", zonder hartjes | Er zijn geen cijfers over populariteit en geen bewaarlijst |
 | "Direct online", "Unieke ontwerpen" | "Automatisch online", "Stijlvolle ontwerpen" | Publiceren gebeurt pas na een bevestigde betaling; meerdere klanten kunnen hetzelfde ontwerp kiezen |
-| Tegel "Evenement" | Tegel "Verloving" | Vaylia heeft deze zes gelegenheden: bruiloft, verloving, verjaardag, jubileum, babyshower en zakelijk |
+| Tegel "Evenement" | Tegel "Verloving" | Vaylide heeft deze zes gelegenheden: bruiloft, verloving, verjaardag, jubileum, babyshower en zakelijk |
 | Kenmerken "Cadeautip", "Foto's & video's", "Persoonlijk design" | "Programma", "Foto's", "Kleurkeuze" | Alleen wat echt kan: praktische info (zoals een cadeautip) kan wel, maar video niet, en per ontwerp kies je uit drie of vier kleurvarianten |
 | "Wij helpen je graag verder" | "We bekijken hem persoonlijk en je krijgt eerst een voorstel" | Geen toezegging over maatwerk zonder akkoord van de eigenaar |
-| Menu-items Inspiratie en Over ons, zoeken en winkeltas | Nieuwe pagina's Inspiratie (voorbeeldteksten en tips) en Over ons (zonder verzonnen verhaal of cijfers), een zoekpagina, en de tas opent Mijn Vaylia | Zo werkt elk onderdeel uit de kop echt |
+| Menu-items Inspiratie en Over ons, zoeken en winkeltas | Nieuwe pagina's Inspiratie (voorbeeldteksten en tips) en Over ons (zonder verzonnen verhaal of cijfers), een zoekpagina, en de tas opent Mijn Vaylide | Zo werkt elk onderdeel uit de kop echt |
 
 ## Uitbreiding: 30 nieuwe ontwerpen
 
@@ -185,7 +185,7 @@ Per ontwerp:
 
 **Keuzes en aannames:**
 
-- **Aangepast in versie 1, geen versie 2.** De regel is dat een ontwerp via een nieuwe versie verandert, zodat bestaande uitnodigingen niet onverwacht wijzigen. Vaylia staat nog in testmodus en er bestaan geen echte uitnodigingen; de handleiding staat in dat geval toe dat een versie wordt bijgewerkt (`sync_designs --update-manifest`). Een tweede versie van alle 33 ontwerpen zou de eigenaar alleen extra werk in Beheer geven. **Na de livegang** gaan zulke wijzigingen wel via een nieuwe versie. Wie een bestaande ontwikkeldatabase heeft, draait eenmalig `python manage.py sync_designs --update-manifest`.
+- **Aangepast in versie 1, geen versie 2.** De regel is dat een ontwerp via een nieuwe versie verandert, zodat bestaande uitnodigingen niet onverwacht wijzigen. Vaylide staat nog in testmodus en er bestaan geen echte uitnodigingen; de handleiding staat in dat geval toe dat een versie wordt bijgewerkt (`sync_designs --update-manifest`). Een tweede versie van alle 33 ontwerpen zou de eigenaar alleen extra werk in Beheer geven. **Na de livegang** gaan zulke wijzigingen wel via een nieuwe versie. Wie een bestaande ontwikkeldatabase heeft, draait eenmalig `python manage.py sync_designs --update-manifest`.
 - **Beweging stilzetten (WCAG 2.2.2).** Beweging die vanzelf start en langer dan vijf seconden doorgaat, moet te pauzeren zijn. Daarom staat er links onder een knop **Beweging** (ook op het openingsscherm), een schakelknop met een vaste naam. Hij zet de deeltjes, alle doorlopende animaties en de afteller stil, en de keuze wordt op dat apparaat onthouden (alleen in de browser, niet op de server). Bij "minder beweging" in het systeem beweegt er niets en is de knop niet nodig.
 - **Geen flitsen.** De cameraflits is één enkele flits; neon hapert bij het aangaan hoogstens twee keer in een seconde, ruim onder de grens van drie per seconde.
 - **Leesbaarheid.** Deeltjes staan achter de tekst, nooit erover, en achter lopende tekst iets zachter dan op het openingsscherm. De lichtstreep bij folie heeft per kleurvariant een eigen kleur met minstens 3:1 contrast (de namen zijn grote tekst); de tests controleren dat. De inhoud hangt nooit af van een effect: zonder script, met minder beweging of met de knop uit is alles direct zichtbaar.
@@ -196,16 +196,17 @@ Per ontwerp:
 - Ook deze ronde is **niet vergeleken met de referentiesites of de schermopname** (zie hieronder).
 - **Stijlvoorbeeld voor de website**: aan het eind van deze ronde stuurde de eigenaar een schermopname (19 seconden) van een websitesjabloon, "Mariana" van Scrolltide, als voorbeeld voor de indeling van de website. De opname is beeld voor beeld bekeken (het geluid niet); de pagina van de sjabloon zelf was in deze werkomgeving geblokkeerd. Na overleg is besloten **de website te laten zoals hij is**.
 
-## Ronde 6: Vaylia
+## Ronde 6: Vaylide
 
-De eigenaar vroeg: "vierlief moet worden aangepast naar Vaylia met een nieuw logo", met een afbeelding van het logo: een gouden V met een lint en een takje, daaronder VAYLIA en de regel "Your moments starts here.". Op het voorstel om het logo op te splitsen en de Engelse regel weg te laten, antwoordde de eigenaar: "Dat wil ik niet. Ik wil de logo zoals ik hem nu stuur."
+De eigenaar vroeg eerst: "vierlief moet worden aangepast naar Vaylia met een nieuw logo", met een afbeelding van het logo: een gouden V met een lint en een takje, daaronder VAYLIA en de regel "Your moments starts here.". Op het voorstel om het logo op te splitsen en de Engelse regel weg te laten, antwoordde de eigenaar: "Dat wil ik niet. Ik wil de logo zoals ik hem nu stuur." Kort daarna volgde een nieuw logo met een nieuwe naam: "Dit is het nieuwe logo met de nieuwe naam." Het logo is hetzelfde, met VAYLIDE als naam. De site heet daarom nu **Vaylide**; de tussenstap Vaylia staat nog in de git-geschiedenis.
 
-- **Het logo zoals aangeleverd.** De V, VAYLIA en de regel eronder staan samen, in dezelfde kleuren en verhoudingen: in de kop en voet van de website, bij het samenstellen, in de klantomgeving, het beheer en de foutpagina's, bovenaan de e-mails en in de deelafbeelding. Alleen de lege crèmekleurige achtergrond is doorzichtig gemaakt en de lege rand eromheen weggesneden. Op de achtergrondkleur van het origineel is het resultaat gelijk aan het origineel: het grootste verschil is 13 van de 255 kleurstappen, bij een paar honderd losse ruispuntjes van de compressie, ver van het logo, die zijn weggelaten. Hoogte: 72 pixels in de kop (58 op een telefoon), 120 in de voet, 52 bij het samenstellen en in het beheer, 90 in de e-mails. Het bronbestand en het script staan in `tools/logo/`.
+- **Het logo zoals aangeleverd.** De V, VAYLIDE en de regel eronder staan samen, in dezelfde kleuren en verhoudingen: in de kop en voet van de website, bij het samenstellen, in de klantomgeving, het beheer en de foutpagina's, bovenaan de e-mails en in de deelafbeelding. Alleen de lege crèmekleurige achtergrond is doorzichtig gemaakt en de lege rand eromheen weggesneden. Op de achtergrondkleur van het origineel is het resultaat gelijk aan het origineel: het grootste verschil is 14 van de 255 kleurstappen, bij een paar honderd losse ruispuntjes van de compressie, ver van het logo, die zijn weggelaten. Hoogte: 72 pixels in de kop (58 op een telefoon), 120 in de voet, 52 bij het samenstellen en in het beheer, 90 in de e-mails. Het bronbestand en het script staan in `tools/logo/`.
 - **Iconen.** Het tabblad-icoon is de V uit het logo op de crèmekleur van het origineel (32 en 48 pixels, 192 voor Android), omdat het hele logo op dat formaat niet leesbaar is. Het icoon voor het beginscherm van een iPhone of iPad (180 pixels) toont het hele logo. Het hartlogo uit ronde 3 is weg; alleen op het zegel van de deelafbeelding voor uitnodigingen en op de standaardafbeelding voor nieuwe ontwerpen staat het hartje nog als versiering.
-- **De naam.** Overal waar bezoekers, klanten, gasten of de eigenaar de naam zien, staat nu Vaylia: paginatitels, teksten, "Mijn Vaylia", de e-mails en hun afzendernaam, de regel onder de uitnodigingen ("Digitale uitnodiging gemaakt met Vaylia"), agenda-bestanden, de omschrijving bij de betaling, het beheer, het noodbeheer en de opdrachten voor de AI-hulp. Het e-mailadres in testmodus is `hallo@vaylia.test`.
+- **De naam.** Overal waar bezoekers, klanten, gasten of de eigenaar de naam zien, staat nu Vaylide: paginatitels, teksten, "Mijn Vaylide", de e-mails en hun afzendernaam, de regel onder de uitnodigingen ("Digitale uitnodiging gemaakt met Vaylide"), agenda-bestanden, de omschrijving bij de betaling, het beheer, het noodbeheer en de opdrachten voor de AI-hulp. Het e-mailadres in testmodus is `hallo@vaylide.test`.
 - **Bewust gebleven: technische namen die bezoekers niet zien.** De instellingen `VIERLIEF_…`, de namen van cookies (`vierlief_sessie`, `vierlief_csrf`, `vierlief_antwoord`), sessie- en opslagsleutels (zoals `vierlief-beweging`), de cachetabel, het databasebestand `data/vierlief.sqlite3`, het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Omzetten raakt de configuratie van elke installatie en laat bestaande sessies en keuzes van gasten vervallen; het staat als open punt in `docs/OVERDRACHT.md`.
-- **Een nieuwe migratie.** De naam "Vaylia-team" in de keuzelijst bij versies staat in een nieuwe migratie (`invitations/migrations/0002_merknaam_vaylia.py`); de eerste migratie is niet aangepast. De tabellen veranderen niet.
-- **Voorbeelddomein.** `.env.example` gebruikt `vaylia.nl` als voorbeeld. Of die naam en dat domein beschikbaar zijn, is niet gecontroleerd; zie `docs/LIVEGANG.md`.
+- **Een nieuwe migratie.** De naam "Vaylide-team" in de keuzelijst bij versies staat in een nieuwe migratie (`invitations/migrations/0002_merknaam.py`); de eerste migratie is niet aangepast. De tabellen veranderen niet. (Voor de tussenstap Vaylia heette die migratie even `0002_merknaam_vaylia`; hij is hernoemd omdat er nog nergens een installatie van bestaat.)
+- **Domein.** De eigenaar vroeg ook om de site "meteen online op mijn nieuwe domeinnaam. Van deze vaylinde.com". Het domein werd daar met een n geschreven, het logo zegt Vaylide zonder n; op de vraag welke spelling klopt, antwoordde de eigenaar: "domein naam is vaylide.com". `.env.example` en het stappenplan gebruiken `vaylide.com`. Online zetten kon vanuit de werkomgeving niet: daarvoor zijn een hostingaccount (een betaalde dienst, de keuze van de eigenaar) en toegang tot de DNS-instellingen van het domein nodig. Het stappenplan staat in `docs/ONLINE.md`.
+- **Wachtwoord voor een testversie online.** In testmodus staat de inlogcode op het scherm, zodat je zonder e-mail kunt proberen. Online zou dat betekenen dat iedereen met elk e-mailadres kan inloggen. Daarom is er een optioneel wachtwoord voor de hele site (`VIERLIEF_PREVIEW_PASSWORD`, het inlogvenster van de browser), standaard uit. De controle door de hosting (`/healthz`), de openbare opmaak en beelden, de taken voor een externe cron en de meldingen van de betaalprovider blijven zonder wachtwoord bereikbaar; na 30 foute pogingen in vijf minuten volgt een pauze.
 - **De website zelf** is verder niet veranderd.
 
 ## Referenties en schermopname
@@ -224,6 +225,6 @@ Hier staat eerlijk wat wel en niet is bekeken.
 
 Elk van deze drie ontwerpen heeft vier kleurvarianten, werkt voor meerdere gelegenheden en is volledig bruikbaar zonder animatie. Er is ondersteuning voor minder beweging, voor bediening met het toetsenbord, en een vangnet dat de uitnodiging na 7 seconden toont als het script niet laadt.
 
-**Bewuste afwijkingen en onbekende onderdelen.** Omdat de referenties niet te bekijken waren, is niet vast te stellen waar Vaylia ervan afwijkt. Onbekend zijn onder meer: de exacte timing en volgorde van de openingsanimaties in de filmpjes, welke effecten alleen in de montage zitten, de volledige vragenlijst en bestelstappen van Webgency, en het gedrag van muziek en formulieren in de voorbeelden.
+**Bewuste afwijkingen en onbekende onderdelen.** Omdat de referenties niet te bekijken waren, is niet vast te stellen waar Vaylide ervan afwijkt. Onbekend zijn onder meer: de exacte timing en volgorde van de openingsanimaties in de filmpjes, welke effecten alleen in de montage zitten, de volledige vragenlijst en bestelstappen van Webgency, en het gedrag van muziek en formulieren in de voorbeelden.
 
 **Vervolgstap:** sta de domeinen toe in de netwerkinstellingen van de omgeving en stuur de schermopname opnieuw mee, bijvoorbeeld als bestand in de repository. Dan volgt een vergelijkingsronde per filmpje: tijden, opening, overgangen en interacties. Aanpassingen komen als nieuwe ontwerpversie (`v2`), zodat bestaande uitnodigingen niet veranderen.

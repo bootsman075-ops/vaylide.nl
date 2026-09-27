@@ -1,4 +1,4 @@
-"""Mijn Vaylia: concepten, bestellingen, uitnodigingen, aanmeldingen en extra wensen.
+"""Mijn Vaylide: concepten, bestellingen, uitnodigingen, aanmeldingen en extra wensen.
 
 Iedere view controleert aan de serverzijde dat de gegevens van de ingelogde
 klant zijn. Anders volgt een 404 (we verklappen niet dat iets bestaat).

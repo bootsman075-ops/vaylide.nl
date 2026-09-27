@@ -1,4 +1,4 @@
-/* Vaylia: gedeelde basis voor alle uitnodigingsontwerpen.
+/* Vaylide: gedeelde basis voor alle uitnodigingsontwerpen.
    Ontwerpen zetten de variabelen --inv-* en voegen hun eigen stijl toe. */
 
 *, *::before, *::after { box-sizing: border-box; }

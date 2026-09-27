@@ -1,11 +1,15 @@
-"""Beveiligingsheaders en een harde limiet op de grootte van verzoeken."""
+"""Beveiligingsheaders, een harde limiet op de grootte van verzoeken en een optioneel wachtwoord voor de hele site."""
 from __future__ import annotations
+
+import base64
+import hmac
 
 from django.conf import settings
 from django.http import HttpResponse
 from django.middleware.gzip import GZipMiddleware
 
 from .csp import SCRIPT_HASHES
+from .utils import ip_fingerprint, rate_limit
 
 PRIVATE_PREFIXES = (
     "/u/",
@@ -108,3 +112,44 @@ class CompressTextMiddleware(GZipMiddleware):
         if content_type not in self.COMPRESSIBLE:
             return response
         return super().process_response(request, response)
+
+
+class PreviewPasswordMiddleware:
+    """Optioneel één wachtwoord voor de hele site (VIERLIEF_PREVIEW_PASSWORD), bijvoorbeeld zolang een
+    testversie online staat: in testmodus staat de inlogcode op het scherm, dus zonder afscherming kan
+    iedereen inloggen met elk e-mailadres. Uit als er geen wachtwoord is ingesteld.
+
+    Vrij toegankelijk blijven de controle door de hosting (/healthz), de openbare opmaak en beelden
+    (/static/), de taken voor een externe cron (eigen token) en de meldingen van de betaalprovider.
+    """
+
+    EXEMPT = ("/healthz", "/static/", "/intern/taken/", "/webhooks/")
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        password = settings.PREVIEW_PASSWORD
+        if not password or request.path.startswith(self.EXEMPT) or self._authorized(request, password):
+            return self.get_response(request)
+        if not rate_limit(f"preview:{ip_fingerprint(request)}", 30, 300):
+            return HttpResponse("Te veel pogingen. Probeer het over een paar minuten opnieuw.", status=429,
+                                content_type="text/plain; charset=utf-8")
+        response = HttpResponse("Deze testversie is afgeschermd met een wachtwoord.", status=401,
+                                content_type="text/plain; charset=utf-8")
+        response["WWW-Authenticate"] = 'Basic realm="Testversie", charset="UTF-8"'
+        response["Cache-Control"] = "no-store"
+        return response
+
+    @staticmethod
+    def _authorized(request, password: str) -> bool:
+        kind, _, value = request.META.get("HTTP_AUTHORIZATION", "").partition(" ")
+        if kind.lower() != "basic" or not value:
+            return False
+        try:
+            user, _, given = base64.b64decode(value, validate=True).decode("utf-8").partition(":")
+        except (ValueError, UnicodeDecodeError):
+            return False
+        same_user = hmac.compare_digest(user.encode(), settings.PREVIEW_USER.encode())
+        same_password = hmac.compare_digest(given.encode(), password.encode())
+        return same_user and same_password

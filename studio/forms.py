@@ -29,7 +29,7 @@ TIME_WIDGET = forms.TimeInput(attrs={"type": "time"}, format="%H:%M")
 
 
 class StepForm(forms.Form):
-    """Basis: velden uit `locked` zijn alleen-lezen (handmatig aangepast door Vaylia)."""
+    """Basis: velden uit `locked` zijn alleen-lezen (handmatig aangepast door Vaylide)."""
 
     field_paths: dict[str, str] = {}
 
@@ -41,7 +41,7 @@ class StepForm(forms.Form):
         for name, field in self.fields.items():
             if self.field_paths.get(name) in self.locked or name in self.locked:
                 field.disabled = True
-                field.help_text = "Handmatig aangepast door het Vaylia-team. Neem contact op om dit te wijzigen."
+                field.help_text = "Handmatig aangepast door het Vaylide-team. Neem contact op om dit te wijzigen."
 
     def missing(self) -> dict[str, str]:
         return {}

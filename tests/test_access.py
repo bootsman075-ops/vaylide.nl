@@ -4,10 +4,10 @@ from django.test import Client
 from invitations.models import GuestResponse, MediaAsset
 from wishes.services import create_request
 
-from .helpers import VayliaTestCase, jpeg_file
+from .helpers import VaylideTestCase, jpeg_file
 
 
-class CustomerIsolationTests(VayliaTestCase):
+class CustomerIsolationTests(VaylideTestCase):
     def setUp(self):
         self.alice = self.make_customer("alice@example.com")
         self.bob = self.make_customer("bob@example.com")
@@ -79,7 +79,7 @@ class CustomerIsolationTests(VayliaTestCase):
         self.assertContains(response, "Beheerders loggen in via de beheerderslogin")
 
 
-class GuestPrivacyTests(VayliaTestCase):
+class GuestPrivacyTests(VaylideTestCase):
     def setUp(self):
         self.inv = self.published()
         self.other_guest = Client()
@@ -107,7 +107,7 @@ class GuestPrivacyTests(VayliaTestCase):
         self.assertEqual(Client().get(f"/u/{self.inv.slug}/antwoord/verkeerd-token-1234567890/").status_code, 404)
 
 
-class MediaAccessTests(VayliaTestCase):
+class MediaAccessTests(VaylideTestCase):
     def setUp(self):
         self.owner = self.make_customer("media@example.com")
         self.inv = self.make_invitation(owner=self.owner)
@@ -151,7 +151,7 @@ class MediaAccessTests(VayliaTestCase):
         self.assertEqual(MediaAsset.objects.filter(invitation=self.inv).count(), 2)
 
 
-class ErrorPageTests(VayliaTestCase):
+class ErrorPageTests(VaylideTestCase):
     def test_404_page_is_own_page_and_not_indexed(self):
         response = Client().get("/bestaat-echt-niet/")
         self.assertEqual(response.status_code, 404)

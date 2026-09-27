@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 choices=[
                     ("customer", "Klant"),
-                    ("admin", "Vaylia-team"),
+                    ("admin", "Vaylide-team"),
                     ("system", "Systeem"),
                     ("restore", "Hersteld"),
                 ],
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             field=models.CharField(
                 choices=[
                     ("customer", "Klant"),
-                    ("admin", "Vaylia-team"),
+                    ("admin", "Vaylide-team"),
                     ("system", "Systeem"),
                     ("restore", "Hersteld"),
                 ],

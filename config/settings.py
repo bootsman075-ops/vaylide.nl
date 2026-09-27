@@ -1,4 +1,4 @@
-"""Django-instellingen voor Vaylia.
+"""Django-instellingen voor Vaylide.
 
 Alle omgevingsafhankelijke waarden komen uit omgevingsvariabelen (of een lokaal
 `.env`-bestand, zie `.env.example`). Er staan geen geheimen in de broncode.
@@ -77,8 +77,12 @@ CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
 
 # Publieke basis-URL voor links in e-mails en QR-codes (zonder slash aan het eind).
 BASE_URL = env("VIERLIEF_BASE_URL", "http://127.0.0.1:8000").rstrip("/")
-CONTACT_EMAIL = env("VIERLIEF_CONTACT_EMAIL", "hallo@vaylia.test")
+CONTACT_EMAIL = env("VIERLIEF_CONTACT_EMAIL", "hallo@vaylide.test")
 OWNER_NOTIFY_EMAIL = env("VIERLIEF_OWNER_EMAIL", CONTACT_EMAIL)
+# Optioneel één wachtwoord voor de hele site (inlogvenster van de browser), bijvoorbeeld zolang een
+# testversie online staat. Leeg = uit. Zie core.middleware.PreviewPasswordMiddleware.
+PREVIEW_PASSWORD = env("VIERLIEF_PREVIEW_PASSWORD", "")
+PREVIEW_USER = env("VIERLIEF_PREVIEW_USER", "voorbeeld")
 
 # --- Applicaties -------------------------------------------------------------
 INSTALLED_APPS = [
@@ -104,6 +108,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    "core.middleware.PreviewPasswordMiddleware",
     "core.middleware.CompressTextMiddleware",
     "core.middleware.RequestSizeLimitMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -241,7 +246,7 @@ EMAIL_HOST_PASSWORD = env("SMTP_PASS")
 EMAIL_USE_SSL = env_bool("SMTP_SSL", EMAIL_PORT == 465)
 EMAIL_USE_TLS = env_bool("SMTP_STARTTLS", EMAIL_PORT == 587)
 EMAIL_TIMEOUT = 20
-DEFAULT_FROM_EMAIL = env("VIERLIEF_FROM_EMAIL", f"Vaylia <{CONTACT_EMAIL}>")
+DEFAULT_FROM_EMAIL = env("VIERLIEF_FROM_EMAIL", f"Vaylide <{CONTACT_EMAIL}>")
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 # --- Betalingen --------------------------------------------------------------

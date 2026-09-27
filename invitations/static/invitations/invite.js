@@ -1,4 +1,4 @@
-/* Vaylia: gedrag van de uitnodigingspagina.
+/* Vaylide: gedrag van de uitnodigingspagina.
    Openen, onthullen, afteller, muziek (alleen na een tik), delen en aanmelden.
    Alles werkt ook zonder dit script: de inhoud blijft dan gewoon leesbaar. */
 (function () {

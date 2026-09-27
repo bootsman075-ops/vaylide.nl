@@ -1,10 +1,10 @@
-"""URL-structuur van Vaylia."""
+"""URL-structuur van Vaylide."""
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
-admin.site.site_header = "Vaylia systeembeheer"
-admin.site.site_title = "Vaylia"
+admin.site.site_header = "Vaylide systeembeheer"
+admin.site.site_title = "Vaylide"
 admin.site.index_title = "Noodtoegang tot de database (gebruik bij voorkeur /beheer/)"
 
 urlpatterns = [

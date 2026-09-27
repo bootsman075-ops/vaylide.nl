@@ -1,10 +1,10 @@
 # Checklist voor livegang
 
-Vaylia staat nu in testmodus. Er zijn geen betaalde diensten afgesloten en er is niets naar productie gepubliceerd. Hieronder staat wat nog nodig is: eerst jouw keuzes, dan de aansluitingen en de technische stappen.
+Vaylide staat nu in testmodus. Er zijn geen betaalde diensten afgesloten en er is niets naar productie gepubliceerd. Hoe je de site op je eigen domein zet, eerst als testversie met een wachtwoord: `docs/ONLINE.md`. Hieronder staat wat nog nodig is: eerst jouw keuzes, dan de aansluitingen en de technische stappen.
 
 ## 1. Keuzes en zakelijke zaken
 
-- [ ] **Naam en domein**: controleer of "Vaylia" beschikbaar is als merk (bijvoorbeeld bij BOIP), bij de KVK en als domeinnaam. De voorbeelden in `.env.example` gebruiken `vaylia.nl`; vul je eigen domein in.
+- [ ] **Naam en domein**: controleer of "Vaylide" beschikbaar is als merk (bijvoorbeeld bij BOIP) en bij de KVK. Het domein is `vaylide.com`; de voorbeelden in `.env.example` gebruiken dat domein. Hoe je de site op je domein zet: `docs/ONLINE.md`.
 - [ ] **Logo**: zorg dat je de rechten op het logo hebt (bijvoorbeeld van wie het heeft gemaakt) voordat je het als merk vastlegt.
 - [ ] **Definitieve prijzen en pakketten**: bedragen, inbegrepen functies, beschikbaarheidsduur en btw. Stel ze in via **Beheer → Prijzen** en zet in **Beheer → Instellingen** "Voorlopige prijzen" uit.
 - [ ] **Facturen**: de app maakt geen btw-facturen. De bevestigingsmail is geen factuur. Kies hoe je factureert (boekhoudpakket of een koppeling) en of klanten om een factuur kunnen vragen.
@@ -16,9 +16,9 @@ Vaylia staat nu in testmodus. Er zijn geen betaalde diensten afgesloten en er is
 - [ ] **Privacyverklaring en voorwaarden** staan als concept op de site. Laat ze juridisch controleren en aanvullen.
 - [ ] **Bedenktijd bij digitale inhoud**: bij bestellen vraagt de klant nu om directe publicatie na betaling. Laat beoordelen of de tekst bij het vinkje en in de voorwaarden ook moet vermelden dat de bedenktijd daardoor vervalt, en hoe.
 - [ ] **Verwerkers en verwerkersovereenkomsten**: hosting, e-mailprovider, Mollie en, als je AI gebruikt, Anthropic.
-- [ ] **Rolverdeling voor gastgegevens**: de klant nodigt gasten uit en Vaylia bewaart hun antwoorden. Laat vastleggen wie verwerkingsverantwoordelijke is en wat dat betekent voor de voorwaarden.
+- [ ] **Rolverdeling voor gastgegevens**: de klant nodigt gasten uit en Vaylide bewaart hun antwoorden. Laat vastleggen wie verwerkingsverantwoordelijke is en wat dat betekent voor de voorwaarden.
 - [ ] **Bewaartermijnen** bevestigen of aanpassen in **Beheer → Instellingen**. Nu: gastgegevens 90 dagen na het einde van de beschikbaarheid, ontwerpen zonder account 30 dagen, onbetaalde concepten 365 dagen.
-- [ ] **Cookies**: Vaylia gebruikt alleen functionele cookies (inlogsessie, CSRF-beveiliging, en voor gasten een cookie om het eigen antwoord te herkennen). Er is geen tracking of analytics ingebouwd. Wil je later analytics toevoegen, kijk dan opnieuw naar de cookieregels.
+- [ ] **Cookies**: Vaylide gebruikt alleen functionele cookies (inlogsessie, CSRF-beveiliging, en voor gasten een cookie om het eigen antwoord te herkennen). Er is geen tracking of analytics ingebouwd. Wil je later analytics toevoegen, kijk dan opnieuw naar de cookieregels.
 
 ## 3. Aansluitingen
 
@@ -50,7 +50,7 @@ Vaylia staat nu in testmodus. Er zijn geen betaalde diensten afgesloten en er is
 
 ## 5. Proef vóór de lancering
 
-- [ ] Een volledige bestelling met een echte, kleine betaling in live-modus: ontwerp, betaling, publicatie, e-mail met QR-code, aanmelding van een gast en het antwoord in *Mijn Vaylia*.
+- [ ] Een volledige bestelling met een echte, kleine betaling in live-modus: ontwerp, betaling, publicatie, e-mail met QR-code, aanmelding van een gast en het antwoord in *Mijn Vaylide*.
 - [ ] Een afgebroken betaling, en daarna alsnog betalen.
 - [ ] Een extra wens met voorstel, akkoord en betaling.
 - [ ] Een back-up terugzetten op een testomgeving.

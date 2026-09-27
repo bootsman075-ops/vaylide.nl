@@ -1,10 +1,10 @@
 """Website: nieuwe pagina's, zoeken zonder klantgegevens en de navigatie uit de nieuwe vormgeving."""
 from django.test import Client
 
-from .helpers import VayliaTestCase
+from .helpers import VaylideTestCase
 
 
-class NewPagesTests(VayliaTestCase):
+class NewPagesTests(VaylideTestCase):
     def test_inspiration_and_about_pages(self):
         inspiration = Client().get("/inspiratie/")
         self.assertContains(inspiration, "Voorbeeldteksten")
@@ -35,7 +35,7 @@ class NewPagesTests(VayliaTestCase):
         self.assertContains(Client().get("/veelgestelde-vragen/"), 'id="vraag-1"')
 
 
-class SearchTests(VayliaTestCase):
+class SearchTests(VaylideTestCase):
     def test_finds_faq_designs_and_pages(self):
         response = Client().get("/zoeken/", {"q": "muziek"})
         self.assertContains(response, "Kan ik muziek toevoegen?")
@@ -73,8 +73,8 @@ class SearchTests(VayliaTestCase):
         self.assertEqual(response.context["results"], [])
 
 
-class BrandTests(VayliaTestCase):
-    """Merk Vaylia: het logo zoals aangeleverd, de iconen en nergens meer de oude naam."""
+class BrandTests(VaylideTestCase):
+    """Merk Vaylide: het logo zoals aangeleverd, de iconen en nergens meer een oude naam (Vierlief, Vaylia)."""
 
     PAGES = ("/", "/ontwerpen/", "/zo-werkt-het/", "/prijzen/", "/inspiratie/", "/over-ons/", "/veelgestelde-vragen/",
              "/contact/", "/privacy/", "/voorwaarden/", "/inloggen/", "/maken/", "/voorbeeld/stipjes/", "/bestaat-niet/")
@@ -84,16 +84,16 @@ class BrandTests(VayliaTestCase):
 
         html = Client().get("/").content.decode()
         self.assertIn('class="logo__img"', html)
-        self.assertIn('alt="Vaylia"', html)
-        self.assertIn('aria-label="Vaylia, naar de homepage"', html)
-        self.assertIn("img/og-vaylia.jpg", html)
-        self.assertIn('<meta property="og:site_name" content="Vaylia">', html)
-        for path in ("img/merk/vaylia-logo.webp", "img/favicon-32.png", "img/favicon-48.png", "img/icon-192.png",
-                     "img/apple-touch-icon.png", "img/og-vaylia.jpg"):
+        self.assertIn('alt="Vaylide"', html)
+        self.assertIn('aria-label="Vaylide, naar de homepage"', html)
+        self.assertIn("img/og-vaylide.jpg", html)
+        self.assertIn('<meta property="og:site_name" content="Vaylide">', html)
+        for path in ("img/merk/vaylide-logo.webp", "img/favicon-32.png", "img/favicon-48.png", "img/icon-192.png",
+                     "img/apple-touch-icon.png", "img/og-vaylide.jpg"):
             self.assertIn(path.rsplit(".", 1)[0], html, path)
             self.assertTrue(finders.find(path), path)
         # De PNG-versie is voor de e-mails.
-        self.assertTrue(finders.find("img/merk/vaylia-logo.png"))
+        self.assertTrue(finders.find("img/merk/vaylide-logo.png"))
         # Het oude merkteken is weg.
         self.assertNotIn("favicon.svg", html)
         self.assertFalse(finders.find("img/favicon.svg"))
@@ -103,14 +103,16 @@ class BrandTests(VayliaTestCase):
             response = Client().get(url)
             self.assertIn(response.status_code, (200, 404), url)
             html = response.content.decode()
-            self.assertNotIn("Vierlief", html, url)
-            self.assertIn("Vaylia", html, url)
+            for old in ("Vierlief", "Vaylia"):
+                self.assertNotIn(old, html, url)
+            self.assertIn("Vaylide", html, url)
 
     def test_emails_show_logo_and_name(self):
         from processing.emails import send_login_code
 
         email = send_login_code("gast@example.com", "123456", "/inloggen/code/")
-        self.assertIn("Vaylia", email.subject)
-        self.assertIn('alt="Vaylia"', email.body_html)
-        self.assertIn("https://vaylia.test/static/img/merk/vaylia-logo.png", email.body_html)
-        self.assertNotIn("Vierlief", email.body_html + email.body_text + email.subject)
+        self.assertIn("Vaylide", email.subject)
+        self.assertIn('alt="Vaylide"', email.body_html)
+        self.assertIn("https://vaylide.test/static/img/merk/vaylide-logo.png", email.body_html)
+        for old in ("Vierlief", "Vaylia"):
+            self.assertNotIn(old, email.body_html + email.body_text + email.subject)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Beheerscript van Vaylia (Django)."""
+"""Beheerscript van Vaylide (Django)."""
 import os
 import sys
 

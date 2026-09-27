@@ -38,11 +38,11 @@ def build_ics(*, uid: str, title: str, start, end, location: str, description: s
     lines = [
         "BEGIN:VCALENDAR",
         "VERSION:2.0",
-        "PRODID:-//Vaylia//Uitnodiging//NL",
+        "PRODID:-//Vaylide//Uitnodiging//NL",
         "CALSCALE:GREGORIAN",
         "METHOD:PUBLISH",
         "BEGIN:VEVENT",
-        f"UID:{uid}@vaylia",
+        f"UID:{uid}@vaylide",
         f"DTSTAMP:{timezone.now().astimezone(dt_timezone.utc).strftime(fmt)}",
         f"DTSTART:{start.astimezone(dt_timezone.utc).strftime(fmt)}",
         f"DTEND:{end.astimezone(dt_timezone.utc).strftime(fmt)}",

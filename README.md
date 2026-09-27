@@ -1,14 +1,14 @@
-# Vaylia
+# Vaylide
 
 *Elk bijzonder moment begint met een uitnodiging.*
 
-Vaylia is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement. Standaardbestellingen lopen automatisch:
+Vaylide is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement. Standaardbestellingen lopen automatisch:
 
 ontwerp kiezen → vragen invullen → foto's uploaden → voorbeeld controleren → betalen → automatische publicatie → delen → aanmeldingen beheren.
 
 De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
 
-Het project heette eerst "Vierlief" (werknaam). Sinds ronde 6 heet het merk **Vaylia**, met het logo in `tools/logo/`. Technische namen die bezoekers niet zien, zoals de instellingen `VIERLIEF_…`, zijn bewust gebleven; zie [docs/OVERDRACHT.md](docs/OVERDRACHT.md).
+Het project heette eerst "Vierlief" (werknaam) en daarna kort "Vaylide". Sinds ronde 6 heet het merk **Vaylide**, met het logo in `tools/logo/`. Technische namen die bezoekers niet zien, zoals de instellingen `VIERLIEF_…`, zijn bewust gebleven; zie [docs/OVERDRACHT.md](docs/OVERDRACHT.md).
 
 > **Status: eerste versie in testmodus.** Betalingen zijn gesimuleerd, e-mails worden alleen bewaard (niet verstuurd) en de AI-hulp draait zonder sleutel met vaste voorbeeldteksten. Op elke pagina staat een testbalk. Wat nodig is om live te gaan: [docs/LIVEGANG.md](docs/LIVEGANG.md).
 
@@ -22,6 +22,7 @@ Het project heette eerst "Vierlief" (werknaam). Sinds ronde 6 heet het merk **Va
 | [docs/HANDLEIDING.md](docs/HANDLEIDING.md) | De beheeromgeving gebruiken en ontwerpen toevoegen of aanpassen |
 | [docs/CONTROLES.md](docs/CONTROLES.md) | Uitgevoerde controles (Controle 1 en 2) met resultaten |
 | [docs/LIVEGANG.md](docs/LIVEGANG.md) | Aansluitingen en keuzes die nodig zijn voor livegang |
+| [docs/ONLINE.md](docs/ONLINE.md) | De site op je eigen domein zetten: eerst als afgeschermde testversie, daarna live |
 
 ## Lokaal starten (testmodus)
 
@@ -47,7 +48,7 @@ Open daarna http://127.0.0.1:8000.
 | Website | `/` |
 | Ontwerpen en werkende voorbeelden | `/ontwerpen/` (33 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/` of `/voorbeeld/sterrennacht/` |
 | Zelf een uitnodiging maken | `/maken/` |
-| Mijn Vaylia (klant) | `/account/` |
+| Mijn Vaylide (klant) | `/account/` |
 | Beheer (eigenaar) | `/beheer/`, inloggen met het account uit `createsuperuser` |
 
 In testmodus:
@@ -74,6 +75,7 @@ Alle instellingen staan in omgevingsvariabelen. Kopieer `.env.example` naar `.en
 | `VIERLIEF_JOBS_INLINE`, `VIERLIEF_CRON_TOKEN` | Achtergrondtaken (zie hieronder). |
 | `VIERLIEF_TRUSTED_PROXY_HOPS` | Aantal proxy's vóór de app (voor het juiste IP-adres bij misbruikbeperking). |
 | `VIERLIEF_DJANGO_ADMIN_PATH` | Pad van het noodbeheer (Django admin); kies iets dat niet makkelijk te raden is. |
+| `VIERLIEF_PREVIEW_PASSWORD`, `VIERLIEF_PREVIEW_USER` | Optioneel één wachtwoord voor de hele site, zolang een testversie online staat (zie [docs/ONLINE.md](docs/ONLINE.md)). |
 
 Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwerpen stel je in via **Beheer**, niet via code.
 
@@ -91,7 +93,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-135 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken) en het merk (logo, iconen, geen oude naam). Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+139 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken), het merk (logo, iconen, geen oude naam) en het wachtwoord voor een testversie online. Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 
@@ -100,9 +102,9 @@ Vereisten: https, een blijvende map voor uploads, een worker of cron voor de ver
 **Docker** (getest: bouwen, starten op een leeg volume en de tests in de container):
 
 ```bash
-docker build -t vaylia .
-docker run -d --name vaylia -p 8000:8000 --env-file .env.productie -v vaylia-data:/data vaylia
-docker run -d --name vaylia-worker --env-file .env.productie -v vaylia-data:/data vaylia \
+docker build -t vaylide .
+docker run -d --name vaylide -p 8000:8000 --env-file .env.productie -v vaylide-data:/data vaylide
+docker run -d --name vaylide-worker --env-file .env.productie -v vaylide-data:/data vaylide \
   python manage.py process_jobs --loop
 ```
 
@@ -126,7 +128,7 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `orders/` | Bestellen, prijsberekening, betaalproviders (test en Mollie), verwerking na betaling |
 | `processing/` | Takenwachtrij met herhalingen en de e-mails |
 | `wishes/` | Extra wensen en maatwerkvoorstellen |
-| `portal/` | Mijn Vaylia (klantomgeving) |
+| `portal/` | Mijn Vaylide (klantomgeving) |
 | `beheer/` | Beheeromgeving voor de eigenaar |
 | `accounts/` | Klantaccounts (inlogcode per e-mail) en beheerders |
 | `tests/` | Geautomatiseerde tests |

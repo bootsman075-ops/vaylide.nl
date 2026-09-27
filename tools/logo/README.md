@@ -1,7 +1,7 @@
-# Logo van Vaylia
+# Logo van Vaylide
 
-`vaylia-logo-bron.webp` is het logo zoals de eigenaar het aanleverde (1254 × 1254 pixels, crèmekleurige
-achtergrond). Het logo wordt **zoals aangeleverd** gebruikt: de V, VAYLIA en de regel eronder samen, in
+`vaylide-logo-bron.webp` is het logo zoals de eigenaar het aanleverde (1254 × 1254 pixels, crèmekleurige
+achtergrond). Het logo wordt **zoals aangeleverd** gebruikt: de V, VAYLIDE en de regel eronder samen, in
 dezelfde kleuren en verhoudingen. Niet opsplitsen, bijsnijden, hertekenen of de tekst aanpassen zonder
 akkoord van de eigenaar.
 
@@ -12,19 +12,20 @@ de compressie, ver van het logo, vallen weg.
 
 | Bestand | Waarvoor |
 | --- | --- |
-| `static/img/merk/vaylia-logo.webp` (346 × 240) | Kop en voet van de website, het samenstellen, de klantomgeving, het beheer en de foutpagina's (`templates/partials/logo.html`) |
-| `static/img/merk/vaylia-logo.png` (346 × 240) | De e-mails (niet elk mailprogramma toont WebP) en de deelafbeelding (`tools/merkbeelden/`) |
+| `static/img/merk/vaylide-logo.webp` (350 × 240) | Kop en voet van de website, het samenstellen, de klantomgeving, het beheer en de foutpagina's (`templates/partials/logo.html`) |
+| `static/img/merk/vaylide-logo.png` (350 × 240) | De e-mails (niet elk mailprogramma toont WebP) en de deelafbeelding (`tools/merkbeelden/`) |
 | `static/img/favicon-32.png`, `favicon-48.png`, `icon-192.png` | Tabblad-icoon en Android: de V uit het logo op de crèmekleur van het origineel. Het hele logo is op 16 tot 48 pixels niet leesbaar |
 | `static/img/apple-touch-icon.png` (180 × 180) | Icoon op het beginscherm van een iPhone of iPad: het hele logo op de crèmekleur |
-| `tools/logo/vaylia-logo-vrijstaand.png` | Het hele logo vrijstaand op volle grootte (936 × 650), voor ander gebruik zoals drukwerk of sociale media |
+| `tools/logo/vaylide-logo-vrijstaand.png` | Het hele logo vrijstaand op volle grootte (990 × 678), voor ander gebruik zoals drukwerk of sociale media |
 
-De iconen staan in `templates/partials/icons.html`. De deelafbeelding `static/img/og-vaylia.jpg` maak je met
+De iconen staan in `templates/partials/icons.html`. De deelafbeelding `static/img/og-vaylide.jpg` maak je met
 `node tools/merkbeelden/render.cjs merk`, nadat het logo is bijgewerkt.
 
 ## Opnieuw maken of een ander logo gebruiken
 
-1. Vervang `vaylia-logo-bron.webp` door het nieuwe logo, op een effen lichte achtergrond, bij voorkeur
-   minstens 1000 pixels breed.
+1. Vervang `vaylide-logo-bron.webp` door het nieuwe logo, op een effen lichte achtergrond, bij voorkeur
+   minstens 1000 pixels breed. Bij een nieuwe naam: noem het bestand `<naam>-logo-bron.webp` en zet `NAAM`
+   bovenin `maak_logo.py` op die naam (de bestandsnamen van de site volgen die naam).
 2. `.venv/bin/python tools/logo/maak_logo.py`
 3. `node tools/merkbeelden/render.cjs merk` (deelafbeelding)
 4. Bekijk de kop en voet op telefoon en computer, en draai daarna `python manage.py collectstatic` op de server.

@@ -1,4 +1,4 @@
-# Vaylia als container. Bouwen: docker build -t vaylia .
+# Vaylide als container. Bouwen: docker build -t vaylide .
 # Starten: zie README.md (omgevingsvariabelen via --env-file, gegevens op een volume).
 FROM python:3.11-slim
 

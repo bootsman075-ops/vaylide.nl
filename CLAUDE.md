@@ -1,10 +1,10 @@
-# Vaylia: werkafspraken voor Claude
+# Vaylide: werkafspraken voor Claude
 
-Vaylia is een Django-platform (Django 5.2 LTS, Python 3.11+) waarop klanten zelf een digitale uitnodiging samenstellen, betalen en delen, met aanmelden voor gasten (RSVP), een klantomgeving (Mijn Vaylia) en een beheeromgeving voor de eigenaar. Alle teksten voor gebruikers zijn Nederlands: kort, vriendelijk en zonder jargon.
+Vaylide is een Django-platform (Django 5.2 LTS, Python 3.11+) waarop klanten zelf een digitale uitnodiging samenstellen, betalen en delen, met aanmelden voor gasten (RSVP), een klantomgeving (Mijn Vaylide) en een beheeromgeving voor de eigenaar. Alle teksten voor gebruikers zijn Nederlands: kort, vriendelijk en zonder jargon.
 
-Het merk heette eerst Vierlief (werknaam). Technische namen die bezoekers niet zien zijn bewust gebleven: de instellingen `VIERLIEF_…`, cookie-, sessie- en opslagnamen (`vierlief_…`, `vierlief-…`) en `static/css/vierlief.css`. Zie `docs/OVERDRACHT.md`.
+Het merk heette eerst Vierlief (werknaam) en daarna kort Vaylide. Technische namen die bezoekers niet zien zijn bewust gebleven: de instellingen `VIERLIEF_…`, cookie-, sessie- en opslagnamen (`vierlief_…`, `vierlief-…`) en `static/css/vierlief.css`. Zie `docs/OVERDRACHT.md`.
 
-Lees bij de start eerst `docs/OVERDRACHT.md` (stand van zaken en open punten). Daarna, als het nodig is: `docs/AANPAK.md` (keuzes en aannames), `docs/HANDLEIDING.md` (beheer, ontwerpen toevoegen), `docs/CONTROLES.md` (wat getest is) en `docs/LIVEGANG.md` (nodig voor livegang).
+Lees bij de start eerst `docs/OVERDRACHT.md` (stand van zaken en open punten). Daarna, als het nodig is: `docs/AANPAK.md` (keuzes en aannames), `docs/HANDLEIDING.md` (beheer, ontwerpen toevoegen), `docs/CONTROLES.md` (wat getest is), `docs/ONLINE.md` (op het eigen domein zetten) en `docs/LIVEGANG.md` (nodig voor livegang).
 
 ## Commando's
 
@@ -14,7 +14,7 @@ cp .env.example .env                      # zet een eigen DJANGO_SECRET_KEY; gee
 .venv/bin/python manage.py migrate        # leest ook de ontwerpen in (sync_designs)
 .venv/bin/python manage.py createsuperuser
 .venv/bin/python manage.py runserver      # http://127.0.0.1:8000, testmodus
-.venv/bin/python manage.py test tests     # 135 tests, moeten altijd slagen
+.venv/bin/python manage.py test tests     # 139 tests, moeten altijd slagen
 ```
 
 Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py`, `e2e/controle2.cjs`, `e2e/toegankelijkheid.cjs` en `e2e/effecten.cjs`). Beelden opnieuw maken: `tools/logo/README.md` (logo en iconen), `tools/merkbeelden/README.md` (website), `tools/generate_demo_images.py` (voorbeeldbeelden) en `e2e/make_design_images.cjs` (kaartbeelden van de ontwerpen).
@@ -48,7 +48,7 @@ Niet van afwijken zonder uitdrukkelijk akkoord van de eigenaar.
 9. Sluit geen betaalde diensten af en publiceer niet naar productie zonder akkoord van de eigenaar. Configuratievoorbeelden zonder echte geheimen.
 10. Claim alleen controles die echt zijn uitgevoerd, en claim nooit iets gezien te hebben wat je niet kon openen.
 11. Vaste teksten op de homepage: de kop "Een bijzondere dag verdient een bijzondere uitnodiging." en de knoppen "Bekijk de ontwerpen" en "Maak jouw uitnodiging".
-12. Het logo wordt gebruikt zoals de eigenaar het aanleverde: de V, VAYLIA en de regel eronder samen, in dezelfde kleuren en verhoudingen. Niet opsplitsen, bijsnijden, hertekenen of de tekst aanpassen. Alleen het tabblad-icoon gebruikt de V uit het logo, omdat het hele logo op 16 tot 48 pixels niet leesbaar is.
+12. Het logo wordt gebruikt zoals de eigenaar het aanleverde: de V, VAYLIDE en de regel eronder samen, in dezelfde kleuren en verhoudingen. Niet opsplitsen, bijsnijden, hertekenen of de tekst aanpassen. Alleen het tabblad-icoon gebruikt de V uit het logo, omdat het hele logo op 16 tot 48 pixels niet leesbaar is.
 
 ## Werkwijze
 

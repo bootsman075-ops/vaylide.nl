@@ -10,10 +10,10 @@ from orders.providers import MollieProvider, RemoteStatus
 from orders.services import apply_remote_status, start_checkout
 from processing.models import Job, OutboundEmail
 
-from .helpers import VayliaTestCase
+from .helpers import VaylideTestCase
 
 
-class PaymentOutcomeTests(VayliaTestCase):
+class PaymentOutcomeTests(VaylideTestCase):
     def setUp(self):
         self.customer = self.make_customer()
         self.inv = self.make_invitation(owner=self.customer)
@@ -160,7 +160,7 @@ class _FakeResponse:
         return False
 
 
-class MollieProviderTests(VayliaTestCase):
+class MollieProviderTests(VaylideTestCase):
     def setUp(self):
         mollie = override_settings(PAYMENT_PROVIDER="mollie", MOLLIE_API_KEY="test_dummy_sleutel")
         mollie.enable()

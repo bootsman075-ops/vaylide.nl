@@ -8,10 +8,10 @@ from django.utils import timezone
 from invitations.models import GuestResponse
 from invitations.services import publish_draft, save_draft
 
-from .helpers import VayliaTestCase
+from .helpers import VaylideTestCase
 
 
-class RsvpTests(VayliaTestCase):
+class RsvpTests(VaylideTestCase):
     def setUp(self):
         cache.clear()
         self.owner = self.make_customer()

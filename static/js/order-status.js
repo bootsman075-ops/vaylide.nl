@@ -1,4 +1,4 @@
-/* Vaylia: werkt de bestelstatus bij tot de uitnodiging online staat (max. 2 minuten). */
+/* Vaylide: werkt de bestelstatus bij tot de uitnodiging online staat (max. 2 minuten). */
 (function () {
   "use strict";
   var box = document.querySelector("[data-order-status]");
@@ -15,7 +15,7 @@
       .then(function (data) {
         if (data.phase !== phase) { window.location.reload(); return; }
         if (tries < 60) window.setTimeout(check, 2000);
-        else if (note) note.textContent = "Het duurt langer dan normaal. Vernieuw de pagina later of kijk in Mijn Vaylia.";
+        else if (note) note.textContent = "Het duurt langer dan normaal. Vernieuw de pagina later of kijk in Mijn Vaylide.";
       })
       .catch(function () { if (tries < 60) window.setTimeout(check, 4000); });
   }

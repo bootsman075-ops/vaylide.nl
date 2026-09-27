@@ -7,10 +7,10 @@ from invitations.models import Invitation
 from orders.models import Order
 from processing.models import OutboundEmail
 
-from .helpers import VayliaTestCase, future_date, jpeg_file
+from .helpers import VaylideTestCase, future_date, jpeg_file
 
 
-class FullJourneyTests(VayliaTestCase):
+class FullJourneyTests(VaylideTestCase):
     def test_design_to_guest_response_seen_by_customer(self):
         c = Client()
         # 1-2. Gelegenheid en ontwerp kiezen.
@@ -126,7 +126,7 @@ class FullJourneyTests(VayliaTestCase):
         self.assertContains(page, "Je antwoord is opgeslagen")
 
 
-class ResumeProgressTests(VayliaTestCase):
+class ResumeProgressTests(VaylideTestCase):
     def test_anonymous_draft_survives_and_is_claimed_after_verification(self):
         c = Client()
         uid = c.post("/maken/", {"occasion": "verjaardag", "template": "puur-moment"})["Location"].split("/")[2]
@@ -179,7 +179,7 @@ class ResumeProgressTests(VayliaTestCase):
         self.assertNotIn("_auth_user_id", c.session)
 
 
-class InvalidInputTests(VayliaTestCase):
+class InvalidInputTests(VaylideTestCase):
     def setUp(self):
         self.c = Client()
         uid = self.c.post("/maken/", {"occasion": "bruiloft", "template": "liefde-op-papier"})["Location"].split("/")[2]

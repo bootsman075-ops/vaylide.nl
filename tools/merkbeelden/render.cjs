@@ -1,4 +1,4 @@
-// Tekent de eigen beelden van Vaylia:
+// Tekent de eigen beelden van Vaylide:
 // - sfeerbeelden uit scenes.js (WebP in static/img/site/);
 // - merkbeelden uit merk.html: deelafbeeldingen en de standaardafbeelding voor ontwerpen.
 // Gebruik (Playwright met Chromium nodig): node tools/merkbeelden/render.cjs [merk]
@@ -37,7 +37,7 @@ const JOBS = [
   await merk.evaluate(() => Promise.all([document.fonts.ready, ...[...document.images].map((i) => i.decode())]));
   await merk.waitForTimeout(300);
   const shots = [
-    ["#og-site", path.join(IMG, "og-vaylia.jpg"), { type: "jpeg", quality: 86 }],
+    ["#og-site", path.join(IMG, "og-vaylide.jpg"), { type: "jpeg", quality: 86 }],
     ["#og-uitnodiging", path.join(IMG, "og-uitnodiging.jpg"), { type: "jpeg", quality: 86 }],
   ];
   for (const [selector, file, options] of shots) {

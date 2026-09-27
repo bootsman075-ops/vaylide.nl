@@ -1,6 +1,6 @@
-"""Maakt de logobestanden van Vaylia uit het aangeleverde logo (tools/logo/vaylia-logo-bron.webp).
+"""Maakt de logobestanden van Vaylide uit het aangeleverde logo (tools/logo/vaylide-logo-bron.webp).
 
-Het logo blijft precies zoals het is aangeleverd: de V, VAYLIA en de regel eronder, in dezelfde
+Het logo blijft precies zoals het is aangeleverd: de V, VAYLIDE en de regel eronder, in dezelfde
 kleuren en verhoudingen. Alleen de lege crèmekleurige achtergrond wordt doorzichtig gemaakt en
 de lege rand eromheen weggesneden, zodat het logo naadloos op de achtergronden van de site staat.
 Op een crèmekleurige achtergrond is het resultaat gelijk aan het origineel.
@@ -18,7 +18,8 @@ from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parents[2]
-SRC = ROOT / "tools" / "logo" / "vaylia-logo-bron.webp"
+NAAM = "vaylide"
+SRC = ROOT / "tools" / "logo" / f"{NAAM}-logo-bron.webp"
 IMG = ROOT / "static" / "img"
 MERK = IMG / "merk"
 
@@ -108,10 +109,10 @@ def main() -> None:
 
     # 1. Het hele logo, vrijstaand.
     heel = bijsnijden(logo, marge=6)
-    heel.save(ROOT / "tools" / "logo" / "vaylia-logo-vrijstaand.png", optimize=True)
+    heel.save(ROOT / "tools" / "logo" / f"{NAAM}-logo-vrijstaand.png", optimize=True)
     site = op_hoogte(heel, 240)
-    site.save(MERK / "vaylia-logo.webp", quality=90, method=6)
-    site.save(MERK / "vaylia-logo.png", optimize=True)
+    site.save(MERK / f"{NAAM}-logo.webp", quality=90, method=6)
+    site.save(MERK / f"{NAAM}-logo.png", optimize=True)
 
     # 2. De V uit het logo (het deel boven de naam), voor het tabblad-icoon.
     # Rijen met logo erin; de V loopt van de eerste gevulde rij tot de eerste lege rij daarna.
@@ -126,7 +127,7 @@ def main() -> None:
     # 3. App-icoon (iPhone/iPad): het hele logo op de crèmekleur, zonder doorzichtigheid.
     tegel(heel, 180, bg, vulling=0.84, hoek=0).convert("RGB").save(IMG / "apple-touch-icon.png", optimize=True)
 
-    for pad in sorted([*MERK.glob("vaylia-logo.*"), *IMG.glob("favicon-*.png"), IMG / "icon-192.png", IMG / "apple-touch-icon.png"]):
+    for pad in sorted([*MERK.glob(f"{NAAM}-logo.*"), *IMG.glob("favicon-*.png"), IMG / "icon-192.png", IMG / "apple-touch-icon.png"]):
         with Image.open(pad) as i:
             print(f"{pad.relative_to(ROOT)}  {i.width}x{i.height}  {pad.stat().st_size} bytes")
     print("achtergrond van het origineel:", "#%02X%02X%02X" % bg)

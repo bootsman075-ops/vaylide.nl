@@ -1,4 +1,4 @@
-/* Vaylia website: kleine verbeteringen bovenop werkende HTML (alles werkt ook zonder JavaScript). */
+/* Vaylide website: kleine verbeteringen bovenop werkende HTML (alles werkt ook zonder JavaScript). */
 (function () {
   "use strict";
 

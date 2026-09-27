@@ -1,4 +1,4 @@
-"""Gedeelde hulpmiddelen voor de tests van Vaylia."""
+"""Gedeelde hulpmiddelen voor de tests van Vaylide."""
 from __future__ import annotations
 
 import io
@@ -47,13 +47,13 @@ def jpeg_file(width=1200, height=900, name="foto.jpg", exif_gps=False, fmt="JPEG
     return buffer
 
 
-class VayliaTestCase(TestCase):
+class VaylideTestCase(TestCase):
     """Basis: aparte uploadmap, testmodus en hulpfuncties."""
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls._media_dir = tempfile.mkdtemp(prefix="vaylia-test-")
+        cls._media_dir = tempfile.mkdtemp(prefix="vaylide-test-")
         cls._settings = override_settings(
             MEDIA_ROOT=cls._media_dir,
             TEST_MODE=True,
@@ -61,7 +61,7 @@ class VayliaTestCase(TestCase):
             PAYMENT_PROVIDER="test",
             JOBS_RUN_INLINE=True,
             ANTHROPIC_API_KEY="",
-            BASE_URL="https://vaylia.test",
+            BASE_URL="https://vaylide.test",
             # Tests mogen niet afhangen van een eerdere collectstatic (manifest).
             STORAGES={**settings.STORAGES, "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"}},
         )

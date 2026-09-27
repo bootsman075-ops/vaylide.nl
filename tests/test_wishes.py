@@ -5,10 +5,10 @@ from orders.models import Order, Payment
 from processing.models import OutboundEmail
 from wishes.models import CustomRequest
 
-from .helpers import VayliaTestCase, jpeg_file
+from .helpers import VaylideTestCase, jpeg_file
 
 
-class WishFlowTests(VayliaTestCase):
+class WishFlowTests(VaylideTestCase):
     def setUp(self):
         self.customer = self.make_customer()
         self.inv = self.published(owner=self.customer)

@@ -12,10 +12,10 @@ from processing.emails import set_fault
 from processing.jobs import process_due, retry
 from processing.models import Job, OutboundEmail
 
-from .helpers import VayliaTestCase
+from .helpers import VaylideTestCase
 
 
-class FailedPublicationTests(VayliaTestCase):
+class FailedPublicationTests(VaylideTestCase):
     def setUp(self):
         cache.clear()
         self.customer = self.make_customer()
@@ -66,7 +66,7 @@ class FailedPublicationTests(VayliaTestCase):
         self.assertEqual(job.status, Job.Status.DEAD)
         self.assertEqual(payment.order.fulfilment_status, Order.Fulfilment.ATTENTION)
         self.assertTrue(OutboundEmail.objects.filter(kind="owner_failure").exists())
-        self.assertContains(self.c.get(f"/bestelling/{payment.order.uid}/"), "het Vaylia-team is ingeschakeld")
+        self.assertContains(self.c.get(f"/bestelling/{payment.order.uid}/"), "het Vaylide-team is ingeschakeld")
         # Eigenaar ziet het in het beheer en start handmatig opnieuw.
         set_fault("publish", 0)
         staff = self.make_staff()
@@ -82,7 +82,7 @@ class FailedPublicationTests(VayliaTestCase):
         self.assertEqual(payment.order.fulfilment_status, Order.Fulfilment.DONE)
 
 
-class FailedEmailTests(VayliaTestCase):
+class FailedEmailTests(VaylideTestCase):
     def setUp(self):
         cache.clear()
 

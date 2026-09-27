@@ -17,7 +17,7 @@ from catalog.occasions import OCCASION_CHOICES
 
 class Source(models.TextChoices):
     CUSTOMER = "customer", "Klant"
-    ADMIN = "admin", "Vaylia-team"
+    ADMIN = "admin", "Vaylide-team"
     SYSTEM = "system", "Systeem"
     RESTORE = "restore", "Hersteld"
 

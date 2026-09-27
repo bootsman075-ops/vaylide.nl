@@ -1,4 +1,4 @@
-"""Kleine templatehulpmiddelen voor Vaylia."""
+"""Kleine templatehulpmiddelen voor Vaylide."""
 from django import template
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
