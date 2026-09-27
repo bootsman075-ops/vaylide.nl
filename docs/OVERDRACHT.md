@@ -34,7 +34,7 @@ Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUB
 
 ## Zo ga je verder
 
-1. Pak de zip uit. Je krijgt de map `vaylide/` met de volledige git-geschiedenis.
+1. Haal het project op met `git clone https://github.com/bootsman075-ops/vaylide.nl`, of pak de zip uit (map `vaylide/`). Beide hebben de volledige git-geschiedenis.
 2. Open een terminal in die map en start Claude Code (`claude`). Het bestand `CLAUDE.md` in de hoofdmap wordt automatisch gelezen, met de vaste regels van de eigenaar.
 3. Geef als eerste opdracht bijvoorbeeld:
 
@@ -44,20 +44,15 @@ Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUB
 
 ## Eigen repository
 
-Het project hoort in een eigen, **privé** repository, los van andere projecten. Een eerdere poging om die aan te maken lukte niet door ontbrekende rechten. Maak hem zelf aan (bijvoorbeeld `vaylide` op GitHub, zonder README of andere startbestanden) en zet het project erin:
+Het project staat in een eigen repository, los van andere projecten: **https://github.com/bootsman075-ops/vaylide.nl** (branch `main`). De eigenaar maakte hem aan en koos voor **openbaar**: iedereen kan de code en de documentatie lezen. Er staan geen wachtwoorden of sleutels in (vóór het versturen is de hele geschiedenis daarop doorzocht). Op privé zetten kan altijd via Settings → Change repository visibility.
 
-```bash
-git remote add origin git@github.com:<eigenaar>/vaylide.git
-git push -u origin main
-```
-
-Een oudere kopie, nog onder de werknaam Vierlief, staat nog in de repository van Vantor Studios (branch `claude/practical-ride-1m3pgk`, map `vierlief/`). Die is **verouderd**: niet gebruiken. Hij kan weg zodra de eigen repository er is.
+Een oudere kopie, nog onder de werknaam Vierlief, staat nog in de repository van Vantor Studios: de branch `claude/practical-ride-1m3pgk` bevat drie commits "Vierlief: …" met de map `vierlief/` en een regel in `.vercelignore`, verder niets. Die kopie is **verouderd**: niet gebruiken. Opruimen kan door die branch op GitHub te verwijderen; vanuit de werkomgeving lukte dat niet meer (geen toegang meer tot die repository).
 
 ## Open punten
 
 In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 
-1. **Eigen repository** aanmaken en pushen (zie hierboven).
+1. **Oude kopie in Vantor opruimen**: de branch `claude/practical-ride-1m3pgk` van vantor-studios-website verwijderen (zie hierboven).
 2. **Online en livegang**: de site op het eigen domein zetten, eerst als testversie met een wachtwoord (stappenplan in `docs/ONLINE.md`, aanbevolen via GitHub en Render met `render.yaml`; het domein is `vaylide.com`), daarna live met Mollie, SMTP, bedrijfsgegevens en juridisch gecontroleerde privacy en voorwaarden (checklist in `docs/LIVEGANG.md`).
 3. **Eigen foto's** (optioneel): de sfeerbeelden op de website en de beelden in de voorbeelduitnodigingen zijn eigen, getekende beelden. Eigen foto's met de juiste rechten kunnen ze vervangen; zie `docs/HANDLEIDING.md` onder "Teksten en beelden van de website".
 4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Dat geldt ook voor de 30 nieuwe ontwerpen. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie.

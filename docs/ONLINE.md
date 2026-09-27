@@ -25,13 +25,11 @@ Voor deze route staat alles klaar in `render.yaml`, een zogeheten blueprint. Ren
 keer de site aan (servers in Frankfurt, EU), met een blijvende schijf voor foto's en een PostgreSQL-database.
 De geheime sleutel van de site maakt Render zelf aan. Er komt geen eigen serverbeheer bij kijken.
 
-1. **GitHub**: maak op github.com een lege privé-repository aan, bijvoorbeeld `vaylide`, zonder README.
-   Zet het project erin met `git remote add origin git@github.com:<eigenaar>/vaylide.git` en
-   `git push -u origin main`. Claude kan dat ook doen zodra de repository bestaat.
+1. **GitHub**: klaar. Het project staat in `bootsman075-ops/vaylide.nl` (branch `main`).
 2. **Render-account**: maak een account op render.com en koppel je GitHub-account. Render is een betaalde
    dienst. De blueprint gebruikt het abonnement "Starter" voor de site (nodig voor een blijvende schijf),
    een kleine database ("Basic 256 MB") en 1 GB schijf. De actuele prijzen staan op render.com.
-3. **Blueprint**: kies in Render **New → Blueprint**, kies de repository en bevestig. Render vraagt om drie
+3. **Blueprint**: kies in Render **New → Blueprint**, kies de repository `vaylide.nl` en bevestig. Render vraagt om drie
    waarden:
    - `VIERLIEF_CONTACT_EMAIL`: het e-mailadres waarop je bereikbaar wilt zijn;
    - `VIERLIEF_DJANGO_ADMIN_PATH`: een pad voor het noodbeheer dat niet makkelijk te raden is, eindigend

@@ -14,6 +14,9 @@ Het project heette eerst "Vierlief" (werknaam) en daarna kort "Vaylide". Sinds r
 
 ## Documentatie
 
+Repository: https://github.com/bootsman075-ops/vaylide.nl
+
+
 | Bestand | Inhoud |
 |---|---|
 | [docs/OVERDRACHT.md](docs/OVERDRACHT.md) | Stand van zaken, open punten en hoe je verder bouwt (begin hier) |
