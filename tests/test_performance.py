@@ -8,10 +8,10 @@ from django.test.utils import CaptureQueriesContext
 
 from core.csp import BOOT_SCRIPT, script_hash
 
-from .helpers import VierliefTestCase, jpeg_file
+from .helpers import VayliaTestCase, jpeg_file
 
 
-class BootScriptTests(VierliefTestCase):
+class BootScriptTests(VayliaTestCase):
     def test_inline_script_matches_csp_hash(self):
         inv = self.published(owner=self.make_customer())
         response = Client().get(inv.public_path)
@@ -24,7 +24,7 @@ class BootScriptTests(VierliefTestCase):
         self.assertEqual(len(re.findall(r"<script>", html)), 1)
 
 
-class CompressionTests(VierliefTestCase):
+class CompressionTests(VayliaTestCase):
     def test_html_is_compressed_but_images_are_not(self):
         page = Client().get("/prijzen/", HTTP_ACCEPT_ENCODING="gzip")
         self.assertEqual(page["Content-Encoding"], "gzip")
@@ -63,7 +63,7 @@ class CompressionTests(VierliefTestCase):
         self.assertEqual(middleware.process_response(request, full)["Content-Encoding"], "gzip")
 
 
-class QueryCountTests(VierliefTestCase):
+class QueryCountTests(VayliaTestCase):
     def test_customer_overview_does_not_query_per_invitation(self):
         owner = self.make_customer()
         first = self.published(owner=owner)
@@ -81,7 +81,7 @@ class QueryCountTests(VierliefTestCase):
         self.assertContains(response, "1 aanwezig (2 personen)")
 
 
-class HomeTests(VierliefTestCase):
+class HomeTests(VayliaTestCase):
     def test_home_shows_lowest_active_price(self):
         from catalog.models import Package
 

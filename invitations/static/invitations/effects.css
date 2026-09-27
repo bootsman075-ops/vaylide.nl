@@ -1,4 +1,4 @@
-/* Vierlief: opmaak voor de effecten (zie effects.js en catalog/effects.py).
+/* Vaylia: opmaak voor de effecten (zie effects.js en catalog/effects.py).
    Alles wat beweegt staat onder .fx-motion; dat zet het script alleen als beweging mag
    (niet bij 'minder beweging' en niet na een tik op 'Beweging'). Doorlopende animaties
    gebruiken animation-play-state: var(--fx-play), zodat ze samen stil te zetten zijn.

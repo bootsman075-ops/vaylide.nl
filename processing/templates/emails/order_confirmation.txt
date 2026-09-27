@@ -6,8 +6,8 @@ Bestelnummer: {{ order.number }}
 {% for line in lines %}- {{ line.description }}: {{ line.total_display }}
 {% endfor %}Totaal: {{ order.total_display }}
 
-Je uitnodiging wordt automatisch gepubliceerd. Zodra dat is gebeurd, ontvang je een aparte e-mail met je link en QR-code. Je vindt alles ook in Mijn Vierlief:
+Je uitnodiging wordt automatisch gepubliceerd. Zodra dat is gebeurd, ontvang je een aparte e-mail met je link en QR-code. Je vindt alles ook in Mijn Vaylia:
 {{ portal }}
 
 Hartelijke groet,
-Vierlief
+Vaylia

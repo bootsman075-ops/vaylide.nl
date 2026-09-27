@@ -1,4 +1,4 @@
-# Vierlief als container. Bouwen: docker build -t vierlief .
+# Vaylia als container. Bouwen: docker build -t vaylia .
 # Starten: zie README.md (omgevingsvariabelen via --env-file, gegevens op een volume).
 FROM python:3.11-slim
 

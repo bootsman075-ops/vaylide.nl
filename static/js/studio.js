@@ -1,4 +1,4 @@
-/* Vierlief samenstellen: verbeteringen bovenop werkende formulieren.
+/* Vaylia samenstellen: verbeteringen bovenop werkende formulieren.
    Zonder JavaScript werkt alles ook (gewone formulieren, schuifjes en knoppen). */
 (function () {
   "use strict";

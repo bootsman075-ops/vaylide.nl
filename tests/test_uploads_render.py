@@ -17,10 +17,10 @@ from invitations.render import RenderOptions, build_view
 from invitations.services import save_draft
 from orders.pricing import build_quote, compare_packages, recommended
 
-from .helpers import VierliefTestCase, jpeg_file
+from .helpers import VayliaTestCase, jpeg_file
 
 
-class UploadTests(VierliefTestCase):
+class UploadTests(VayliaTestCase):
     def setUp(self):
         self.c = Client()
         uid = self.c.post("/maken/", {"occasion": "bruiloft", "template": "liefde-op-papier"})["Location"].split("/")[2]
@@ -79,7 +79,7 @@ class UploadTests(VierliefTestCase):
             self.assertEqual(middleware(request).status_code, 413)
 
 
-class RenderTests(VierliefTestCase):
+class RenderTests(VayliaTestCase):
     def view_for(self, invitation, **opts):
         options = RenderOptions(mode="live", features=opts.pop("features", []), **opts)
         return build_view(occasion=invitation.occasion, content=invitation.draft_content, overrides={},
@@ -156,7 +156,7 @@ class RenderTests(VierliefTestCase):
         self.assertIn("data-music-toggle", html)
 
 
-class SecurityHeaderTests(VierliefTestCase):
+class SecurityHeaderTests(VayliaTestCase):
     def test_csp_and_private_headers(self):
         response = Client().get("/")
         self.assertIn("default-src 'self'", response["Content-Security-Policy"])
@@ -173,7 +173,7 @@ class SecurityHeaderTests(VierliefTestCase):
         self.assertIn("Disallow: /beheer/", robots)
 
 
-class PricingTests(VierliefTestCase):
+class PricingTests(VayliaTestCase):
     def test_required_addons_and_recommendation(self):
         inv = self.make_invitation()
         content = dict(inv.draft_content)
@@ -211,7 +211,7 @@ class PricingTests(VierliefTestCase):
             build_quote(inv.draft_content, Package.objects.get(code="essentieel"), ["gratis"])
 
 
-class RetentionTests(VierliefTestCase):
+class RetentionTests(VayliaTestCase):
     def test_expiry_and_guest_data_removal(self):
         owner = self.make_customer()
         inv = self.published(owner=owner)
@@ -251,7 +251,7 @@ class RetentionTests(VierliefTestCase):
         self.assertFalse(OutboundEmail.objects.filter(body_text__contains="Anna").exists())
 
 
-class NewDesignTests(VierliefTestCase):
+class NewDesignTests(VayliaTestCase):
     def test_design_without_cover_image_uses_placeholder(self):
         from catalog.assets import design_image_path
         from catalog.models import TemplateVersion
@@ -269,7 +269,7 @@ class NewDesignTests(VierliefTestCase):
             self.assertContains(response, "img/designs/_standaard.webp", msg_prefix=url)
 
 
-class DesignManifestValidationTests(VierliefTestCase):
+class DesignManifestValidationTests(VayliaTestCase):
     def make_folder(self, root, slug="nieuw", version="v1", files=("invitation.html", "style.css")):
         from pathlib import Path
 

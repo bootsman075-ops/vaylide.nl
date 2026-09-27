@@ -1,6 +1,8 @@
-# Vierlief: werkafspraken voor Claude
+# Vaylia: werkafspraken voor Claude
 
-Vierlief is een Django-platform (Django 5.2 LTS, Python 3.11+) waarop klanten zelf een digitale uitnodiging samenstellen, betalen en delen, met aanmelden voor gasten (RSVP), een klantomgeving (Mijn Vierlief) en een beheeromgeving voor de eigenaar. Alle teksten voor gebruikers zijn Nederlands: kort, vriendelijk en zonder jargon.
+Vaylia is een Django-platform (Django 5.2 LTS, Python 3.11+) waarop klanten zelf een digitale uitnodiging samenstellen, betalen en delen, met aanmelden voor gasten (RSVP), een klantomgeving (Mijn Vaylia) en een beheeromgeving voor de eigenaar. Alle teksten voor gebruikers zijn Nederlands: kort, vriendelijk en zonder jargon.
+
+Het merk heette eerst Vierlief (werknaam). Technische namen die bezoekers niet zien zijn bewust gebleven: de instellingen `VIERLIEF_…`, cookie-, sessie- en opslagnamen (`vierlief_…`, `vierlief-…`) en `static/css/vierlief.css`. Zie `docs/OVERDRACHT.md`.
 
 Lees bij de start eerst `docs/OVERDRACHT.md` (stand van zaken en open punten). Daarna, als het nodig is: `docs/AANPAK.md` (keuzes en aannames), `docs/HANDLEIDING.md` (beheer, ontwerpen toevoegen), `docs/CONTROLES.md` (wat getest is) en `docs/LIVEGANG.md` (nodig voor livegang).
 
@@ -12,17 +14,17 @@ cp .env.example .env                      # zet een eigen DJANGO_SECRET_KEY; gee
 .venv/bin/python manage.py migrate        # leest ook de ontwerpen in (sync_designs)
 .venv/bin/python manage.py createsuperuser
 .venv/bin/python manage.py runserver      # http://127.0.0.1:8000, testmodus
-.venv/bin/python manage.py test tests     # 132 tests, moeten altijd slagen
+.venv/bin/python manage.py test tests     # 135 tests, moeten altijd slagen
 ```
 
-Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py`, `e2e/controle2.cjs`, `e2e/toegankelijkheid.cjs` en `e2e/effecten.cjs`). Beelden opnieuw maken: `tools/merkbeelden/README.md` (website), `tools/generate_demo_images.py` (voorbeeldbeelden) en `e2e/make_design_images.cjs` (kaartbeelden van de ontwerpen).
+Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `docs/CONTROLES.md` (`e2e/fixtures.py`, `e2e/controle2.cjs`, `e2e/toegankelijkheid.cjs` en `e2e/effecten.cjs`). Beelden opnieuw maken: `tools/logo/README.md` (logo en iconen), `tools/merkbeelden/README.md` (website), `tools/generate_demo_images.py` (voorbeeldbeelden) en `e2e/make_design_images.cjs` (kaartbeelden van de ontwerpen).
 
 ## Waar zit wat
 
 | Onderdeel | Plek |
 |---|---|
 | Websitepagina's | `core/views.py`, `core/templates/core/`, teksten in `core/content.py`, iconen in `core/icons.py` (`{% icon "naam" %}`), zoeken in `core/search.py` |
-| Kop, voet, logo | `templates/partials/` |
+| Kop, voet, logo, iconen | `templates/partials/` (`logo.html`, `icons.html`); de bestanden komen uit `tools/logo/maak_logo.py` |
 | Huisstijl | `static/css/vierlief.css` (tokens in `:root`), app-schermen in `static/css/app.css` |
 | Uitnodigingsontwerpen | `designs/<code>/v<N>/` (manifest, template, stylesheet), weergave in `invitations/`. 30 ontwerpen delen de Atelier-opbouw in `designs/_atelier/v1/`; beschrijving en generator in `tools/atelier/`, keuzes en contrastcontrole in `catalog/atelier.py` |
 | Effecten op uitnodigingen | `invitations/static/invitations/effects.js` en `effects.css`; keuzes per ontwerp in het manifest (`effects`), opties en websiteteksten in `catalog/effects.py` |
@@ -33,7 +35,7 @@ Visuele controles (Node met Playwright en Chromium): zie "Zelf herhalen" in `doc
 
 ## Vaste regels van de eigenaar
 
-Niet van afwijken zonder zijn uitdrukkelijke akkoord.
+Niet van afwijken zonder uitdrukkelijk akkoord van de eigenaar.
 
 1. Beveilig klant- en beheerfuncties aan de serverzijde. Geheime sleutels nooit in de browser of de broncode, alleen via omgevingsvariabelen (`.env` staat in `.gitignore`).
 2. Iedere klant heeft alleen toegang tot eigen gegevens, uploads en evenementen. Een moeilijk te raden link vervangt geen toegangscontrole. Een uitnodiging van een ander geeft een 404.
@@ -46,6 +48,7 @@ Niet van afwijken zonder zijn uitdrukkelijke akkoord.
 9. Sluit geen betaalde diensten af en publiceer niet naar productie zonder akkoord van de eigenaar. Configuratievoorbeelden zonder echte geheimen.
 10. Claim alleen controles die echt zijn uitgevoerd, en claim nooit iets gezien te hebben wat je niet kon openen.
 11. Vaste teksten op de homepage: de kop "Een bijzondere dag verdient een bijzondere uitnodiging." en de knoppen "Bekijk de ontwerpen" en "Maak jouw uitnodiging".
+12. Het logo wordt gebruikt zoals de eigenaar het aanleverde: de V, VAYLIA en de regel eronder samen, in dezelfde kleuren en verhoudingen. Niet opsplitsen, bijsnijden, hertekenen of de tekst aanpassen. Alleen het tabblad-icoon gebruikt de V uit het logo, omdat het hele logo op 16 tot 48 pixels niet leesbaar is.
 
 ## Werkwijze
 

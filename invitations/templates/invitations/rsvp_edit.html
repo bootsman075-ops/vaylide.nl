@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Je antwoord · {{ v.title }}</title>
 <meta name="robots" content="noindex, nofollow, noarchive">
-<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+{% include "partials/icons.html" %}
 {% boot_script %}
 <link rel="stylesheet" href="{% static 'invitations/invite-base.css' %}">
 <link rel="stylesheet" href="{% static v.stylesheet %}">

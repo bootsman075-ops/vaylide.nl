@@ -5,10 +5,10 @@ from catalog.models import Template, TemplateVersion
 from invitations.models import Source
 from invitations.services import DraftConflict, restore_version, save_draft
 
-from .helpers import VierliefTestCase
+from .helpers import VayliaTestCase
 
 
-class EditAfterPublicationTests(VierliefTestCase):
+class EditAfterPublicationTests(VayliaTestCase):
     def setUp(self):
         self.owner = self.make_customer()
         self.inv = self.published(owner=self.owner)
@@ -39,7 +39,7 @@ class EditAfterPublicationTests(VierliefTestCase):
         self.assertContains(Client().get(self.inv.public_path), "Kasteel Test")
 
 
-class ConflictTests(VierliefTestCase):
+class ConflictTests(VayliaTestCase):
     def setUp(self):
         self.owner = self.make_customer()
         self.inv = self.published(owner=self.owner)
@@ -63,7 +63,7 @@ class ConflictTests(VierliefTestCase):
             "date": self.inv.draft_content["date"], "start_time": "14:00", "timezone": "Europe/Amsterdam",
             "venue_name": "Kasteel Test", "address": "Teststraat 1", "welcome_text": "Oude tekst van de klant."})
         self.assertContains(response, "deze uitnodiging is intussen gewijzigd")
-        self.assertContains(response, "Het Vierlief-team")
+        self.assertContains(response, "Het Vaylia-team")
         self.assertContains(response, "Welkomsttekst")
         self.inv.refresh_from_db()
         self.assertEqual(self.inv.draft_content["welcome_text"], "Handmatig door het team verbeterd.")
@@ -97,7 +97,7 @@ class ConflictTests(VierliefTestCase):
             save_draft(self.inv, expected_rev=self.inv.draft_rev - 1, content=self.inv.draft_content, user=self.owner)
 
 
-class RestoreTests(VierliefTestCase):
+class RestoreTests(VayliaTestCase):
     def test_restore_keeps_current_draft_as_version_and_can_publish(self):
         owner = self.make_customer()
         inv = self.published(owner=owner)
@@ -121,7 +121,7 @@ class RestoreTests(VierliefTestCase):
             restore_version(inv, inv.published_version, user=owner, source=Source.CUSTOMER, expected_rev=inv.draft_rev + 5)
 
 
-class TemplateVersionPinningTests(VierliefTestCase):
+class TemplateVersionPinningTests(VayliaTestCase):
     def test_new_template_version_does_not_change_existing_invitation(self):
         owner = self.make_customer()
         inv = self.published(owner=owner)

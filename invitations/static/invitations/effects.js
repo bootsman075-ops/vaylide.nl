@@ -1,4 +1,4 @@
-/* Vierlief: effecten op de uitnodigingen.
+/* Vaylia: effecten op de uitnodigingen.
    - sfeer: zwevende deeltjes op de achtergrond (blaadjes, goudstof, sterren, bubbels, ...);
    - knal: een uitbarsting op het moment dat de uitnodiging opengaat;
    - viering: een feestje als een gast laat weten dat hij komt;

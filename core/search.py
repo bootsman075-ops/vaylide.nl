@@ -28,11 +28,11 @@ def _pages():
         ("Prijzen", reverse("core:pricing"), "Pakketten en extra opties. Eenmalig betalen, geen kosten per gast.", "kosten pakket essentieel compleet opties betalen ideal"),
         ("Collectie", reverse("core:designs"), "Alle ontwerpen, met een werkend voorbeeld.", "ontwerpen designs voorbeeld"),
         ("Inspiratie", reverse("core:inspiration"), "Voorbeeldteksten en tips voor je uitnodiging.", "tekst tips ideeën dresscode aanmelddatum"),
-        ("Over ons", reverse("core:about"), "Waar Vierlief voor staat.", "vierlief wie privacy"),
+        ("Over ons", reverse("core:about"), "Waar Vaylia voor staat.", "vaylia wie privacy"),
         ("Veelgestelde vragen", reverse("core:faq"), "Antwoorden over aanmelden, betalen en privacy.", "faq vragen hulp"),
         ("Contact", reverse("core:contact"), "Stel je vraag of vertel je bijzondere wens.", "mail maatwerk wens hulp vraag"),
-        ("Privacy", reverse("core:privacy"), "Hoe Vierlief met gegevens omgaat.", "avg gegevens bewaren verwijderen"),
-        ("Voorwaarden", reverse("core:terms"), "De afspraken voor het gebruik van Vierlief.", "algemene voorwaarden"),
+        ("Privacy", reverse("core:privacy"), "Hoe Vaylia met gegevens omgaat.", "avg gegevens bewaren verwijderen"),
+        ("Voorwaarden", reverse("core:terms"), "De afspraken voor het gebruik van Vaylia.", "algemene voorwaarden"),
     ]
 
 

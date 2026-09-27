@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Beheerscript van Vierlief (Django)."""
+"""Beheerscript van Vaylia (Django)."""
 import os
 import sys
 

@@ -62,7 +62,7 @@ def anonymize_user(user) -> None:
         )
         LoginCode.objects.filter(email__iexact=email).delete()
         ContactMessage.objects.filter(email__iexact=email).delete()
-        user.email = f"verwijderd-{user.pk}@vierlief.invalid"
+        user.email = f"verwijderd-{user.pk}@vaylia.invalid"
         user.name = ""
         user.is_active = False
         user.set_unusable_password()

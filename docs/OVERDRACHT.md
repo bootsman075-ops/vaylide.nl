@@ -4,7 +4,7 @@ Stand van 27 september 2026. Dit document is bedoeld voor wie het project overne
 
 ## In het kort
 
-Vierlief is een werkende eerste versie **in testmodus**. Betalingen zijn gesimuleerd, e-mails worden alleen bewaard en de AI-hulp gebruikt vaste voorbeeldteksten. Op elke pagina staat een testbalk.
+Vaylia (eerst de werknaam Vierlief) is een werkende eerste versie **in testmodus**. Betalingen zijn gesimuleerd, e-mails worden alleen bewaard en de AI-hulp gebruikt vaste voorbeeldteksten. Op elke pagina staat een testbalk.
 
 Wat er staat:
 
@@ -16,24 +16,25 @@ Wat er staat:
 - **Samenstellen in stappen**: gelegenheid, ontwerp, gegevens, programma, aanmelden, foto's, stijl, voorbeeld en bestellen. Voortgang wordt per stap bewaard, ook zonder account.
 - **Bestellen en betalen**: testbetaling (of Mollie, zodra er een sleutel is). Publiceren gebeurt alleen na een serverzijdige betalingsbevestiging, via een takenwachtrij met herhalingen.
 - **Gasten**: aanmelden zonder account, eigen antwoord later wijzigen, agenda, route, delen.
-- **Mijn Vierlief**: uitnodigingen, aanmeldingen, gastenlijst exporteren, wijzigen en opnieuw publiceren, extra wensen.
+- **Mijn Vaylia**: uitnodigingen, aanmeldingen, gastenlijst exporteren, wijzigen en opnieuw publiceren, extra wensen.
 - **Beheer**: aanvragen, bestellingen, uitnodigingen, klanten, verwerking, ontwerpen, prijzen, instellingen en contactberichten.
 
 Gedane rondes:
 
 1. Bouw van het hele platform.
 2. Strakker en sneller: rustiger vormgeving, minder tekst, snellere pagina's.
-3. Vormgeving volgens de voorbeeldfoto van de eigenaar: goud, crème en bosgroen, nieuw hartlogo en de pagina's Inspiratie, Over ons en Zoeken. De keuzes en afwijkingen staan in `docs/AANPAK.md` onder "Nieuwe vormgeving".
+3. Vormgeving volgens de voorbeeldfoto van de eigenaar: goud, crème en bosgroen, een hartlogo (in ronde 6 vervangen) en de pagina's Inspiratie, Over ons en Zoeken. De keuzes en afwijkingen staan in `docs/AANPAK.md` onder "Nieuwe vormgeving".
 4. 30 nieuwe ontwerpen, vijf per gelegenheid, met eigen voorbeeldbeelden en kaartbeelden. De homepage licht drie ontwerpen uit, de collectie zet per gelegenheid de passende ontwerpen vooraan, en zakelijke evenementen kunnen een aantal jaren opgeven.
 5. Effecten en beweging op alle 33 ontwerpen (zie hierboven), een nieuwe cadeau-opening (Glitter & goud, Regenboog en Stipjes), kaarten op de website die meebewegen en glanzen, nieuwe kaartbeelden, en het lakzegel van Liefde op papier met goed leesbare initialen.
+6. Nieuw merk: **Vaylia**, met het logo van de eigenaar zoals aangeleverd (de V, VAYLIA en de regel eronder) in de kop en voet, bij het samenstellen, in het beheer, in de e-mails, op de deelafbeelding en als icoon op het beginscherm; de V uit het logo als tabblad-icoon. Overal waar mensen de naam zien, staat Vaylia. Keuzes: `docs/AANPAK.md` onder "Ronde 6: Vaylia"; het logo opnieuw maken of vervangen: `tools/logo/README.md`.
 
-Wat getest is en hoe: `docs/CONTROLES.md`. Kort: 132 tests (SQLite en PostgreSQL 16), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
+Wat getest is en hoe: `docs/CONTROLES.md`. Kort, na ronde 6: 135 tests (op SQLite; op PostgreSQL 16 in ronde 5), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles) en toegankelijkheid van de website. Uit ronde 5 (in ronde 6 veranderden aan de uitnodigingen alleen de naam onderaan en het tabblad-icoon): 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
 
 Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUBCKzn63jE8Mk9x28M
 
 ## Zo ga je verder
 
-1. Pak de zip uit. Je krijgt de map `vierlief/` met de volledige git-geschiedenis.
+1. Pak de zip uit. Je krijgt de map `vaylia/` met de volledige git-geschiedenis.
 2. Open een terminal in die map en start Claude Code (`claude`). Het bestand `CLAUDE.md` in de hoofdmap wordt automatisch gelezen, met de vaste regels van de eigenaar.
 3. Geef als eerste opdracht bijvoorbeeld:
 
@@ -43,14 +44,14 @@ Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUB
 
 ## Eigen repository
 
-Het project hoort in een eigen, **privé** repository, los van andere projecten. Een eerdere poging om die aan te maken lukte niet door ontbrekende rechten. Maak hem zelf aan (bijvoorbeeld `vierlief` op GitHub, zonder README of andere startbestanden) en zet het project erin:
+Het project hoort in een eigen, **privé** repository, los van andere projecten. Een eerdere poging om die aan te maken lukte niet door ontbrekende rechten. Maak hem zelf aan (bijvoorbeeld `vaylia` op GitHub, zonder README of andere startbestanden) en zet het project erin:
 
 ```bash
-git remote add origin git@github.com:<eigenaar>/vierlief.git
+git remote add origin git@github.com:<eigenaar>/vaylia.git
 git push -u origin main
 ```
 
-Een oudere kopie van Vierlief staat nog in de repository van Vantor Studios (branch `claude/practical-ride-1m3pgk`, map `vierlief/`). Die is **verouderd**: niet gebruiken. Hij kan weg zodra de eigen repository er is.
+Een oudere kopie, nog onder de werknaam Vierlief, staat nog in de repository van Vantor Studios (branch `claude/practical-ride-1m3pgk`, map `vierlief/`). Die is **verouderd**: niet gebruiken. Hij kan weg zodra de eigen repository er is.
 
 ## Open punten
 
@@ -64,6 +65,7 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 6. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt. Let daarbij vooral op de effecten: soepelheid op een ouder Android-toestel en de weergave in Safari.
 7. **Docker**: de image is getest in ronde 2, niet opnieuw na de nieuwe vormgeving en de nieuwe ontwerpen.
 8. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
+9. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIA_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
 
 ## Goed om te weten
 

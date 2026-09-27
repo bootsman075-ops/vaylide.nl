@@ -198,7 +198,7 @@ def step(request, uid, step):
                 elif action == "opslaan":
                     if inv.owner_id is None:
                         return redirect(f"{reverse('accounts:login')}?doel=bewaren&next={reverse('studio:step', args=[inv.uid, step])}")
-                    messages.success(request, "Opgeslagen. Je vindt je ontwerp terug in Mijn Vierlief.")
+                    messages.success(request, "Opgeslagen. Je vindt je ontwerp terug in Mijn Vaylia.")
                     return redirect("studio:step", uid=inv.uid, step=step)
                 elif action == "vorige":
                     return redirect("studio:step", uid=inv.uid, step=previous_step(step))
@@ -469,7 +469,7 @@ def publish(request, uid):
         messages.error(request, "Rond eerst je bestelling af; daarna wordt je uitnodiging automatisch gepubliceerd.")
         return redirect("studio:step", uid=inv.uid, step="bestellen")
     if inv.customer_locked and not request.user.is_staff:
-        messages.error(request, "Het Vierlief-team werkt op dit moment aan je uitnodiging. Publiceren kan zodra dat klaar is.")
+        messages.error(request, "Het Vaylia-team werkt op dit moment aan je uitnodiging. Publiceren kan zodra dat klaar is.")
         return redirect("portal:invitation", uid=inv.uid)
     try:
         posted_rev = int(request.POST.get("rev", "0"))
@@ -478,7 +478,7 @@ def publish(request, uid):
     try:
         version = publish_draft(inv, user=request.user, source=_source(request), expected_rev=posted_rev)
     except DraftConflict:
-        messages.error(request, "Er zijn intussen nieuwe wijzigingen opgeslagen (bijvoorbeeld door het Vierlief-team of in een ander venster). Bekijk het voorbeeld opnieuw en publiceer daarna.")
+        messages.error(request, "Er zijn intussen nieuwe wijzigingen opgeslagen (bijvoorbeeld door het Vaylia-team of in een ander venster). Bekijk het voorbeeld opnieuw en publiceer daarna.")
         return redirect("studio:step", uid=inv.uid, step="voorbeeld")
     except PublishBlocked as exc:
         messages.error(request, "Nog niet compleet: " + " ".join(i.message for i in exc.issues))

@@ -1,6 +1,6 @@
 # Handleiding: beheren en ontwerpen toevoegen
 
-Deze handleiding is voor de eigenaar van Vierlief. De beheeromgeving werkt op computer en telefoon. Op een telefoon worden tabellen kaarten en schuift het menu horizontaal.
+Deze handleiding is voor de eigenaar van Vaylia. De beheeromgeving werkt op computer en telefoon. Op een telefoon worden tabellen kaarten en schuift het menu horizontaal.
 
 ## Inloggen
 
@@ -13,13 +13,13 @@ Deze handleiding is voor de eigenaar van Vierlief. De beheeromgeving werkt op co
 
 ## Extra wensen (Aanvragen)
 
-Een klant vraagt een wens aan via **Extra wensen of hulp nodig?**, bij het samenstellen of in *Mijn Vierlief*. De aanvraag is gekoppeld aan de klant en, als gekozen, aan de uitnodiging. Een voorbeeldbestand kan worden meegestuurd (PDF, JPG, PNG of WebP, max. 10 MB).
+Een klant vraagt een wens aan via **Extra wensen of hulp nodig?**, bij het samenstellen of in *Mijn Vaylia*. De aanvraag is gekoppeld aan de klant en, als gekozen, aan de uitnodiging. Een voorbeeldbestand kan worden meegestuurd (PDF, JPG, PNG of WebP, max. 10 MB).
 
 1. **Ontvangen.** De klant krijgt automatisch alleen een ontvangstbevestiging: geen prijs, geen toezegging.
 2. Je ziet een **interne inschatting**: een samenvatting, of de wens binnen de standaardmogelijkheden lijkt te passen, een voorgestelde aanpak en open vragen. Zonder AI-sleutel komt deze uit een eenvoudige vaste testregel en is hij zo gemarkeerd. De klant ziet deze inschatting nooit. Met **Opnieuw laten beoordelen** laat je hem opnieuw maken.
 3. Reageer met een **bericht** aan de klant, of met een **interne notitie** die alleen het team ziet. Zet de status op **In behandeling**.
 4. Stuur een **voorstel** met een omschrijving en eventueel een prijs. Status: *Voorstel klaar*. De klant krijgt een e-mail.
-5. De klant gaat **akkoord** in *Mijn Vierlief*:
+5. De klant gaat **akkoord** in *Mijn Vaylia*:
    - met een prijs: er wordt een bestelling aangemaakt en de status wordt *Akkoord / wacht op betaling*. Na een bevestigde betaling wordt dit automatisch *In uitvoering*.
    - zonder prijs: meteen *In uitvoering*.
 6. Voer het werk uit (zie *Uitnodigingen*) en zet de status op **Afgerond**, eventueel met een notitie voor de klant.
@@ -57,7 +57,7 @@ Op de pagina van een uitnodiging:
 
 ## Klanten
 
-Overzicht van klanten met hun uitnodigingen, bestellingen en aanvragen. **Anonimiseren** verwijdert de naam en het e-mailadres van een klant, en daarnaast hun uitnodigingen (met foto's, versies en aanmeldingen), aanvragen, bewaarde e-mails, inlogcodes en contactberichten. Bestellingen blijven bewaard voor de administratie, maar zonder namen of omschrijvingen. Klanten kunnen dit ook zelf doen in *Mijn Vierlief → Gegevens*.
+Overzicht van klanten met hun uitnodigingen, bestellingen en aanvragen. **Anonimiseren** verwijdert de naam en het e-mailadres van een klant, en daarnaast hun uitnodigingen (met foto's, versies en aanmeldingen), aanvragen, bewaarde e-mails, inlogcodes en contactberichten. Bestellingen blijven bewaard voor de administratie, maar zonder namen of omschrijvingen. Klanten kunnen dit ook zelf doen in *Mijn Vaylia → Gegevens*.
 
 ## Verwerking
 
@@ -82,6 +82,7 @@ Overzicht van klanten met hun uitnodigingen, bestellingen en aanvragen. **Anonim
 Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publiceren op de server (`collectstatic` voor beelden).
 
 - **Teksten** van de homepage, "Zo werkt het", Inspiratie, Over ons en de veelgestelde vragen: `core/content.py`. De paginaopbouw staat in `core/templates/core/`.
+- **Logo en iconen**: `tools/logo/`, met uitleg in `tools/logo/README.md`. Het logo wordt gebruikt zoals je het aanleverde. Voor een nieuw logo vervang je het bronbestand en draai je het script; dat maakt ook het tabblad-icoon en het icoon voor het beginscherm opnieuw.
 - **Beelden**: `static/img/site/`. Vervang een beeld door een eigen foto met dezelfde bestandsnaam en ongeveer dezelfde verhouding (bijvoorbeeld `hero.webp` 1800 × 1100 en `hero-900.webp` 900 × 760 voor telefoons). Gebruik alleen foto's waarvan je de rechten hebt. Hoe de huidige beelden gemaakt zijn en hoe je ze opnieuw maakt: `tools/merkbeelden/README.md`.
 - **Tegels per gelegenheid en de kaart op de homepage** zijn schermafbeeldingen van de voorbeelduitnodigingen. Na een nieuw ontwerp of een nieuwe kleur kun je ze opnieuw maken met `tools/merkbeelden/voorbeelden.cjs`.
 - **Uitgelichte ontwerpen op de homepage**: de drie codes in `HOME_DESIGNS` in `core/content.py`. De collectie toont altijd alle zichtbare ontwerpen; bij een filter op gelegenheid staan de ontwerpen die voor die gelegenheid zijn gemaakt (de eerste in hun lijst `occasions`) vooraan.
@@ -216,7 +217,7 @@ Alleen tijdens het ontwikkelen, als er nog geen echte uitnodigingen op een versi
 ## Veelvoorkomende situaties
 
 - **"Ik heb betaald maar zie niets."** De statuspagina ververst vanzelf. Controleer in **Bestellingen** de betaalstatus en de verwerking. Staat de betaling op *Betaald* maar de verwerking niet op *Afgerond*, gebruik dan **Verwerking opnieuw starten**.
-- **De e-mail met de link is niet aangekomen.** De link staat altijd op de statuspagina en in *Mijn Vierlief*, ook als de e-mail mislukt. In **Verwerking → E-mails** zie je of de e-mail is verstuurd.
-- **Een klant is de link kwijt.** De klant logt in met een code per e-mail en vindt alles in *Mijn Vierlief*.
-- **Een gast wil een antwoord wijzigen.** Na het versturen krijgt de gast een persoonlijke link om het eigen antwoord te wijzigen of te verwijderen. Op hetzelfde apparaat herkent de uitnodiging het antwoord ook. De klant kan een antwoord verwijderen in *Mijn Vierlief → Aanmeldingen*.
+- **De e-mail met de link is niet aangekomen.** De link staat altijd op de statuspagina en in *Mijn Vaylia*, ook als de e-mail mislukt. In **Verwerking → E-mails** zie je of de e-mail is verstuurd.
+- **Een klant is de link kwijt.** De klant logt in met een code per e-mail en vindt alles in *Mijn Vaylia*.
+- **Een gast wil een antwoord wijzigen.** Na het versturen krijgt de gast een persoonlijke link om het eigen antwoord te wijzigen of te verwijderen. Op hetzelfde apparaat herkent de uitnodiging het antwoord ook. De klant kan een antwoord verwijderen in *Mijn Vaylia → Aanmeldingen*.
 - **De dag is voorbij.** De uitnodiging blijft leesbaar tot het einde van de beschikbaarheid, met de melding dat de dag heeft plaatsgevonden. Aanmelden kan dan niet meer.

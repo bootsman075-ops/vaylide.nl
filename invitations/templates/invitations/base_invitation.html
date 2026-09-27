@@ -10,7 +10,7 @@
 <meta property="og:description" content="{% if v.date_display %}{{ v.date_display|capfirst }}{% else %}Uitnodiging{% endif %}">
 <meta property="og:type" content="website">
 <meta property="og:image" content="{{ BASE_URL }}{% static 'img/og-uitnodiging.jpg' %}">
-{% endif %}<link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+{% endif %}{% include "partials/icons.html" %}
 {% boot_script %}
 {% block preload %}{% endblock %}
 <link rel="stylesheet" href="{% static 'invitations/invite-base.css' %}">

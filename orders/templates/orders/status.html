@@ -14,7 +14,7 @@
           <label class="field"><span class="label">Jouw link</span><input class="input" type="text" readonly value="{{ state.public_url }}" data-select-all></label>
           <div class="btn-row">
             <a class="btn btn--primary" href="{{ state.public_url }}" target="_blank" rel="noopener">Bekijk je uitnodiging</a>
-            <a class="btn btn--secondary" href="{% url 'portal:invitation' order.invitation.uid %}">Naar Mijn Vierlief</a>
+            <a class="btn btn--secondary" href="{% url 'portal:invitation' order.invitation.uid %}">Naar Mijn Vaylia</a>
           </div>
         </div>
       {% elif state.phase == "processing" %}
@@ -22,7 +22,7 @@
         <p class="lead">We publiceren je uitnodiging. Dit scherm werkt zichzelf bij.</p>
       {% elif state.phase == "attention" %}
         <h1>Betaling ontvangen</h1>
-        <p class="lead">Je betaling is goed ontvangen, maar het publiceren duurt langer dan normaal. We proberen het automatisch opnieuw en het Vierlief-team is ingeschakeld. Je hoeft niets te doen.</p>
+        <p class="lead">Je betaling is goed ontvangen, maar het publiceren duurt langer dan normaal. We proberen het automatisch opnieuw en het Vaylia-team is ingeschakeld. Je hoeft niets te doen.</p>
       {% elif state.phase == "failed" %}
         <h1>Betaling niet gelukt</h1>
         <p class="lead">Er is niets afgeschreven. Je ontwerp is bewaard; je kunt het opnieuw proberen.</p>
@@ -31,10 +31,10 @@
         <p class="lead">Je hebt de betaling afgebroken. Je ontwerp is bewaard; je kunt het opnieuw proberen wanneer je wilt.</p>
       {% elif state.phase == "superseded" %}
         <h1>Deze bestelling is vervangen</h1>
-        <p class="lead">Je bent opnieuw begonnen met afrekenen. Bekijk je uitnodiging in Mijn Vierlief.</p>
+        <p class="lead">Je bent opnieuw begonnen met afrekenen. Bekijk je uitnodiging in Mijn Vaylia.</p>
       {% else %}
         <h1>We wachten op de bevestiging van je betaling</h1>
-        <p class="lead">Dit duurt meestal een paar seconden. Dit scherm werkt zichzelf bij; je kunt het ook later terugvinden in Mijn Vierlief.</p>
+        <p class="lead">Dit duurt meestal een paar seconden. Dit scherm werkt zichzelf bij; je kunt het ook later terugvinden in Mijn Vaylia.</p>
       {% endif %}
 
       <ol class="progress-list" aria-label="Voortgang">

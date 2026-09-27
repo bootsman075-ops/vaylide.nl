@@ -1,4 +1,4 @@
-/* Vierlief: eigen sfeerbeelden voor de website, getekend op een canvas.
+/* Vaylia: eigen sfeerbeelden voor de website, getekend op een canvas.
    Geen foto's of stockbeeld: alleen verlopen, vervaagde vormen en korrel.
    Wordt gebruikt door render.cjs (zie README in deze map). */
 (function () {

@@ -34,7 +34,7 @@ class SiteConfig(models.Model):
         verbose_name_plural = "instellingen"
 
     def __str__(self) -> str:
-        return "Vierlief-instellingen"
+        return "Vaylia-instellingen"
 
     @classmethod
     def get(cls) -> "SiteConfig":

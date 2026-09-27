@@ -1,7 +1,8 @@
-// Tekent de eigen beelden van Vierlief:
+// Tekent de eigen beelden van Vaylia:
 // - sfeerbeelden uit scenes.js (WebP in static/img/site/);
-// - merkbeelden uit merk.html: app-icoon, deelafbeeldingen en de standaardafbeelding voor ontwerpen.
-// Gebruik (Playwright met Chromium nodig): node tools/merkbeelden/render.cjs
+// - merkbeelden uit merk.html: deelafbeeldingen en de standaardafbeelding voor ontwerpen.
+// Gebruik (Playwright met Chromium nodig): node tools/merkbeelden/render.cjs [merk]
+// Met 'merk' alleen de merkbeelden. Het logo en de iconen komen uit tools/logo/maak_logo.py.
 // De tegels en de voorbeeldkaart zijn schermafbeeldingen van de echte voorbeelduitnodigingen (zie README.md).
 const fs = require("fs");
 const path = require("path");
@@ -23,7 +24,7 @@ const JOBS = [
   const page = await browser.newPage();
   await page.setContent("<!doctype html><body></body>");
   await page.addScriptTag({ path: path.join(__dirname, "scenes.js") });
-  for (const [scene, w, h, name] of JOBS) {
+  for (const [scene, w, h, name] of process.argv[2] === "merk" ? [] : JOBS) {
     const data = await page.evaluate(([s, w, h]) => window.renderScene(s, w, h, "image/webp", 0.8), [scene, w, h]);
     const file = path.join(OUT, `${name}.webp`);
     fs.writeFileSync(file, Buffer.from(data.split(",")[1], "base64"));
@@ -33,11 +34,10 @@ const JOBS = [
   const IMG = path.resolve(__dirname, "../../static/img");
   const merk = await browser.newPage({ viewport: { width: 1300, height: 900 } });
   await merk.goto("file://" + path.join(__dirname, "merk.html"));
-  await merk.evaluate(() => document.fonts.ready);
+  await merk.evaluate(() => Promise.all([document.fonts.ready, ...[...document.images].map((i) => i.decode())]));
   await merk.waitForTimeout(300);
   const shots = [
-    ["#icoon", path.join(IMG, "apple-touch-icon.png"), { type: "png" }],
-    ["#og-site", path.join(IMG, "og-vierlief.jpg"), { type: "jpeg", quality: 86 }],
+    ["#og-site", path.join(IMG, "og-vaylia.jpg"), { type: "jpeg", quality: 86 }],
     ["#og-uitnodiging", path.join(IMG, "og-uitnodiging.jpg"), { type: "jpeg", quality: 86 }],
   ];
   for (const [selector, file, options] of shots) {

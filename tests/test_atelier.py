@@ -15,7 +15,7 @@ from invitations.render import RenderOptions, build_view
 
 from invitations.models import Invitation
 
-from .helpers import VierliefTestCase, future_date
+from .helpers import VayliaTestCase, future_date
 
 LONG_NAMES = {
     "bruiloft": {"partner_1": "Maximiliaan-Alexander van den Boogaard", "partner_2": "Ernestina"},
@@ -34,7 +34,7 @@ def atelier_manifests():
             yield path, data
 
 
-class AtelierCollectionTests(VierliefTestCase):
+class AtelierCollectionTests(VayliaTestCase):
     def test_thirty_designs_five_per_occasion(self):
         manifests = [data for _, data in atelier_manifests()]
         self.assertEqual(len(manifests), 30)
@@ -69,7 +69,7 @@ class AtelierCollectionTests(VierliefTestCase):
         self.assertIn("gedempte tekst op achtergrond", problems[0])
 
 
-class AtelierRenderTests(VierliefTestCase):
+class AtelierRenderTests(VayliaTestCase):
     def test_every_design_renders_for_each_occasion_and_colour(self):
         for template in Template.objects.filter(current_version__manifest__has_key="atelier"):
             atelier = template.current_version.manifest["atelier"]
@@ -137,7 +137,7 @@ class AtelierRenderTests(VierliefTestCase):
         self.assertContains(response, "Vul een getal in.")
 
 
-class AtelierJourneyTests(VierliefTestCase):
+class AtelierJourneyTests(VayliaTestCase):
     def test_compose_preview_pay_and_publish_with_a_new_design(self):
         owner = self.make_customer()
         c = Client()
@@ -172,7 +172,7 @@ class AtelierJourneyTests(VierliefTestCase):
         self.assertContains(page, 'data-palette="blauw"')
 
 
-class AtelierSiteTests(VierliefTestCase):
+class AtelierSiteTests(VayliaTestCase):
     def test_home_features_three_designs_and_the_count(self):
         response = Client().get("/")
         count = Template.objects.filter(is_active=True, current_version__isnull=False).count()

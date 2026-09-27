@@ -89,7 +89,7 @@ class MollieProvider:
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json",
                 "Accept": "application/json",
-                "User-Agent": "Vierlief/1.0",
+                "User-Agent": "Vaylia/1.0",
             },
         )
         try:

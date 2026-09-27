@@ -1,10 +1,10 @@
 """Website: nieuwe pagina's, zoeken zonder klantgegevens en de navigatie uit de nieuwe vormgeving."""
 from django.test import Client
 
-from .helpers import VierliefTestCase
+from .helpers import VayliaTestCase
 
 
-class NewPagesTests(VierliefTestCase):
+class NewPagesTests(VayliaTestCase):
     def test_inspiration_and_about_pages(self):
         inspiration = Client().get("/inspiratie/")
         self.assertContains(inspiration, "Voorbeeldteksten")
@@ -35,7 +35,7 @@ class NewPagesTests(VierliefTestCase):
         self.assertContains(Client().get("/veelgestelde-vragen/"), 'id="vraag-1"')
 
 
-class SearchTests(VierliefTestCase):
+class SearchTests(VayliaTestCase):
     def test_finds_faq_designs_and_pages(self):
         response = Client().get("/zoeken/", {"q": "muziek"})
         self.assertContains(response, "Kan ik muziek toevoegen?")
@@ -71,3 +71,46 @@ class SearchTests(VierliefTestCase):
         response = Client().get("/zoeken/")
         self.assertContains(response, "Bijvoorbeeld:")
         self.assertEqual(response.context["results"], [])
+
+
+class BrandTests(VayliaTestCase):
+    """Merk Vaylia: het logo zoals aangeleverd, de iconen en nergens meer de oude naam."""
+
+    PAGES = ("/", "/ontwerpen/", "/zo-werkt-het/", "/prijzen/", "/inspiratie/", "/over-ons/", "/veelgestelde-vragen/",
+             "/contact/", "/privacy/", "/voorwaarden/", "/inloggen/", "/maken/", "/voorbeeld/stipjes/", "/bestaat-niet/")
+
+    def test_logo_icons_and_share_image(self):
+        from django.contrib.staticfiles import finders
+
+        html = Client().get("/").content.decode()
+        self.assertIn('class="logo__img"', html)
+        self.assertIn('alt="Vaylia"', html)
+        self.assertIn('aria-label="Vaylia, naar de homepage"', html)
+        self.assertIn("img/og-vaylia.jpg", html)
+        self.assertIn('<meta property="og:site_name" content="Vaylia">', html)
+        for path in ("img/merk/vaylia-logo.webp", "img/favicon-32.png", "img/favicon-48.png", "img/icon-192.png",
+                     "img/apple-touch-icon.png", "img/og-vaylia.jpg"):
+            self.assertIn(path.rsplit(".", 1)[0], html, path)
+            self.assertTrue(finders.find(path), path)
+        # De PNG-versie is voor de e-mails.
+        self.assertTrue(finders.find("img/merk/vaylia-logo.png"))
+        # Het oude merkteken is weg.
+        self.assertNotIn("favicon.svg", html)
+        self.assertFalse(finders.find("img/favicon.svg"))
+
+    def test_old_name_is_gone_from_pages(self):
+        for url in self.PAGES:
+            response = Client().get(url)
+            self.assertIn(response.status_code, (200, 404), url)
+            html = response.content.decode()
+            self.assertNotIn("Vierlief", html, url)
+            self.assertIn("Vaylia", html, url)
+
+    def test_emails_show_logo_and_name(self):
+        from processing.emails import send_login_code
+
+        email = send_login_code("gast@example.com", "123456", "/inloggen/code/")
+        self.assertIn("Vaylia", email.subject)
+        self.assertIn('alt="Vaylia"', email.body_html)
+        self.assertIn("https://vaylia.test/static/img/merk/vaylia-logo.png", email.body_html)
+        self.assertNotIn("Vierlief", email.body_html + email.body_text + email.subject)

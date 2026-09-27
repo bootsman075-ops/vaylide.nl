@@ -42,7 +42,7 @@ STEPS = [
     ("Voeg foto's toe", "Je kiest zelf welk deel in beeld komt."),
     ("Bekijk je voorbeeld", "Op telefoon en computer; pas aan wat je wilt."),
     ("Betaal online", "Na een bevestigde betaling wordt je uitnodiging automatisch gepubliceerd."),
-    ("Deel en volg aanmeldingen", "Via link of QR-code. Antwoorden zie je in Mijn Vierlief."),
+    ("Deel en volg aanmeldingen", "Via link of QR-code. Antwoorden zie je in Mijn Vaylia."),
 ]
 
 FEATURES = [
@@ -58,7 +58,7 @@ FEATURES = [
 ]
 
 FAQ = [
-    ("Hoe werkt een digitale uitnodiging van Vierlief?",
+    ("Hoe werkt een digitale uitnodiging van Vaylia?",
      "Je kiest een ontwerp, vult de gegevens van je evenement in en bekijkt meteen een persoonlijk voorbeeld. "
      "Na de betaling wordt je uitnodiging automatisch gepubliceerd op een eigen link. Die deel je via WhatsApp, e-mail of met een QR-code."),
     ("Heb ik een account nodig?",
@@ -67,9 +67,9 @@ FAQ = [
     ("Moeten mijn gasten een account aanmaken?",
      "Nee. Gasten openen de link en geven aan of ze komen, eventueel met hoeveel personen. Ze kunnen hun antwoord later zelf wijzigen."),
     ("Kan ik na het publiceren nog iets aanpassen?",
-     "Ja. Je wijzigt de gegevens in Mijn Vierlief, bekijkt een voorbeeld en publiceert opnieuw. De link en de QR-code blijven hetzelfde."),
+     "Ja. Je wijzigt de gegevens in Mijn Vaylia, bekijkt een voorbeeld en publiceert opnieuw. De link en de QR-code blijven hetzelfde."),
     ("Wie kan de aanmeldingen zien?",
-     "Alleen jij, in Mijn Vierlief. Gasten zien elkaars antwoorden niet. Je kunt de gastenlijst exporteren naar een bestand voor Excel of Numbers."),
+     "Alleen jij, in Mijn Vaylia. Gasten zien elkaars antwoorden niet. Je kunt de gastenlijst exporteren naar een bestand voor Excel of Numbers."),
     ("Wordt mijn uitnodiging gevonden via Google?",
      "Nee. Uitnodigingen zijn alleen bereikbaar via de link en we vragen zoekmachines om ze niet op te nemen."),
     ("Kan ik muziek toevoegen?",
@@ -82,11 +82,11 @@ FAQ = [
      "Je betaalt online bij het afronden van je bestelling. Welke betaalmethoden beschikbaar zijn, zoals iDEAL, zie je bij het afrekenen."),
     ("Wanneer staat mijn uitnodiging online?",
      "Zodra de betaalprovider je betaling heeft bevestigd, wordt je uitnodiging automatisch gepubliceerd. "
-     "Je ziet de link direct in Mijn Vierlief en ontvangt hem ook per e-mail."),
+     "Je ziet de link direct in Mijn Vaylia en ontvangt hem ook per e-mail."),
     ("Hoe lang blijft mijn uitnodiging online?",
-     "Dat hangt af van je pakket. De einddatum zie je bij je uitnodiging in Mijn Vierlief. Langer online is als extra optie mogelijk."),
+     "Dat hangt af van je pakket. De einddatum zie je bij je uitnodiging in Mijn Vaylia. Langer online is als extra optie mogelijk."),
     ("Ik heb een bijzondere wens. Kan dat?",
-     "Gebruik 'Extra wensen of hulp nodig?' tijdens het samenstellen of in Mijn Vierlief. We bekijken je vraag persoonlijk. "
+     "Gebruik 'Extra wensen of hulp nodig?' tijdens het samenstellen of in Mijn Vaylia. We bekijken je vraag persoonlijk. "
      "Kost het iets extra, dan krijg je eerst een voorstel; we beginnen pas na jouw akkoord."),
     ("Wat gebeurt er met de gegevens na afloop?",
      "Na de beschikbaarheidsperiode gaat de uitnodiging offline en worden de gastgegevens na een vaste termijn verwijderd. "
@@ -112,7 +112,7 @@ TIPS = [
     ("delen", "Deel op jouw manier", "Stuur de link via WhatsApp of e-mail, of zet de QR-code op een kaart."),
 ]
 
-# Over ons: waar Vierlief op let.
+# Over ons: waar Vaylia op let.
 VALUES = [
     ("hart", "Persoonlijk", "Je uitnodiging vertelt jullie verhaal, met eigen tekst, foto's en programma."),
     ("potlood", "Eenvoudig", "Je maakt hem zelf, in je eigen tempo. Gasten hebben geen account nodig."),

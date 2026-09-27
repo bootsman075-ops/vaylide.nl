@@ -1,12 +1,14 @@
-# Vierlief
+# Vaylia
 
 *Elk bijzonder moment begint met een uitnodiging.*
 
-Vierlief is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement. Standaardbestellingen lopen automatisch:
+Vaylia is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement. Standaardbestellingen lopen automatisch:
 
 ontwerp kiezen → vragen invullen → foto's uploaden → voorbeeld controleren → betalen → automatische publicatie → delen → aanmeldingen beheren.
 
 De eigenaar grijpt alleen in bij extra wensen, vragen en storingen.
+
+Het project heette eerst "Vierlief" (werknaam). Sinds ronde 6 heet het merk **Vaylia**, met het logo in `tools/logo/`. Technische namen die bezoekers niet zien, zoals de instellingen `VIERLIEF_…`, zijn bewust gebleven; zie [docs/OVERDRACHT.md](docs/OVERDRACHT.md).
 
 > **Status: eerste versie in testmodus.** Betalingen zijn gesimuleerd, e-mails worden alleen bewaard (niet verstuurd) en de AI-hulp draait zonder sleutel met vaste voorbeeldteksten. Op elke pagina staat een testbalk. Wat nodig is om live te gaan: [docs/LIVEGANG.md](docs/LIVEGANG.md).
 
@@ -45,7 +47,7 @@ Open daarna http://127.0.0.1:8000.
 | Website | `/` |
 | Ontwerpen en werkende voorbeelden | `/ontwerpen/` (33 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/` of `/voorbeeld/sterrennacht/` |
 | Zelf een uitnodiging maken | `/maken/` |
-| Mijn Vierlief (klant) | `/account/` |
+| Mijn Vaylia (klant) | `/account/` |
 | Beheer (eigenaar) | `/beheer/`, inloggen met het account uit `createsuperuser` |
 
 In testmodus:
@@ -89,7 +91,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-132 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten en de websitepagina's (ook zoeken). Ze zijn gedraaid op SQLite en PostgreSQL 16; in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+135 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken) en het merk (logo, iconen, geen oude naam). Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 
@@ -98,9 +100,9 @@ Vereisten: https, een blijvende map voor uploads, een worker of cron voor de ver
 **Docker** (getest: bouwen, starten op een leeg volume en de tests in de container):
 
 ```bash
-docker build -t vierlief .
-docker run -d --name vierlief -p 8000:8000 --env-file .env.productie -v vierlief-data:/data vierlief
-docker run -d --name vierlief-worker --env-file .env.productie -v vierlief-data:/data vierlief \
+docker build -t vaylia .
+docker run -d --name vaylia -p 8000:8000 --env-file .env.productie -v vaylia-data:/data vaylia
+docker run -d --name vaylia-worker --env-file .env.productie -v vaylia-data:/data vaylia \
   python manage.py process_jobs --loop
 ```
 
@@ -124,12 +126,12 @@ Controleer na installatie met `python manage.py check --deploy`. Er horen dan al
 | `orders/` | Bestellen, prijsberekening, betaalproviders (test en Mollie), verwerking na betaling |
 | `processing/` | Takenwachtrij met herhalingen en de e-mails |
 | `wishes/` | Extra wensen en maatwerkvoorstellen |
-| `portal/` | Mijn Vierlief (klantomgeving) |
+| `portal/` | Mijn Vaylia (klantomgeving) |
 | `beheer/` | Beheeromgeving voor de eigenaar |
 | `accounts/` | Klantaccounts (inlogcode per e-mail) en beheerders |
 | `tests/` | Geautomatiseerde tests |
 | `e2e/` | Browsercontroles en scripts voor de afbeeldingen |
-| `tools/` | Maakt de eigen beelden: abstracte voorbeeldafbeeldingen en (in `tools/merkbeelden/`) de sfeer- en merkbeelden van de website; in `tools/atelier/` de beschrijving en het script voor de Atelier-ontwerpen |
+| `tools/` | Maakt de eigen beelden: abstracte voorbeeldafbeeldingen en (in `tools/merkbeelden/`) de sfeer- en deelbeelden van de website; in `tools/logo/` het logo zoals aangeleverd en het script voor de logobestanden en iconen; in `tools/atelier/` de beschrijving en het script voor de Atelier-ontwerpen |
 
 ## Beveiliging in het kort
 
