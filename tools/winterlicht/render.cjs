@@ -2,6 +2,7 @@
 // Ook de plekken van de levende lichtjes (kaarsvlammen, lichtsnoer, ster) komen hieruit: lichtjes.html.
 // Gebruik (Node met Playwright en Chromium): node tools/winterlicht/render.cjs [alleen-dit-soort ...]
 //   bijvoorbeeld: node tools/winterlicht/render.cjs scene     (alleen de scènes)
+// Daarna: .venv/bin/python tools/winterlicht/comprimeer.py (reliëf- en goudbeelden kleiner, zie README.md).
 // Let op: designs/winterlicht/v1 is een uitgebrachte ontwerpversie. Nieuwe beelden na de livegang horen in een v2.
 const fs = require("fs");
 const path = require("path");

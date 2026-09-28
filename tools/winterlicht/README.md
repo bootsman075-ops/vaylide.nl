@@ -17,6 +17,7 @@ Opnieuw maken (Node met Playwright en Chromium):
 node tools/winterlicht/render.cjs            # alles
 node tools/winterlicht/render.cjs scene      # alleen de scènes (en lichtjes.html)
 node tools/winterlicht/render.cjs huis relief goud foto
+.venv/bin/python tools/winterlicht/comprimeer.py   # daarna: reliëf- en goudbeelden ongeveer half zo groot
 ```
 
 Hoe het werkt:
@@ -24,6 +25,7 @@ Hoe het werkt:
 - **Vaste toevalsgetallen.** Elke tekening gebruikt vaste reeksen (`rng(seed)`), zodat een nieuwe run hetzelfde beeld geeft. Elk deel van de scène heeft een eigen reeks: pas je één deel aan, dan blijft de rest gelijk.
 - **Kleuren per variant** staan in `PALETTES` bovenin `art.js`. Een nieuwe kleurvariant krijgt daar een blok en in `render.cjs` een plek in `PALETTES`; voeg hem ook toe aan `manifest.json` (met de controle op contrast in de tests).
 - **Reliëf.** Het motief wordt eerst als hoogtekaart getekend. Daaruit komen licht en schaduw, zoals bij echt blindgedrukt papier, als een doorzichtige laag.
+- **Zwaarte.** De envelop is het eerste wat een gast ziet, dus die beelden moeten snel binnen zijn. `comprimeer.py` maakt de reliëf- en goudbeelden ongeveer half zo groot, en de gouden laag laadt pas na de rest (`.wl-geladen` in `style.css`, gezet door `winterlicht.js`), want die is pas bij het openen nodig.
 - **Lichtjes.** Tijdens het tekenen onthoudt `art.js` waar lichtjes staan. `render.cjs` kiest er een vast aantal per soort uit (`KEEP`: genoeg voor de sfeer, weinig genoeg voor een oudere telefoon) en schrijft ze naar `lichtjes.html`. Daar twinkelen ze met CSS, alleen als beweging aan staat.
 - **Tekst vrijhouden.** De namen en de wens staan in het bovenste deel van de boog (`.wl-hero__text` in `style.css`), tussen de lantaarns en boven de torenspits (op 49% van de hoogte; `LIMIT` in `winterlicht.js`). Houd dat deel van de scène rustig; de kerstster staat daarom links van het kerkje, onder de tekst. Controleer na een wijziging het contrast van de tekst op de tekening met `node e2e/kerstraam.cjs http://127.0.0.1:8000`.
 

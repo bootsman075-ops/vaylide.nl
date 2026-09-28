@@ -34,7 +34,8 @@
     <img class="wl-hero__img" src="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'-720.webp' %}" srcset="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'-720.webp' %} 720w, {% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'.webp' %} 1080w" sizes="(min-width: 600px) 560px, 120vw" alt="" width="1080" height="1920" fetchpriority="high" decoding="async">
     {% include "winterlicht/v1/lichtjes.html" %}
     <div class="fx-slot wl-hero__snow" data-fx-slot="hero" aria-hidden="true"></div>
-    <div class="wl-hero__text">
+    {# data-tekst-op-beeld: de tekst staat op de tekening; het contrast meet e2e/kerstraam.cjs op de echte pixels. #}
+    <div class="wl-hero__text" data-tekst-op-beeld>
       <p class="wl-hero__kicker fx-intro" style="--fx-d:1">{{ v.kicker }}{% if v.occasion == "kerst" and not v.headline_custom %}<span class="wl-hero__from"> van</span>{% endif %}</p>
       <h1 class="wl-names wl-names--{{ v.names_size }} fx-names">{% if v.is_couple %}<span class="wl-names__one">{{ v.names.0 }}</span> <span class="wl-names__amp" aria-label="en">&amp;</span> <span class="wl-names__two">{{ v.names.1 }}</span>{% else %}{{ v.names.0 }}{% endif %}</h1>
       {% if v.subnames %}<p class="wl-hero__members fx-intro" style="--fx-d:5">{{ v.subnames }}</p>{% endif %}

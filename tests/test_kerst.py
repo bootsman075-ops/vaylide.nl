@@ -261,6 +261,7 @@ class WinterlichtDesignTests(VaylideTestCase):
             "data-scratch", "data-scratch-all", "Kras en ontdek de datum",
             'class="wl-icon"', "Het programma", "Schuif je aan?", "Fijne feestdagen", "wl-bauble",
             'data-music-synth="stille-nacht"', "designs/winterlicht/v1/winterlicht.js",
+            "data-tekst-op-beeld",                                  # contrast op de tekening: e2e/kerstraam.cjs
         ):
             self.assertIn(fragment, html)
         # De volledige datum staat er voor schermlezers, los van de kraskaartjes.
@@ -310,6 +311,19 @@ class WinterlichtDesignTests(VaylideTestCase):
             if line.startswith(".fx-motion .wl-l") and "infinite" in line:
                 self.assertIn("animation-play-state: var(--fx-play, running)", line, line)
         self.assertNotRegex(css, r"(?m)^\.wl-l[^{]*\{[^}]*animation:")
+
+    def test_envelope_loads_light(self):
+        # De envelop is het eerste beeld: reliëf klein gehouden (comprimeer.py), de gouden laag pas na 'load'.
+        folder = settings.BASE_DIR / "designs" / "winterlicht" / "v1"
+        sizes = {p.stem: p.stat().st_size for p in (folder / "img").glob("*.webp")}
+        first_view = sum(sizes[n] for n in ("relief-boven", "relief-krans", "relief-zijkant", "relief-patroon"))
+        self.assertLess(first_view, 220 * 1024)
+        self.assertLess(sum(sizes[n] for n in ("goud-boven", "goud-krans", "goud-zijkant")), 130 * 1024)
+        css = (folder / "style.css").read_text(encoding="utf-8")
+        script = (folder / "winterlicht.js").read_text(encoding="utf-8")
+        self.assertNotRegex(css, r"(?m)^\.wl-flap__goud[^{]*\{[^}]*goud-")
+        self.assertIn('.wl-geladen .wl-flap__goud .wl-emb--boven { background-image: url("img/goud-boven.webp"); }', css)
+        self.assertIn('classList.add("wl-geladen")', script)
 
     def test_other_demos_keep_their_own_music(self):
         html = Client().get("/voorbeeld/liefde-op-papier/").content.decode()

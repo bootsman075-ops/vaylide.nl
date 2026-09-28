@@ -48,7 +48,9 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
   background:
     radial-gradient(90% 70% at 50% 38%, color-mix(in srgb, var(--wl-page) 78%, #FFE7B8 8%), var(--wl-page));
 }
-.wl-env { position: relative; width: var(--wl-w); height: min(100%, 1060px); perspective: 1500px; }
+/* De papierkleur ook op de envelop zelf: onzichtbaar (de binnenkant en de kleppen liggen erover), maar zo ziet een
+   contrastcontrole waar de tekst op het openingsscherm op staat. */
+.wl-env { position: relative; width: var(--wl-w); height: min(100%, 1060px); perspective: 1500px; background-color: var(--wl-env); }
 .wl-flap { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 1.05s cubic-bezier(.62, .02, .3, 1); }
 .wl-flap__face, .wl-flap__back { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; overflow: hidden; }
 .wl-flap__face { background: url("img/relief-patroon.webp") 0 0 / 150px repeat, var(--wl-flap-shade, none), var(--wl-env); }
@@ -75,9 +77,10 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .wl-emb--rechts { right: 1.5%; transform: scaleX(-1); }
 .wl-emb--krans { left: 50%; bottom: 2.4%; width: min(52%, 300px); aspect-ratio: 1; translate: -50% 0; background-image: url("img/relief-krans.webp"); }
 .wl-flap__goud { opacity: 0; }
-.wl-flap__goud .wl-emb--boven { background-image: url("img/goud-boven.webp"); }
-.wl-flap__goud :is(.wl-emb--links, .wl-emb--rechts) { background-image: url("img/goud-zijkant.webp"); }
-.wl-flap__goud .wl-emb--krans { background-image: url("img/goud-krans.webp"); }
+/* De gouden laag is pas bij het openen nodig: die beelden laden na de rest (winterlicht.js zet .wl-geladen na 'load'). */
+.wl-geladen .wl-flap__goud .wl-emb--boven { background-image: url("img/goud-boven.webp"); }
+.wl-geladen .wl-flap__goud :is(.wl-emb--links, .wl-emb--rechts) { background-image: url("img/goud-zijkant.webp"); }
+.wl-geladen .wl-flap__goud .wl-emb--krans { background-image: url("img/goud-krans.webp"); }
 
 /* Vouwlijnen en een koordje over de kruising, zoals bij een echte envelop. */
 .wl-env__edges { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; pointer-events: none; overflow: visible; transition: opacity .45s ease; }

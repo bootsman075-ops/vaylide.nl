@@ -3,6 +3,13 @@
    (verborgen tekst in de sectie), en de knop 'Toon de datum zonder krassen' werkt met het toetsenbord.
    Wijzig een uitgebrachte versie niet: maak een v2. */
 
+/* De gouden laag van de envelop laadt pas als de rest er is: hij is nodig bij het openen, niet eerder. */
+(function () {
+  "use strict";
+  function done() { document.documentElement.classList.add("wl-geladen"); }
+  if (document.readyState === "complete") done(); else window.addEventListener("load", done);
+})();
+
 /* De kop vult precies het scherm: de voorbeeldbalk bovenaan gaat eraf, zodat 'Scroll verder' in beeld blijft. */
 (function () {
   "use strict";
