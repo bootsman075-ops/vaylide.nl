@@ -1044,8 +1044,9 @@
     ctx.restore();
   }
 
-  function bow(ctx, x, y, s, p) {
+  function bow(ctx, x, y, s, p, tail) {
     const c = p.red[0], dark = p.red[1];
+    const t = tail || 1;
     const loop = (dir) => {
       ctx.save();
       ctx.translate(x, y);
@@ -1073,10 +1074,10 @@
       ctx.fillStyle = tg;
       ctx.beginPath();
       ctx.moveTo(-s * 0.05, s * 0.1);
-      ctx.bezierCurveTo(s * 0.3, s * 1.1, s * 0.05, s * 2.2, s * 0.55, s * 3.3);
-      ctx.lineTo(s * 0.78, s * 3.05);
-      ctx.lineTo(s * 0.95, s * 3.35);
-      ctx.bezierCurveTo(s * 0.55, s * 2.2, s * 0.75, s * 1.2, s * 0.3, s * 0.05);
+      ctx.bezierCurveTo(s * 0.3, s * 1.1 * t, s * 0.05, s * 2.2 * t, s * 0.55, s * 3.3 * t);
+      ctx.lineTo(s * 0.78, s * 3.05 * t);
+      ctx.lineTo(s * 0.95, s * 3.35 * t);
+      ctx.bezierCurveTo(s * 0.55, s * 2.2 * t, s * 0.75, s * 1.2 * t, s * 0.3, s * 0.05);
       ctx.closePath();
       ctx.fill();
       ctx.restore();
@@ -1162,8 +1163,8 @@
       ctx.beginPath(); ctx.arc(x, y, 2.4, 0, TAU); ctx.fill();
       if (i % 2 === 0) ov.push({ t: "fairy", x, y, s: 34, d: (i * 0.29) % 2.6 });
     });
-    // Strik bovenin.
-    bow(ctx, G.cx, G.spring - radius - 4, 36, p);
+    // Strik bovenin (met korte linten: daaronder begint de tekst).
+    bow(ctx, G.cx, G.spring - radius - 4, 36, p, 0.62);
   }
 
   /* ------------------------------------------------------------------ lantaarns en kaarsen */
@@ -1304,7 +1305,7 @@
     ctx.clip();
     sky(ctx, p, next());
     // De kerstster schuin boven de kerk, onder de tekst (die staat hoger in de lucht).
-    christmasStar(ctx, 366, 812, 11, p, ov);
+    christmasStar(ctx, 372, 858, 10, p, ov);
     ridge(ctx, next(), 902, 16, p.far, 1.2, 0.5, p);
     ridge(ctx, next(), 948, 12, [mix(p.far[0], p.near[1], 0.5), mix(p.far[1], p.near[1], 0.5)], 0.6, 0.4, p);
     field(ctx, next(), p);

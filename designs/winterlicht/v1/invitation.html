@@ -18,9 +18,9 @@
       <path class="wl-env__cord" d="M0 0L50 46L100 0M0 100L50 46L100 100"/>
     </svg>
     <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
-    <a href="#uitnodiging" class="wl-seal fx-pulse" data-open data-fx-origin aria-label="Open de kerstkaart">{% include "winterlicht/v1/_zegel.html" %}</a>
+    <a href="#uitnodiging" class="wl-seal fx-pulse" data-open data-fx-origin aria-label="Open de {{ v.doc_kind }}">{% include "winterlicht/v1/_zegel.html" %}</a>
     <div class="wl-cover__text">
-      <p class="wl-cover__to">Een kerstgroet voor jou</p>
+      <p class="wl-cover__to">{% if v.occasion == "kerst" %}Een kerstgroet voor jou{% elif v.formal %}Een uitnodiging voor u{% else %}Een uitnodiging voor jou{% endif %}</p>
       <p class="wl-cover__hint">Tik op het zegel om te openen</p>
       {% if v.show.music %}<button type="button" class="wl-cover__music" data-open data-open-music>Openen met muziek</button>{% endif %}
     </div>
@@ -35,8 +35,8 @@
     {% include "winterlicht/v1/lichtjes.html" %}
     <div class="fx-slot wl-hero__snow" data-fx-slot="hero" aria-hidden="true"></div>
     <div class="wl-hero__text">
-      <p class="wl-hero__kicker fx-intro" style="--fx-d:1">{{ v.kicker }}{% if not v.headline_custom %}<span class="wl-hero__from"> van</span>{% endif %}</p>
-      <h1 class="wl-names wl-names--{{ v.names_size }} fx-names">{{ v.names.0 }}</h1>
+      <p class="wl-hero__kicker fx-intro" style="--fx-d:1">{{ v.kicker }}{% if v.occasion == "kerst" and not v.headline_custom %}<span class="wl-hero__from"> van</span>{% endif %}</p>
+      <h1 class="wl-names wl-names--{{ v.names_size }} fx-names">{% if v.is_couple %}<span class="wl-names__one">{{ v.names.0 }}</span> <span class="wl-names__amp" aria-label="en">&amp;</span> <span class="wl-names__two">{{ v.names.1 }}</span>{% else %}{{ v.names.0 }}{% endif %}</h1>
       {% if v.subnames %}<p class="wl-hero__members fx-intro" style="--fx-d:5">{{ v.subnames }}</p>{% endif %}
       <p class="wl-hero__tagline fx-intro" style="--fx-d:6">{{ v.tagline }}</p>
     </div>
@@ -62,7 +62,7 @@
 {% endif %}
 
 {% if v.welcome or v.hero %}
-<section class="wl-sec wl-letter" data-reveal aria-label="Kerstgroet">
+<section class="wl-sec wl-letter" data-reveal aria-label="{% if v.occasion == 'kerst' %}Kerstgroet{% else %}Welkom{% endif %}">
   <div class="wl-letter__card">
     <svg class="wl-letter__orn" viewBox="0 0 200 60" aria-hidden="true" focusable="false" data-fx-draw>
       <path d="M100 8l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
@@ -159,7 +159,7 @@
 
 {% if v.show.rsvp %}
 <section class="wl-sec wl-rsvp" id="aanmelden" data-reveal aria-labelledby="wl-rsvp-title">
-  <h2 id="wl-rsvp-title" class="wl-h2">{% if v.formal %}Schuift u aan?{% else %}Schuif je aan?{% endif %}</h2>
+  <h2 id="wl-rsvp-title" class="wl-h2">{% if v.occasion == "kerst" %}{% if v.formal %}Schuift u aan?{% else %}Schuif je aan?{% endif %}{% elif v.formal %}Komt u ook?{% else %}Kom je ook?{% endif %}</h2>
   {% include "winterlicht/v1/_divider.html" %}
   <div class="wl-card">
     {% include "invitations/partials/rsvp.html" %}
@@ -183,7 +183,7 @@
 
 <section class="wl-sec wl-closing" data-reveal aria-label="Afsluiting">
   {% include "winterlicht/v1/_krans.html" %}
-  <p class="wl-closing__wish">Fijne feestdagen</p>
+  {% if v.occasion == "kerst" %}<p class="wl-closing__wish">Fijne feestdagen</p>{% endif %}
   {% if v.show.closing %}{% for p in v.closing %}<p class="wl-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
   {% include "invitations/partials/share_buttons.html" %}
 </section>

@@ -10,6 +10,7 @@
   "opening": "envelop",
   "opening_label": "Envelop met lakzegel",
   "demo_melody": "stille-nacht",
+  "kaartbeeld": "open",
   "palettes": [
     {"key": "kaarslicht", "name": "Kaarslicht", "swatch": ["#F4EADB", "#8E1B26", "#C9A45C"],
      "vars": {"--wl-page": "#2B1C18", "--wl-paper": "#FBF6EE", "--wl-paper-2": "#F4ECDF", "--wl-ink": "#3A2724", "--wl-muted": "#6A5550", "--wl-accent": "#8A2331", "--wl-accent-ink": "#FFFFFF", "--wl-gold": "#B98F4C", "--wl-gold-2": "#8E6528", "--wl-line": "#E4D5C0", "--wl-env": "#F4EADB", "--wl-env-2": "#E6D6BF", "--wl-env-ink": "#6A4E44", "--wl-liner": "#8A2331", "--wl-seal": "#8E1B26", "--wl-seal-2": "#BD4650", "--wl-seal-ink": "#F4D99E", "--wl-hero-ink": "#5A1F25", "--wl-hero-ink-2": "#6E4035", "--wl-names": "#7E3E22", "--wl-hero-glow": "rgba(255,248,236,.85)", "--wl-foot": "rgba(251,246,238,.84)", "--wl-foot-ink": "#5A1F25", "--fx-1": "#C9A45C", "--fx-2": "#FFFFFF", "--fx-3": "#BD4650", "--fx-4": "#F4D99E", "--fx-bg": "#FBF6EE"}},

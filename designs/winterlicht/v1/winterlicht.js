@@ -2,6 +2,17 @@
    Zonder dit script staat de datum er gewoon; schermlezers lezen altijd de volledige datum voor
    (verborgen tekst in de sectie), en de knop 'Toon de datum zonder krassen' werkt met het toetsenbord.
    Wijzig een uitgebrachte versie niet: maak een v2. */
+
+/* De kop vult precies het scherm: de voorbeeldbalk bovenaan gaat eraf, zodat 'Scroll verder' in beeld blijft. */
+(function () {
+  "use strict";
+  var bar = document.querySelector(".inv-banner");
+  if (!bar) return;
+  function set() { document.documentElement.style.setProperty("--wl-bar", bar.offsetHeight + "px"); }
+  set();
+  if (window.ResizeObserver) new ResizeObserver(set).observe(bar);
+})();
+
 (function () {
   "use strict";
 
@@ -145,7 +156,10 @@
     function scratch(p) {
       var g = canvas.getContext("2d");
       var rad = 17 * canvas._dpr;
+      // Wegkrassen met een dekkende kleur: anders haalt elke streek maar een deel van de folie weg.
       g.globalCompositeOperation = "destination-out";
+      g.fillStyle = "#000";
+      g.strokeStyle = "#000";
       g.lineCap = "round";
       g.lineJoin = "round";
       g.lineWidth = rad * 2;

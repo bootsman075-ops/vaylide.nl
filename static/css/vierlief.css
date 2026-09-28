@@ -228,8 +228,19 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .tile__label { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding: .8rem .9rem .85rem 1rem; font-weight: 600; font-size: .95rem; }
 .tile__label .icon { width: 1.1rem; height: 1.1rem; color: var(--ink-2); transition: transform .2s; }
 .tile:hover .tile__label .icon { transform: translateX(3px); color: var(--accent); }
+/* Brede tegel (Kerst): onder de zes gewone tegels, beeld en korte uitleg naast elkaar. */
+.tile-grid__wide { grid-column: 1 / -1; }
+.tile--wide { grid-template-rows: none; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: center; background: var(--forest); border-color: var(--forest); color: var(--on-dark); }
+.tile--wide:hover { color: var(--on-dark); }
+.tile--wide .tile__img { aspect-ratio: 1200 / 520; background: var(--forest); }
+.tile__body { display: grid; gap: .45rem; padding: clamp(1rem, 2.4vw, 1.6rem) clamp(1.1rem, 2.6vw, 2rem); }
+.tile__badge { justify-self: start; padding: .2rem .65rem; border-radius: 999px; background: var(--gold-soft); color: var(--ink); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.tile--wide .tile__label { justify-content: flex-start; gap: .6rem; padding: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 400; }
+.tile--wide .tile__label .icon { width: 1.4rem; height: 1.4rem; color: var(--gold); }
+.tile--wide:hover .tile__label .icon { color: var(--gold-soft); }
+.tile__note { color: var(--on-dark-muted); font-size: .98rem; line-height: 1.45; }
 @media (max-width: 1080px) { .tile-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile__label { padding: .7rem .75rem; font-size: .92rem; } }
+@media (max-width: 560px) { .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tile__label { padding: .7rem .75rem; font-size: .92rem; } .tile--wide { grid-template-columns: 1fr; } }
 
 /* ---------- Zo werkt het (paneel met vier stappen) ---------- */
 .how-panel h2 { text-align: center; margin-bottom: clamp(1.75rem, 4vw, 2.5rem); }

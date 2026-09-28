@@ -76,6 +76,7 @@ LONG_WORDS = {
     "jubileum": {"honorees": "Familie Vandenbroucke-Hoogeveen", "years": "125"},
     "babyshower": {"parents": "Anne-Wilhelmina & Maximiliaan", "baby_name": ""},
     "zakelijk": {"event_title": "Nieuwjaarsreceptie", "organization": "Internationale Handelsvereniging", "years": "100"},
+    "kerst": {"family": "Familie Vandenbroucke-Hoogeveen", "members": "Wilhelmina-Charlotte, Maximiliaan en de kleine Alexander"},
 }
 
 owner, _ = User.objects.get_or_create(email="controle@vierlief.test")
@@ -154,5 +155,18 @@ for template in Template.objects.all():
     inv = save_draft(inv, expected_rev=None, content=content, user=owner)
     inv = publish(inv, owner, package="essentieel")
     out[f"{slug}:woord"] = inv.public_path
+
+    # 5. Kerst: alleen een kerstgroet, zonder datum, locatie of aanmelden (de afteller telt af naar kerst).
+    if template.supports("kerst"):
+        inv = create_draft(occasion="kerst", template=template, owner=owner)
+        content = dict(inv.draft_content)
+        content["names"] = {"family": "Familie Jansen", "members": "Eva, Tom en Noor"}
+        content.update({"date": "", "start_time": "", "end_time": "", "venue_name": "", "address": "",
+                        "welcome_text": "Lieve allemaal,\n\nwe wensen jullie warme kerstdagen en een gezond nieuwjaar!",
+                        "closing_text": "Liefs, Eva, Tom en Noor"})
+        content["sections"] = dict(content["sections"], rsvp=False)
+        inv = save_draft(inv, expected_rev=None, content=content, user=owner)
+        inv = publish(inv, owner, package="essentieel")
+        out[f"{slug}:kerstgroet"] = inv.public_path
 
 print(json.dumps(out, indent=2))

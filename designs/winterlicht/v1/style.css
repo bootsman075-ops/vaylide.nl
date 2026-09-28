@@ -109,13 +109,13 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .wl-seal:focus-visible { outline-offset: 6px; border-radius: 50%; }
 .wl-seal:hover .wl-seal__svg { filter: drop-shadow(0 3px 5px rgba(40, 10, 10, .28)) drop-shadow(0 0 14px rgba(255, 214, 140, .55)); }
 
-.wl-cover__text { position: absolute; left: 50%; width: min(58%, 300px); translate: -50% 0; top: calc(46% + clamp(66px, 17vw, 90px)); z-index: 7; text-align: center; transition: opacity .35s ease; }
-.wl-cover__to { font: 600 .72rem/1.4 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-env-ink); }
-.wl-cover__hint { margin-top: .35rem; font: italic 500 1.12rem/1.3 var(--wl-serif); color: var(--wl-env-ink); }
+.wl-cover__text { position: absolute; left: 50%; width: min(72%, 300px); translate: -50% 0; top: calc(46% + clamp(66px, 17vw, 90px)); z-index: 7; text-align: center; transition: opacity .35s ease; }
+.wl-cover__to { font: 600 clamp(.6rem, 2.9vw, .72rem)/1.4 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-env-ink); }
+.wl-cover__hint { margin-top: .35rem; font: italic 500 clamp(.92rem, 4.3vw, 1.12rem)/1.3 var(--wl-serif); color: var(--wl-env-ink); }
 .wl-cover__music {
-  margin-top: .9rem; min-height: 44px; padding: .5rem 1.1rem; border-radius: 999px; cursor: pointer;
+  margin-top: .9rem; min-height: 44px; padding: .5rem clamp(.8rem, 4vw, 1.1rem); border-radius: 999px; cursor: pointer; white-space: nowrap;
   border: 1px solid color-mix(in srgb, var(--wl-env-ink) 45%, transparent); background: color-mix(in srgb, var(--wl-env) 70%, transparent);
-  color: var(--wl-env-ink); font: 600 .88rem var(--wl-ui);
+  color: var(--wl-env-ink); font: 600 clamp(.78rem, 3.4vw, .88rem) var(--wl-ui);
 }
 .wl-cover .fx-slot { z-index: 6; }
 /* Sneeuw en de knal bij het openen nemen de kleur van het enveloppapier als achtergrond. */
@@ -149,7 +149,7 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .inv-winterlicht .inv-main { position: relative; z-index: 1; }
 .wl-hero {
   position: relative; overflow: hidden; container-type: size;
-  height: 100vh; height: 100svh; min-height: 560px;
+  height: 100vh; height: calc(100svh - var(--wl-bar, 0px)); min-height: 560px;
   background: var(--wl-page);
 }
 .wl-hero__art { position: absolute; left: 50%; top: 50%; width: max(100cqw, calc(100cqh * 9 / 16)); aspect-ratio: 9 / 16; translate: -50% -50%; container-type: inline-size; }
@@ -159,14 +159,15 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .fx-motion.fx-start:not(.fx-done) .wl-hero__art { animation: wl-hero-in 2.4s cubic-bezier(.2, .7, .2, 1) both; }
 @keyframes wl-hero-in { from { scale: 1.06; filter: brightness(1.18) saturate(.9); } to { scale: 1; filter: none; } }
 .wl-hero__snow { z-index: 2; --fx-bg: #4A3F36; }
-.wl-hero__text { position: absolute; left: 19%; right: 19%; top: 24.2%; z-index: 3; text-align: center; color: var(--wl-hero-ink); text-shadow: 0 0 1.4cqi var(--wl-hero-glow), 0 0 3.6cqi var(--wl-hero-glow); }
+.wl-hero__text { position: absolute; left: 19%; right: 19%; top: 21.6%; z-index: 3; text-align: center; color: var(--wl-hero-ink); text-shadow: 0 0 1.4cqi var(--wl-hero-glow), 0 0 3.6cqi var(--wl-hero-glow); }
 .wl-hero__kicker { font: 600 2.95cqi/1.35 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
 .wl-hero__from { font-family: var(--wl-serif); font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 1.28em; }
-.wl-names { margin: 1.4cqi 0 0; font: 400 12cqi/1.06 var(--wl-script); color: var(--wl-names); text-wrap: balance; overflow-wrap: normal; }
+.wl-names { margin: 1cqi 0 0; font: 400 12cqi/1 var(--wl-script); color: var(--wl-names); text-wrap: balance; overflow-wrap: normal; }
+.wl-names__amp { display: inline-block; margin: 0 .08em; font-size: .72em; color: var(--wl-hero-ink-2); }
 .wl-names--long { font-size: 10cqi; }
 .wl-names--xlong { font-size: 7.6cqi; overflow-wrap: anywhere; }
-.wl-hero__members { margin-top: 2.4cqi; font: 600 3cqi/1.45 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
-.wl-hero__tagline { margin-top: 2.6cqi; font: italic 500 4.4cqi/1.3 var(--wl-serif); text-wrap: balance; }
+.wl-hero__members { margin-top: 2cqi; font: 600 3cqi/1.45 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
+.wl-hero__tagline { margin-top: 2cqi; font: italic 500 4.4cqi/1.3 var(--wl-serif); text-wrap: balance; }
 .wl-scroll {
   position: absolute; left: 50%; bottom: max(1rem, 2.2%); z-index: 4; translate: -50% 0;
   display: inline-flex; flex-direction: column; align-items: center; gap: 0;
@@ -348,7 +349,9 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 
 /* ================================================================ computer: de kaart ligt op tafel */
 @media (min-width: 600px) {
-  body { background: radial-gradient(70% 55% at 50% 0, color-mix(in srgb, var(--wl-page) 70%, #FFE2B0 10%), var(--wl-page) 70%) fixed, var(--wl-page); }
+  body { background: radial-gradient(46rem 38rem at 50% 44%, rgba(255, 196, 120, .13), transparent 72%) fixed, radial-gradient(70% 55% at 50% 0, color-mix(in srgb, var(--wl-page) 70%, #FFE2B0 10%), var(--wl-page) 70%) fixed, var(--wl-page); }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .22; background: url("img/relief-patroon.webp") 0 0 / 190px repeat; }
+  .wl-cover { background: radial-gradient(46rem 38rem at 50% 44%, rgba(255, 196, 120, .14), transparent 72%), url("img/relief-patroon.webp") 0 0 / 190px repeat, radial-gradient(90% 70% at 50% 38%, color-mix(in srgb, var(--wl-page) 78%, #FFE7B8 8%), var(--wl-page)); }
   .wl-hero { max-height: calc(var(--wl-w) * 16 / 9); }
   .inv-winterlicht .inv-main { width: var(--wl-w); margin: 0 auto; background: var(--wl-paper); box-shadow: 0 0 0 1px color-mix(in srgb, var(--wl-gold) 40%, transparent), 0 40px 90px -30px rgba(0, 0, 0, .7); }
   .inv-winterlicht .inv-colophon { color: rgba(255, 250, 240, .78); }

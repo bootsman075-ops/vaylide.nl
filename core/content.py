@@ -34,7 +34,12 @@ OCCASION_TILES = [
     ("jubileum", "Jubileum"),
     ("babyshower", "Babyshower"),
     ("zakelijk", "Zakelijk"),
+    ("kerst", "Kerst"),
 ]
+# De kersttegel staat breed onder de zes gewone tegels, met een korte uitleg.
+OCCASION_TILE_NOTES = {
+    "kerst": "Een warme digitale kerstkaart, met of zonder uitnodiging voor het kerstdiner.",
+}
 
 STEPS = [
     ("Kies een ontwerp", "Probeer het werkende voorbeeld op je eigen telefoon."),
@@ -101,6 +106,7 @@ TEXT_SAMPLES = [
     ("jubileum", "Jubileum", "Veertig jaar samen: dat vieren we graag met familie, vrienden en buren."),
     ("babyshower", "Babyshower", "Er is iets kleins op komst! Vier het met ons met taart, thee en spelletjes."),
     ("zakelijk", "Zakelijk", "Graag nodigen wij u uit om samen met ons team dit bijzondere moment te vieren."),
+    ("kerst", "Kerst", "Wat een jaar was het! We vieren kerst graag met de mensen die ons het dierbaarst zijn. Schuif je aan bij ons kerstdiner?"),
 ]
 
 TIPS = [
