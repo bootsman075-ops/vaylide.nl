@@ -1,6 +1,6 @@
 Hallo,
 
-Goed nieuws: je uitnodiging{% if invitation.title %} voor {{ invitation.title }}{% endif %} staat online.
+Goed nieuws: je {{ doc_kind }}{% if invitation.title %} {{ title_prep }} {{ invitation.title }}{% endif %} staat online.
 
 Je persoonlijke link:
 {{ invitation.public_url }}
@@ -10,7 +10,7 @@ Deel de link via WhatsApp, e-mail of sms. In de bijlage vind je de QR-code, bijv
 In Mijn Vaylide zie je de aanmeldingen, pas je gegevens aan en publiceer je wijzigingen op dezelfde link:
 {{ portal }}
 {% if invitation.available_until %}
-Je uitnodiging is online tot en met {{ invitation.available_until|date:"j F Y" }}.
+Je {{ doc_kind }} is online tot en met {{ invitation.available_until|date:"j F Y" }}.
 {% endif %}
 Hartelijke groet,
 Vaylide

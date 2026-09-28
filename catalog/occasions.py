@@ -116,6 +116,9 @@ OCCASIONS: dict[str, dict] = {
         "story_default": True,
         "program_hint": "Bijv. 17:00 Glühwein bij de haard, 18:30 Kerstdiner, 21:00 Cadeautjes onder de boom",
         "event_optional": True,
+        # In teksten over de bestelling: "je kerstkaart van Familie Jansen" in plaats van "je uitnodiging voor ...".
+        "doc_kind": "kerstkaart",
+        "title_prep": "van",
     },
 }
 
@@ -132,6 +135,11 @@ def by_occasion(designs, occasion: str) -> list:
 
 def occasion_config(key: str) -> dict:
     return OCCASIONS.get(key) or OCCASIONS["bruiloft"]
+
+
+def doc_kind(occasion: str) -> str:
+    """Hoe het product heet in teksten: 'kerstkaart' bij Kerst, anders 'uitnodiging'."""
+    return occasion_config(occasion).get("doc_kind", "uitnodiging")
 
 
 def display_title(occasion: str, content: dict) -> str:

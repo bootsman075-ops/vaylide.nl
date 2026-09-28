@@ -2,7 +2,7 @@
 
 *Elk bijzonder moment begint met een uitnodiging.*
 
-Vaylide is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement. Standaardbestellingen lopen automatisch:
+Vaylide is een platform waarop klanten zelf een persoonlijke digitale uitnodiging samenstellen, bestellen en delen: voor een bruiloft, verloving, verjaardag, jubileum, babyshower of zakelijk evenement, en een digitale kerstkaart (met of zonder uitnodiging voor het kerstdiner). Standaardbestellingen lopen automatisch:
 
 ontwerp kiezen → vragen invullen → foto's uploaden → voorbeeld controleren → betalen → automatische publicatie → delen → aanmeldingen beheren.
 
@@ -49,7 +49,7 @@ Open daarna http://127.0.0.1:8000.
 | Wat | Waar |
 |---|---|
 | Website | `/` |
-| Ontwerpen en werkende voorbeelden | `/ontwerpen/` (33 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/` of `/voorbeeld/sterrennacht/` |
+| Ontwerpen en werkende voorbeelden | `/ontwerpen/` (34 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/`, `/voorbeeld/sterrennacht/` of de kerstkaart `/voorbeeld/winterlicht/` (andere kleur: `?kleur=hulst`, `dennengroen` of `winternacht`) |
 | Zelf een uitnodiging maken | `/maken/` |
 | Mijn Vaylide (klant) | `/account/` |
 | Beheer (eigenaar) | `/beheer/`, inloggen met het account uit `createsuperuser` |
@@ -96,7 +96,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-139 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken), het merk (logo, iconen, geen oude naam) en het wachtwoord voor een testversie online. Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+158 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken), het merk (logo, iconen, geen oude naam), het wachtwoord voor een testversie online en de kerstkaarten (ook een kerstgroet zonder evenement). Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 

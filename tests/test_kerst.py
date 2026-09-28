@@ -8,6 +8,7 @@ from django.contrib.staticfiles import finders
 from django.core.management import call_command
 from django.template.loader import render_to_string
 from django.test import Client
+from django.urls import reverse
 
 from catalog.atelier import contrast
 from catalog.effects import EFFECT_OPTIONS, effect_summary, effects_errors
@@ -19,6 +20,7 @@ from invitations.demo import DESIGN_IMAGES, demo_content
 from invitations.models import Invitation
 from invitations.render import RenderOptions, build_view, christmas_target, new_year, program_icon
 from invitations.services import create_draft, save_draft
+from processing.models import OutboundEmail
 
 from .helpers import VaylideTestCase, future_date
 
@@ -186,8 +188,21 @@ class KerstStudioTests(VaylideTestCase):
         content["names"] = {"family": "Familie Jansen", "members": "Eva, Tom en Noor"}
         content["welcome_text"] = "Lieve allemaal, fijne feestdagen!"
         inv = save_draft(inv, expected_rev=None, content=content, user=owner)
-        self.pay(inv, owner)
+        payment = self.pay(inv, owner)
         self.assertTrue(inv.is_published)
+        # De e-mails en de bestelstatus spreken van een kerstkaart "van" de afzender.
+        live = OutboundEmail.objects.get(kind="invitation_live", invitation=inv)
+        self.assertEqual(live.subject, "[TEST] Je kerstkaart staat online")
+        self.assertIn("Goed nieuws: je kerstkaart van Familie Jansen staat online.", live.body_text)
+        self.assertNotIn("uitnodiging voor", live.body_text)
+        confirmation = OutboundEmail.objects.get(kind="order_confirmation", invitation=inv)
+        self.assertIn("Je kerstkaart wordt automatisch gepubliceerd.", confirmation.body_text)
+        status = Client()
+        status.force_login(owner)
+        page = status.get(reverse("orders:status", args=[payment.order.uid]))
+        self.assertContains(page, "Je kerstkaart staat online")
+        self.assertContains(page, "Bekijk je kerstkaart")
+        self.assertContains(page, "Kerstkaart gepubliceerd")
         page = Client().get(f"/u/{inv.slug}/")
         self.assertEqual(page.status_code, 200)
         html = page.content.decode()
@@ -265,6 +280,36 @@ class WinterlichtDesignTests(VaylideTestCase):
         self.assertIn('document.querySelector(".inv-banner")', script)
         self.assertIn('setProperty("--wl-bar"', script)
         self.assertIn("Scroll verder", Client().get("/voorbeeld/winterlicht/").content.decode())
+        # De bovenste regels blijven tussen de lantaarns van het kerstraam (ook op 360 pixels breed).
+        self.assertIn(".wl-hero__kicker { max-width: 56cqi; margin-inline: auto; }", css)
+        self.assertIn(".wl-names { max-width: 52cqi; margin-inline: auto; }", css)
+
+    def test_long_text_stays_above_the_church(self):
+        # Veel tekst: winterlicht.js maakt de letters in het kerstraam kleiner (--wl-fit), zonder overgang, zodat
+        # de meting klopt, ook bij 'minder beweging'. Zonder script blijft alles op de gewone maat.
+        folder = settings.BASE_DIR / "designs" / "winterlicht" / "v1"
+        css = (folder / "style.css").read_text(encoding="utf-8")
+        script = (folder / "winterlicht.js").read_text(encoding="utf-8")
+        for rule in ("calc(12cqi * var(--wl-fit, 1))", "calc(10cqi * var(--wl-fit, 1))", "calc(7.6cqi * var(--wl-fit, 1))",
+                     "calc(4.4cqi * var(--wl-fit, 1))", "max(min(10px, 2.8cqi), calc(2.8cqi * var(--wl-fit, 1)))",
+                     "max(min(10px, 3cqi), calc(3cqi * var(--wl-fit, 1)))", ".wl-hero__text, .wl-hero__text * { transition: none !important; }"):
+            self.assertIn(rule, css)
+        self.assertIn("var LIMIT = 0.485;", script)
+        self.assertIn('text.style.setProperty("--wl-fit"', script)
+        self.assertIn('document.fonts.addEventListener("loadingdone", fit)', script)
+
+    def test_lights_rest_when_nobody_sees_them(self):
+        # Onder de dichte envelop en als de kop uit beeld is, staan de lichtjes stil (minder werk voor de telefoon).
+        folder = settings.BASE_DIR / "designs" / "winterlicht" / "v1"
+        css = (folder / "style.css").read_text(encoding="utf-8")
+        script = (folder / "winterlicht.js").read_text(encoding="utf-8")
+        self.assertIn(".has-cover:not(.is-opening) .wl-l, .wl-lights--rust > .wl-l { --fx-play: paused; }", css)
+        self.assertIn('lights.classList.toggle("wl-lights--rust"', script)
+        # Alle doorlopende animaties van de lichtjes luisteren naar de knop Beweging (--fx-play) en staan onder .fx-motion.
+        for line in css.splitlines():
+            if line.startswith(".fx-motion .wl-l") and "infinite" in line:
+                self.assertIn("animation-play-state: var(--fx-play, running)", line, line)
+        self.assertNotRegex(css, r"(?m)^\.wl-l[^{]*\{[^}]*animation:")
 
     def test_other_demos_keep_their_own_music(self):
         html = Client().get("/voorbeeld/liefde-op-papier/").content.decode()

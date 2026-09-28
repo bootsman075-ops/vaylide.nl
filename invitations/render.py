@@ -15,7 +15,7 @@ from django.templatetags.static import static
 from django.utils import timezone
 
 from catalog.effects import effect_view
-from catalog.occasions import display_title, monogram, occasion_config
+from catalog.occasions import display_title, doc_kind, monogram, occasion_config
 
 from .content import HEX_COLOR, TIMEZONE_LABELS, event_expected, event_times, normalize_content, parse_date
 
@@ -446,8 +446,8 @@ def build_view(
         "occasion": occasion,
         "occasion_label": cfg["label"],
         "title": title,
-        "page_title": f"{title} · {'kerstkaart' if occasion == 'kerst' else 'uitnodiging'}",
-        "doc_kind": "kerstkaart" if occasion == "kerst" else "uitnodiging",
+        "page_title": f"{title} · {doc_kind(occasion)}",
+        "doc_kind": doc_kind(occasion),
         "names": names,
         # Kleine regel onder de namen (bij een kerstkaart: de namen van het gezin).
         "subnames": (names_raw.get("members") or "").strip() if occasion == "kerst" else "",

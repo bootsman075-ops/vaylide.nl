@@ -159,15 +159,21 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .fx-motion.fx-start:not(.fx-done) .wl-hero__art { animation: wl-hero-in 2.4s cubic-bezier(.2, .7, .2, 1) both; }
 @keyframes wl-hero-in { from { scale: 1.06; filter: brightness(1.18) saturate(.9); } to { scale: 1; filter: none; } }
 .wl-hero__snow { z-index: 2; --fx-bg: #4A3F36; }
-.wl-hero__text { position: absolute; left: 19%; right: 19%; top: 21.6%; z-index: 3; text-align: center; color: var(--wl-hero-ink); text-shadow: 0 0 1.4cqi var(--wl-hero-glow), 0 0 3.6cqi var(--wl-hero-glow); }
-.wl-hero__kicker { font: 600 2.95cqi/1.35 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
+.wl-hero__text { position: absolute; left: 19%; right: 19%; top: 22.4%; z-index: 3; text-align: center; color: var(--wl-hero-ink); text-shadow: 0 0 1.4cqi var(--wl-hero-glow), 0 0 3.6cqi var(--wl-hero-glow); }
+/* Veel tekst? winterlicht.js zet --wl-fit (kleiner dan 1), zodat de tekst boven het kerkje blijft; kleine letters niet onder 10 pixels. */
+.wl-hero__kicker { font: 600 max(min(10px, 2.8cqi), calc(2.8cqi * var(--wl-fit, 1)))/1.35 var(--wl-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
+/* Geen overgangen in deze tekst: winterlicht.js meet de hoogte direct na het aanpassen van --wl-fit (ook bij 'minder beweging'). */
+.wl-hero__text, .wl-hero__text * { transition: none !important; }
 .wl-hero__from { font-family: var(--wl-serif); font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 1.28em; }
-.wl-names { margin: 1cqi 0 0; font: 400 12cqi/1 var(--wl-script); color: var(--wl-names); text-wrap: balance; overflow-wrap: normal; }
+.wl-names { margin: calc(1cqi * var(--wl-fit, 1)) 0 0; font: 400 calc(12cqi * var(--wl-fit, 1))/1 var(--wl-script); color: var(--wl-names); text-wrap: balance; overflow-wrap: normal; }
+/* De bovenste regels hangen tussen de lantaarns: smaller, zodat de namen nooit tegen een lantaarn aan komen. */
+.wl-hero__kicker { max-width: 56cqi; margin-inline: auto; }
+.wl-names { max-width: 52cqi; margin-inline: auto; }
 .wl-names__amp { display: inline-block; margin: 0 .08em; font-size: .72em; color: var(--wl-hero-ink-2); }
-.wl-names--long { font-size: 10cqi; }
-.wl-names--xlong { font-size: 7.6cqi; overflow-wrap: anywhere; }
-.wl-hero__members { margin-top: 2cqi; font: 600 3cqi/1.45 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
-.wl-hero__tagline { margin-top: 2cqi; font: italic 500 4.4cqi/1.3 var(--wl-serif); text-wrap: balance; }
+.wl-names--long { font-size: calc(10cqi * var(--wl-fit, 1)); }
+.wl-names--xlong { font-size: calc(7.6cqi * var(--wl-fit, 1)); overflow-wrap: anywhere; }
+.wl-hero__members { margin-top: calc(2cqi * var(--wl-fit, 1)); font: 600 max(min(10px, 3cqi), calc(3cqi * var(--wl-fit, 1)))/1.45 var(--wl-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--wl-hero-ink-2); text-wrap: balance; }
+.wl-hero__tagline { margin-top: calc(2cqi * var(--wl-fit, 1)); font: italic 500 calc(4.4cqi * var(--wl-fit, 1))/1.3 var(--wl-serif); text-wrap: balance; }
 .wl-scroll {
   position: absolute; left: 50%; bottom: max(1rem, 2.2%); z-index: 4; translate: -50% 0;
   display: inline-flex; flex-direction: column; align-items: center; gap: 0;
@@ -201,6 +207,8 @@ body[data-palette="dennengroen"], body[data-palette="winternacht"] { --inv-error
 .fx-motion .wl-l--star::after { animation: fx-spin 60s linear infinite; animation-play-state: var(--fx-play, running); }
 .fx-motion .wl-l--flame { animation: wl-flicker 1.9s ease-in-out infinite; animation-delay: calc(var(--d) * -1); animation-play-state: var(--fx-play, running); }
 .fx-motion .wl-l--flame::after { animation: wl-breath 1.3s ease-in-out infinite alternate; animation-play-state: var(--fx-play, running); }
+/* Onder de dichte envelop en uit beeld (winterlicht.js) staan de lichtjes stil; het kerstraam zelf ademt door, zodat alles op zijn plek blijft. */
+.has-cover:not(.is-opening) .wl-l, .wl-lights--rust > .wl-l { --fx-play: paused; }
 @keyframes wl-twinkle { 0%, 100% { opacity: .28; } 45% { opacity: 1; } 60% { opacity: .85; } }
 @keyframes wl-breath { 0%, 100% { opacity: .42; } 50% { opacity: .85; } }
 @keyframes wl-star { 0%, 100% { opacity: .65; scale: 1; } 50% { opacity: 1; scale: 1.12; } }

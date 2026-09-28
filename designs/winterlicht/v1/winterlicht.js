@@ -13,6 +13,45 @@
   if (window.ResizeObserver) new ResizeObserver(set).observe(bar);
 })();
 
+/* Veel tekst (een lange naam, veel namen eronder): de tekst in het kerstraam wordt iets kleiner, zodat hij boven
+   het kerkje blijft. Zonder dit script staat de tekst er op de gewone maat. */
+(function () {
+  "use strict";
+  var art = document.querySelector(".wl-hero__art");
+  var text = art && art.querySelector(".wl-hero__text");
+  if (!text) return;
+  var LIMIT = 0.485; // tot hier mag de tekst komen, als deel van de hoogte van de tekening (de torenspits staat op 49%)
+  function fit() {
+    text.style.removeProperty("--wl-fit");
+    var scale = 1;
+    for (var i = 0; i < 4; i++) {
+      var room = art.clientHeight * LIMIT - text.offsetTop;
+      var need = text.offsetHeight;
+      if (!need || need <= room || scale <= 0.62) break;
+      scale = Math.max(0.62, scale * (room / need) * 0.98);
+      text.style.setProperty("--wl-fit", scale.toFixed(3));
+    }
+  }
+  // Opnieuw meten zodra de sierletters er zijn (daarvoor meet de browser een reserveletter) en bij een andere maat.
+  fit();
+  if (document.fonts) {
+    if (document.fonts.ready) document.fonts.ready.then(fit);
+    if (document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", fit);
+  }
+  window.addEventListener("load", fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(art);
+})();
+
+/* De lichtjes in het kerstraam rusten zodra de kop uit beeld is: dat spaart de processor van oudere telefoons. */
+(function () {
+  "use strict";
+  var lights = document.querySelector(".wl-lights");
+  if (!lights || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (entries) {
+    lights.classList.toggle("wl-lights--rust", !entries[entries.length - 1].isIntersecting);
+  }).observe(lights);
+})();
+
 (function () {
   "use strict";
 
