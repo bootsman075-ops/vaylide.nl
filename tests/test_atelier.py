@@ -39,7 +39,8 @@ class AtelierCollectionTests(VaylideTestCase):
         manifests = [data for _, data in atelier_manifests()]
         self.assertEqual(len(manifests), 30)
         primary = Counter(data["occasions"][0] for data in manifests)
-        self.assertEqual(primary, Counter({occasion: 5 for occasion in OCCASIONS}))
+        # Kerst heeft een eigen, volledig ontworpen kaart (Winterlicht) en geen Atelier-ontwerpen.
+        self.assertEqual(primary, Counter({occasion: 5 for occasion in OCCASIONS if occasion != "kerst"}))
         # Allemaal ingelezen, zichtbaar en met de Atelier-opbouw als huidige versie.
         for data in manifests:
             template = Template.objects.get(slug=data["slug"])

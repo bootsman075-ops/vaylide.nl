@@ -1,6 +1,6 @@
 # Overdracht: waar staan we
 
-Stand van 27 september 2026. Dit document is bedoeld voor wie het project overneemt, en voor de Claude die daarbij helpt.
+Stand van 28 september 2026. Dit document is bedoeld voor wie het project overneemt, en voor de Claude die daarbij helpt.
 
 ## In het kort
 
@@ -9,10 +9,11 @@ Vaylide (eerst de werknaam Vierlief, daarna kort Vaylide) is een werkende eerste
 Wat er staat:
 
 - **Website**: homepage, collectie, ontwerpdetail met werkend voorbeeld, zo werkt het, prijzen, inspiratie, over ons, veelgestelde vragen, contact, zoeken, privacy en voorwaarden (de juridische teksten zijn nog concept).
-- **33 uitnodigingsontwerpen**:
-  - drie volledig eigen ontwerpen met elk vier kleurvarianten: Liefde op papier (envelop met lakzegel), Avondgoud (gouden dubbele deur) en Puur moment (doorschijnend vel);
+- **34 uitnodigingsontwerpen**:
+  - vier volledig eigen ontwerpen met elk vier kleurvarianten: Liefde op papier (envelop met lakzegel), Avondgoud (gouden dubbele deur), Puur moment (doorschijnend vel) en de kerstkaart Winterlicht (zie hieronder);
   - 30 Atelier-ontwerpen, **vijf per gelegenheid**, elk met een eigen opening (envelop, vouwkaart, gordijn, cadeaulint, sluier, confetti, ballonnen, sterrenhemel, schuifpaneel, polaroid of een cadeau om uit te pakken) en drie kleurvarianten. Ze delen één opbouw in `designs/_atelier/v1/`. Overzicht en keuzes: `docs/AANPAK.md` onder "Uitbreiding: 30 nieuwe ontwerpen"; zelf een ontwerp toevoegen: `docs/HANDLEIDING.md`.
-- **Effecten op alle 33 uitnodigingen**: zwevende sfeer (bloemblaadjes, goudstof, een sterrenhemel, ballonnen, neon en meer), een knal op het moment dat de uitnodiging opengaat (bij de cadeau-opening springt het deksel eraf en vliegen er cadeautjes uit), een feestje als een gast zich aanmeldt, namen die verschijnen alsof ze geschreven worden of met een gouden glans, en onthullingen bij het scrollen. Elk ontwerp heeft een eigen combinatie. Met de knop **Beweging** zet een gast alles stil. Overzicht en keuzes: `docs/AANPAK.md` onder "Ronde 5"; zelf kiezen of aanpassen: `docs/HANDLEIDING.md` onder "Effecten".
+- **Kerstkaarten** (ronde 7): de gelegenheid Kerst, met of zonder uitnodiging voor het kerstdiner, en het ontwerp **Winterlicht**: een envelop van blindgedrukt papier met een lakzegel (na een tik glanst het reliëf goud en gaat de envelop open), een getekend kerstraam met twinkelende lichtjes en sneeuw, de datum op kraskaartjes van goudfolie, een gouden programma, een afteller naar kerst en in het voorbeeld "Stille nacht" als speeldoosje. Op de homepage en bij Inspiratie staat een brede tegel "Kerst". Keuzes en wat er uit de schermopname van de eigenaar komt: `docs/AANPAK.md` onder "Ronde 7: kerstkaarten"; beheren en aanpassen: `docs/HANDLEIDING.md` onder "Kerstkaarten en Winterlicht".
+- **Effecten op alle 34 uitnodigingen**: zwevende sfeer (bloemblaadjes, goudstof, een sterrenhemel, ballonnen, neon en meer), een knal op het moment dat de uitnodiging opengaat (bij de cadeau-opening springt het deksel eraf en vliegen er cadeautjes uit), een feestje als een gast zich aanmeldt, namen die verschijnen alsof ze geschreven worden of met een gouden glans, en onthullingen bij het scrollen. Elk ontwerp heeft een eigen combinatie. Met de knop **Beweging** zet een gast alles stil. Overzicht en keuzes: `docs/AANPAK.md` onder "Ronde 5"; zelf kiezen of aanpassen: `docs/HANDLEIDING.md` onder "Effecten".
 - **Samenstellen in stappen**: gelegenheid, ontwerp, gegevens, programma, aanmelden, foto's, stijl, voorbeeld en bestellen. Voortgang wordt per stap bewaard, ook zonder account.
 - **Bestellen en betalen**: testbetaling (of Mollie, zodra er een sleutel is). Publiceren gebeurt alleen na een serverzijdige betalingsbevestiging, via een takenwachtrij met herhalingen.
 - **Gasten**: aanmelden zonder account, eigen antwoord later wijzigen, agenda, route, delen.
@@ -27,8 +28,9 @@ Gedane rondes:
 4. 30 nieuwe ontwerpen, vijf per gelegenheid, met eigen voorbeeldbeelden en kaartbeelden. De homepage licht drie ontwerpen uit, de collectie zet per gelegenheid de passende ontwerpen vooraan, en zakelijke evenementen kunnen een aantal jaren opgeven.
 5. Effecten en beweging op alle 33 ontwerpen (zie hierboven), een nieuwe cadeau-opening (Glitter & goud, Regenboog en Stipjes), kaarten op de website die meebewegen en glanzen, nieuwe kaartbeelden, en het lakzegel van Liefde op papier met goed leesbare initialen.
 6. Nieuw merk: **Vaylide** (eerst kort Vaylide), met het logo van de eigenaar zoals aangeleverd (de V, VAYLIDE en de regel eronder) in de kop en voet, bij het samenstellen, in het beheer, in de e-mails, op de deelafbeelding en als icoon op het beginscherm; de V uit het logo als tabblad-icoon. Overal waar mensen de naam zien, staat Vaylide. Keuzes: `docs/AANPAK.md` onder "Ronde 6: Vaylide"; het logo opnieuw maken of vervangen: `tools/logo/README.md`.
+7. Kerstkaarten: de gelegenheid Kerst (ook alleen een kerstgroet, zonder datum of locatie), het ontwerp Winterlicht in vier kleuren met eigen getekende beelden, het effect sneeuw, de kersttegel op de website, en "kerstkaart" in plaats van "uitnodiging" in de e-mails en op de bestelstatus.
 
-Wat getest is en hoe: `docs/CONTROLES.md`. Kort, na ronde 6: 139 tests (op SQLite; op PostgreSQL 16 in ronde 5), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), toegankelijkheid van de website en een lokale nabootsing van de Render-instellingen met PostgreSQL. Uit ronde 5 (in ronde 6 veranderden aan de uitnodigingen alleen de naam onderaan en het tabblad-icoon): 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
+Wat getest is en hoe: `docs/CONTROLES.md`. Kort, na ronde 7: 160 tests (op SQLite), een browsercontrole op 840 pagina's (vier schermformaten, alle 34 ontwerpen, 272 gedragscontroles; Winterlicht daarna opnieuw op de definitieve stand), 272 controles van de effecten en een meting van de belasting (alle 34 ontwerpen), toegankelijkheid en contrast van alle 34 ontwerpen in alle 106 kleurvarianten, het contrast van de tekst op de tekening van het kerstraam, en axe op de gewijzigde websitepagina's. Na ronde 6: 139 tests (op SQLite; op PostgreSQL 16 in ronde 5), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), toegankelijkheid van de website en een lokale nabootsing van de Render-instellingen met PostgreSQL. Uit ronde 5 (in ronde 6 veranderden aan de uitnodigingen alleen de naam onderaan en het tabblad-icoon): 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
 
 Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUBCKzn63jE8Mk9x28M
 
@@ -55,12 +57,22 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 1. **Oude kopie in Vantor opruimen**: de branch `claude/practical-ride-1m3pgk` van vantor-studios-website verwijderen (zie hierboven).
 2. **Online en livegang**: de site op het eigen domein zetten, eerst als testversie met een wachtwoord (stappenplan in `docs/ONLINE.md`, aanbevolen via GitHub en Render met `render.yaml`; het domein is `vaylide.com`), daarna live met Mollie, SMTP, bedrijfsgegevens en juridisch gecontroleerde privacy en voorwaarden (checklist in `docs/LIVEGANG.md`).
 3. **Eigen foto's** (optioneel): de sfeerbeelden op de website en de beelden in de voorbeelduitnodigingen zijn eigen, getekende beelden. Eigen foto's met de juiste rechten kunnen ze vervangen; zie `docs/HANDLEIDING.md` onder "Teksten en beelden van de website".
-4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Dat geldt ook voor de 30 nieuwe ontwerpen. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie.
+4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Dat geldt ook voor de 30 nieuwe ontwerpen. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie. De schermopname voor de kerstkaarten (ronde 7) is wel bekeken, als losse beelden.
 5. **Collectie kiezen** (optioneel): welke drie ontwerpen de homepage uitlicht (`HOME_DESIGNS` in `core/content.py`), en eventueel de volgorde of zichtbaarheid per ontwerp in Beheer → Ontwerpen.
 6. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt. Let daarbij vooral op de effecten: soepelheid op een ouder Android-toestel en de weergave in Safari.
 7. **Docker**: de image is getest in ronde 2, niet opnieuw na de nieuwe vormgeving en de nieuwe ontwerpen.
 8. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
-9. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIDE_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
+9. **Kerstkaarten beoordelen** (eigenaar): bekijk Winterlicht in alle vier kleuren (ook als voorbeeld op de website) en beslis over:
+   - de teksten ("Warme kerstgroeten van", "Een kerstgroet voor jou", "Schuif je aan?");
+   - of de kersttegel het hele jaar op de homepage staat of alleen in het najaar (weghalen: de zin bij `kerst` in `OCCASION_TILE_NOTES`, `core/content.py`);
+   - de prijs van een kerstkaart (nu dezelfde pakketten als een uitnodiging);
+   - of klanten ook het speeldoosje met "Stille nacht" mogen kiezen (nu alleen in het voorbeeld; eigen muziek kan wel).
+
+   Keuzes en afwijkingen van de schermopname: `docs/AANPAK.md` onder "Ronde 7: kerstkaarten".
+10. **Winterlicht op echte telefoons**: vooral Safari op een iPhone (de gouden golf gebruikt een nieuwere CSS-techniek; krassen met de vinger) en een ouder Android-toestel. Het voorbeeld is drie tot vier keer zo zwaar als de andere ontwerpen (zie `docs/CONTROLES.md`). Als het te traag is, kunnen de beelden kleiner voor telefoons (in een `v2`).
+11. **Teksten in het bestelproces** (optioneel): de e-mails en de bestelstatus spreken van een kerstkaart; het samenstellen en Mijn Vaylide zeggen nog "uitnodiging".
+12. **Meer kerstontwerpen** (optioneel): voor Kerst is er nu één ontwerp, voor de andere gelegenheden vijf of meer.
+13. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIDE_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
 
 ## Goed om te weten
 

@@ -1,0 +1,27 @@
+{
+  "slug": "winterlicht",
+  "version": 1,
+  "name": "Winterlicht",
+  "tagline": "Een warme kerstkaart met lakzegel, kaarslicht en sneeuw",
+  "description": "Een envelop van blindgedrukt papier met hulst en dennengroen, verzegeld met lak. Na een tik op het zegel glanst het reliëf goud, gaan de kleppen open en straalt er warm licht uit. Daarbinnen een getekend kerstraam met twinkelende lichtjes, kaarsen en een besneeuwd dorpje, jullie namen in sierlijke letters, een datum om open te krassen, een gouden programma en een afteller naar kerst.",
+  "style_notes": "Crème, rood en goud, kaarslicht, blindgedrukt papier, sierlijke letters",
+  "occasions": ["kerst"],
+  "sort_order": 40,
+  "opening": "envelop",
+  "opening_label": "Envelop met lakzegel",
+  "demo_melody": "stille-nacht",
+  "kaartbeeld": "open",
+  "palettes": [
+    {"key": "kaarslicht", "name": "Kaarslicht", "swatch": ["#F4EADB", "#8E1B26", "#C9A45C"],
+     "vars": {"--wl-page": "#2B1C18", "--wl-paper": "#FBF6EE", "--wl-paper-2": "#F4ECDF", "--wl-ink": "#3A2724", "--wl-muted": "#6A5550", "--wl-accent": "#8A2331", "--wl-accent-ink": "#FFFFFF", "--wl-gold": "#B98F4C", "--wl-gold-2": "#8E6528", "--wl-line": "#E4D5C0", "--wl-env": "#F4EADB", "--wl-env-2": "#E6D6BF", "--wl-env-ink": "#6A4E44", "--wl-liner": "#8A2331", "--wl-seal": "#8E1B26", "--wl-seal-2": "#BD4650", "--wl-seal-ink": "#F4D99E", "--wl-hero-ink": "#5A1F25", "--wl-hero-ink-2": "#6E4035", "--wl-names": "#7E3E22", "--wl-hero-glow": "rgba(255,248,236,.85)", "--wl-foot": "rgba(251,246,238,.84)", "--wl-foot-ink": "#5A1F25", "--fx-1": "#C9A45C", "--fx-2": "#FFFFFF", "--fx-3": "#BD4650", "--fx-4": "#F4D99E", "--fx-bg": "#FBF6EE"}},
+    {"key": "hulst", "name": "Hulst", "swatch": ["#8A1C27", "#C9A052", "#FBF4EF"],
+     "vars": {"--wl-page": "#300A10", "--wl-paper": "#FBF4EF", "--wl-paper-2": "#F5E8E1", "--wl-ink": "#3A1F22", "--wl-muted": "#6B4F52", "--wl-accent": "#9B1C2B", "--wl-accent-ink": "#FFFFFF", "--wl-gold": "#BE9651", "--wl-gold-2": "#8D6427", "--wl-line": "#EAD3CA", "--wl-env": "#8A1C27", "--wl-env-2": "#6C131D", "--wl-env-ink": "#F7E6D2", "--wl-liner": "#F4E6CF", "--wl-seal": "#C9A052", "--wl-seal-2": "#EDD08F", "--wl-seal-ink": "#6E1520", "--wl-hero-ink": "#5E1219", "--wl-hero-ink-2": "#6E2A2A", "--wl-names": "#7A1F2B", "--wl-hero-glow": "rgba(255,244,238,.85)", "--wl-foot": "rgba(251,244,239,.86)", "--wl-foot-ink": "#5E1219", "--fx-1": "#C9A052", "--fx-2": "#FFFFFF", "--fx-3": "#D0303C", "--fx-4": "#F3DA9E", "--fx-bg": "#FBF4EF"}},
+    {"key": "dennengroen", "name": "Dennengroen", "swatch": ["#1C3A2E", "#A01F2D", "#E3C47F"],
+     "vars": {"--wl-page": "#07130F", "--wl-paper": "#11261D", "--wl-paper-2": "#162D22", "--wl-ink": "#F3ECDF", "--wl-muted": "#CFC6B3", "--wl-accent": "#E3C47F", "--wl-accent-ink": "#12261C", "--wl-gold": "#C9A45C", "--wl-gold-2": "#E3C47F", "--wl-line": "#2C4638", "--wl-env": "#1C3A2E", "--wl-env-2": "#132B21", "--wl-env-ink": "#EEE2C4", "--wl-liner": "#9E1F2C", "--wl-seal": "#A01F2D", "--wl-seal-2": "#CB4553", "--wl-seal-ink": "#F3D898", "--wl-hero-ink": "#F8F0DF", "--wl-hero-ink-2": "#E9DFC6", "--wl-names": "#F3D898", "--wl-hero-glow": "rgba(8,24,20,.7)", "--wl-foot": "rgba(17,38,29,.82)", "--wl-foot-ink": "#F3ECDF", "--fx-1": "#E3C47F", "--fx-2": "#FFFFFF", "--fx-3": "#CB4553", "--fx-4": "#FFF1CF", "--fx-bg": "#11261D"}},
+    {"key": "winternacht", "name": "Winternacht", "swatch": ["#15234A", "#A3212F", "#E7CB8E"],
+     "vars": {"--wl-page": "#060B1A", "--wl-paper": "#0E1934", "--wl-paper-2": "#13203F", "--wl-ink": "#F2EDE3", "--wl-muted": "#C5C7D2", "--wl-accent": "#E7CB8E", "--wl-accent-ink": "#0E1934", "--wl-gold": "#CDA85F", "--wl-gold-2": "#E7CB8E", "--wl-line": "#26345A", "--wl-env": "#15234A", "--wl-env-2": "#0E1936", "--wl-env-ink": "#EAE0CA", "--wl-liner": "#A3212F", "--wl-seal": "#A3212F", "--wl-seal-2": "#CD4655", "--wl-seal-ink": "#F3D898", "--wl-hero-ink": "#F7F1E6", "--wl-hero-ink-2": "#E4DDCE", "--wl-names": "#F3D898", "--wl-hero-glow": "rgba(8,14,34,.65)", "--wl-foot": "rgba(14,25,52,.8)", "--wl-foot-ink": "#F2EDE3", "--fx-1": "#E7CB8E", "--fx-2": "#FFFFFF", "--fx-3": "#CD4655", "--fx-4": "#FFF1CF", "--fx-bg": "#0E1934"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "sneeuw", "knal": "sneeuw", "viering": "sterren", "namen": "schrijf", "onthul": "zacht", "extra": ["kenburns", "kantel", "tik"]},
+  "changelog": "Eerste versie."
+}

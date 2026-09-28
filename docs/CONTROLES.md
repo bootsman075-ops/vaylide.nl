@@ -4,11 +4,11 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**139 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met het merk Vaylide en het wachtwoord voor een testversie online (ronde 6), alle geslaagd:
+**160 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 7 (kerstkaarten), alle geslaagd:
 
 - lokaal op SQLite;
-- op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
-- in de Docker-image (Python 3.11), na een build vanaf nul: in ronde 2 (toen 92 tests). Daarna is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden, instellingen of datamodellen veranderd (de nieuwe ontwerpen en de effecten zijn bestanden, en het extra veld "Aantal jaar" staat in de bestaande inhoud van een uitnodiging).
+- op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging, ronde 6 en ronde 7 zijn alleen op SQLite getest;
+- in de Docker-image (Python 3.11), na een build vanaf nul: in ronde 2 (toen 92 tests). Daarna is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden of instellingen veranderd, en het datamodel alleen in ronde 7 met een migratie die de keuzelijst van de gelegenheid uitbreidt met Kerst (de nieuwe ontwerpen en de effecten zijn bestanden, en het extra veld "Aantal jaar" staat in de bestaande inhoud van een uitnodiging).
 
 | Uit de opdracht | Test(s) |
 |---|---|
@@ -26,6 +26,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Effecten (ronde 5) | `test_effects`: alle 33 ontwerpen hebben geldige effecten; een onbekend effect wordt geweigerd bij het inlezen van een ontwerp; de instellingen worden klassen en kenmerken op de pagina; elk voorbeeld laadt de effecten en de knop **Beweging** (verborgen tot het script draait), zonder extra inline scripts (CSP); een ontwerp zonder effecten werkt gewoon; Avondgoud laadt zijn oude eigen script niet meer; de glans over de namen houdt minstens 3:1 contrast in alle kleurvarianten; de ontwerppagina en de kaarten beschrijven de effecten; de cadeau-opening bij Stipjes, Glitter & goud en Regenboog (de doos opent ook bij een tik, maar is geen extra tabstop en wordt niet voorgelezen), het effect cadeautjes en de tekst op de kaart |
 | Merk Vaylide (ronde 6) | `BrandTests` in `test_site`: het logo staat in de kop met "Vaylide" als tekst voor schermlezers en als naam van de link; de iconen en de deelafbeelding bestaan en worden gebruikt, het oude hartlogo is weg; op 14 pagina's (website, inloggen, samenstellen, een voorbeeld en de 404) staat nergens meer "Vierlief" of "Vaylia"; een e-mail begint met het logo en noemt alleen Vaylide |
 | Wachtwoord voor een testversie online (ronde 6) | `test_preview`: standaard uit; aan vraagt elke pagina het wachtwoord (401 met het inlogvenster van de browser, zonder inhoud van de site); een fout wachtwoord, een andere gebruikersnaam of een kapotte kop wordt geweigerd; met het goede wachtwoord verschijnt de site; `/healthz` en de taken voor een externe cron blijven bereikbaar; na 30 foute pogingen volgt 429 |
+| Kerstkaarten (ronde 7) | `test_kerst` (21 tests): de gelegenheid Kerst overal beschikbaar (samenstellen, collectie, zoeken, homepage en Inspiratie, met de brede tegel) en zonder openstaande migraties; het zegel (Familie Van Dijk wordt D, Sanne & Daan wordt S&D); het nieuwe jaar en de afteller naar eerste kerstdag (van juli tot en met kerstavond); een tekeningetje per programmaonderdeel; een kerstkaart met kerstdiner, een kerstgroet zonder evenement (geen datum, locatie, agenda of aanmelden) en het ontwerp bij andere gelegenheden; de regels bij publiceren; het samenstellen zonder datum, locatie of deadline, en met een half ingevuld evenement wel; een betaalde, gepubliceerde kerstgroet met "kerstkaart" in de paginatitel, de e-mails en de bestelstatus; Winterlicht: kleurvarianten met contrast, alle beelden, het voorbeeld in alle kleuren zonder extra inline scripts of stijlen, de kop onder de voorbeeldbalk, de tekst in het kerstraam die bij veel tekst kleiner wordt, de lichtjes die stilstaan als niemand ze ziet, de lichte envelop (kleine reliëfbeelden, goud pas na het laden); andere voorbeelden houden hun eigen muziek; het effect sneeuw |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
 Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vaylide), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
@@ -50,6 +51,25 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 - Sinds ronde 5 staan de effecten tijdens de controles gewoon aan. De controles wachten tot de opening, de entree van de kop en andere eenmalige animaties klaar zijn; doorlopende effecten (zwevende deeltjes, glans) lopen door.
 
 ### Resultaat
+
+Ronde 7 (kerstkaarten), op de productie-achtige server (gunicorn, `DEBUG` uit, WhiteNoise, testmodus; lokaal zonder https-omleiding):
+
+- **840 pagina's zonder bevindingen** (210 per schermformaat, op 360, 390, 768 en 1366 pixels breed, vier runs tegelijk): alle websitepagina's (ook de homepage en Inspiratie met de brede kersttegel), alle 34 voorbeelden (geopend), 137 testuitnodigingen (vier per ontwerp, plus een kerstgroet zonder evenement bij Winterlicht), de klantomgeving, het samenstellen en het beheer. Geen horizontaal scrollen, niets buiten beeld, geen afgesneden tekst, geen consolefouten, geen mislukte verzoeken. Deze run liep op de stand vóór de laatste aanpassingen aan Winterlicht (tekst in het kerstraam, lichtjes, lichtere envelop; zie "Gevonden en opgelost"). Winterlicht is daarna op de definitieve stand opnieuw gecontroleerd (`ONTWERPEN=winterlicht`): het voorbeeld en de vijf testuitnodigingen op alle vier schermformaten, **24 pagina's zonder bevindingen**.
+- **272 van 272 gedragscontroles geslaagd** (acht per ontwerp, alle 34 ontwerpen): minder beweging (de uitnodiging opent binnen 285 tot 328 ms, zonder lopende animaties), toetsenbord, muziek, het vangnet zonder script, de melding over de tijdzone en de weergave zonder JavaScript. Winterlicht op de definitieve stand opnieuw: 8 van 8.
+- **Effecten** (`e2e/effecten.cjs`, op de definitieve stand): **272 van 272 controles geslaagd**, acht per ontwerp voor alle 34 ontwerpen: deeltjes op het openingsscherm, de knal bij het openen (bij Winterlicht sneeuwvlokjes en gouden sterretjes), de sfeer achter de tekst na het openen, het feestje na "Ja, ik kom", geen consolefouten, stilzetten met **Beweging**, de keuze onthouden, en 'minder beweging'.
+- **Toegankelijkheid van alle ontwerpen** (`e2e/toegankelijkheid.cjs`, axe-core 4 met WCAG 2.0/2.1 A en AA, plus de contrastcontrole): **212 pagina's**, alle 34 ontwerpen in alle 106 kleurvarianten, dicht en geopend. **0 axe-overtredingen.** Contrast: 0 bevindingen bij de 33 andere ontwerpen. Bij Winterlicht meldde de controle eerst drie pagina's, omdat hij de tekst op de envelop en in het kerstraam vergeleek met de donkere paginakleur: het papier (losse kleppen) en de tekening (een apart beeld) ziet hij niet. Na de aanpassing (de papierkleur ook op de envelop zelf, en `data-tekst-op-beeld` op de tekst in het kerstraam) gaven de 8 pagina's van Winterlicht op de definitieve stand **0 bevindingen**.
+- **Tekst op de tekening** (`e2e/kerstraam.cjs`, nieuw): het contrast van elke regel in het kerstraam tegen de 2% slechtste pixels van de tekening erachter, in alle vier kleuren op alle vier schermformaten, met de lichtjes op volle sterkte. Alles haalt de eis; het krapst is de kleine regel bovenaan in Kaarslicht met **5,3:1** (eis 4,5:1). De namen halen minstens 6,4:1 (eis 3:1), de namen eronder 6,5:1 en de wens 5,5:1.
+- **Toegankelijkheid van de gewijzigde websitepagina's** (axe, eenmalig script): de homepage, Inspiratie, de collectie met het filter Kerst, de ontwerppagina van Winterlicht, zoeken op "kerst", het begin van het samenstellen en de stappen Gegevens en Aanmelden van een nieuwe kerstkaart, op 390 en 1366 pixels: **16 pagina's, 0 overtredingen**. De volledige set van 199 pagina's uit ronde 4 tot en met 6 is deze ronde niet opnieuw gedraaid.
+- **Tekst in het kerstraam bij veel tekst**: alle vijf testuitnodigingen en het voorbeeld op 360, 390 en 1366 pixels, met en zonder 'minder beweging': de tekst blijft boven het kerkje (onderkant hoogstens 48,1% van de tekening). Alleen bij de testuitnodigingen met een heel lange naam wordt de tekst kleiner (tot 79% van de gewone maat).
+- **Gewicht van het voorbeeld** (overgedragen bytes op telefoonformaat met pixelverhouding 2, Chromium zonder netwerkvertraging): Winterlicht **807 KB** voor het eerste beeld, eerst 1057 KB; Liefde op papier, Avondgoud en Rozentuin 195 tot 256 KB. Winterlicht is dus drie tot vier keer zo zwaar: de envelop met reliëf en het getekende kerstraam zijn beelden. In deze meting laadt Chromium 'lui' geladen beelden tot ongeveer 3000 pixels onder beeld (het huisje en de eerste foto, samen 160 KB); op een telefoon met 4G gebeurt dat pas bij het scrollen. Lighthouse is deze ronde niet gedraaid.
+- **Met het oog bekeken**:
+  - de envelop dicht en tijdens het openen (de gouden golf in Hulst), in alle vier kleuren;
+  - het kerstraam in alle vier kleuren op 360 en 390 pixels;
+  - de hele kaart van boven naar beneden (Kaarslicht) en de testuitnodigingen met lange namen, lange woorden en een kerstgroet;
+  - de kraskaartjes voor, tijdens en na het krassen;
+  - de brede tegel en het kaartbeeld;
+  - de reliëf- en goudbeelden vóór en na het kleiner maken, op dubbele pixeldichtheid: geen zichtbaar verschil (het huisje gaf wel zichtbare banden en is niet kleiner gemaakt);
+  - de voorvertoning zonder server in alle vier kleuren.
 
 Ronde 6 (merk Vaylide), op de definitieve code en de productie-achtige server:
 
@@ -155,10 +175,34 @@ Gemeten met `CHECKS=0 PERF=1 node e2e/effecten.cjs` op de productie-achtige serv
 | Eerste versie van de effecten | 335 tot 678 ms per s | 362 tot 1000 ms per s; Neonnacht haalde 1 beeld per seconde |
 | Definitieve stand (ronde 5) | 313 tot 539 ms per s | 251 tot 513 ms per s |
 | Beelden per seconde, definitieve stand | 59 tot 61 | 59 tot 60 |
+| Ronde 7: de 33 andere ontwerpen | 197 tot 360 ms per s | 166 tot 404 ms per s |
+| Ronde 7: Winterlicht | 451 ms per s | 603 ms per s |
+| Beelden per seconde, ronde 7 (alle 34) | 57 tot 60 | 60 |
+
+Winterlicht is het zwaarste ontwerp: de sneeuw op de pagina en in het kerstraam, 60 lichtjes met een eigen animatie en het ademende kerstraam. Onder de dichte envelop en buiten beeld staan de lichtjes stil; bij 'minder beweging' of met de knop **Beweging** beweegt er niets. Of het op een echt ouder toestel soepel loopt, is niet getest (zie "Niet gecontroleerd"). De meting van ronde 7 liep op de definitieve stand, zonder andere controles ernaast.
 
 Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen ongeveer 1 ms per seconde; met beweging 270 tot 380 ms (gemeten bij Rozentuin, Gala, Neonnacht, Puur moment en Glitter & goud). Op een echte telefoon tekent de grafische kaart mee, dus dit is een ongunstige benadering en geen meting op een echt toestel (zie "Niet gecontroleerd").
 
 ### Gevonden en opgelost
+
+Ronde 7 (kerstkaarten):
+
+| Bevinding | Oplossing |
+|---|---|
+| Na een wijziging in het muziekscript opende de kerstkaart meteen, zonder envelop: het script stopte door een melodie die werd gebruikt voordat hij bestond, en het vangnet deed de rest | Melodieën staan bovenaan het script; de opening werkt weer en de gedragscontroles slagen |
+| De gouden golf door het reliëf was te snel om te zien | Langzamer (1,9 s), met een bredere band en een zachte nagloed; de kleppen gaan later open, zodat de golf eerst te zien is |
+| Krassen haalde de goudfolie maar deels weg: elke streek gebruikte de halfdoorzichtige verf van het tekenen | Wegkrassen met dekkende verf: waar je krast, is de folie in één keer weg |
+| De tekst op de envelop brak op een telefoon lelijk af | Kortere tekst ("Een kerstgroet voor jou") en letters die meeschalen |
+| Het kerstraam vulde op een telefoon niet het hele scherm | De maximale hoogte geldt alleen op een computer |
+| In de donkere kleuren stond de kerstster achter de wens ("wenst je fijne feestdagen") | Ster links van het kerkje, onder de tekst; kortere linten aan de strik; de tekst staat hoger en compacter |
+| In het voorbeeld duwde de voorbeeldbalk "Scroll verder" onder de rand van het scherm | De kop is precies zo hoog als het scherm min de balk |
+| Op 360 pixels breed paste "Familie Van Dijk" net op één regel en raakte de naam de lantaarns; bij een gepubliceerde kaart (zonder voorbeeldbalk) gold dat ook voor "Familie Jansen" | De bovenste regels zijn smaller; zulke namen breken netjes over twee regels |
+| De kleine regel bovenaan ("Warme kerstgroeten van") kwam op een paar pixels van de slinger; de nieuwe meting van tekst op de tekening (`e2e/kerstraam.cjs`) gaf daar 1,4:1 in de lichte kleuren | Iets kleinere letters met minder ruimte ertussen, en de tekst een fractie lager: nu minstens 5,3:1 |
+| Een testuitnodiging met een heel lange familienaam en veel namen eronder: de wens liep over het kerkje in het kerstraam | De tekst in het kerstraam wordt dan iets kleiner (`winterlicht.js`), zodat hij altijd boven het kerkje blijft; kleine letters niet onder 10 pixels. Zonder script blijft alles op de gewone maat |
+| Die aanpassing mat eerst verkeerd bij 'minder beweging': het platform geeft dan elke overgang 0,01 ms, en zo lang gaf de browser nog de oude maat terug | Geen overgangen in deze tekst; de meting klopt nu met en zonder 'minder beweging' |
+| De lichtjes bleven bewegen onder de dichte envelop en als de kop uit beeld was | Ze staan dan stil |
+| De e-mails zeiden "je uitnodiging voor Familie Van Dijk" | "Je kerstkaart van Familie Van Dijk" (ook in het onderwerp en op de bestelstatus) |
+| De tegel en het kaartbeeld van Winterlicht waren gemaakt vóór de laatste aanpassingen | Opnieuw gemaakt |
 
 Ronde 5 (effecten):
 
@@ -253,6 +297,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 - **Effecten (ronde 5)**: alleen in Chromium, op een server zonder grafische kaart (het tekenen gebeurt dan in software) en met een vier keer vertraagde processor als benadering van een eenvoudige telefoon. Niet getest: echte telefoons (vooral oudere Android-toestellen, en iPhones met Safari), Firefox, het batterijverbruik, en hoe schermlezers de knop **Beweging** voorlezen. De beweging is beoordeeld op reeksen schermafbeeldingen (tot acht momenten per opening), niet als vloeiend bewegend beeld op een echt scherm. Of het geheel mooi en opvallend genoeg is, is aan de eigenaar.
 - **Merk Vaylide (ronde 6)**: het logo, de iconen en de e-mail zijn alleen in Chromium bekeken. Niet bekeken: het logo in echte mailprogramma's (Outlook, Gmail, Apple Mail), het tabblad-icoon in Safari en Firefox, het icoon op het beginscherm van een echte iPhone en de linkvoorvertoning met de nieuwe deelafbeelding in WhatsApp. Of de naam Vaylide vrij is als merk, is niet gecontroleerd; het domein `vaylide.com` is nog nergens aan gekoppeld (zie `docs/LIVEGANG.md`).
 - **Online (ronde 6)**: de site staat nog nergens online; er is geen hosting of domein gekoppeld (zie `docs/ONLINE.md`). Het wachtwoord voor een testversie is getest met de testclient van Django, niet achter de proxy van een echte hosting.
+- **Kerstkaarten (ronde 7)**: alles alleen in Chromium, op een server zonder grafische kaart. Niet getest: Safari op een iPhone (daar vooral de gouden golf, die een nieuwere CSS-techniek gebruikt, en het krassen met de vinger), Firefox, een echt ouder Android-toestel en schermlezers. De muziek ("Stille nacht" als speeldoosje) is gecontroleerd op starten en pauzeren, niet beluisterd. De beweging is beoordeeld op schermafbeeldingen, niet als bewegend beeld. De schermopname van de eigenaar is bekeken als losse beelden; het geluid ervan niet. Of het resultaat het gewenste warme kerstgevoel geeft, is aan de eigenaar.
 - **Nieuwe ontwerpen (ronde 4)**: de openingen zijn alleen in Chromium bekeken (dicht, tijdens het openen en geopend), niet in Safari of Firefox en niet op echte telefoons. De voorbeelden gebruiken eigen illustraties; met echte foto's zijn ze alleen via de testuitnodigingen bekeken (met dezelfde illustraties als foto). De 90 kleurvarianten zijn automatisch gecontroleerd (contrast en axe), niet allemaal met het oog.
 
 ## Zelf herhalen
@@ -269,6 +314,8 @@ node e2e/controle2.cjs http://127.0.0.1:8000 /tmp/fixtures.json /tmp/controle2 '
 # Sneller: vier runs tegelijk, één per schermformaat (gedragscontroles in één ervan)
 VIEWPORTS=360 CHECKS=0 SHOTS=viewport node e2e/controle2.cjs … &
 VIEWPORTS=390 SHOTS=viewport node e2e/controle2.cjs … &         # enzovoort voor 768 en 1366
+# Na een wijziging aan één ontwerp: alleen de voorbeelden, testuitnodigingen en gedragscontroles daarvan
+ONTWERPEN=winterlicht node e2e/controle2.cjs …
 
 # Toegankelijkheid en contrast van alle ontwerpen in alle kleuren (eenmalig: npm install --no-save axe-core@4)
 node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/toegankelijkheid.json [code ...]
