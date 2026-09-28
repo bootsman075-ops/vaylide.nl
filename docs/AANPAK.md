@@ -280,7 +280,7 @@ Dit is een andere opname dan `Referentie_Vierlief_3_Voorbeelden.mp4` uit de eers
 - **Krassen is een extra, geen drempel.** De datum is ook zonder krassen te zien en te horen.
 - **Bewegen volgens de vaste afspraken.** Alles wat beweegt staat onder `.fx-motion`, de knop **Beweging** zet het stil, bij 'minder beweging' beweegt er niets, er zijn geen flitsen en deeltjes blijven achter de tekst. Onder de dichte envelop en als de kop uit beeld is, staan de lichtjes stil; de sneeuw stopt al vanzelf buiten beeld.
 - **Een voorbeeld blijft een voorbeeld.** De voorbeeldkaart gebruikt de fictieve Familie Van Dijk en een voorbeeldadres, met de balk "Voorbeelduitnodiging · fictief evenement".
-- **Zwaarder dan de andere ontwerpen.** De lichtjes en de sneeuw vragen meer van de processor dan bij de andere ontwerpen; de meting staat in `docs/CONTROLES.md`. Op een echt (ouder) toestel is het nog niet geprobeerd.
+- **Zwaarder dan de andere ontwerpen.** Het voorbeeld laadt voor het eerste beeld ongeveer 800 KB, drie tot vier keer zoveel als de andere ontwerpen: de envelop met reliëf en het kerstraam zijn getekende beelden. Daarom zijn de reliëfbeelden kleiner gemaakt en laadt de gouden laag pas na de rest. De lichtjes en de sneeuw vragen ook meer van de processor. De metingen staan in `docs/CONTROLES.md`; op een echt (ouder) toestel is het nog niet geprobeerd.
 
 ## Referenties en schermopname
 
