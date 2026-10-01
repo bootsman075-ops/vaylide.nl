@@ -4,7 +4,7 @@
 <link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
 
 {% block cover %}
-<section class="cover lp-cover" data-cover data-duration="4100" data-fx-delay="2650" data-fx-intro="3450" aria-label="Openingsscherm">
+<section class="cover lp-cover" data-cover data-duration="4100" data-fx-delay="2100" data-fx-intro="3450" aria-label="Openingsscherm">
   <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   <svg class="lp-defs" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
@@ -43,6 +43,8 @@
           <path class="lp-pocket-side lp-pocket-side--r" d="M700 10Q700 0 690 0L350 270 682 500H690Q700 500 700 490Z"/>
           <path class="lp-pocket-bottom" d="M0 490C110 420 250 300 350 252C450 300 590 420 700 490Q700 500 690 500H10Q0 500 0 490Z"/>
           <path d="M0 490C110 420 250 300 350 252C450 300 590 420 700 490" fill="none" stroke="url(#lp-foil)" stroke-width="1.6"/>
+          <path class="lp-frame" d="M10 20V490H690V20" fill="none" stroke="url(#lp-foil)" stroke-width="1.2"/>
+          <path class="lp-frame" d="M16 26V484H684V26" fill="none" stroke="url(#lp-foil)" stroke-width=".6"/>
           <path class="lp-pearls" d="M34 494C138 428 262 318 350 276C438 318 562 428 666 494"/>
           <g class="lp-flourish" fill="none" stroke="url(#lp-foil)" stroke-width="1.5" stroke-linecap="round"><path d="M16 484C16 458 30 444 50 444C64 444 70 454 66 462C62 469 52 468 51 461M16 484C42 484 56 474 62 462M26 474c-2-8 2-14 9-16 0 7-3 12-9 16Z" /><g transform="translate(700 0) scale(-1 1)"><path d="M16 484C16 458 30 444 50 444C64 444 70 454 66 462C62 469 52 468 51 461M16 484C42 484 56 474 62 462M26 474c-2-8 2-14 9-16 0 7-3 12-9 16Z" /></g></g>
           <g class="lp-branch" fill="none" stroke="url(#lp-foil)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
@@ -69,6 +71,7 @@
         </g>
         </svg>
       </div>
+      <div class="lp-env__burst" aria-hidden="true"><i class="lp-burst__ring"></i><span style="--a:-5deg;--r:72;--d:0.00s;--s:0.7"></span><span style="--a:33deg;--r:58;--d:0.05s;--s:1"></span><span style="--a:46deg;--r:72;--d:0.10s;--s:0.7"></span><span style="--a:84deg;--r:58;--d:0.00s;--s:1"></span><span style="--a:98deg;--r:72;--d:0.05s;--s:0.7"></span><span style="--a:136deg;--r:58;--d:0.10s;--s:1"></span><span style="--a:149deg;--r:72;--d:0.00s;--s:0.7"></span><span style="--a:187deg;--r:58;--d:0.05s;--s:1"></span><span style="--a:201deg;--r:72;--d:0.10s;--s:0.7"></span><span style="--a:238deg;--r:58;--d:0.00s;--s:1"></span><span style="--a:252deg;--r:72;--d:0.05s;--s:0.7"></span><span style="--a:290deg;--r:58;--d:0.10s;--s:1"></span><span style="--a:304deg;--r:72;--d:0.00s;--s:0.7"></span><span style="--a:341deg;--r:58;--d:0.05s;--s:1"></span></div>
       <div class="lp-env__lid">
       <div class="lp-env__flap">
         <div class="lp-flap__face lp-flap__face--front">
@@ -80,7 +83,7 @@
           </svg>
           <img class="lp-flap__logo" src="{% static 'img/merk/vaylide-logo.webp' %}" width="350" height="240" alt="">
           <div class="lp-flap__seal">
-            <svg class="lp-seal__ribbon" viewBox="0 0 216 216" aria-hidden="true" focusable="false"><g class="lp-sprig-seal"><path class="lp-sprig-seal__stem" d="M118 98C140 76 166 54 204 30M150 70c4-12 12-20 24-22M168 56c10-2 20 2 26 10M134 84c-4-10-2-20 6-26M182 44c2-8 8-14 16-16" fill="none" stroke-width="1.8" stroke-linecap="round"/><g class="lp-sprig-seal__buds"><circle cx="176" cy="47" r="4.2"/><circle cx="195" cy="67" r="4"/><circle cx="141" cy="57" r="3.6"/><circle cx="199" cy="27" r="3.8"/><circle cx="206" cy="31" r="3"/><circle cx="187" cy="40" r="2.8"/><circle cx="160" cy="62" r="2.6"/></g></g><path class="lp-ribbon lp-ribbon--l" d="M102 112 54 198l-7-13-15 6 54-90Z"/><path class="lp-ribbon lp-ribbon--r" d="M114 112l48 86 7-13 15 6-54-90Z"/></svg>
+            <svg class="lp-seal__ribbon" viewBox="0 0 216 216" aria-hidden="true" focusable="false"><g class="lp-sprig-seal"><path class="lp-sprig-seal__stem" d="M118 98C140 76 166 54 204 30M150 70c4-12 12-20 24-22M168 56c10-2 20 2 26 10M134 84c-4-10-2-20 6-26M182 44c2-8 8-14 16-16" fill="none" stroke-width="1.8" stroke-linecap="round"/><g class="lp-sprig-seal__buds"><circle cx="176" cy="47" r="4.2"/><circle cx="195" cy="67" r="4"/><circle cx="141" cy="57" r="3.6"/><circle cx="199" cy="27" r="3.8"/><circle cx="206" cy="31" r="3"/><circle cx="187" cy="40" r="2.8"/><circle cx="160" cy="62" r="2.6"/></g></g><path class="lp-ribbon lp-ribbon--l" d="M102 112 54 198l-7-13-15 6 54-90Z"/><path class="lp-ribbon lp-ribbon--r" d="M114 112l48 86 7-13 15 6-54-90Z"/><g class="lp-charm"><path d="M146 168v18" stroke="url(#lp-foil)" stroke-width="1.2" fill="none"/><path d="M146 202c-7-5-11-8-11-12 0-3 2-5 5-5 3 0 5 2 6 4 1-2 3-4 6-4 3 0 5 2 5 5 0 4-4 7-11 12Z" fill="url(#lp-foil)"/><circle cx="146" cy="167" r="2" fill="url(#lp-foil)"/></g></svg>
             <span class="lp-seal__wax"><svg viewBox="0 0 120 120" focusable="false"><path d="M109.2 60C109.1 63.6 107.8 67.1 107.2 70.8C106.7 74.4 107.3 78.8 105.6 82C104 85.2 100 87.1 97.6 90C95.2 92.9 93.7 96.3 91.3 99.2C88.8 102.1 86 105.3 82.8 107.3C79.6 109.4 75.6 111.4 71.8 111.8C68 112.2 63.8 110.5 60 109.7C56.2 108.9 52.8 107.9 49.3 106.9C45.8 105.9 42.5 104.8 39.1 103.4C35.7 102.1 32.2 100.7 29 98.8C25.8 96.9 21.9 95 19.8 92.1C17.7 89.1 17.7 84.5 16.4 81C15.2 77.4 13.6 74.4 12.4 70.9C11.3 67.4 10 63.7 9.4 60C8.9 56.3 8.5 52.1 9.3 48.4C10.2 44.8 13.4 41.9 14.6 38.2C15.9 34.4 14.4 28.3 17 25.7C19.6 23.1 26.6 24.5 30.1 22.5C33.5 20.4 34.5 15.2 37.6 13.5C40.8 11.8 45.4 12.5 49.1 12.2C52.8 11.8 56.4 11.4 60 11.6C63.6 11.7 66.8 13 70.8 12.9C74.7 12.8 80.3 9.7 83.5 11.2C86.8 12.7 87.7 19.1 90.3 22C92.9 24.9 96.8 25.9 99.4 28.6C101.9 31.3 104.1 34.6 105.6 38C107.1 41.4 107.6 45.3 108.2 49C108.8 52.7 109.4 56.4 109.2 60Z" fill="url(#lp-wax)"/><circle cx="60" cy="60" r="38" class="lp-seal__beads"/></svg><span class="lp-seal__mono">{{ v.monogram }}</span></span>
           </div>
         </div>
@@ -95,6 +98,7 @@
       </div>
       </div>
     </div>
+    <div class="lp-twinkles" aria-hidden="true"><span style="--x:9%;--y:64%;--d:0s"></span><span style="--x:83%;--y:30%;--d:0.7s"></span><span style="--x:93%;--y:78%;--d:1.4s"></span><span style="--x:30%;--y:85%;--d:2.1s"></span><span style="--x:70%;--y:14%;--d:2.8s"></span><span style="--x:48%;--y:92%;--d:3.5s"></span></div>
     <a href="#uitnodiging" class="lp-seal fx-pulse" data-open data-fx-origin aria-label="Open de uitnodiging"></a>
     </div>
     <p class="lp-cover__hint">Tik op het zegel om te openen</p>
