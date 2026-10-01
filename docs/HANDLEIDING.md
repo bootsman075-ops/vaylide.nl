@@ -209,7 +209,7 @@ Een onbekende keuze geeft bij het inlezen een duidelijke melding. Op de ontwerpp
 1. Kopieer `designs/liefde-op-papier/v1` naar `designs/liefde-op-papier/v2`.
 2. Zet in het nieuwe manifest `"version": 2` en beschrijf de wijziging in `changelog`.
 3. Pas `v2` aan en draai `python manage.py sync_designs`.
-4. Kies in **Beheer → Ontwerpen** de versie voor nieuwe klanten (`v2`). Bestaande uitnodigingen blijven op `v1`.
+4. Kies in **Beheer → Ontwerpen** de versie voor nieuwe klanten (`v2`). Bestaande uitnodigingen blijven op `v1`. Zet je `"make_current": true` in het manifest van de nieuwe versie, dan gebeurt dit vanzelf bij het eerste inlezen (ook online bij `migrate`); een latere keuze in Beheer blijft staan.
 5. Wil je een bestaande uitnodiging overzetten, doe dat dan per uitnodiging met **Concept overzetten naar v2**. Bekijk het concept en publiceer.
 
 Alleen tijdens het ontwikkelen, als er nog geen echte uitnodigingen op een versie staan, kun je het manifest van een bestaande versie bijwerken met `python manage.py sync_designs --update-manifest`.

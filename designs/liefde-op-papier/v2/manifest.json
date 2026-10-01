@@ -1,0 +1,147 @@
+{
+  "slug": "liefde-op-papier",
+  "version": 2,
+  "name": "Liefde op papier",
+  "tagline": "Romantisch en zacht, met een versierde envelop en lakzegel",
+  "description": "Een rijk versierde envelop met kanten klep, lakzegel met jullie initialen, lint, postzegel en gouden krullen. Na een tik breekt het zegel, vouwt de klep open en springt de brief naar voren. Handgeschreven namen, fijne lijntekeningen en rustige kleuren.",
+  "style_notes": "Ivoor papier, zachte kleuren, handgeschreven namen, botanische lijntjes",
+  "occasions": [
+    "bruiloft",
+    "verloving",
+    "jubileum",
+    "babyshower",
+    "verjaardag"
+  ],
+  "sort_order": 10,
+  "opening": "envelop",
+  "opening_label": "Envelop met lakzegel",
+  "palettes": [
+    {
+      "key": "blush",
+      "name": "Blush",
+      "swatch": [
+        "#FBF5EF",
+        "#EFD5CF",
+        "#8A2E3E"
+      ],
+      "vars": {
+        "--lp-paper": "#FBF5EF",
+        "--lp-card": "#FFFDF9",
+        "--lp-ink": "#43343A",
+        "--lp-muted": "#6B585E",
+        "--lp-accent": "#8B4352",
+        "--lp-soft": "#EFD5CF",
+        "--lp-seal": "#8A2E3E",
+        "--lp-seal-2": "#B24E5E",
+        "--lp-line": "#C9A2A0",
+        "--lp-envelope": "#F3E4DA",
+        "--lp-envelope-2": "#E9D3C6",
+        "--lp-gold": "#B98565",
+        "--lp-gold-light": "#EBCDB0",
+        "--lp-gold-deep": "#8A5B40"
+      }
+    },
+    {
+      "key": "salie",
+      "name": "Salie",
+      "swatch": [
+        "#F6F5EE",
+        "#D9E0CF",
+        "#5D6E4C"
+      ],
+      "vars": {
+        "--lp-paper": "#F6F5EE",
+        "--lp-card": "#FFFFFA",
+        "--lp-ink": "#33392F",
+        "--lp-muted": "#5A6255",
+        "--lp-accent": "#4C624E",
+        "--lp-soft": "#D9E0CF",
+        "--lp-seal": "#5D6E4C",
+        "--lp-seal-2": "#7E9068",
+        "--lp-line": "#A9B59B",
+        "--lp-envelope": "#E8EADD",
+        "--lp-envelope-2": "#DADFCB",
+        "--lp-gold": "#A88B57",
+        "--lp-gold-light": "#E4D3A6",
+        "--lp-gold-deep": "#76603A"
+      }
+    },
+    {
+      "key": "lavendel",
+      "name": "Lavendel",
+      "swatch": [
+        "#F8F5F9",
+        "#E3DAEE",
+        "#5E4577"
+      ],
+      "vars": {
+        "--lp-paper": "#F8F5F9",
+        "--lp-card": "#FFFEFF",
+        "--lp-ink": "#3B3445",
+        "--lp-muted": "#605870",
+        "--lp-accent": "#654F7E",
+        "--lp-soft": "#E3DAEE",
+        "--lp-seal": "#5E4577",
+        "--lp-seal-2": "#7F66A0",
+        "--lp-line": "#B8A8CA",
+        "--lp-envelope": "#ECE5F1",
+        "--lp-envelope-2": "#E0D6EA",
+        "--lp-gold": "#AE8790",
+        "--lp-gold-light": "#E8CDD3",
+        "--lp-gold-deep": "#7D5A64"
+      }
+    },
+    {
+      "key": "bordeaux-goud",
+      "name": "Bordeaux & goud",
+      "swatch": [
+        "#FAF6EE",
+        "#EAD9BF",
+        "#6E1F31"
+      ],
+      "vars": {
+        "--lp-paper": "#FAF6EE",
+        "--lp-card": "#FFFDF8",
+        "--lp-ink": "#3A2328",
+        "--lp-muted": "#684F54",
+        "--lp-accent": "#6E1F31",
+        "--lp-soft": "#EAD9BF",
+        "--lp-seal": "#6E1F31",
+        "--lp-seal-2": "#93354A",
+        "--lp-line": "#C4A36A",
+        "--lp-envelope": "#F1E6D3",
+        "--lp-envelope-2": "#E6D6BC",
+        "--lp-gold": "#B08D4A",
+        "--lp-gold-light": "#EBD59C",
+        "--lp-gold-deep": "#7C6030"
+      }
+    }
+  ],
+  "sections": [
+    "countdown",
+    "story",
+    "gallery",
+    "program",
+    "location",
+    "dresscode",
+    "practical",
+    "rsvp",
+    "contact",
+    "closing",
+    "music"
+  ],
+  "effects": {
+    "sfeer": "blaadjes",
+    "knal": "blaadjes",
+    "viering": "harten",
+    "namen": "schrijf",
+    "onthul": "zacht",
+    "extra": [
+      "kenburns",
+      "kantel",
+      "tik"
+    ]
+  },
+  "changelog": "Nieuwe envelop: kanten klep met het Vaylide-logo, gevoerde binnenkant, postzegel en poststempel, gouden lijnen en krullen, lakzegel met lint en takje dat in twee helften breekt; de brief springt uit de envelop. Afsluiting 'Jouw moment begint hier — Vaylide'.",
+  "make_current": true
+}

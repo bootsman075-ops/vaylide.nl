@@ -211,6 +211,21 @@ De eigenaar vroeg eerst: "vierlief moet worden aangepast naar Vaylia met een nie
 - **Eigen repository.** De eigenaar maakte `bootsman075-ops/vaylide.nl` aan, openbaar; op de vraag of dat zo mocht blijven, koos de eigenaar "Openbaar is goed". Vóór het versturen is de hele geschiedenis doorzocht op wachtwoorden en sleutels (niets gevonden). De eerste commit van de repository (een README van één regel) is samengevoegd; er is niets overschreven.
 - **De website zelf** is verder niet veranderd.
 
+## Ronde 7: een versierde envelop voor Liefde op papier
+
+De eigenaar vroeg voor Liefde op papier (bij een bruiloft) "een hele mooie envelop", "met designtjes erin", "iets unieks voor een bruiloft", die "heel mooi vloeiend opent" en waar de brief uit komt. Later kwam er een opzet bij: "0–2 sec: gesloten envelop met VAYLIDE-logo. 2–5 sec: tik op het zegel; de envelop opent. 5–9 sec: rustig naar beneden scrollen langs namen, datum en locatie. 9–10 sec: eindtekst: 'Jouw moment begint hier — VAYLIDE'". Op de vraag of dat een promotiefilmpje was of in de uitnodiging zelf moest, koos de eigenaar "In de uitnodiging zelf". Na het eerste voorbeeld: "dat die envelop heel soepel opent. Echt als een heel mooi surprise, subtiel", en daarna: "dat het echt aan elkaar blijft, dat hij echt hem openklapt".
+
+Het werd **Liefde op papier v2** (`designs/liefde-op-papier/v2/`); v1 blijft ongewijzigd voor bestaande uitnodigingen.
+
+- **De envelop**: een klep met een kanten rand (schulpjes met gaatjes), een gouden lijn en een parelrand, en het **Vaylide-logo** zoals aangeleverd (het hele logo, als afbeelding, niet hertekend). Een gevoerde binnenkant met een bloemetjespatroon, ook aan de binnenkant van de klep. Op de voorkant een gouden olijftakje, krulletjes in de hoeken, een parelrand langs de onderklep, een **postzegel** (bij bruiloft, verloving en jubileum twee ringen, anders een hartje) en een **poststempel** "Met liefde verstuurd" met de dag, maand en het jaar.
+- **Het lakzegel** heeft een onregelmatige rand van was, een rand van puntjes, de initialen, twee linten en een takje. Het zit vast op de punt van de klep.
+- **De brief** heeft een dubbele gouden lijst met krullen in de hoeken, de namen in handschrift, een hartje, de datum en de locatie.
+- **Openen (ongeveer 4 seconden, in één beweging)**: het zegel veert zacht in, de klep klapt aan de vouw open met het zegel eraan (met wat schaduw halverwege), er komt licht uit de envelop, de brief glijdt eruit en zweeft naar voren, er glijdt een glans over, de bloemblaadjes komen (de knal), de lege envelop vervaagt achter de brief en het scherm gaat over in de uitnodiging. Er breekt of valt niets los. De gouden kleuren zijn per kleurvariant (`--lp-gold`, `--lp-gold-light`, `--lp-gold-deep`).
+- **Namen, datum en locatie**: die staan op de brief en verschijnen daarna na elkaar in de kop (de bestaande effecten). **Niet** automatisch naar beneden scrollen: de pagina laten bewegen zonder dat de gast dat doet, is lastig voor wie zelf wil scrollen of een schermlezer gebruikt. In het voorbeeldfilmpje scrolt de "gast" zelf.
+- **Eindtekst**: onderaan de uitnodiging staat "Jouw moment begint hier — Vaylide" (met VAYLIDE in hoofdletters via de opmaak, zodat schermlezers de naam goed uitspreken).
+- **Meteen de versie voor nieuwe klanten.** Een nieuwe sleutel in het manifest, `make_current`, maakt een nieuwe versie bij het eerste inlezen (`migrate` of `sync_designs`) de versie voor nieuwe klanten. Daardoor staat v2 na het bijwerken van de site direct op de website en in het samenstellen. Een latere keuze in Beheer → Ontwerpen blijft staan.
+- **Het kaartbeeld** in de collectie (`static/img/designs/liefde-op-papier.webp`) is opnieuw gemaakt met de nieuwe envelop.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.
@@ -221,7 +236,7 @@ Hier staat eerlijk wat wel en niet is bekeken.
 
 | Ontwerp | Richting | Opening |
 |---|---|---|
-| Liefde op papier | Romantisch en zacht: handgeschreven namen, fijne lijntekeningen, zachte kleuren | Envelop met persoonlijk lakzegel (initialen); na een tik opent de klep en schuift de kaart naar buiten |
+| Liefde op papier | Romantisch en zacht: handgeschreven namen, fijne lijntekeningen, zachte kleuren | Envelop met persoonlijk lakzegel (initialen); na een tik opent de klep en schuift de kaart naar buiten. Sinds v2 (ronde 7) een rijk versierde envelop met het Vaylide-logo |
 | Avondgoud | Donker, feestelijk en elegant: champagnegouden lijnen, medaillon, fonkelend licht | Gouden dubbele deur die openzwaait |
 | Puur moment | Rustig en modern: veel witruimte, grote foto, strakke letters, genummerde onderdelen | Doorschijnend vel dat omhoog schuift, waarna de foto scherp wordt |
 

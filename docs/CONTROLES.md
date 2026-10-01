@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**139 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met het merk Vaylide en het wachtwoord voor een testversie online (ronde 6), alle geslaagd:
+**145 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid in ronde 7 (de nieuwe envelop van Liefde op papier, op SQLite), alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
@@ -234,6 +234,15 @@ Eerdere rondes:
 | Ruimte onder het menu in Mijn Vaylide; lege toelichting zonder tekst | Afstand toegevoegd; toont nu "—" |
 
 In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk onder de camera-uitsparing in de telefoondemo, onduidelijke deadlinetekst, een te brede muziekknop op telefoons, het onthullen en fonkelen in Avondgoud, en de stappenweergave op de homepage.
+
+### Ronde 7: de envelop van Liefde op papier (v2)
+
+Gedraaid tegen de ontwikkelserver, in Chromium (Playwright):
+
+- **Effecten** (`e2e/effecten.cjs liefde-op-papier`): 8/8 ok. Het script wacht bij de knal nu op het moment uit `data-fx-delay`, omdat de knal bij deze envelop pas komt als de brief naar voren komt (na 2,65 s); Avondgoud en Rozentuin daarna opnieuw: 24/24 ok.
+- **Toegankelijkheid en contrast** (`e2e/toegankelijkheid.cjs liefde-op-papier`): alle vier kleuren, dicht en geopend: 8 pagina's, 0 bevindingen.
+- **Met het oog bekeken**: de envelop dicht in alle vier kleuren; het openen als reeks van 16 tot 18 momenten op 430 × 932 (bruiloft, Blush); dicht, tijdens en na het openen op 360, 768 en 1366 pixels breed; de eindtekst onderaan. Gevonden en opgelost: de binnenkant van de klep stond na het openklappen op zijn kop (punt naar beneden); de klep viel bij het wegzakken van de envelop terug naar de voorkant (een doorzichtigheidsanimatie op de klep zelf maakte de 3D-weergave plat); de brief schoof bij het naar voren komen even over de zijkanten van de envelop.
+- **Niet gecontroleerd**: Safari, Firefox en echte telefoons (de 3D-klep met `backface-visibility` is daar extra het bekijken waard); de volledige `e2e/controle2.cjs` over alle ontwerpen.
 
 ### Productie-achtige controles
 

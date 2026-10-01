@@ -124,11 +124,12 @@ class RestoreTests(VaylideTestCase):
 class TemplateVersionPinningTests(VaylideTestCase):
     def test_new_template_version_does_not_change_existing_invitation(self):
         owner = self.make_customer()
-        inv = self.published(owner=owner)
         template = Template.objects.get(slug="liefde-op-papier")
-        v1 = template.current_version
-        manifest = dict(v1.manifest, version=2)
-        v2 = TemplateVersion.objects.create(template=template, number=2, renderer=v1.renderer, manifest=manifest)
+        v1 = template.versions.get(number=1)
+        template.current_version = v1
+        template.save()
+        inv = self.published(owner=owner)
+        v2 = template.versions.get(number=2)
         template.current_version = v2
         template.save()
         inv.refresh_from_db()
@@ -144,3 +145,20 @@ class TemplateVersionPinningTests(VaylideTestCase):
         inv.refresh_from_db()
         self.assertEqual(inv.template_version_id, v2.pk)
         self.assertEqual(inv.published_version.template_version_id, v1.pk)
+
+
+class MakeCurrentTests(VaylideTestCase):
+    def test_new_version_with_make_current_becomes_version_for_new_customers(self):
+        template = Template.objects.get(slug="liefde-op-papier")
+        self.assertEqual(template.current_version.number, 2)
+        self.assertEqual(template.current_version.renderer, "liefde-op-papier/v2")
+
+    def test_owner_choice_in_beheer_is_kept_on_next_sync(self):
+        from catalog.seed import sync_designs
+
+        template = Template.objects.get(slug="liefde-op-papier")
+        template.current_version = template.versions.get(number=1)
+        template.save()
+        sync_designs()
+        template.refresh_from_db()
+        self.assertEqual(template.current_version.number, 1)

@@ -169,6 +169,12 @@ def sync_designs(update_existing_manifest: bool = False) -> list[str]:
         if template.current_version_id is None:
             template.current_version = version
             template.save(update_fields=["current_version"])
+        elif v_created and data.get("make_current") and template.current_version.number < number:
+            # Een nieuwe versie met "make_current" wordt meteen de versie voor nieuwe klanten.
+            # Alleen bij het eerste inlezen: een latere keuze in Beheer blijft staan.
+            template.current_version = version
+            template.save(update_fields=["current_version"])
+            messages.append(f"Versie voor nieuwe klanten: {template.name} v{number}")
     return messages
 
 
