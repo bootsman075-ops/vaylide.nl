@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**139 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met het merk Vaylide en het wachtwoord voor een testversie online (ronde 6), alle geslaagd:
+**144 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid na het toevoegen van de Instagram Reel (3 oktober 2026; de vijf nieuwe tests controleren de tijdlijn, de teksten en dat het logo gelijk is aan het aangeleverde), alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
@@ -235,6 +235,14 @@ Eerdere rondes:
 
 In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk onder de camera-uitsparing in de telefoondemo, onduidelijke deadlinetekst, een te brede muziekknop op telefoons, het onthullen en fonkelen in Avondgoud, en de stappenweergave op de homepage.
 
+### Instagram Reel (3 oktober 2026)
+
+De Reel in `tools/reel/` is gemaakt met Remotion 4.0.532 en Chromium (headless shell) in de werkomgeving.
+
+- **Bestand**: met `ffprobe` gecontroleerd: H.264, 1080 × 1920, 30 beelden per seconde, 5,5 seconden (165 beelden), yuv420p met BT.709 en videobereik (de eerste versie kwam uit als `yuvj420p`, volledig bereik; aangepast in `remotion.config.ts`), AAC stereo 48 kHz. Ongeveer 3,6 MB.
+- **Beeld**: beoordeeld op losse beelden (`npm run stills`) en op een overzicht van elk vijfde beeld uit de MP4, niet als bewegend beeld op een echt scherm. Daarbij gevonden en opgelost: de flap ging in een paar beelden van dicht naar open (nu een rustigere curve en langer), bij de overgang van kaart naar telefoon was de kaart even leeg (nu overlappend wisselen met een lichtstreep over het glas), een lichtcirkel achter het logo oogde als een maan (nu een crèmekaart), en tussen telefoon en logo verscheen eerst een lege kaart (nu komen kaart en logo samen).
+- **Geluid**: gemeten met ffmpeg (`ebur128`): ongeveer -14,7 LUFS, echte piek -3,1 dB. Op een spectrogram stonden de lagen op de goede momenten; er zat dreun onder 40 Hz in de muziek, die is weggefilterd. Het geluid is **niet beluisterd**.
+
 ### Productie-achtige controles
 
 - `python manage.py check --deploy` met productie-instellingen (opnieuw in ronde 5): alleen de bewuste meldingen W005 en W021. `makemigrations --check`: geen wijzigingen in het datamodel.
@@ -251,6 +259,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 - **Vergelijking met de referenties en de schermopname**: niet mogelijk; zie `docs/AANPAK.md`.
 - **Nieuwe vormgeving**: de voorbeeldfoto is als richting gebruikt, niet pixel voor pixel nagemaakt. Afwijkingen en de redenen staan in `docs/AANPAK.md`. De Docker-image is na deze ronde niet opnieuw gebouwd.
 - **Effecten (ronde 5)**: alleen in Chromium, op een server zonder grafische kaart (het tekenen gebeurt dan in software) en met een vier keer vertraagde processor als benadering van een eenvoudige telefoon. Niet getest: echte telefoons (vooral oudere Android-toestellen, en iPhones met Safari), Firefox, het batterijverbruik, en hoe schermlezers de knop **Beweging** voorlezen. De beweging is beoordeeld op reeksen schermafbeeldingen (tot acht momenten per opening), niet als vloeiend bewegend beeld op een echt scherm. Of het geheel mooi en opvallend genoeg is, is aan de eigenaar.
+- **Instagram Reel**: niet bekeken als vloeiend bewegend beeld en het geluid is niet beluisterd; niet geüpload naar Instagram (en dus niet gezien hoe Instagram hem comprimeert of welk deel de knoppen bedekken). Of het geheel luxe genoeg aanvoelt, is aan de eigenaar.
 - **Merk Vaylide (ronde 6)**: het logo, de iconen en de e-mail zijn alleen in Chromium bekeken. Niet bekeken: het logo in echte mailprogramma's (Outlook, Gmail, Apple Mail), het tabblad-icoon in Safari en Firefox, het icoon op het beginscherm van een echte iPhone en de linkvoorvertoning met de nieuwe deelafbeelding in WhatsApp. Of de naam Vaylide vrij is als merk, is niet gecontroleerd; het domein `vaylide.com` is nog nergens aan gekoppeld (zie `docs/LIVEGANG.md`).
 - **Online (ronde 6)**: de site staat nog nergens online; er is geen hosting of domein gekoppeld (zie `docs/ONLINE.md`). Het wachtwoord voor een testversie is getest met de testclient van Django, niet achter de proxy van een echte hosting.
 - **Nieuwe ontwerpen (ronde 4)**: de openingen zijn alleen in Chromium bekeken (dicht, tijdens het openen en geopend), niet in Safari of Firefox en niet op echte telefoons. De voorbeelden gebruiken eigen illustraties; met echte foto's zijn ze alleen via de testuitnodigingen bekeken (met dezelfde illustraties als foto). De 90 kleurvarianten zijn automatisch gecontroleerd (contrast en axe), niet allemaal met het oog.

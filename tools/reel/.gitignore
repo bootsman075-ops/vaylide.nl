@@ -1,0 +1,4 @@
+node_modules/
+out/
+# gemaakt met `npm run audio`
+public/audio/*.wav

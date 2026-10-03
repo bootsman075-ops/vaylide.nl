@@ -1,0 +1,23 @@
+{
+  "name": "vaylide-reel",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Instagram Reel van Vaylide (Remotion)",
+  "scripts": {
+    "audio": "node scripts/maak-audio.mjs",
+    "studio": "remotion studio src/index.ts",
+    "render": "node scripts/maak-audio.mjs && remotion render src/index.ts VaylideReel out/vaylide-reel.mp4",
+    "typecheck": "tsc -p .",
+    "stills": "node scripts/stills.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.532",
+    "@remotion/cli": "4.0.532",
+    "@remotion/renderer": "4.0.532",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "4.0.532",
+    "typescript": "^7.0.2"
+  }
+}
