@@ -1,4 +1,8 @@
 """Website: nieuwe pagina's, zoeken zonder klantgegevens en de navigatie uit de nieuwe vormgeving."""
+import json
+import re
+
+from django.conf import settings
 from django.test import Client
 
 from .helpers import VaylideTestCase
@@ -116,3 +120,53 @@ class BrandTests(VaylideTestCase):
         self.assertIn("https://vaylide.test/static/img/merk/vaylide-logo.png", email.body_html)
         for old in ("Vierlief", "Vaylia"):
             self.assertNotIn(old, email.body_html + email.body_text + email.subject)
+
+
+class SeoTests(VaylideTestCase):
+    def _json_ld(self, html):
+
+        blocks = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
+        return [json.loads(b) for b in blocks]
+
+    def test_home_has_organization_and_website_without_invented_facts(self):
+        html = Client().get("/").content.decode()
+        kinds = {b["@type"] for b in self._json_ld(html)}
+        self.assertEqual(kinds, {"Organization", "WebSite"})
+        # Geen reviews, beoordelingen of prijzen in de gegevens (CLAUDE.md, regel 8).
+        data = json.dumps(self._json_ld(html))
+        for word in ("aggregateRating", "Review", "Offer", "price"):
+            self.assertNotIn(word, data)
+
+    def test_share_tags_on_every_public_page(self):
+        for path in ("/", "/prijzen/", "/ontwerpen/", "/veelgestelde-vragen/"):
+            html = Client().get(path).content.decode()
+            self.assertIn('property="og:url"', html, path)
+            self.assertIn('name="twitter:card" content="summary_large_image"', html, path)
+            self.assertIn('property="og:locale" content="nl_NL"', html, path)
+
+    def test_occasion_pages_have_own_canonical_and_are_in_sitemap(self):
+        page = Client().get("/ontwerpen/", {"gelegenheid": "bruiloft"}).content.decode()
+        self.assertIn(f'rel="canonical" href="{settings.BASE_URL}/ontwerpen/?gelegenheid=bruiloft"', page)
+        self.assertIn("Digitale uitnodigingen voor bruiloft", page)
+        overview = Client().get("/ontwerpen/").content.decode()
+        self.assertIn(f'rel="canonical" href="{settings.BASE_URL}/ontwerpen/"', overview)
+        # Een onbekende gelegenheid wordt geen eigen pagina.
+        unknown = Client().get("/ontwerpen/", {"gelegenheid": "onzin"}).content.decode()
+        self.assertIn(f'rel="canonical" href="{settings.BASE_URL}/ontwerpen/"', unknown)
+        sitemap = Client().get("/sitemap.xml").content.decode()
+        self.assertIn("/ontwerpen/?gelegenheid=bruiloft</loc>", sitemap)
+        self.assertNotIn("onzin", sitemap)
+
+    def test_design_detail_keeps_one_canonical_and_has_breadcrumbs(self):
+        html = Client().get("/ontwerpen/avondgoud/", {"gelegenheid": "jubileum"}).content.decode()
+        self.assertIn(f'rel="canonical" href="{settings.BASE_URL}/ontwerpen/avondgoud/"', html)
+        crumbs = [b for b in self._json_ld(html) if b["@type"] == "BreadcrumbList"][0]
+        self.assertEqual([i["name"] for i in crumbs["itemListElement"]], ["Home", "Collectie", "Avondgoud"])
+        self.assertIn(f'property="og:image" content="{settings.BASE_URL}/static/img/designs/avondgoud', html)
+
+    def test_meta_descriptions_stay_within_snippet_length(self):
+        for path in ("/", "/ontwerpen/avondgoud/", "/ontwerpen/confetti/", "/ontwerpen/", "/prijzen/"):
+            html = Client().get(path).content.decode()
+            description = re.search(r'<meta name="description" content="([^"]*)"', html).group(1)
+            self.assertLessEqual(len(description), 160, path)
+            self.assertGreaterEqual(len(description), 70, path)

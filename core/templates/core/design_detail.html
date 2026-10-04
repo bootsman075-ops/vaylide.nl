@@ -1,6 +1,11 @@
 {% extends "base.html" %}{% load vl %}
-{% block title %}{{ template.name }}{% endblock %}
-{% block description %}{{ template.tagline }}. {{ template.description|truncatechars:120 }}{% endblock %}
+{% block title %}{{ template.name }}, digitale uitnodiging{% endblock %}
+{% block description %}{% filter truncatechars:158 %}{{ template.tagline }}. {{ template.description }}{% endfilter %}{% endblock %}
+{% block og_title %}{{ template.name }}, digitale uitnodiging · Vaylide{% endblock %}
+{% block og_description %}{% filter truncatechars:158 %}{{ template.tagline }}. {{ template.description }}{% endfilter %}{% endblock %}
+{% block og_image %}<meta property="og:image" content="{{ image_url }}">
+<meta property="og:image:alt" content="{{ template.name }}, een ontwerp voor een digitale uitnodiging">
+{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container detail-grid">

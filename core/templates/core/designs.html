@@ -1,6 +1,8 @@
 {% extends "base.html" %}
-{% block title %}{% if occasion_label %}Ontwerpen voor {{ occasion_label|lower }}{% else %}Collectie{% endif %}{% endblock %}
-{% block description %}Bekijk de ontwerpen voor digitale uitnodigingen van Vaylide en probeer het werkende voorbeeld.{% endblock %}
+{% block title %}{% if occasion_label %}Digitale uitnodigingen voor {{ occasion_label|lower }}{% else %}Collectie digitale uitnodigingen{% endif %}{% endblock %}
+{% block description %}{% if occasion_label %}Ontwerpen voor een digitale uitnodiging voor {{ occasion_label|lower }}. Open het werkende voorbeeld, kies je kleuren en laat gasten zich online aanmelden.{% else %}Bekijk de ontwerpen voor digitale uitnodigingen van Vaylide en probeer het werkende voorbeeld.{% endif %}{% endblock %}
+{% block og_title %}{% if occasion_label %}Digitale uitnodigingen voor {{ occasion_label|lower }}{% else %}Collectie digitale uitnodigingen{% endif %} · Vaylide{% endblock %}
+{% block og_description %}{% if occasion_label %}Ontwerpen voor een digitale uitnodiging voor {{ occasion_label|lower }}, met een werkend voorbeeld.{% else %}Bekijk de ontwerpen voor digitale uitnodigingen van Vaylide en probeer het werkende voorbeeld.{% endif %}{% endblock %}
 {% block content %}
 <section class="page-head">
   <div class="container">

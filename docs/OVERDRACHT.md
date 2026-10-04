@@ -62,6 +62,16 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 8. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
 9. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIDE_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
 
+## Vindbaarheid (SEO)
+
+Technisch staat het (zie `docs/CONTROLES.md`, "Vindbaarheid"); voor de rest is een online site met een eigen account nodig. Na de livegang, in deze volgorde:
+
+1. Zorg dat `VIERLIEF_MODE=live` en `VIERLIEF_BASE_URL=https://…` staan en dat de site geen wachtwoord meer heeft. In testmodus is de site niet bewust verborgen voor zoekmachines; een openbare testversie hoort achter het wachtwoord uit `docs/ONLINE.md`.
+2. Meld de site aan bij **Google Search Console** (en Bing Webmaster Tools) en dien `/sitemap.xml` in. Dat geeft de echte zoekopdrachten, vertoningen en fouten.
+3. Test een ontwerppagina met de **Rich Results Test** en de homepage met **PageSpeed Insights**.
+4. **Google Bedrijfsprofiel** is alleen zinvol met een echt adres of servicegebied (bedrijfsgegevens staan nog open in `docs/LIVEGANG.md`).
+5. Zoekwoorden (Keyword Planner, AnswerThePublic) kiezen op echte gegevens; per gelegenheid bestaat al een eigen pagina (`/ontwerpen/?gelegenheid=…`) om op te richten. Verzin geen zoekvolumes en beloof geen positie.
+
 ## Goed om te weten
 
 - **Heb je al een eigen ontwikkeldatabase** van een eerder pakket? Draai dan eenmalig `python manage.py sync_designs --update-manifest`, zodat de ontwerpen hun effecten krijgen. Bij een nieuwe database gebeurt dit vanzelf bij `migrate`.

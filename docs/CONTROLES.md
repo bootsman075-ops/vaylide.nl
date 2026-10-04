@@ -240,7 +240,18 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 - `python manage.py check --deploy` met productie-instellingen (opnieuw in ronde 5): alleen de bewuste meldingen W005 en W021. `makemigrations --check`: geen wijzigingen in het datamodel.
 - Docker (vorige ronde): de image bouwt vanaf nul, start met migraties op een leeg volume, laadt de ontwerpen, draait als gewone gebruiker (uid 10001), serveert statische bestanden en de eigen 404, en de onderhoudscommando's werken.
 
+### Vindbaarheid (SEO), 4 oktober 2026
+
+Gedaan met de eigen crawler `tools/seo/crawl.py` (Django-testclient, testmodus), tests en Chromium:
+
+- **Crawl**: 469 URL's vanaf de homepage, alle interne links gevolgd. Geen kapotte links; alleen de omleidingen naar inloggen voor `/account/`. Elke indexeerbare pagina heeft een titel, beschrijving (70 tot 160 tekens), precies één h1, een canonical en geen afbeelding zonder `alt`. Voorbeelduitnodigingen, `/u/`, `/maken/`, `/inloggen/` en zoekresultaten zijn `noindex` of geblokkeerd in `robots.txt`.
+- **Gevonden en opgelost**: geen gestructureerde gegevens (nu `Organization` en `WebSite` op de homepage, `BreadcrumbList` op de collectie en de ontwerppagina's); `og:url`, `og:locale`, `twitter:card` en afbeeldingsmaten ontbraken; `og:title` en `og:description` waren overal hetzelfde (nu per pagina voor collectie en ontwerpen, met de voorbeeldafbeelding van het ontwerp); beschrijvingen van ontwerppagina's tot 171 tekens (nu hoogstens 160); de pagina's per gelegenheid (`/ontwerpen/?gelegenheid=bruiloft`) hadden een eigen titel maar een canonical naar de overzichtspagina (nu eigen canonical, ook in de sitemap, met titel "Digitale uitnodigingen voor bruiloft").
+- **Browser**: de JSON-LD-blokken worden in Chromium gelezen en geven geen CSP-fouten in de console (homepage, een gelegenheidspagina en een ontwerppagina).
+- **Bewust niet toegevoegd**: reviews, beoordelingen of prijzen in de gegevens (geen bevestigde gegevens, CLAUDE.md regel 8; de prijzen zijn voorlopig) en `FAQPage` (Google toont daar geen rijke resultaten meer voor bij gewone bedrijfssites).
+
 ## Niet gecontroleerd
+
+- **Vindbaarheid (4 oktober 2026)**: niet uitgevoerd omdat het een account, een online site of een betaalde tool vraagt: Google Search Console, Keyword Planner, Google Trends, AnswerThePublic, Ubersuggest, Screaming Frog, PageSpeed Insights, de Rich Results Test, Yoast (WordPress; past niet op Django) en Google Bedrijfsprofiel. De site staat nog niet online, dus er zijn geen echte zoekgegevens. Of de markup als rijk resultaat verschijnt, is nog niet gecontroleerd. De Lighthouse-metingen hierboven zijn van eerdere rondes en voor deze wijziging niet herhaald.
 
 - **Echte apparaten en andere browsers**: alleen Chromium is gebruikt, op telefoon- en computerformaat. Safari/WebKit (iPhone) en Firefox zijn niet getest. Test vóór de lancering op echte iPhones en Android-telefoons.
 - **Schermlezers** (VoiceOver, TalkBack): niet getest. Wel de automatische axe-controle en de toetsenbordbediening.
@@ -272,6 +283,9 @@ VIEWPORTS=390 SHOTS=viewport node e2e/controle2.cjs … &         # enzovoort vo
 
 # Toegankelijkheid en contrast van alle ontwerpen in alle kleuren (eenmalig: npm install --no-save axe-core@4)
 node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/toegankelijkheid.json [code ...]
+
+# Vindbaarheid: eigen crawler langs alle interne links (titels, beschrijvingen, koppen, canonicals, alt, JSON-LD)
+.venv/bin/python tools/seo/crawl.py
 
 # Effecten: deeltjes, knal, feestje, knop Beweging en 'minder beweging' (acht controles per ontwerp)
 node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten [code ...]

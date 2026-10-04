@@ -1,5 +1,6 @@
 {% extends "base.html" %}{% load static vl %}
 {% block title %}Digitale uitnodigingen voor elk bijzonder moment{% endblock %}
+{% block description %}Maak een persoonlijke digitale uitnodiging met aanmelden, afteller en route. Kies uit {{ design_count }} ontwerpen voor bruiloft, verjaardag, jubileum en meer.{% endblock %}
 {% block body_class %}page-home{% endblock %}
 {% block preload %}<link rel="preload" href="{% static 'fonts/playfair-display-latin-wght-italic.woff2' %}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="{% static 'img/site/hero.webp' %}" imagesrcset="{% static 'img/site/hero-900.webp' %} 900w, {% static 'img/site/hero.webp' %} 1800w" imagesizes="(max-width: 860px) 100vw, 60vw" fetchpriority="high">{% endblock %}

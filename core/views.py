@@ -15,6 +15,7 @@ from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS, by_occasion
 from catalog.effects import effect_card_label, effect_summary
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
+from . import seo
 from .content import FAQ, FEATURES, HERO_CHECKS, HOME_DESIGNS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
 from .forms import ContactForm
 from .models import ContactMessage, SiteConfig
@@ -60,6 +61,7 @@ def home(request):
             "features": HOME_FEATURES,
             "from_price": cheapest.price_display if cheapest else "",
             "config": SiteConfig.get(),
+            "jsonld": [seo.organization(), seo.website()],
         },
     )
 
@@ -70,6 +72,12 @@ def designs(request):
         occasion = ""
     all_designs = _designs()
     shown = by_occasion([d for d in all_designs if not occasion or occasion in d.occasions], occasion)
+    list_path = reverse("core:designs")
+    crumbs = [("Home", "/"), ("Collectie", list_path)]
+    if occasion:
+        # Elke gelegenheid is een eigen pagina met eigen titel, dus ook een eigen canonical.
+        list_path = f"{list_path}?gelegenheid={occasion}"
+        crumbs.append((f"Ontwerpen voor {OCCASION_LABELS[occasion].lower()}", list_path))
     return render(
         request,
         "core/designs.html",
@@ -78,6 +86,8 @@ def designs(request):
             "occasions": OCCASION_CHOICES,
             "occasion": occasion,
             "occasion_label": OCCASION_LABELS.get(occasion, ""),
+            "canonical_path": list_path,
+            "jsonld": [seo.breadcrumbs(crumbs)],
         },
     )
 
@@ -103,6 +113,16 @@ def design_detail(request, slug):
             "others": _design_cards([t for t in by_occasion(_designs(), occasion) if t.pk != template.pk and t.supports(occasion)][:3], occasion),
             "occasion_label": OCCASION_LABELS.get(occasion, ""),
             "effects_text": effect_summary(version.manifest.get("effects")),
+            "image_url": seo.absolute(design_image_url(slug)),
+            "jsonld": [
+                seo.breadcrumbs(
+                    [
+                        ("Home", "/"),
+                        ("Collectie", reverse("core:designs")),
+                        (template.name, reverse("core:design_detail", args=[slug])),
+                    ]
+                )
+            ],
         },
     )
 
@@ -209,7 +229,14 @@ def sitemap_xml(request):
         reverse("core:contact"),
         reverse("core:privacy"),
         reverse("core:terms"),
-    ] + [reverse("core:design_detail", args=[t.slug]) for t in _designs()]
+    ]
+    designs_list = _designs()
+    paths += [
+        f"{reverse('core:designs')}?gelegenheid={key}"
+        for key, _label in OCCASION_CHOICES
+        if any(key in d.occasions for d in designs_list)
+    ]
+    paths += [reverse("core:design_detail", args=[t.slug]) for t in designs_list]
     urls = "".join(f"<url><loc>{settings.BASE_URL}{p}</loc></url>" for p in paths)
     body = f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>'
     return HttpResponse(body, content_type="application/xml")
