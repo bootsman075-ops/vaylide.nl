@@ -17,3 +17,18 @@ Gemaakt met ffmpeg (clip vertragen met bewegingsinterpolatie, opschalen en kleur
 huisstijllettertypen (Playfair Display en DM Sans) die per beeld is vastgelegd met Playwright, en muziek die met een klein
 Python-script is opgebouwd (geen rechten van derden). Alleen de uitvoer is bewaard; de weergave is bekeken op beeldjes
 uit de video, niet afgespeeld in een speler.
+
+## Tweede video: kerst
+
+Gemaakt op 5 oktober 2026 uit een tweede aangeleverde clip (15 seconden, 576 × 1024, met geluid): een chocoladehuisje in de sneeuw
+waar elfjes uitstuiven, een lolly verschijnt en de elfjes juichen. Zelfde stijl als de eerste video: dezelfde kop, drie labels,
+goudstof en eindkaart met het logo zoals aangeleverd. De clip loopt op normale snelheid (niet vertraagd), zodat beeld en geluid
+bij elkaar blijven.
+
+| Bestand | Inhoud |
+| --- | --- |
+| `vaylide-tiktok-kerst.mp4` | 19 seconden, 1080 × 1920, 30 fps; het geluid van de aangeleverde clip (gelijkgetrokken) en een zacht belletje bij de eindkaart |
+| `vaylide-tiktok-kerst-zonder-geluid.mp4` | Hetzelfde beeld zonder geluid |
+
+Ook hier geen webadres, prijzen, aantallen of leverbeloftes. Het geluid van de aangeleverde clip is niet beluisterd; alleen het
+volume is gemeten.
