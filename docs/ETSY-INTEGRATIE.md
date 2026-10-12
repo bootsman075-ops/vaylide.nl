@@ -58,3 +58,19 @@ De eigenaar heeft de Etsy-verkopersapp **vaylide-integration** aangemaakt; het E
 - Let op: de uit GitHub gelezen code/documentatie kan achterlopen op de productieversie van Vaylide. Eerst de actuele deployment met de repository vergelijken voordat wijzigingen worden uitgebracht.
 
 Etsy documentatie: https://developers.etsy.com/documentation/essentials/authentication/ en https://developers.etsy.com/documentation/essentials/webhooks/ .
+
+
+## Ontwikkelstatus (na Etsy-goedkeuring)
+
+Op conceptbranch `feature/etsy-koppeling-voorbereiding` is een eerste **server-side OAuth2/PKCE verbinding** gebouwd in `etsy_integration/`. Het Etsy-redirectpad is `/integraties/etsy/callback/` en de autorisatie start via `/beheer/etsy/verbinden/` (alleen staf). Alleen versleutelde OAuth-tokens worden opgeslagen, gebruikmakend van een afzonderlijke Fernet-sleutel; PKCE, single-use CSRF-state, verloop van de autorisatiestap en toegangscontrole zijn opgenomen. Voor dit onderdeel staan aparte tests in `tests/test_etsy_oauth.py`.
+
+**Niet live:** wijzigingen staan uitsluitend in een draft pull request. Er is nog geen betrouwbare bevestiging dat de tests op de echte productieversie slagen en er is nog niets gedeployed. Etsy-ordersynchronisatie/webhooks/listings zijn nog niet geïmplementeerd. Ook OAuth heeft de eigenaar nog niet doorlopen en er is nog geen API-token verstrekt.
+
+### Uitrolvoorwaarden
+
+1. Eerst vaststellen of de productiesite op `https://vaylide.nl` door precies deze GitHub-repository wordt gepubliceerd, en vanaf welke hosting/branch. Deze code is mogelijk ouder dan de live site.
+2. Complete Django-tests en migratiechecks in een veilige ontwikkelomgeving draaien en reviewen. Deploy niet vanuit deze conceptbranch zonder eigenaarstoestemming.
+3. Als de deployment wordt goedgekeurd: de toegevoegde database-migratie draaien en alleen in de server-side environment configureren: `ETSY_ENABLED=true`, `ETSY_CLIENT_ID`, `ETSY_REDIRECT_URI=https://vaylide.nl/integraties/etsy/callback/`, `ETSY_FERNET_KEY` (een afzonderlijk willekeurige Fernet-sleutel). Geen geheimen in GitHub of chat.
+4. De exacte HTTPS callback-URL op Etsy registreren. De route moet live zijn en door de juiste deployment worden afgehandeld voordat de OAuth-flow wordt getest.
+5. Inloggen als Vaylide-beheerder en `/beheer/etsy/verbinden/` openen; Etsy verleent via OAuth toestemming. Controleer dat één `EtsyConnection` met ciphertext is opgeslagen en dat autorisatie-/herhalingsfouten netjes worden afgewezen.
+6. Pas daarna orderimport als afzonderlijke wijziging en na verificatie van Etsy-platformregels bouwen. De bestaande bestelling/betaalflow mag niet worden omzeild.
