@@ -44,3 +44,17 @@ Digitale Vaylide kaarten op Etsy aanbieden, verkopen en betaald krijgen via Etsy
 - https://help.etsy.com/hc/nl/articles/115015628347-Jouw-digitale-listings-beheren
 - https://www.etsy.com/legal/policy/off-platform-transactions-policy/1254654515806
 - https://github.com/etsy/open-api/discussions/1514
+
+## Statusupdate 12 oktober 2026
+
+De eigenaar heeft de Etsy-verkopersapp **vaylide-integration** aangemaakt; het Etsy Developer Dashboard toont **Approved**. Dit is bevestigd met een screenshot, maar er is **nog geen OAuth-toestemming**, geen token opgeslagen en **geen werkende synchronisatie**.
+
+### Eerstvolgende technische stap
+
+- Implementeer en test vóór het invullen van de redirect URL de HTTPS callbackroute aan de Vaylide-serverzijde. Voorgestelde URL: `https://vaylide.nl/integraties/etsy/callback/` (nog **niet** beschikbaar; niet invullen alsof deze al werkt).
+- Voeg de exact overeenkomende redirect URL toe in de instellingen van de Etsy-app; Etsy vereist een byte-for-byte overeenkomst inclusief eventuele eindslash.
+- OAuth 2.0 Authorization Code + PKCE, unieke `state`, beperkte scope `transactions_r` (en `listings_r` alleen indien nodig) en veilige versleutelde opslag van tokens. Geen Etsy API-sleutels in screenshots, broncode of chat.
+- Pas daarna de Etsy-shop via officiële toestemming verbinden en een gecontroleerde testorder importeren. Een goedgekeurde app is nog geen verbonden winkel.
+- Let op: de uit GitHub gelezen code/documentatie kan achterlopen op de productieversie van Vaylide. Eerst de actuele deployment met de repository vergelijken voordat wijzigingen worden uitgebracht.
+
+Etsy documentatie: https://developers.etsy.com/documentation/essentials/authentication/ en https://developers.etsy.com/documentation/essentials/webhooks/ .
