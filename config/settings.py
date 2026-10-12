@@ -106,6 +106,7 @@ INSTALLED_APPS = [
     "studio",
     "portal",
     "beheer",
+    "etsy_integration",
 ]
 
 MIDDLEWARE = [
@@ -256,6 +257,12 @@ SERVER_EMAIL = DEFAULT_FROM_EMAIL
 PAYMENT_PROVIDER = env("VIERLIEF_PAYMENT_PROVIDER", "test" if TEST_MODE else "mollie").lower()
 MOLLIE_API_KEY = env("MOLLIE_API_KEY")
 MOLLIE_API_BASE = env("MOLLIE_API_BASE", "https://api.mollie.com/v2")
+
+# --- Etsy (standaard UIT: pas activeren na HTTPS-callback en veilige secrets) ---
+ETSY_ENABLED = env_bool("ETSY_ENABLED", False)
+ETSY_CLIENT_ID = env("ETSY_CLIENT_ID")
+ETSY_REDIRECT_URI = env("ETSY_REDIRECT_URI")
+ETSY_FERNET_KEY = env("ETSY_FERNET_KEY")
 
 # --- AI (optioneel) -----------------------------------------------------------
 ANTHROPIC_API_KEY = env("ANTHROPIC_API_KEY")
