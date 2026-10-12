@@ -10,3 +10,6 @@ segno==1.6.6
 anthropic==1.8.0
 pydantic==2.13.5
 tzdata==2026.4
+
+# Encryptie van Etsy OAuth-tokens (apart van de Django SECRET_KEY).
+cryptography==46.0.4
