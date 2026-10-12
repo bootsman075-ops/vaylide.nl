@@ -19,6 +19,9 @@ jobs:
     env:
       VIERLIEF_MODE: test
       DJANGO_DEBUG: "false"
+      # Django testclient gebruikt HTTP; schakel alleen in CI redirects en secure cookies uit.
+      VIERLIEF_SSL_REDIRECT: "false"
+      VIERLIEF_SECURE_COOKIES: "false"
       DJANGO_SECRET_KEY: "ci-only-etsy-integration-checks-not-for-production"
       VIERLIEF_DATA_DIR: /tmp/vaylide-ci
       VIERLIEF_SKIP_DOTENV: "1"
