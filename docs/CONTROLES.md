@@ -190,6 +190,7 @@ Op de stand van de kerstexpres, met het filmpje nog **niet** ingevoegd (het best
 - **165 tests geslaagd**, waarvan 6 nieuw voor `KerstexpressDesignTests` (manifest en contrast in de drie kleurvarianten, de voorbeeldpagina met de eindkaart en het logo, het logo onbewerkt, de beelden, de andere gelegenheden). Bij de effecten telt het ontwerp mee (35 ontwerpen).
 - **Toegankelijkheid** (`e2e/toegankelijkheid.cjs`, axe-core 4 met WCAG 2.0/2.1 A en AA, plus de contrastcontrole): **6 pagina's** (alle drie de kleurvarianten, dicht en geopend), **0 bevindingen**.
 - **Breedte**: de voorbeeldpagina op 360, 768 en 1366 pixels breed: geen horizontaal scrollen en geen fouten in de browser. Met het oog bekeken op 360 pixels (dicht en geopend) en op 1366 pixels (geopend, de kaart als smalle kolom).
+- **Envelop op de opening** (laatste stand): de klep, het zegel en de kaart bij het openen gecontroleerd op schermafbeeldingen (390 pixels breed, nachttrein). Met 'minder beweging' (360 pixels): geopend na 307 ms, geen lopende envelop-animaties. Breedte op 360, 768 en 1366 pixels: geen horizontaal scrollen, geen fouten.
 - **Niet gedaan**: de volledige browsercontrole (`controle2.cjs`), de effectcontrole, Lighthouse, en elke controle op een echte telefoon. De kaartafbeelding en de tegel gebruiken nog de placeholder-kop en moeten opnieuw met het filmbeeld.
 
 ### Gevonden en opgelost
