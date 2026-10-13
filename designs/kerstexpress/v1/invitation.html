@@ -5,14 +5,30 @@
 <link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
 
 {% block cover %}
-<section class="cover kx-cover" data-cover data-duration="1600" data-fx-delay="0" data-fx-intro="1400" aria-label="Openingsscherm">
+<section class="cover kx-cover" data-cover data-duration="2700" data-fx-delay="1000" data-fx-intro="2000" aria-label="Openingsscherm">
   <div class="kx-film" aria-hidden="true">
     <div class="kx-film__poster"></div>
   </div>
   <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
+  {# De envelop: bij het openen klapt de klep open, glanst het licht en komt de kaart tevoorschijn. #}
+  <div class="kx-env" data-fx-origin aria-hidden="true">
+    <div class="kx-env__glow"></div>
+    <div class="kx-env__card">
+      {% if v.occasion == "kerst" %}
+      <p class="kx-env__greeting">Fijne Kerstdagen</p>
+      <p class="kx-env__wish">en een gelukkig nieuw jaar!</p>
+      {% if v.names.0 %}<p class="kx-env__from">van {{ v.names.0 }}</p>{% endif %}
+      {% else %}
+      <p class="kx-env__greeting">{{ v.names.0 }}</p>
+      {% endif %}
+    </div>
+    <div class="kx-env__body"></div>
+    <div class="kx-env__flap"></div>
+    <div class="kx-env__seal"><svg viewBox="0 0 40 40" width="26" height="26" focusable="false"><path d="M20 4v32M4 20h32M9 9l22 22M31 9L9 31" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg></div>
+  </div>
   <div class="kx-cover__text">
     <p class="kx-cover__to">{% if v.occasion == "kerst" %}Een kerstgroet voor jou{% elif v.formal %}Een uitnodiging voor u{% else %}Een uitnodiging voor jou{% endif %}</p>
-    <a href="#uitnodiging" class="kx-open fx-pulse" data-open data-fx-origin>Open de kaart</a>
+    <a href="#uitnodiging" class="kx-open fx-pulse" data-open>Open de kaart</a>
     <p class="kx-cover__hint">De kerstexpres vertrekt. Tik om mee te gaan.</p>
   </div>
 </section>

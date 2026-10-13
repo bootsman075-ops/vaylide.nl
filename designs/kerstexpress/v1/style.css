@@ -68,6 +68,66 @@ body {
 .kx-open:hover { filter: brightness(1.06); }
 .kx-cover__hint { margin-top: .7rem; font: italic 500 1rem/1.3 var(--kx-serif); color: var(--kx-env-ink); }
 .kx-cover .fx-slot { z-index: 6; }
+
+/* De envelop: klep, lichaam, zegel en de kaart die eruit komt. Zonder beweging staat de envelop dicht. */
+.kx-env {
+  position: absolute; left: 50%; top: 42%; translate: -50% -50%; z-index: 5;
+  width: min(74vw, 330px); aspect-ratio: 1.42; perspective: 1100px;
+}
+.kx-env__body, .kx-env__flap { position: absolute; inset: 0; }
+.kx-env__body {
+  z-index: 1; border-radius: 6px;
+  background: linear-gradient(170deg, var(--kx-paper-2) 0%, color-mix(in srgb, var(--kx-paper-2) 82%, var(--kx-gold)) 100%);
+  box-shadow: 0 34px 60px -22px rgba(0, 0, 0, .65), inset 0 0 0 1px color-mix(in srgb, var(--kx-gold) 60%, transparent);
+}
+.kx-env__body::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(to top right, transparent 49.6%, color-mix(in srgb, var(--kx-gold) 45%, transparent) 50%, transparent 50.4%),
+              linear-gradient(to top left, transparent 49.6%, color-mix(in srgb, var(--kx-gold) 45%, transparent) 50%, transparent 50.4%);
+}
+.kx-env__flap {
+  z-index: 3; transform-origin: 50% 0; transform-style: preserve-3d;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+  background: linear-gradient(180deg, #FFFBF2 0%, var(--kx-paper) 100%);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .35));
+  backface-visibility: hidden;
+}
+.kx-env__seal {
+  position: absolute; left: 50%; top: 60%; translate: -50% -50%; z-index: 5;
+  width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--kx-accent) 70%, #fff) 0%, var(--kx-accent) 60%, color-mix(in srgb, var(--kx-accent) 80%, #000) 100%);
+  color: var(--kx-gold); box-shadow: 0 6px 16px -6px rgba(0, 0, 0, .6), inset 0 0 0 2px color-mix(in srgb, var(--kx-gold) 50%, transparent);
+}
+.kx-env__glow {
+  position: absolute; inset: -55%; z-index: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--kx-gold) 70%, transparent), color-mix(in srgb, var(--kx-gold) 18%, transparent) 55%, transparent 80%);
+}
+.kx-env__card {
+  position: absolute; left: 7%; right: 7%; top: 9%; bottom: 9%; z-index: 0;
+  display: grid; align-content: center; justify-items: center; gap: .25rem; padding: 1rem;
+  background: var(--kx-paper); border-radius: 4px; text-align: center; opacity: 0;
+  border: 1px solid color-mix(in srgb, var(--kx-gold) 60%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--kx-paper) 60%, transparent), 0 0 0 5px color-mix(in srgb, var(--kx-gold) 40%, transparent);
+}
+.kx-env__greeting { font: 400 clamp(2rem, 9vw, 2.6rem)/1.05 var(--kx-script); color: var(--kx-accent); }
+.kx-env__wish { font: italic 500 clamp(1rem, 4.4vw, 1.2rem)/1.3 var(--kx-serif); color: var(--kx-ink); }
+.kx-env__from { margin-top: .35rem; font: 600 .72rem/1.3 var(--kx-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--kx-muted); }
+
+/* Het openen: de klep klapt open, het zegel verdwijnt, het licht gaat aan, en de kaart schuift omhoog. */
+.fx-motion.is-opening .kx-env__flap { transform: rotateX(180deg); transition: transform 1s cubic-bezier(.45, .05, .3, 1) .15s; }
+.is-opening .kx-env__seal { opacity: 0; transition: opacity .35s ease, scale .35s ease; scale: .6; }
+.is-opening .kx-env__glow { opacity: 1; transition: opacity 1.4s ease .5s; }
+.is-opening .kx-env__card {
+  opacity: 1; z-index: 4; transform: translateY(-62%);
+  transition: transform 1.3s cubic-bezier(.2, .7, .2, 1) .9s, opacity .4s ease .9s, z-index 0s .9s;
+}
+.is-opening .kx-cover { opacity: 0; transition: opacity .7s ease 2s; }
+.is-opening-reduced .kx-env__flap, .is-opening-reduced .kx-env__card, .is-opening-reduced .kx-env__seal,
+.is-opening-reduced .kx-env__glow { transition: none !important; }
+
+/* Zonder beweging: de envelop blijft dicht en de knop opent direct. */
+.fx-motion .kx-env { animation: kx-zweef 7s ease-in-out infinite; animation-play-state: var(--fx-play, running); }
+@keyframes kx-zweef { 0%, 100% { translate: -50% -50%; } 50% { translate: -50% -52%; } }
 /* Sneeuw op het openingsscherm en de knal nemen de kleur van het donkere vlak als achtergrond. */
 .kx-cover { --fx-bg: var(--kx-env); }
 .is-opening .kx-cover { opacity: 0; transition: opacity .8s ease .6s; }
