@@ -2,12 +2,18 @@
 {# Kerstexpress v1: een kerstreis met de trein als opening, en aan het eind de kaart in de envelop met het logo van Vaylide.
    Het filmpje komt in het openingsscherm (zie kx-film). Wijzig een uitgebrachte versie niet: maak een v2. #}
 {% block preload %}<link rel="preload" href="{% static 'fonts/italiana-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
+<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<script src="{% static 'designs/kerstexpress/v1/kerstexpress.js' %}" defer></script>{% endblock %}
 
 {% block cover %}
 <section class="cover kx-cover" data-cover data-duration="2700" data-fx-delay="1000" data-fx-intro="2000" aria-label="Openingsscherm">
   <div class="kx-film" aria-hidden="true">
     <div class="kx-film__poster"></div>
+    {# Het filmpje van de trein (zonder geluid). De poster is het eerste beeld; zonder video blijft de envelop staan. #}
+    <video class="kx-film__video" muted playsinline preload="auto" poster="{% static 'designs/kerstexpress/v1/img/poster.webp' %}" data-kx-film>
+      <source src="{% static 'designs/kerstexpress/v1/img/kerstexpress.webm' %}" type="video/webm">
+      <source src="{% static 'designs/kerstexpress/v1/img/kerstexpress.mp4' %}" type="video/mp4">
+    </video>
   </div>
   <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
   {# De envelop: bij het openen klapt de klep open, glanst het licht en komt de kaart tevoorschijn. #}

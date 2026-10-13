@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**165 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de code van de kerstexpres (ronde 7b), alle geslaagd:
+**169 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de code van de kerstexpres met het filmpje (ronde 7c), alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging, ronde 6 en ronde 7 zijn alleen op SQLite getest;
@@ -185,13 +185,16 @@ Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen onge
 
 ### Kerstexpress (ronde 7b, filmopening)
 
-Op de stand van de kerstexpres, met het filmpje nog **niet** ingevoegd (het bestand is nog niet ontvangen; de opening toont een placeholder):
+Op de stand van de kerstexpres met het **concept van het filmpje** (ronde 7c):
 
-- **165 tests geslaagd**, waarvan 6 nieuw voor `KerstexpressDesignTests` (manifest en contrast in de drie kleurvarianten, de voorbeeldpagina met de eindkaart en het logo, het logo onbewerkt, de beelden, de andere gelegenheden). Bij de effecten telt het ontwerp mee (35 ontwerpen).
+- **169 tests geslaagd**, waarvan 10 nieuw voor `KerstexpressDesignTests` (manifest en contrast in de drie kleurvarianten, de voorbeeldpagina met de eindkaart en het logo, het logo onbewerkt, de beelden, de andere gelegenheden, en voor het filmpje: de videobron en poster in de opening, de bestanden onder de 3 MB, het script en de weergave van de opening). Bij de effecten telt het ontwerp mee (35 ontwerpen).
+- **Filmpje in Chromium** (`/voorbeeld/kerstexpress/?kleur=nachttrein`, eigen controle, niet in `e2e/`): de webm wordt geladen en speelt af op 390 × 844 en 360 × 640 pixels (op 360 × 640: 3,55 seconden na 3,5 seconden wachten, en 5,06 seconden anderhalve seconde later; geen fouten in de browser). Met 'minder beweging' staat de film stil op het eerste beeld (tijd 0). 'Open de kaart' pauzeert de film. De film speelt tot het einde (30,6 seconden), en het eindbeeld met de kaart en het logopaneel staat op 390 pixels breed, de knop onderaan en niet erover.
+- **Niet gecontroleerd**: spoelen naar een andere plek lukt op de ontwikkelserver niet (de tijd blijft op 0; de server geeft geen deelverzoeken, de 'Range'-verzoeken, die een browser nodig heeft om te spoelen). Of de productieserver dat wel doet, is niet gecontroleerd. Afspelen van het begin tot het einde werkt.
+- **Niet gecontroleerd na het filmpje**: de toegankelijkheidscontrole (axe) en de breedtecontrole (`controle2.cjs`) zijn voor deze stand niet opnieuw gedraaid. De oudere resultaten hieronder gelden voor de envelop zonder film.
 - **Toegankelijkheid** (`e2e/toegankelijkheid.cjs`, axe-core 4 met WCAG 2.0/2.1 A en AA, plus de contrastcontrole): **6 pagina's** (alle drie de kleurvarianten, dicht en geopend), **0 bevindingen**.
 - **Breedte**: de voorbeeldpagina op 360, 768 en 1366 pixels breed: geen horizontaal scrollen en geen fouten in de browser. Met het oog bekeken op 360 pixels (dicht en geopend) en op 1366 pixels (geopend, de kaart als smalle kolom).
 - **Envelop op de opening** (laatste stand): de klep, het zegel en de kaart bij het openen gecontroleerd op schermafbeeldingen (390 pixels breed, nachttrein). Met 'minder beweging' (360 pixels): geopend na 307 ms, geen lopende envelop-animaties. Breedte op 360, 768 en 1366 pixels: geen horizontaal scrollen, geen fouten.
-- **Niet gedaan**: de volledige browsercontrole (`controle2.cjs`), de effectcontrole, Lighthouse, en elke controle op een echte telefoon. De kaartafbeelding en de tegel gebruiken nog de placeholder-kop en moeten opnieuw met het filmbeeld.
+- **Niet gedaan**: de volledige browsercontrole (`controle2.cjs`), de effectcontrole, Lighthouse, en elke controle op een echte telefoon. De kaartafbeelding en de tegel zijn inmiddels vervangen door een uitsnede uit het eindbeeld van het filmpje.
 
 ### Gevonden en opgelost
 

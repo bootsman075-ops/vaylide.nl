@@ -53,6 +53,15 @@ body {
     radial-gradient(70% 45% at 50% 62%, color-mix(in srgb, var(--kx-names) 26%, transparent), transparent 72%),
     linear-gradient(180deg, color-mix(in srgb, var(--kx-page) 60%, #000) 0%, var(--kx-env) 58%, var(--kx-page) 100%);
 }
+/* Het filmpje vult het openingsscherm. Met het filmpje is de envelop niet nodig (die zit er al in), en de knop
+   komt onderaan, onder het logo van de eindkaart. */
+.kx-film__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.kx-cover--film .kx-film::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; pointer-events: none;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--kx-page) 90%, #000) 0%, transparent 100%);
+}
+.kx-cover--film .kx-env, .kx-cover--film .kx-cover__to { display: none; }
+.kx-cover--film .kx-cover__text { bottom: max(1.2rem, 2.5%); }
 .kx-cover__text {
   position: absolute; left: 50%; bottom: max(2.4rem, 9%); translate: -50% 0; z-index: 7;
   width: min(88%, 360px); text-align: center;

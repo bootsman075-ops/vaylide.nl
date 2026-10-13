@@ -423,6 +423,40 @@ class KerstexpressDesignTests(VaylideTestCase):
             self.assertTrue(finders.find(f"img/demo/{name}.webp"), name)
         self.assertTrue(finders.find("img/designs/kerstexpress.webp"))
 
+    def test_film_is_in_the_cover_with_sources_and_a_poster(self):
+        # Het filmpje van de trein: webm en mp4, zonder geluid en zonder bediening, met een eerste beeld als poster.
+        html = (settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "invitation.html").read_text(encoding="utf-8")
+        self.assertIn('<div class="kx-film" aria-hidden="true">', html)
+        video = html.split("<video", 1)[1].split("</video>", 1)[0]
+        for part in ("data-kx-film", "muted", "playsinline", "poster.webp", "kerstexpress.webm", "kerstexpress.mp4"):
+            self.assertIn(part, video)
+        self.assertNotIn("controls", video)
+        self.assertNotIn("autoplay", video)
+
+    def test_film_files_exist_and_are_small_enough(self):
+        img = settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "img"
+        for name in ("kerstexpress.webm", "kerstexpress.mp4", "poster.webp"):
+            self.assertTrue((img / name).is_file(), name)
+        self.assertLess((img / "kerstexpress.mp4").stat().st_size, 3 * 1024 * 1024)
+        self.assertLess((img / "kerstexpress.webm").stat().st_size, 3 * 1024 * 1024)
+
+    def test_film_script_is_loaded_and_stays_calm_when_asked(self):
+        html = (settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "invitation.html").read_text(encoding="utf-8")
+        self.assertIn("designs/kerstexpress/v1/kerstexpress.js", html)
+        self.assertTrue(finders.find("designs/kerstexpress/v1/kerstexpress.js"))
+        script = (settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "kerstexpress.js").read_text(encoding="utf-8")
+        for part in ("prefers-reduced-motion", "fx-paused", "invite:opening", "kx-cover--film", "film.pause()"):
+            self.assertIn(part, script)
+
+    def test_rendered_cover_shows_the_film(self):
+        template = Template.objects.get(slug="kerstexpress")
+        v = build_view(occasion="kerst", content=demo_content("kerstexpress", "kerst"), overrides={},
+                       template_version=template.current_version, options=RenderOptions(mode="demo", music_synth=True))
+        html = render_to_string("kerstexpress/v1/invitation.html", {"v": v, "rsvp_form": {}})
+        self.assertIn("<video", html)
+        self.assertIn("kerstexpress.webm", html)
+        self.assertIn("kerstexpress.js", html)
+
     def test_other_occasions_keep_working(self):
         # De kerstexpres past ook bij andere gelegenheden: de kerstgroet en 'Kerst' verdwijnen, het logo blijft.
         template = Template.objects.get(slug="kerstexpress")
