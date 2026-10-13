@@ -282,6 +282,21 @@ Dit is een andere opname dan `Referentie_Vierlief_3_Voorbeelden.mp4` uit de eers
 - **Een voorbeeld blijft een voorbeeld.** De voorbeeldkaart gebruikt de fictieve Familie Van Dijk en een voorbeeldadres, met de balk "Voorbeelduitnodiging · fictief evenement".
 - **Zwaarder dan de andere ontwerpen.** Het voorbeeld laadt voor het eerste beeld ongeveer 800 KB, drie tot vier keer zoveel als de andere ontwerpen: de envelop met reliëf en het kerstraam zijn getekende beelden. Daarom zijn de reliëfbeelden kleiner gemaakt en laadt de gouden laag pas na de rest. De lichtjes en de sneeuw vragen ook meer van de processor. De metingen staan in `docs/CONTROLES.md`; op een echt (ouder) toestel is het nog niet geprobeerd.
 
+## Ronde 7b: Kerstexpress (filmopening)
+
+De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein (een bergspoor, de stationshal, de rijtuigen met kerstkransen en de lounge met een kerstboom) en een kaart die in een envelop ligt: "Fijne Kerstdagen en een gelukkig nieuw jaar!", met het logo van Vaylide eronder. Hij wilde daar "een filmpje voor op de website" van, met "een hele mooie kerstkaart erbij". Op de vraag waar het moest komen, koos hij "als nieuwe kerstkaart".
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstexpress/v1`: het filmpje als opening, de kaart in de envelop als afsluiting, en daartussen de gewone kaart (namen, programma, vertrekkaart, aanmelden) in de stijl van een treinkaartje. Drie kleurvarianten: nachttrein (nachtblauw en goud), rode express (diep rood) en salonlicht (warm bruin). De koppen zijn in Italiana, een art-decoletter die bij een trein past; de tijden staan in gewone cijfers, omdat de 1 in de sierletter op een I lijkt (zie de ronde van Winterlicht).
+
+**Wat er nog niet is.** Het filmpje zelf. De enige mp4 op de schijf was het referentiefilmpje van het begin van de sessie (een bruiloftsuitnodiging), niet de kerstreis. Zolang het treinfilmpje ontbreekt, toont de opening een nachtelijke placeholder. De kaartafbeelding en de tegel gebruiken die placeholder ook.
+
+**Keuzes.**
+- **Het logo** staat onder de groet op de eindkaart, zoals aangeleverd: de V, VAYLIDE en de regel eronder samen, niet bijgesneden. Het logo staat op de lichte kaart, niet op de donkere pagina, omdat het op donker zijn glans en hoogtelichten verliest (zie de ronde van Vaylide).
+- **De afzender** ("van Familie Van Dijk") staat onder de groet. Dat is een toevoeging op wat de eigenaar aanleverde; hij kan die weghalen.
+- **Geen geluid van het filmpje**, en de muziekknop speelt de speeldoos als in de andere ontwerpen. Of het filmpje geluid moet hebben, beslist de eigenaar.
+- **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
+- **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

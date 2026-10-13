@@ -353,10 +353,83 @@ class KerstSiteTests(VaylideTestCase):
 
     def test_collection_filter_and_search(self):
         response = Client().get("/ontwerpen/", {"gelegenheid": "kerst"})
-        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht"])
+        # Kerst: Winterlicht en Kerstexpress (in de volgorde van het manifest).
+        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht", "kerstexpress"])
         self.assertContains(response, "Ontwerpen voor kerst")
         self.assertContains(Client().get("/zoeken/", {"q": "kerst"}), "/ontwerpen/?gelegenheid=kerst")
         detail = Client().get("/ontwerpen/winterlicht/")
         self.assertContains(detail, "Zacht vallende sneeuw")
         self.assertContains(detail, "Envelop met lakzegel")
         self.assertContains(detail, "/maken/?ontwerp=winterlicht&amp;gelegenheid=kerst")
+
+
+class KerstexpressDesignTests(VaylideTestCase):
+    """Kerstexpress: een kerstreis met de trein als opening, en aan het eind de kaart met het logo van Vaylide."""
+
+    def manifest(self):
+        return json.loads((settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "manifest.json").read_text(encoding="utf-8"))
+
+    def test_manifest_palettes_and_effects(self):
+        data = self.manifest()
+        self.assertEqual(data["occasions"], ["kerst"])
+        self.assertEqual(effects_errors(data["effects"]), [])
+        self.assertEqual([p["key"] for p in data["palettes"]], ["nachttrein", "rode-express", "salonlicht"])
+        self.assertEqual(data["opening"], "film")
+        # Elke kleurvariant: tekst leesbaar op het papier, op de donkere pagina en op de envelop.
+        pairs = [("--kx-ink", "--kx-paper"), ("--kx-muted", "--kx-paper"), ("--kx-accent", "--kx-paper"),
+                 ("--kx-accent-ink", "--kx-accent"), ("--kx-gold-2", "--kx-paper"), ("--kx-hero-ink", "--kx-page"),
+                 ("--kx-hero-ink-2", "--kx-page"), ("--kx-env-ink", "--kx-env"), ("--kx-foot-ink", "--kx-page")]
+        for palette in data["palettes"]:
+            v = palette["vars"]
+            for fg, bg in pairs:
+                self.assertGreaterEqual(contrast(v[fg], v[bg]), 4.5, f"{palette['key']}: {fg} op {bg}")
+            # De kleur van de namen op de donkere pagina (grote tekst, 3:1).
+            self.assertGreaterEqual(contrast(v["--kx-names"], v["--kx-page"]), 3, f"{palette['key']}: namen")
+            # De knop op het openingsscherm: tekst van de pagina op goud.
+            self.assertGreaterEqual(contrast(v["--kx-page"], v["--kx-gold"]), 4.5, f"{palette['key']}: knop")
+
+    def test_demo_page_has_the_card_and_the_logo(self):
+        for palette in ("nachttrein", "rode-express", "salonlicht"):
+            response = Client().get("/voorbeeld/kerstexpress/", {"kleur": palette})
+            self.assertEqual(response.status_code, 200)
+            html = response.content.decode()
+            self.assertIn(f'data-palette="{palette}"', html)
+            for fragment in (
+                "data-cover", "kx-cover", "data-open",                  # de opening (het filmpje komt hier)
+                "Een kerstgroet voor jou", "Open de kaart",
+                "Warme kerstgroeten", "Familie Van Dijk",
+                "Vertrekkaart", "Onderweg", "Aankomst",
+                "Fijne Kerstdagen", "en een gelukkig nieuw jaar!",     # de eindkaart uit de envelop
+                'src="/static/img/merk/vaylide-logo.webp"', 'alt="Vaylide"',
+                "Digitale kerstkaart gemaakt met",
+                "data-music-synth=\"stille-nacht\"",
+            ):
+                self.assertIn(fragment, html)
+            # Geen eigen inline scripts of stijlen: alleen het vaste startscript met een hash in de CSP.
+            self.assertEqual(html.count("<script>"), 1)
+            self.assertIn(f"<script>{BOOT_SCRIPT}</script>", html)
+            self.assertNotIn("<style", html)
+
+    def test_logo_is_used_as_supplied(self):
+        # Het logo staat er heel en onbewerkt in (zonder bijsnijden of splitsen), zoals de eigenaar het aanleverde.
+        self.assertTrue(finders.find("img/merk/vaylide-logo.webp"))
+        html = (settings.BASE_DIR / "designs" / "kerstexpress" / "v1" / "invitation.html").read_text(encoding="utf-8")
+        self.assertEqual(html.count("vaylide-logo"), 1)
+        self.assertNotIn("vaylide-logo.png", html)
+
+    def test_kerstexpress_has_demo_images_and_a_card_picture(self):
+        self.assertIn("kerstexpress", DESIGN_IMAGES)
+        for name in DESIGN_IMAGES["kerstexpress"]:
+            self.assertTrue(finders.find(f"img/demo/{name}.webp"), name)
+        self.assertTrue(finders.find("img/designs/kerstexpress.webp"))
+
+    def test_other_occasions_keep_working(self):
+        # De kerstexpres past ook bij andere gelegenheden: de kerstgroet en 'Kerst' verdwijnen, het logo blijft.
+        template = Template.objects.get(slug="kerstexpress")
+        v = build_view(occasion="bruiloft", content=demo_content("kerstexpress", "bruiloft"), overrides={},
+                       template_version=template.current_version, options=RenderOptions(mode="demo", music_synth=True))
+        html = render_to_string("kerstexpress/v1/invitation.html", {"v": v, "rsvp_form": {}})
+        self.assertNotIn("Fijne Kerstdagen", html)
+        self.assertNotIn("Warme kerstgroeten", html)
+        self.assertIn("Een uitnodiging voor jou", html)
+        self.assertIn("vaylide-logo.webp", html)

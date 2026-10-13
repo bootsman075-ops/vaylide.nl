@@ -1,0 +1,25 @@
+{
+  "slug": "kerstexpress",
+  "version": 1,
+  "name": "Kerstexpress",
+  "tagline": "Een kerstreis met de trein, en aan het eind een warme kaart",
+  "description": "Een film van de kerstexpres door besneeuwde bergen en over sierlijke bruggen, met lantaarns en kerstversiering in de rijtuigen. Aan het eind van de reis ligt de kaart in een envelop: 'Fijne Kerstdagen en een gelukkig nieuw jaar', met de namen van het gezin en het logo van Vaylide eronder. Daarna de kaart zelf: het programma als stations onderweg, een vertrekkaart met de datum, de locatie en de aanmelding.",
+  "style_notes": "Nachtblauw, rood en goud, een art-decoletter voor de kop, sneeuw en warme lantaarnlichten",
+  "occasions": ["kerst"],
+  "sort_order": 42,
+  "opening": "film",
+  "opening_label": "Filmopening met de kerstexpres",
+  "demo_melody": "stille-nacht",
+  "kaartbeeld": "open",
+  "palettes": [
+    {"key": "nachttrein", "name": "Nachttrein", "swatch": ["#0D1830", "#7E1624", "#C9A254"],
+     "vars": {"--kx-page": "#0D1830", "--kx-paper": "#F6EEDC", "--kx-paper-2": "#EFE3CA", "--kx-ink": "#2B1D17", "--kx-muted": "#5C4A3E", "--kx-accent": "#7E1624", "--kx-accent-ink": "#FFF7EA", "--kx-gold": "#C9A254", "--kx-gold-2": "#7A5A22", "--kx-line": "#D8C49C", "--kx-hero-ink": "#FBF3E2", "--kx-hero-ink-2": "#E9D9B4", "--kx-names": "#F2D58F", "--kx-hero-glow": "rgba(8,14,30,.6)", "--kx-foot": "rgba(13,24,48,.8)", "--kx-foot-ink": "#FBF3E2", "--kx-env": "#13234A", "--kx-env-ink": "#F0E2C2", "--fx-1": "#E1BD6A", "--fx-2": "#FFFFFF", "--fx-3": "#D0505C", "--fx-4": "#FFF1CF", "--fx-bg": "#0D1830"}},
+    {"key": "rode-express", "name": "Rode express", "swatch": ["#5E0E1A", "#7A1523", "#CFA65A"],
+     "vars": {"--kx-page": "#2A0810", "--kx-paper": "#FAF0E2", "--kx-paper-2": "#F3E4CE", "--kx-ink": "#2E1A14", "--kx-muted": "#5F4A40", "--kx-accent": "#7A1523", "--kx-accent-ink": "#FFF6EA", "--kx-gold": "#CFA65A", "--kx-gold-2": "#7D5B21", "--kx-line": "#E0C9A0", "--kx-hero-ink": "#FFF4E4", "--kx-hero-ink-2": "#F2DCC0", "--kx-names": "#F5D98F", "--kx-hero-glow": "rgba(40,6,12,.6)", "--kx-foot": "rgba(42,8,16,.8)", "--kx-foot-ink": "#FFF4E4", "--kx-env": "#5E0E1A", "--kx-env-ink": "#F6E4C6", "--fx-1": "#E3B865", "--fx-2": "#FFFFFF", "--fx-3": "#E0606C", "--fx-4": "#FFE9B8", "--fx-bg": "#2A0810"}},
+    {"key": "salonlicht", "name": "Salonlicht", "swatch": ["#1F160F", "#6E3A14", "#D0A65C"],
+     "vars": {"--kx-page": "#1F160F", "--kx-paper": "#F7EDDA", "--kx-paper-2": "#F0E1C4", "--kx-ink": "#2A1E14", "--kx-muted": "#5B4A38", "--kx-accent": "#6E3A14", "--kx-accent-ink": "#FFF5E6", "--kx-gold": "#D0A65C", "--kx-gold-2": "#7A5A22", "--kx-line": "#DCC39A", "--kx-hero-ink": "#FFF1DA", "--kx-hero-ink-2": "#EFD9B0", "--kx-names": "#F4D48C", "--kx-hero-glow": "rgba(20,12,6,.6)", "--kx-foot": "rgba(31,22,15,.8)", "--kx-foot-ink": "#FFF1DA", "--kx-env": "#3A2414", "--kx-env-ink": "#F3E0BE", "--fx-1": "#E2B96C", "--fx-2": "#FFFFFF", "--fx-3": "#C9824A", "--fx-4": "#FFE7B5", "--fx-bg": "#1F160F"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "sneeuw", "knal": "sneeuw", "viering": "sterren", "namen": "schrijf", "onthul": "zacht", "extra": ["kenburns", "kantel"]},
+  "changelog": "Eerste versie: de kerstexpres als opening en de kaart in de envelop aan het eind."
+}

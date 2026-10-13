@@ -17,6 +17,7 @@ DEFAULT_DEMO_OCCASION = {
     "avondgoud": "verjaardag",
     "puur-moment": "verloving",
     "winterlicht": "kerst",
+    "kerstexpress": "kerst",
 }
 
 DESIGN_IMAGES = {
@@ -56,6 +57,7 @@ DESIGN_IMAGES = {
     "mijlpaal": ["zijde-goud", "stadslicht", "architectuur", "goud-lichtjes", "zee-horizon"],
     # Kerst: eigen getekende beelden uit tools/winterlicht/ (kerstboom, lichtjes, kaarsen, winterbos).
     "winterlicht": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
+    "kerstexpress": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
 }
 IMAGE_SIZES = {
     "waterverf-bloesem": (1200, 1500),

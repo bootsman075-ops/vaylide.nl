@@ -225,6 +225,17 @@ Welk tekeningetje een programmaonderdeel krijgt, staat in `PROGRAM_ICONS` in `in
 
 Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook nieuwe beelden.
 
+### Kerstexpress: de filmopening
+
+`designs/kerstexpress/v1` is een kerstkaart die begint met een film (een kerstreis met de trein) en eindigt met de kaart in de envelop, met het logo van Vaylide eronder zoals aangeleverd. Het manifest heeft `"opening": "film"` en drie kleurvarianten (nachttrein, rode express, salonlicht).
+
+- **Het filmpje** staat (nog) niet in de map: de opening toont `kx-film__poster`, een placeholder. Zodra het bestand er is: zet de film als `img/kerstexpress.mp4` en `img/kerstexpress.webm` in `designs/kerstexpress/v1/`, en vervang de placeholder in `invitation.html` door een `<video muted playsinline preload="metadata" poster="...">` met dezelfde afmetingen. Het filmbeeld voor de eerste seconde (de poster) is een getekend of gefilmd beeld zonder tekst.
+- **Geen geluid van de film.** Muziek gaat via de knop rechts onderaan (zoals bij de andere ontwerpen). Zet de film zonder geluid, tenzij de eigenaar anders kiest.
+- **Bij 'minder beweging'** blijft de film stil op het beginbeeld; de kaart verschijnt dan direct.
+- **Het logo** is `static/img/merk/vaylide-logo.webp`, ongewijzigd en ongesplitst (zie regel 12 in `CLAUDE.md`). Test `test_logo_is_used_as_supplied` controleert dat.
+- **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` maak je opnieuw met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress` (de geopende kaart) en daarna omzetten naar WebP.
+- **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`.
+
 ## Een bestaand ontwerp aanpassen
 
 **Wijzig nooit een versie die al in gebruik is.** Bestaande uitnodigingen zouden dan onverwacht veranderen.

@@ -1,0 +1,168 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Kerstexpress v1: een kerstreis met de trein als opening, en aan het eind de kaart in de envelop met het logo van Vaylide.
+   Het filmpje komt in het openingsscherm (zie kx-film). Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'fonts/italiana-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
+
+{% block cover %}
+<section class="cover kx-cover" data-cover data-duration="1600" data-fx-delay="0" data-fx-intro="1400" aria-label="Openingsscherm">
+  <div class="kx-film" aria-hidden="true">
+    <div class="kx-film__poster"></div>
+  </div>
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
+  <div class="kx-cover__text">
+    <p class="kx-cover__to">{% if v.occasion == "kerst" %}Een kerstgroet voor jou{% elif v.formal %}Een uitnodiging voor u{% else %}Een uitnodiging voor jou{% endif %}</p>
+    <a href="#uitnodiging" class="kx-open fx-pulse" data-open data-fx-origin>Open de kaart</a>
+    <p class="kx-cover__hint">De kerstexpres vertrekt. Tik om mee te gaan.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="kx-hero">
+  <div class="kx-hero__scene" aria-hidden="true"></div>
+  <div class="fx-slot kx-hero__snow" data-fx-slot="hero" aria-hidden="true"></div>
+  <div class="kx-hero__text">
+    <p class="kx-hero__kicker fx-intro" style="--fx-d:1">{{ v.kicker }}{% if v.occasion == "kerst" and not v.headline_custom %}<span class="kx-hero__from"> van</span>{% endif %}</p>
+    <h1 class="kx-names kx-names--{{ v.names_size }} fx-names">{% if v.is_couple %}<span class="kx-names__one">{{ v.names.0 }}</span> <span class="kx-names__amp" aria-label="en">&amp;</span> <span class="kx-names__two">{{ v.names.1 }}</span>{% else %}{{ v.names.0 }}{% endif %}</h1>
+    {% if v.subnames %}<p class="kx-hero__members fx-intro" style="--fx-d:5">{{ v.subnames }}</p>{% endif %}
+    <p class="kx-hero__tagline fx-intro" style="--fx-d:6">{{ v.tagline }}</p>
+  </div>
+  <a class="kx-scroll fx-intro" href="#kx-verder" style="--fx-d:8">Verder onderweg<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</header>
+
+<div class="kx-body" id="kx-verder">
+{% if v.welcome %}
+<section class="kx-sec kx-letter" data-reveal aria-label="{% if v.occasion == 'kerst' %}Kerstgroet{% else %}Welkom{% endif %}">
+  <div class="kx-card kx-letter__card">
+    {% if v.hero %}<figure class="kx-letter__photo"><div class="ph fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero sizes="(min-width: 600px) 420px, 80vw" %}</div></figure>{% endif %}
+    <div class="kx-letter__text">{% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+  </div>
+</section>
+{% endif %}
+
+{% if v.has_event and v.date %}
+<section class="kx-sec kx-ticket-sec" data-reveal aria-labelledby="kx-date-title">
+  <h2 id="kx-date-title" class="kx-h2">Vertrekkaart</h2>
+  <div class="kx-ticket">
+    <div class="kx-ticket__main">
+      <p class="kx-ticket__weekday">{{ v.weekday|capfirst }}</p>
+      <p class="kx-ticket__day">{{ v.day }}</p>
+      <p class="kx-ticket__month">{{ v.month_name }} {{ v.year }}</p>
+    </div>
+    <div class="kx-ticket__stub">
+      {% if v.time_display %}<p class="kx-ticket__time">{{ v.time_display }}</p>{% endif %}
+      {% if v.venue %}<p class="kx-ticket__venue">{{ v.venue }}</p>{% endif %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="kx-sec kx-program" data-reveal aria-labelledby="kx-program-title">
+  <h2 id="kx-program-title" class="kx-h2">Onderweg</h2>
+  <ol class="kx-stops" data-fx-stagger>
+    {% for item in v.program %}
+    <li class="kx-stop">
+      {% if item.time %}<p class="kx-stop__time">{{ item.time }}</p>{% endif %}
+      <span class="kx-stop__node" aria-hidden="true"></span>
+      <div class="kx-stop__text">
+        <h3 class="kx-stop__title">{{ item.title }}</h3>
+        {% if item.description %}<p class="kx-stop__desc">{{ item.description }}</p>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="kx-sec kx-count" data-reveal aria-labelledby="kx-count-title">
+  <h2 id="kx-count-title" class="kx-h2">{% if v.countdown_label == "kerst" %}Aftellen naar kerst{% elif v.is_past %}Dank je wel{% else %}Nog even en de trein vertrekt{% endif %}</h2>
+  {% include "invitations/partials/countdown.html" %}
+  {% include "invitations/partials/calendar_buttons.html" %}
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="kx-sec kx-place" data-reveal aria-labelledby="kx-place-title">
+  <h2 id="kx-place-title" class="kx-h2">Aankomst</h2>
+  {% if v.venue %}<p class="kx-place__venue">{{ v.venue }}</p>{% endif %}
+  {% if v.address_lines %}<address class="kx-place__address">{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+  {% if v.date_display %}<p class="kx-place__when">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+  {% if v.route_url %}<a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Plan je route</a>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="kx-sec kx-dress" data-reveal aria-labelledby="kx-dress-title">
+  <h2 id="kx-dress-title" class="kx-h2">Dresscode</h2>
+  {% if v.dresscode_colors %}<ul class="kx-swatches" aria-label="Kleuren voor de dresscode">
+    {% for c in v.dresscode_colors %}<li class="kx-swatch" style="--c:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}
+  </ul>{% endif %}
+  {% for p in v.dresscode_text %}<p class="kx-dress__text">{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="kx-sec kx-story" data-reveal aria-labelledby="kx-story-title">
+  <h2 id="kx-story-title" class="kx-h2">{{ v.story_title }}</h2>
+  <div class="kx-story__text">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="kx-sec kx-gallery" data-reveal aria-labelledby="kx-gallery-title">
+  <h2 id="kx-gallery-title" class="kx-h2">Herinneringen</h2>
+  <ul class="kx-photos">
+    {% for photo in v.gallery %}<li class="kx-photo"><figure><div class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 600px) 260px, 44vw" %}</div>{% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}</figure></li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="kx-sec kx-practical" data-reveal aria-labelledby="kx-practical-title">
+  <h2 id="kx-practical-title" class="kx-h2">Goed om te weten</h2>
+  <dl class="kx-practical__list" data-fx-stagger>
+    {% for item in v.practical %}<div class="kx-practical__item">{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="kx-sec kx-rsvp" id="aanmelden" data-reveal aria-labelledby="kx-rsvp-title">
+  <h2 id="kx-rsvp-title" class="kx-h2">{% if v.occasion == "kerst" %}{% if v.formal %}Stapt u mee in de trein?{% else %}Stap je mee in de trein?{% endif %}{% elif v.formal %}Komt u ook?{% else %}Kom je ook?{% endif %}</h2>
+  <div class="kx-card">
+    {% include "invitations/partials/rsvp.html" %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="kx-sec kx-contact" data-reveal aria-labelledby="kx-contact-title">
+  <h2 id="kx-contact-title" class="kx-h2">Vragen?</h2>
+  {% if v.contact.note %}<p class="kx-contact__note">{{ v.contact.note }}</p>{% endif %}
+  <p class="kx-contact__name">{{ v.contact.name }}</p>
+  <p class="kx-contact__links">
+    {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+    {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+    {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+  </p>
+</section>
+{% endif %}
+
+{# De eindkaart: de kaart uit de envelop van het filmpje, met het logo van Vaylide eronder, zoals aangeleverd. #}
+<section class="kx-sec kx-end" data-reveal aria-label="Afsluiting">
+  <div class="kx-card kx-end__card">
+    {% if v.occasion == "kerst" %}
+    <p class="kx-end__greeting">Fijne Kerstdagen</p>
+    <p class="kx-end__wish">en een gelukkig nieuw jaar!</p>
+    {% if v.names.0 %}<p class="kx-end__from">van {{ v.names.0 }}</p>{% endif %}
+    {% endif %}
+    {% if v.show.closing %}{% for p in v.closing %}<p class="kx-end__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+    <img class="kx-end__logo" src="{% static 'img/merk/vaylide-logo.webp' %}" width="350" height="240" alt="Vaylide" decoding="async">
+  </div>
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+</div>
+{% endblock %}

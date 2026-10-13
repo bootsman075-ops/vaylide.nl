@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**160 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 7 (kerstkaarten), alle geslaagd:
+**165 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de code van de kerstexpres (ronde 7b), alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging, ronde 6 en ronde 7 zijn alleen op SQLite getest;
@@ -182,6 +182,15 @@ Gemeten met `CHECKS=0 PERF=1 node e2e/effecten.cjs` op de productie-achtige serv
 Winterlicht is het zwaarste ontwerp: de sneeuw op de pagina en in het kerstraam, 60 lichtjes met een eigen animatie en het ademende kerstraam. Onder de dichte envelop en buiten beeld staan de lichtjes stil; bij 'minder beweging' of met de knop **Beweging** beweegt er niets. Of het op een echt ouder toestel soepel loopt, is niet getest (zie "Niet gecontroleerd"). De meting van ronde 7 liep op de definitieve stand, zonder andere controles ernaast.
 
 Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen ongeveer 1 ms per seconde; met beweging 270 tot 380 ms (gemeten bij Rozentuin, Gala, Neonnacht, Puur moment en Glitter & goud). Op een echte telefoon tekent de grafische kaart mee, dus dit is een ongunstige benadering en geen meting op een echt toestel (zie "Niet gecontroleerd").
+
+### Kerstexpress (ronde 7b, filmopening)
+
+Op de stand van de kerstexpres, met het filmpje nog **niet** ingevoegd (het bestand is nog niet ontvangen; de opening toont een placeholder):
+
+- **165 tests geslaagd**, waarvan 6 nieuw voor `KerstexpressDesignTests` (manifest en contrast in de drie kleurvarianten, de voorbeeldpagina met de eindkaart en het logo, het logo onbewerkt, de beelden, de andere gelegenheden). Bij de effecten telt het ontwerp mee (35 ontwerpen).
+- **Toegankelijkheid** (`e2e/toegankelijkheid.cjs`, axe-core 4 met WCAG 2.0/2.1 A en AA, plus de contrastcontrole): **6 pagina's** (alle drie de kleurvarianten, dicht en geopend), **0 bevindingen**.
+- **Breedte**: de voorbeeldpagina op 360, 768 en 1366 pixels breed: geen horizontaal scrollen en geen fouten in de browser. Met het oog bekeken op 360 pixels (dicht en geopend) en op 1366 pixels (geopend, de kaart als smalle kolom).
+- **Niet gedaan**: de volledige browsercontrole (`controle2.cjs`), de effectcontrole, Lighthouse, en elke controle op een echte telefoon. De kaartafbeelding en de tegel gebruiken nog de placeholder-kop en moeten opnieuw met het filmbeeld.
 
 ### Gevonden en opgelost
 

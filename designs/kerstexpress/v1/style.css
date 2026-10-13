@@ -1,0 +1,224 @@
+/* Kerstexpress v1: een kerstreis met de trein als opening (het filmpje), en aan het eind de kaart in de envelop
+   met het logo van Vaylide. Nachtblauw, rood en goud; een art-decoletter voor de koppen.
+   Wijzig een uitgebrachte versie niet: maak een v2. */
+
+@font-face { font-family: "Italiana"; src: url("../../../fonts/italiana-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pinyon Script"; src: url("../../../fonts/pinyon-script-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "DM Sans"; src: url("../../../fonts/dm-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 300 800; font-display: swap; }
+
+body {
+  --kx-display: "Italiana", "Cormorant Garamond", Georgia, serif;
+  --kx-script: "Pinyon Script", "Snell Roundhand", cursive;
+  --kx-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --kx-ui: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --kx-w: min(100vw, 560px);
+  /* Gedeelde onderdelen (formulier, knoppen, muziek) in de kleuren van dit ontwerp. */
+  --inv-bg: var(--kx-paper);
+  --inv-text: var(--kx-ink);
+  --inv-muted: var(--kx-muted);
+  --inv-accent: var(--kx-accent);
+  --inv-accent-contrast: var(--kx-accent-ink);
+  --inv-font-body: var(--kx-serif);
+  --inv-font-ui: var(--kx-ui);
+  --inv-focus: var(--kx-gold);
+  --inv-radius: 14px;
+  --inv-surface-2: var(--kx-paper-2);
+  --inv-btn-border: var(--kx-gold-2);
+  --inv-btn-hover-bg: color-mix(in srgb, var(--kx-gold) 16%, transparent);
+  --inv-field-bg: var(--kx-paper);
+  --inv-field-text: var(--kx-ink);
+  --inv-field-border: color-mix(in srgb, var(--kx-ink) 30%, transparent);
+  --inv-music-bg: var(--kx-gold);
+  --inv-music-text: var(--kx-page);
+  --inv-music-border: color-mix(in srgb, var(--kx-gold-2) 40%, transparent);
+  --inv-photo-bg: var(--kx-paper-2);
+  --inv-error: #9B1C1C;
+  --fx-pulse: var(--kx-gold);
+  background: var(--kx-page);
+  color: var(--kx-ink);
+  font-family: var(--kx-serif);
+  font-size: 1.14rem;
+  font-weight: 500;
+}
+
+/* ================================================================ openingsscherm: het filmpje */
+.kx-cover { display: block; background: var(--kx-env); color: var(--kx-env-ink); }
+.kx-film { position: absolute; inset: 0; overflow: hidden; }
+/* Zolang het filmpje er nog niet is, een nachtlucht met een gouden gloed (de plaats van het filmbeeld). */
+.kx-film__poster {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(70% 45% at 50% 62%, color-mix(in srgb, var(--kx-names) 26%, transparent), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--kx-page) 60%, #000) 0%, var(--kx-env) 58%, var(--kx-page) 100%);
+}
+.kx-cover__text {
+  position: absolute; left: 50%; bottom: max(2.4rem, 9%); translate: -50% 0; z-index: 7;
+  width: min(88%, 360px); text-align: center;
+  text-shadow: 0 0 1.2rem color-mix(in srgb, var(--kx-env) 85%, transparent);
+}
+.kx-cover__to { font: 400 clamp(1.5rem, 6.4vw, 1.9rem)/1.15 var(--kx-display); letter-spacing: .04em; color: var(--kx-names); }
+.kx-open {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 1.1rem;
+  padding: .7rem 1.6rem; border-radius: 999px; border: 1px solid var(--kx-gold);
+  background: var(--kx-gold); color: var(--kx-page);
+  font: 600 1rem/1.2 var(--kx-ui); text-decoration: none;
+}
+.kx-open:hover { filter: brightness(1.06); }
+.kx-cover__hint { margin-top: .7rem; font: italic 500 1rem/1.3 var(--kx-serif); color: var(--kx-env-ink); }
+.kx-cover .fx-slot { z-index: 6; }
+/* Sneeuw op het openingsscherm en de knal nemen de kleur van het donkere vlak als achtergrond. */
+.kx-cover { --fx-bg: var(--kx-env); }
+.is-opening .kx-cover { opacity: 0; transition: opacity .8s ease .6s; }
+.is-opening-reduced .kx-cover { transition: opacity .25s ease; }
+
+/* ================================================================ de kop */
+.kx-hero {
+  position: relative; overflow: hidden; container-type: size;
+  height: 100vh; height: 100svh; min-height: 560px;
+  background: var(--kx-page); color: var(--kx-hero-ink);
+}
+.kx-hero__scene {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 40% at 50% 34%, color-mix(in srgb, var(--kx-names) 18%, transparent), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--kx-page) 60%, #000) 0%, var(--kx-page) 60%, color-mix(in srgb, var(--kx-page) 70%, var(--kx-env)) 100%);
+}
+.kx-hero__snow { z-index: 2; --fx-bg: var(--kx-page); }
+.kx-hero__text {
+  position: absolute; left: 9%; right: 9%; top: 22%; z-index: 3; text-align: center;
+  text-shadow: 0 0 1.2cqi var(--kx-hero-glow), 0 0 3cqi var(--kx-hero-glow);
+}
+/* Geen overgangen in deze tekst: de meting van de lengte klopt dan meteen. */
+.kx-hero__text, .kx-hero__text * { transition: none !important; }
+.kx-hero__kicker { font: 600 max(10px, 2.8cqi)/1.35 var(--kx-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--kx-hero-ink-2); text-wrap: balance; }
+.kx-hero__from { font-family: var(--kx-serif); font-style: italic; font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 1.28em; }
+.kx-names { margin: 1.5cqi 0 0; font: 400 13cqi/1.02 var(--kx-script); color: var(--kx-names); text-wrap: balance; max-width: 74cqi; margin-inline: auto; }
+.kx-names--long { font-size: 10.5cqi; }
+.kx-names--xlong { font-size: 8.4cqi; overflow-wrap: anywhere; }
+.kx-names__amp { display: inline-block; margin: 0 .08em; font-size: .72em; color: var(--kx-hero-ink-2); }
+.kx-hero__members { margin-top: 2cqi; font: 600 max(9px, 2.9cqi)/1.45 var(--kx-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--kx-hero-ink-2); text-wrap: balance; }
+.kx-hero__tagline { margin-top: 2cqi; font: italic 500 max(12px, 4.2cqi)/1.3 var(--kx-serif); text-wrap: balance; }
+.kx-scroll {
+  position: absolute; left: 50%; bottom: max(1rem, 2.2%); z-index: 4; translate: -50% 0;
+  display: inline-flex; flex-direction: column; align-items: center; padding: .35rem 1rem .25rem; border-radius: 999px;
+  background: var(--kx-foot); color: var(--kx-foot-ink); text-decoration: none;
+  font: italic 500 1rem/1.3 var(--kx-serif); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+
+/* ================================================================ de kaart */
+.kx-body { position: relative; z-index: 1; background: var(--kx-paper); color: var(--kx-ink); }
+.kx-sec { padding: clamp(3rem, 9vw, 4.2rem) clamp(1.25rem, 6vw, 2.5rem); text-align: center; }
+.kx-h2 { font: 400 clamp(1.7rem, 7vw, 2.2rem)/1.15 var(--kx-display); letter-spacing: .04em; color: var(--kx-accent); text-wrap: balance; margin-bottom: 1.6rem; }
+.kx-h2::after { content: ""; display: block; width: 120px; height: 1px; margin: 1rem auto 0; background: linear-gradient(90deg, transparent, var(--kx-gold), transparent); }
+.kx-card {
+  position: relative; background: var(--kx-paper); border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--kx-gold) 60%, transparent);
+  box-shadow: 0 0 0 5px var(--kx-paper), 0 0 0 6px color-mix(in srgb, var(--kx-gold) 42%, transparent);
+  padding: 2.2rem 1.5rem;
+}
+
+/* De brief op de kaart */
+.kx-letter__card { margin: 0 auto; max-width: 460px; }
+.kx-letter__photo { margin: 0 auto 1.4rem; max-width: 280px; }
+.kx-letter__photo .ph { aspect-ratio: 4 / 5; border-radius: 6px; }
+.kx-letter__text { display: grid; gap: .9em; font-size: 1.16rem; line-height: 1.62; }
+.kx-letter__text p:first-child { font-style: italic; color: var(--kx-accent); font-weight: 600; }
+
+/* De vertrekkaart: de datum op een kaartje met een afscheurlijn */
+.kx-ticket {
+  position: relative; display: grid; grid-template-columns: 1fr auto; max-width: 440px; margin: 0 auto;
+  background: var(--kx-paper); color: var(--kx-ink); border-radius: 12px; overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--kx-gold) 60%, transparent);
+  box-shadow: 0 16px 34px -18px rgba(0, 0, 0, .45);
+}
+.kx-ticket::before, .kx-ticket::after {
+  content: ""; position: absolute; top: 50%; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--kx-paper-2); translate: 0 -50%; border: 1px solid color-mix(in srgb, var(--kx-gold) 60%, transparent);
+}
+.kx-ticket::before { left: -12px; }
+.kx-ticket::after { right: -12px; }
+.kx-ticket__main { display: grid; justify-items: center; align-content: center; gap: .2rem; padding: 1.5rem 1.3rem; }
+.kx-ticket__weekday { font: 600 .78rem/1.3 var(--kx-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--kx-muted); }
+.kx-ticket__day { font: 400 4.6rem/1 var(--kx-display); color: var(--kx-accent); }
+.kx-ticket__month { font: italic 500 1.2rem/1.2 var(--kx-serif); }
+.kx-ticket__stub {
+  display: grid; align-content: center; gap: .3rem; min-width: 11rem; padding: 1.4rem 1.1rem;
+  border-left: 2px dashed color-mix(in srgb, var(--kx-gold) 70%, transparent);
+}
+/* Cijfers in het sierlettertype lijken op letters (1 op een I): tijden in gewone cijfers. */
+.kx-ticket__time { font: 600 1.2rem/1.25 var(--kx-serif); letter-spacing: .02em; font-variant-numeric: lining-nums; text-wrap: balance; }
+.kx-ticket__venue { font: 500 1.02rem/1.35 var(--kx-serif); color: var(--kx-muted); }
+
+/* Het programma: stations onderweg */
+.kx-stops { position: relative; display: grid; gap: 1.1rem; max-width: 440px; margin: 0 auto; text-align: left; }
+.kx-stop { position: relative; display: grid; grid-template-columns: 3.4rem 1.4rem 1fr; align-items: start; }
+.kx-stop::before {
+  content: ""; position: absolute; top: .9rem; bottom: -1.1rem; left: calc(3.4rem + .7rem - 1px);
+  border-left: 2px dotted color-mix(in srgb, var(--kx-gold-2) 70%, transparent);
+}
+.kx-stop:last-child::before { display: none; }
+.kx-stop__time { grid-column: 1; text-align: right; font: 600 .95rem/1.2 var(--kx-ui); color: var(--kx-accent); padding-top: .15rem; }
+.kx-stop__node {
+  grid-column: 2; position: relative; z-index: 1; width: 12px; height: 12px; margin: .3rem auto 0; border-radius: 50%;
+  background: var(--kx-gold); box-shadow: 0 0 0 3px var(--kx-paper), 0 0 0 4px var(--kx-gold-2);
+}
+.kx-stop__text { grid-column: 3; padding-left: .4rem; }
+.kx-stop__title { font: 400 1.35rem/1.2 var(--kx-display); color: var(--kx-ink); }
+.kx-stop__desc { margin-top: .2rem; font: 500 1.02rem/1.5 var(--kx-serif); color: var(--kx-muted); }
+
+/* Aankomst */
+.kx-place__venue { font: 400 1.5rem/1.2 var(--kx-display); }
+.kx-place__address { margin-top: .5rem; font: italic 500 1.08rem/1.5 var(--kx-serif); color: var(--kx-muted); }
+.kx-place__when { margin: 1rem 0 1.2rem; font: 500 1.05rem/1.5 var(--kx-serif); }
+
+/* Dresscode: kleurstalen */
+.kx-swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem; margin: 0 0 1.2rem; list-style: none; padding: 0; }
+.kx-swatch { width: 44px; height: 44px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15), 0 6px 12px -6px rgba(0, 0, 0, .4); }
+.kx-dress__text { font: 500 1.08rem/1.55 var(--kx-serif); max-width: 32rem; margin: .4rem auto 0; }
+
+/* Ons jaar, foto's, goed om te weten */
+.kx-story__text { display: grid; gap: .9em; max-width: 36rem; margin: 0 auto; font-size: 1.12rem; line-height: 1.62; }
+.kx-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; list-style: none; padding: 0; margin: 0; }
+.kx-photo .ph { aspect-ratio: 4 / 5; border-radius: 4px; }
+.kx-photo figcaption { margin-top: .35rem; font: italic 500 .95rem/1.3 var(--kx-serif); color: var(--kx-muted); }
+.kx-practical__list { display: grid; gap: 1.2rem; max-width: 36rem; margin: 0 auto; text-align: left; }
+.kx-practical__item dt { font: 600 .8rem/1.3 var(--kx-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--kx-accent); }
+.kx-practical__item dd { margin: .25rem 0 0; font: 500 1.08rem/1.55 var(--kx-serif); }
+
+/* Aanmelden, contact */
+.kx-rsvp .kx-card { max-width: 480px; margin: 0 auto; padding: 1.6rem 1.2rem; text-align: left; }
+.kx-contact__note { max-width: 32rem; margin: 0 auto .8rem; font: 500 1.08rem/1.55 var(--kx-serif); }
+.kx-contact__name { font: 400 1.4rem/1.2 var(--kx-display); }
+.kx-contact__links { margin-top: .4rem; }
+
+/* De eindkaart: de kaart uit de envelop, met het logo van Vaylide eronder zoals aangeleverd */
+.kx-end { padding-top: clamp(3.5rem, 10vw, 4.8rem); }
+.kx-end__card { display: grid; justify-items: center; gap: .4rem; max-width: 440px; margin: 0 auto; padding: 2.6rem 1.4rem 2rem; text-align: center; }
+.kx-end__greeting { font: 400 clamp(2.6rem, 11vw, 3.4rem)/1.05 var(--kx-script); color: var(--kx-accent); }
+.kx-end__wish { font: italic 500 1.3rem/1.35 var(--kx-serif); color: var(--kx-ink); }
+.kx-end__from { margin-top: .4rem; font: 600 .86rem/1.3 var(--kx-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--kx-muted); }
+.kx-end__text { font: 500 1.05rem/1.5 var(--kx-serif); }
+.kx-end__logo { width: min(230px, 70%); height: auto; margin-top: 1.6rem; }
+.kx-end .inv-share { margin-top: 1.8rem; }
+/* De voet staat op de donkere achtergrond van de pagina, in alle kleurvarianten. */
+.inv-kerstexpress .inv-colophon { color: rgba(251, 243, 226, .82); }
+.inv-kerstexpress .inv-colophon a { color: #FBF3E2; }
+
+/* ================================================================ op een computer: de kaart ligt op tafel */
+@media (min-width: 600px) {
+  .inv-kerstexpress .inv-main { width: var(--kx-w); margin: 0 auto; background: var(--kx-paper); box-shadow: 0 0 0 1px color-mix(in srgb, var(--kx-gold) 40%, transparent), 0 40px 90px -30px rgba(0, 0, 0, .7); }
+  .inv-kerstexpress .kx-cover { left: 50%; right: auto; width: var(--kx-w); translate: -50% 0; }
+  .inv-kerstexpress .kx-hero { max-height: calc(var(--kx-w) * 16 / 9); }
+}
+
+@media (max-width: 380px) {
+  .kx-stop { grid-template-columns: 2.9rem 1.2rem 1fr; }
+  .kx-stop::before { left: calc(2.9rem + .6rem - 1px); }
+  .kx-ticket__stub { min-width: 8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kx-hero__text, .kx-hero__text * { transition: none !important; }
+}
