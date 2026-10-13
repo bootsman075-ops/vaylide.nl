@@ -15,9 +15,9 @@ from django.templatetags.static import static
 from django.utils import timezone
 
 from catalog.effects import effect_view
-from catalog.occasions import display_title, monogram, occasion_config
+from catalog.occasions import display_title, doc_kind, monogram, occasion_config
 
-from .content import HEX_COLOR, TIMEZONE_LABELS, event_times, normalize_content, parse_date
+from .content import HEX_COLOR, TIMEZONE_LABELS, event_expected, event_times, normalize_content, parse_date
 
 WEEKDAYS = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"]
 MONTHS = [
@@ -38,6 +38,44 @@ def nl_date_short(d) -> str:
 def _plural(text: str) -> bool:
     lowered = f" {text.lower()} "
     return " & " in lowered or " en " in lowered or "," in lowered
+
+
+# Een passend lijntekeningetje per programmaonderdeel (voor ontwerpen die er een tonen), op trefwoord.
+PROGRAM_ICONS = [
+    ("drank", ("glühwein", "gluhwein", "chocolademelk", "warme chocolade", "ontvangst", "inloop", "borrel", "welkom", "drankje", "aperitief", "thee")),
+    ("proost", ("proost", "toost", "champagne", "bubbels", "aftellen", "oud en nieuw", "nieuwjaar", "vuurwerk")),
+    ("diner", ("diner", "eten", "buffet", "lunch", "brunch", "gourmet", "hapjes", "gang", "maaltijd", "tafelen", "ontbijt")),
+    ("dessert", ("dessert", "toetje", "koffie", "kransjes", "koekjes", "taart", "kerststol", "stol", "bonbons")),
+    ("cadeau", ("cadeau", "pakjes", "kado", "surprise", "cadeauspel", "sinterklaas")),
+    ("muziek", ("zingen", "liedjes", "muziek", "koor", "concert", "karaoke", "dansen")),
+    ("kerk", ("kerk", "nachtmis", "mis ", "viering", "dienst")),
+    ("haard", ("haard", "verhalen", "voorlezen", "film", "bank")),
+    ("boom", ("boom", "optuigen", "versieren")),
+    ("wandeling", ("wandel", "schaatsen", "sneeuw", "buiten", "lichtjesroute", "kerstmarkt", "slee")),
+]
+PROGRAM_ICON_FALLBACK = ["ster", "bel", "kaars", "kerstbal"]
+
+
+def program_icon(title: str, index: int) -> str:
+    lowered = f" {title.lower()} "
+    for icon, words in PROGRAM_ICONS:
+        if any(word in lowered for word in words):
+            return icon
+    return PROGRAM_ICON_FALLBACK[index % len(PROGRAM_ICON_FALLBACK)]
+
+
+def new_year(day, now) -> int:
+    """Het nieuwe jaar bij een kerstkaart: vanaf juli het volgende jaar, tot en met juni het lopende."""
+    ref = day or timezone.localtime(now).date()
+    return ref.year + 1 if ref.month >= 7 else ref.year
+
+
+def christmas_target(zone, now):
+    """Eerste kerstdag (00:00) om naar af te tellen, alleen van juli tot en met kerstavond."""
+    today = now.astimezone(zone).date()
+    if today.month < 7 or (today.month == 12 and today.day > 24):
+        return None
+    return datetime(today.year, 12, 25, tzinfo=zone)
 
 
 class AssetResolver:
@@ -214,6 +252,12 @@ def build_view(
         kicker = "Babyshower"
         verb = "nodigen" if _plural(parents) else "nodigt"
         tagline = f"{verb} je uit voor de babyshower van {baby}" if baby else f"{verb} je uit voor een babyshower"
+    elif occasion == "kerst":
+        family = names_raw.get("family", "").strip()
+        names = [family]
+        kicker = cfg["default_headline"]
+        verb = "wensen" if _plural(family) else "wenst"
+        tagline = f"{verb} je fijne feestdagen en een gelukkig {new_year(parse_date(content.get('date')), now)}"
     else:  # zakelijk
         names = [names_raw.get("event_title", "").strip()]
         organization = names_raw.get("organization", "").strip()
@@ -238,10 +282,15 @@ def build_view(
     start, end = times.start, times.end
     day = parse_date(content.get("date"))
     is_past = bool(start and (end or start + timedelta(hours=6)) < now)
+    with_event = event_expected(content, occasion)
+    # Kerstkaart zonder evenement: aftellen naar eerste kerstdag (van juli tot en met kerstavond).
+    countdown_target, countdown_label = start, ""
+    if start is None and cfg.get("event_optional"):
+        countdown_target, countdown_label = christmas_target(times.zone, now), "kerst"
     days_until = None
     countdown = None
-    if start and start > now:
-        delta = start - now
+    if countdown_target and countdown_target > now:
+        delta = countdown_target - now
         days_until = delta.days
         countdown = {
             "days": delta.days,
@@ -294,6 +343,7 @@ def build_view(
                 "time": str(item.get("time") or "").strip()[:5],
                 "title": item_title[:80],
                 "description": str(item.get("description") or "").strip()[:300],
+                "icon": program_icon(item_title, len(program)),
             }
         )
     practical = [
@@ -314,14 +364,14 @@ def build_view(
         music_url = resolver.url(music_asset, "audio")
 
     show = {
-        "countdown": enabled("countdown") and start is not None,
+        "countdown": enabled("countdown") and (start is not None or countdown is not None),
         "story": enabled("story") and "story" in features and bool(_paragraphs(story.get("text"))),
         "gallery": enabled("gallery") and bool(gallery),
         "program": enabled("program") and bool(program),
         "location": bool(venue or address),
         "dresscode": enabled("dresscode") and bool((dresscode.get("text") or "").strip() or dresscode.get("colors")),
         "practical": enabled("practical") and bool(practical),
-        "rsvp": enabled("rsvp"),
+        "rsvp": enabled("rsvp") and with_event,
         "contact": enabled("contact")
         and bool((contact.get("name") or "").strip())
         and bool(phone or (contact.get("email") or "").strip() or (contact.get("note") or "").strip()),
@@ -396,12 +446,17 @@ def build_view(
         "occasion": occasion,
         "occasion_label": cfg["label"],
         "title": title,
-        "page_title": f"{title} · uitnodiging",
+        "page_title": f"{title} · {doc_kind(occasion)}",
+        "doc_kind": doc_kind(occasion),
         "names": names,
+        # Kleine regel onder de namen (bij een kerstkaart: de namen van het gezin).
+        "subnames": (names_raw.get("members") or "").strip() if occasion == "kerst" else "",
+        "has_event": with_event,
         "is_couple": len(names) == 2,
         "names_size": names_size,
         "number": number,
         "kicker": kicker,
+        "headline_custom": bool(headline),
         "tagline": tagline,
         "monogram": monogram(occasion, content),
         "welcome": _paragraphs(content.get("welcome_text")),
@@ -421,6 +476,8 @@ def build_view(
         "is_past": is_past,
         "days_until": days_until,
         "countdown": countdown,
+        "countdown_iso": countdown_target.isoformat() if countdown_target else "",
+        "countdown_label": countdown_label,
         "venue": venue,
         "address_lines": address_lines,
         "route_url": route_url,
@@ -443,6 +500,8 @@ def build_view(
         "music_url": music_url,
         "music_title": music_title,
         "music_synth": options.music_synth and not music_url,
+        # Welke melodie het speeldoosje in een voorbeeld speelt (manifest: demo_melody), anders de standaard.
+        "music_melody": str((template_version.manifest or {}).get("demo_melody") or "") if options.music_synth and not music_url else "",
         "show": show,
         "rsvp": {
             "open": show["rsvp"] and not closed_reason and options.mode == "live",

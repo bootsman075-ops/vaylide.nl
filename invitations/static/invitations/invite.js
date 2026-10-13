@@ -8,6 +8,25 @@
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   html.classList.add("invite-ready");
 
+  /* Melodieën voor het speeldoosje in de voorbeelden: [midi, lengte in achtsten].
+     'Stille nacht' (Franz Xaver Gruber, 1818) is publiek domein; de zetting en de klank zijn eigen synthese. */
+  var MELODIES = {
+    "stille-nacht": {
+      eighth: 0.37,
+      melody: [
+        [67, 1.5], [69, 0.5], [67, 1], [64, 3], [67, 1.5], [69, 0.5], [67, 1], [64, 3],
+        [74, 2], [74, 1], [71, 3], [72, 2], [72, 1], [67, 3],
+        [69, 2], [69, 1], [72, 1.5], [71, 0.5], [69, 1], [67, 1.5], [69, 0.5], [67, 1], [64, 3],
+        [69, 2], [69, 1], [72, 1.5], [71, 0.5], [69, 1], [67, 1.5], [69, 0.5], [67, 1], [64, 3],
+        [74, 2], [74, 1], [77, 1.5], [74, 0.5], [71, 1], [72, 3], [76, 3],
+        [72, 1.5], [67, 0.5], [64, 1], [67, 1.5], [65, 0.5], [62, 1], [60, 6]
+      ],
+      // Per maat (6 achtsten) twee begeleidingstonen: grondtoon en kwint, op tel 1 en tel 2.
+      bass: [[48, 55], [48, 55], [43, 50], [48, 55], [41, 48], [48, 55], [41, 48], [48, 55], [43, 50], [48, 55], [48, 43], [48, 55]],
+      rest: 3
+    }
+  };
+
   /* ---------- Muziek ---------- */
   var music = (function () {
     var root = document.querySelector("[data-music]");
@@ -15,7 +34,8 @@
     var toggle = root.querySelector("[data-music-toggle]");
     var label = root.querySelector("[data-music-label]");
     var audio = root.querySelector("[data-music-audio]");
-    var synth = root.hasAttribute("data-music-synth") ? createSynth() : null;
+    var melody = root.getAttribute("data-music-synth");
+    var synth = root.hasAttribute("data-music-synth") ? (MELODIES[melody] ? createMusicBox(MELODIES[melody]) : createSynth()) : null;
     var playing = false;
     if (!audio && !synth) return { play: function () {}, available: false };
     toggle.hidden = false;
@@ -48,6 +68,98 @@
     toggle.addEventListener("click", function () { if (playing) pause(); else play(); });
     return { play: play, available: true };
   })();
+
+  /* Speeldoosje met een melodie: klokjesklank (grondtoon plus boventonen) en een zachte galm. */
+  function createMusicBox(tune) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    var ctx = null, out = null, timer = null, nextTime = 0, index = 0, playing = false;
+    var events = [];
+    var t = 0;
+    tune.melody.forEach(function (n) { events.push({ at: t, midi: n[0] + 12, len: n[1], gain: 0.16 }); t += n[1]; });
+    tune.bass.forEach(function (pair, i) {
+      events.push({ at: i * 6, midi: pair[0] + 12, len: 3, gain: 0.07 });
+      events.push({ at: i * 6 + 3, midi: pair[1] + 12, len: 3, gain: 0.055 });
+    });
+    events.sort(function (a, b) { return a.at - b.at; });
+    var loopLength = t + (tune.rest || 0);
+
+    function setup() {
+      ctx = new AC();
+      var master = ctx.createGain();
+      master.gain.value = 0.9;
+      var soften = ctx.createBiquadFilter();
+      soften.type = "lowpass";
+      soften.frequency.value = 4200;
+      // Galm: een korte, zelfgemaakte impulsrespons (ruis die wegsterft).
+      var verb = ctx.createConvolver();
+      var len = Math.round(ctx.sampleRate * 2.4);
+      var ir = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (var c = 0; c < 2; c++) {
+        var data = ir.getChannelData(c);
+        for (var i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.2);
+      }
+      verb.buffer = ir;
+      var wet = ctx.createGain();
+      wet.gain.value = 0.32;
+      out = ctx.createGain();
+      out.connect(soften);
+      soften.connect(master);
+      out.connect(verb);
+      verb.connect(wet);
+      wet.connect(master);
+      master.connect(ctx.destination);
+    }
+
+    function bell(midi, when, gain) {
+      var f = 440 * Math.pow(2, (midi - 69) / 12);
+      [[1, 1, 2.2], [2.01, 0.28, 0.9], [3.02, 0.1, 0.45], [4.2, 0.05, 0.25]].forEach(function (part) {
+        var osc = ctx.createOscillator();
+        var g = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = f * part[0];
+        g.gain.setValueAtTime(0.0001, when);
+        g.gain.exponentialRampToValueAtTime(gain * part[1], when + 0.006);
+        g.gain.exponentialRampToValueAtTime(0.0001, when + part[2]);
+        osc.connect(g);
+        g.connect(out);
+        osc.start(when);
+        osc.stop(when + part[2] + 0.05);
+      });
+    }
+
+    function schedule() {
+      var ahead = ctx.currentTime + 0.35;
+      while (nextTime < ahead) {
+        var e = events[index];
+        bell(e.midi, nextTime, e.gain);
+        index++;
+        var nextAt = index < events.length ? events[index].at : loopLength;
+        var delta = nextAt - e.at;
+        if (index >= events.length) { index = 0; }
+        nextTime += delta * tune.eighth;
+      }
+    }
+
+    return {
+      start: function () {
+        if (!ctx) setup();
+        if (ctx.state === "suspended") ctx.resume();
+        if (playing) return;
+        playing = true;
+        index = 0;
+        nextTime = ctx.currentTime + 0.08;
+        schedule();
+        timer = setInterval(schedule, 100);
+      },
+      stop: function () {
+        // Wat al klinkt, sterft vanzelf uit in de galm.
+        playing = false;
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+  }
 
   /* Speeldoosje voor de voorbeelden (eigen synthese, geen bestand nodig).
      Melodie: canon-achtige akkoordenreeks (publiek domein). */

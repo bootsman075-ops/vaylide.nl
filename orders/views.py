@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_POST
 
+from catalog.occasions import doc_kind
 from processing.models import OutboundEmail
 
 from .models import Order, Payment
@@ -74,7 +75,8 @@ def status(request, uid):
     _maybe_sync(order)
     order.refresh_from_db()
     state = _state(order)
-    return render(request, "orders/status.html", {"order": order, "state": state, "payment": order.latest_payment})
+    kind = doc_kind(order.invitation.occasion) if order.invitation else "uitnodiging"
+    return render(request, "orders/status.html", {"order": order, "state": state, "payment": order.latest_payment, "doc_kind": kind})
 
 
 @login_required

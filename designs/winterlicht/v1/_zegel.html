@@ -1,0 +1,42 @@
+{# Lakzegel met een takje hulst en den eronder. De kleuren komen uit de kleurvariant (--wl-seal*). #}
+<svg class="wl-seal__svg wl-seal__svg--m{{ v.monogram|length }}" viewBox="0 0 160 160" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="wl-wax" cx="38%" cy="32%" r="72%">
+      <stop offset="0" style="stop-color:var(--wl-seal-2)"/>
+      <stop offset=".55" style="stop-color:var(--wl-seal)"/>
+      <stop offset="1" style="stop-color:var(--wl-seal);stop-opacity:1"/>
+    </radialGradient>
+    <radialGradient id="wl-wax-dark" cx="50%" cy="50%" r="50%">
+      <stop offset=".7" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".32"/>
+    </radialGradient>
+    <linearGradient id="wl-press" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".38"/>
+      <stop offset=".5" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".45"/>
+    </linearGradient>
+  </defs>
+  <g class="wl-seal__sprig">
+    <path d="M58 118 C44 132 30 136 16 134" fill="none" stroke="#5B4230" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M36 131 l-6 -9 M30 133 l-7 -6 M42 128 l-4 -10 M24 134 l-8 -3 M48 124 l-2 -10" stroke="#3B5B45" stroke-width="3" stroke-linecap="round"/>
+    <path d="M34 131 l-2 9 M28 133 l-4 8 M40 129 l1 9 M22 134 l-6 6 M46 126 l3 8" stroke="#2C4735" stroke-width="3" stroke-linecap="round"/>
+    <path d="M102 112 c10 -2 20 4 28 -2 c-4 6 0 10 6 12 c-6 4 -8 10 -4 16 c-8 -2 -14 2 -18 8 c-2 -8 -8 -12 -16 -12 c4 -6 2 -12 -2 -16 c4 0 6 -2 6 -6z" fill="#2F4D38"/>
+    <path d="M104 116 l22 18" stroke="#6E9474" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M118 100 c8 -8 20 -8 28 -4 c-6 2 -6 8 -2 12 c-8 0 -12 6 -12 12 c-6 -4 -12 -4 -18 0 c2 -6 -2 -12 -8 -14 c6 -2 10 -4 12 -6z" fill="#3A5E45"/>
+    <path d="M120 104 l20 6" stroke="#7FA585" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="112" cy="104" r="6" fill="#B3202E"/><circle cx="104" cy="110" r="5.4" fill="#9C1826"/><circle cx="114" cy="113" r="5" fill="#C22B38"/>
+    <circle cx="110" cy="102" r="1.8" fill="#fff" opacity=".6"/><circle cx="102.5" cy="108.5" r="1.5" fill="#fff" opacity=".5"/>
+  </g>
+  <path class="wl-seal__shadow" d="M84 20c7 1 10 6 16 8 7 2 12 1 16 7 4 5 2 11 6 17 3 6 9 9 9 16s-5 10-6 16c-1 7 3 12-1 18-4 5-11 5-16 9-5 4-6 11-13 13-6 2-11-3-18-3s-12 5-18 3c-7-2-8-9-13-13-6-4-12-4-16-9-4-6 0-11-1-18-1-6-6-9-6-16s6-10 9-16c4-6 2-12 6-17 4-6 9-5 16-7 6-2 9-7 16-8 6-1 9 3 14 3s8-4 14-3z" transform="translate(3 5)" fill="#000" opacity=".28"/>
+  <path d="M84 20c7 1 10 6 16 8 7 2 12 1 16 7 4 5 2 11 6 17 3 6 9 9 9 16s-5 10-6 16c-1 7 3 12-1 18-4 5-11 5-16 9-5 4-6 11-13 13-6 2-11-3-18-3s-12 5-18 3c-7-2-8-9-13-13-6-4-12-4-16-9-4-6 0-11-1-18-1-6-6-9-6-16s6-10 9-16c4-6 2-12 6-17 4-6 9-5 16-7 6-2 9-7 16-8 6-1 9 3 14 3s8-4 14-3z" fill="url(#wl-wax)"/>
+  <path d="M84 20c7 1 10 6 16 8 7 2 12 1 16 7 4 5 2 11 6 17 3 6 9 9 9 16s-5 10-6 16c-1 7 3 12-1 18-4 5-11 5-16 9-5 4-6 11-13 13-6 2-11-3-18-3s-12 5-18 3c-7-2-8-9-13-13-6-4-12-4-16-9-4-6 0-11-1-18-1-6-6-9-6-16s6-10 9-16c4-6 2-12 6-17 4-6 9-5 16-7 6-2 9-7 16-8 6-1 9 3 14 3s8-4 14-3z" fill="url(#wl-wax-dark)"/>
+  <circle cx="77" cy="76" r="40" fill="none" stroke="url(#wl-press)" stroke-width="5"/>
+  <circle cx="77" cy="76" r="37.5" fill="none" style="stroke:var(--wl-seal-ink)" stroke-opacity=".55" stroke-width=".9"/>
+  <g style="fill:var(--wl-seal-ink)" opacity=".7">
+    <circle cx="77" cy="42.5" r="1.3"/><circle cx="77" cy="109.5" r="1.3"/><circle cx="43.5" cy="76" r="1.3"/><circle cx="110.5" cy="76" r="1.3"/>
+    <path d="M77 36.6l1.1 2.3 2.4.3-1.8 1.6.5 2.4-2.2-1.2-2.2 1.2.5-2.4-1.8-1.6 2.4-.3z"/>
+  </g>
+  <text class="wl-seal__mono wl-seal__mono--shade" x="78" y="78" text-anchor="middle" dominant-baseline="central">{{ v.monogram }}</text>
+  <text class="wl-seal__mono" x="77" y="76.5" text-anchor="middle" dominant-baseline="central" style="fill:var(--wl-seal-ink)">{{ v.monogram }}</text>
+  <ellipse cx="58" cy="42" rx="16" ry="7" transform="rotate(-28 58 42)" fill="#fff" opacity=".22"/>
+</svg>
