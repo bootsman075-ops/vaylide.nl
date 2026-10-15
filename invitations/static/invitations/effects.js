@@ -154,7 +154,11 @@
       }
       return boxes.map(function (b, i) { return b.concat(lint(b, ribbons[i])); });
     },
-    film: function (p) { return p.dark ? [WHITE] : [mix(p.c1, BLACK, 0.55)]; }
+    film: function (p) { return p.dark ? [WHITE] : [mix(p.c1, BLACK, 0.55)]; },
+    /* Sneeuw: op een donkere achtergrond wit en ijsblauw; op een lichte achtergrond is wit onzichtbaar,
+       dan worden het vlokjes in goud en zilverblauw. */
+    sneeuwzacht: function (p) { return p.dark ? [WHITE, [238, 244, 255], [255, 251, 242]] : [mix(p.c1, WHITE, 0.12), [170, 186, 210], mix(p.c1, BLACK, 0.06)]; },
+    sneeuw: function (p) { return p.dark ? [WHITE, [226, 236, 255], mix(p.c4, WHITE, 0.5)] : [p.c1, mix(p.c1, BLACK, 0.12), [150, 168, 196]]; }
   };
 
   /* ---------------------------------------------------------------- sprites
@@ -362,6 +366,25 @@
       grad.addColorStop(1, css(c, 0));
       g.fillStyle = grad;
       g.beginPath(); g.arc(0, 0, 0.5, 0, TAU); g.fill();
+    } },
+    flake: { w: 1, h: 1, draw: function (g, c) {
+      var grad = g.createRadialGradient(0, 0, 0, 0, 0, 0.5);
+      grad.addColorStop(0, css(c, 1));
+      grad.addColorStop(0.5, css(c, 0.82));
+      grad.addColorStop(1, css(c, 0));
+      g.fillStyle = grad;
+      g.beginPath(); g.arc(0, 0, 0.5, 0, TAU); g.fill();
+    } },
+    crystal: { w: 1, h: 1, line: true, path: function (g) {
+      for (var i = 0; i < 6; i++) {
+        var a = i * Math.PI / 3, ca = Math.cos(a), sa = Math.sin(a);
+        g.moveTo(0, 0); g.lineTo(ca * 0.46, sa * 0.46);
+        for (var k = 0; k < 2; k++) {
+          var u = k ? 0.33 : 0.2, l = k ? 0.09 : 0.13, bx = ca * u, by = sa * u;
+          g.moveTo(bx, by); g.lineTo(bx + Math.cos(a + 0.8) * l, by + Math.sin(a + 0.8) * l);
+          g.moveTo(bx, by); g.lineTo(bx + Math.cos(a - 0.8) * l, by + Math.sin(a - 0.8) * l);
+        }
+      }
     } },
     dot: { w: 1, h: 1, draw: function (g, c) {
       g.fillStyle = css(c);
@@ -571,6 +594,10 @@
     cadeautjes: { type: "multi", layers: [
       { type: "drift", sprites: [["gift", 1]], colors: "cadeau", density: 1.5, min: 5, max: 11, size: [17, 30], speed: [24, 46], dir: "down", sway: [10, 24], swayFreq: [0.3, 0.65], spin: [-0.7, 0.7], alpha: [0.92, 1] },
       { type: "drift", sprites: [["rect", 0.5], ["circle", 0.3], ["ribbon", 0.2]], colors: "feest", density: 2.4, min: 6, max: 16, size: [6, 10], speed: [30, 60], dir: "down", sway: [8, 20], swayFreq: [0.5, 1.1], spin: [-3, 3], flip: [2, 6], alpha: [0.8, 1], back: true }
+    ] },
+    sneeuw: { type: "multi", layers: [
+      { type: "drift", sprites: [["flake", 1]], colors: "sneeuwzacht", density: 8, min: 22, max: 80, size: [3, 8.5], speed: [18, 46], dir: "down", sway: [5, 20], swayFreq: [0.18, 0.5], alpha: [0.55, 0.95] },
+      { type: "drift", sprites: [["crystal", 1]], colors: "sneeuw", density: 0.8, min: 3, max: 9, size: [11, 20], speed: [15, 28], dir: "down", sway: [10, 26], swayFreq: [0.2, 0.45], spin: [-0.6, 0.6], alpha: [0.55, 0.9] }
     ] },
     goudstof: { type: "field", colors: "goud", specks: { density: 10, min: 24, max: 70, size: [1.4, 3.4], drift: [3, 11], alpha: [0.35, 0.95], twinkle: [0.6, 1.8] }, flares: { rate: 1.1, size: [9, 18], life: [0.9, 1.6] } },
     glitter: { type: "field", colors: "goud", specks: { density: 22, min: 50, max: 140, size: [1.2, 3.8], drift: [4, 14], alpha: [0.35, 1], twinkle: [1, 3] }, flares: { rate: 3.4, size: [10, 24], life: [0.8, 1.4] } },
@@ -1095,6 +1122,11 @@
       }
     },
     bokeh: function (x, y, k) { spray(x, y, 18 * k, { sprite: "orb", colors: "licht", size: [30, 90], speed: [40, 220], g: -10, drag: 0.4, life: [1.6, 2.6], grow: 0.8 }); },
+    sneeuw: function (x, y, k) {
+      spray(x, y, 70 * k, { sprite: "flake", colors: "sneeuwzacht", size: [4, 11], speed: [120, 640], g: 70, drag: 0.22, sway: [6, 18], life: [1.8, 3.2] });
+      spray(x, y, 16 * k, { sprite: "crystal", colors: "sneeuw", size: [12, 24], speed: [100, 470], g: 30, drag: 0.25, spin: [-2, 2], life: [1.6, 2.8], pop: true });
+      spray(x, y, 16 * k, { sprite: "glint", colors: "goud", size: [10, 22], speed: [60, 360], g: 0, drag: 0.2, spin: [-2, 2], life: [0.9, 1.6], pop: true });
+    },
     /* Plof: een drukgolf, dan springen de cadeautjes er in een boog uit, met confetti en glinsters. */
     cadeautjes: function (x, y, k) {
       var colors = burst.colors.cadeau, big = k >= 0.5;

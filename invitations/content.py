@@ -191,6 +191,16 @@ def event_times(content: dict) -> EventTimes:
     return EventTimes(start=start, end=end, rsvp_deadline=deadline, zone=zone)
 
 
+def has_event_details(content: dict) -> bool:
+    """Of er iets over een evenement is ingevuld (datum, tijd of locatie)."""
+    return any(str(content.get(key) or "").strip() for key in ("date", "start_time", "end_time", "venue_name", "address"))
+
+
+def event_expected(content: dict, occasion: str) -> bool:
+    """Hoort er een evenement bij? Bij een kerstkaart alleen als de klant er een invult."""
+    return not occasion_config(occasion).get("event_optional") or has_event_details(content)
+
+
 @dataclass
 class Issue:
     step: str
@@ -210,20 +220,23 @@ def publish_issues(content: dict, occasion: str, *, first_publication: bool, now
     for key, label, required, *_ in cfg["name_fields"]:
         if required and not str(names.get(key) or "").strip():
             issues.append(Issue("gegevens", key, f"Vul '{label}' in."))
-    day = parse_date(content.get("date"))
-    if not day:
-        issues.append(Issue("gegevens", "date", "Vul de datum van het evenement in."))
-    if not parse_time(content.get("start_time")):
-        issues.append(Issue("gegevens", "start_time", "Vul de begintijd in."))
-    if not str(content.get("venue_name") or "").strip():
-        issues.append(Issue("gegevens", "venue_name", "Vul de naam van de locatie in."))
-    if not str(content.get("address") or "").strip():
-        issues.append(Issue("gegevens", "address", "Vul het adres van de locatie in, zodat de routeknop werkt.", blocking=False))
+    # Een kerstkaart zonder datum en locatie is een groet: dan hoort er geen evenement bij.
+    with_event = event_expected(content, occasion)
+    if with_event:
+        day = parse_date(content.get("date"))
+        if not day:
+            issues.append(Issue("gegevens", "date", "Vul de datum van het evenement in."))
+        if not parse_time(content.get("start_time")):
+            issues.append(Issue("gegevens", "start_time", "Vul de begintijd in."))
+        if not str(content.get("venue_name") or "").strip():
+            issues.append(Issue("gegevens", "venue_name", "Vul de naam van de locatie in."))
+        if not str(content.get("address") or "").strip():
+            issues.append(Issue("gegevens", "address", "Vul het adres van de locatie in, zodat de routeknop werkt.", blocking=False))
     times = event_times(content)
     if first_publication and times.start and times.start < now:
         issues.append(Issue("gegevens", "date", "De datum en begintijd liggen in het verleden."))
     sections = content.get("sections") or {}
-    if sections.get("rsvp"):
+    if sections.get("rsvp") and with_event:
         rsvp = content.get("rsvp") or {}
         if not parse_date(rsvp.get("deadline")):
             issues.append(Issue("aanmelden", "deadline", "Kies een aanmelddeadline (of zet aanmelden uit)."))

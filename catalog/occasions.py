@@ -6,6 +6,8 @@ Zo toont de vragenlijst alleen vragen die bij de gelegenheid passen.
 """
 from __future__ import annotations
 
+import re
+
 OCCASION_CHOICES = [
     ("bruiloft", "Bruiloft"),
     ("verloving", "Verloving"),
@@ -13,6 +15,7 @@ OCCASION_CHOICES = [
     ("jubileum", "Jubileum"),
     ("babyshower", "Babyshower"),
     ("zakelijk", "Zakelijk evenement"),
+    ("kerst", "Kerst"),
 ]
 OCCASION_LABELS = dict(OCCASION_CHOICES)
 
@@ -98,7 +101,29 @@ OCCASIONS: dict[str, dict] = {
         "program_hint": "Bijv. 16:00 Ontvangst, 16:30 Presentatie, 17:30 Netwerkborrel",
         "formal": True,
     },
+    # Een kerstkaart is een groet; een kerstdiner, -borrel of -brunch erbij is optioneel.
+    # Zonder datum telt de afteller af naar kerst en vervallen locatie, agenda en aanmelden.
+    "kerst": {
+        "label": "Kerst",
+        "intro": "Een warme kerstgroet, met of zonder uitnodiging voor het kerstdiner.",
+        "name_fields": [
+            ("family", "Van wie komt de kerstkaart?", True, 60, "Bijv. Familie Jansen, of Sanne & Daan."),
+            ("members", "Namen eronder (optioneel)", False, 120, "Bijv. Sanne, Daan, Lotte en Siem. Staat klein onder de afzender."),
+        ],
+        "default_headline": "Warme kerstgroeten",
+        "invite_line": "wenst je fijne feestdagen",
+        "story_title": "Ons jaar",
+        "story_default": True,
+        "program_hint": "Bijv. 17:00 Glühwein bij de haard, 18:30 Kerstdiner, 21:00 Cadeautjes onder de boom",
+        "event_optional": True,
+        # In teksten over de bestelling: "je kerstkaart van Familie Jansen" in plaats van "je uitnodiging voor ...".
+        "doc_kind": "kerstkaart",
+        "title_prep": "van",
+    },
 }
+
+# Voorvoegsels die niet in het zegel komen ("Familie Jansen" wordt "J").
+_FAMILY_WORDS = {"familie", "fam", "fam.", "gezin", "het", "de", "van", "der", "den", "ten", "ter", "te", "'t", "family", "the"}
 
 
 def by_occasion(designs, occasion: str) -> list:
@@ -110,6 +135,11 @@ def by_occasion(designs, occasion: str) -> list:
 
 def occasion_config(key: str) -> dict:
     return OCCASIONS.get(key) or OCCASIONS["bruiloft"]
+
+
+def doc_kind(occasion: str) -> str:
+    """Hoe het product heet in teksten: 'kerstkaart' bij Kerst, anders 'uitnodiging'."""
+    return occasion_config(occasion).get("doc_kind", "uitnodiging")
 
 
 def display_title(occasion: str, content: dict) -> str:
@@ -128,6 +158,20 @@ def display_title(occasion: str, content: dict) -> str:
         return (n.get("parents") or "").strip()
     if occasion == "zakelijk":
         return (n.get("event_title") or "").strip()
+    if occasion == "kerst":
+        return (n.get("family") or "").strip()
+    return ""
+
+
+def _kerst_monogram(sender: str) -> str:
+    """Zegel van een kerstkaart: 'Familie De Vries' wordt 'V', 'Sanne & Daan' wordt 'S&D'."""
+    words = [w for w in re.split(r"[\s-]+", sender) if w]
+    if words and words[0].lower().strip(".") in ("familie", "fam", "gezin", "family", "het", "the"):
+        rest = [w for w in words if w.lower() not in _FAMILY_WORDS and w[0].isalnum()]
+        return rest[0][0].upper() if rest else ""
+    parts = [p.strip() for p in re.split(r"\s+(?:&|en|and)\s+|\s*&\s*", sender) if p.strip()]
+    if len(parts) == 2 and parts[0][0].isalnum() and parts[1][0].isalnum():
+        return f"{parts[0][0].upper()}&{parts[1][0].upper()}"
     return ""
 
 
@@ -139,6 +183,10 @@ def monogram(occasion: str, content: dict) -> str:
         if a and b:
             return f"{a[0].upper()}&{b[0].upper()}"
         return (a or b or "V")[0].upper()
+    if occasion == "kerst":
+        found = _kerst_monogram((n.get("family") or "").strip())
+        if found:
+            return found
     title = display_title(occasion, content)
     letters = [w[0].upper() for w in title.replace("&", " ").split() if w and w[0].isalnum()]
     return "".join(letters[:2]) or "V"

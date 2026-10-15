@@ -1,0 +1,25 @@
+{
+  "slug": "kerstpaleis",
+  "version": 1,
+  "name": "Kerstpaleis",
+  "tagline": "De deuren van een besneeuwd paleis gaan open, en daar is je kerstkaart",
+  "description": "Een film van een kerstpaleis in de sneeuw, met lantaarns, kerstbomen en een rode loper. Na een tik gaan de houten deuren open en stroomt er gouden licht naar buiten. Daarna verschijnt de kaart: rood fluweel in een gouden sierlijst met dennengroen en hulst, 'Fijne kerstdagen en een schitterend nieuwjaar', en jullie naam eronder. Verder het programma, de datum op een gouden kaart, aftellen naar kerst en aanmelden.",
+  "style_notes": "Rood fluweel, goud en dennengroen, sierlijke letters, sneeuw en warm licht",
+  "occasions": ["kerst"],
+  "sort_order": 44,
+  "opening": "film",
+  "opening_label": "Filmopening: de deuren van het paleis",
+  "demo_melody": "stille-nacht",
+  "kaartbeeld": "open",
+  "palettes": [
+    {"key": "kerstrood", "name": "Kerstrood", "swatch": ["#8F0B0B", "#E9C47C", "#1F4A2E"],
+     "vars": {"--kp-velvet": "#8F0B0B", "--kp-velvet-2": "#560303", "--kp-page": "#5A0609", "--kp-table": "#1E0204", "--kp-gold": "#E9C47C", "--kp-shine": "#FFF6DE", "--kp-cream": "#F8EBD0", "--kp-cream-2": "#EBD3AA", "--kp-dark": "#2A0305", "--kp-paper": "#FBF4E6", "--kp-paper-2": "#F3E7CF", "--kp-ink": "#2B1810", "--kp-muted": "#5E4336", "--kp-accent": "#8C1018", "--kp-accent-ink": "#FFF7EA", "--kp-gold-2": "#7D5520", "--fx-1": "#F1D18E", "--fx-2": "#FFFFFF", "--fx-3": "#FFE7B0", "--fx-4": "#FFF6DE", "--fx-bg": "#5A0609"}},
+    {"key": "dennengroen", "name": "Dennengroen", "swatch": ["#1D5638", "#E7C47E", "#8C1018"],
+     "vars": {"--kp-velvet": "#1D5638", "--kp-velvet-2": "#0A2A1A", "--kp-page": "#0F3624", "--kp-table": "#04130B", "--kp-gold": "#E7C47E", "--kp-shine": "#FFF6DE", "--kp-cream": "#F6EDD6", "--kp-cream-2": "#E3D3AE", "--kp-dark": "#061A10", "--kp-paper": "#FAF4E6", "--kp-paper-2": "#F0E7D0", "--kp-ink": "#1F1E14", "--kp-muted": "#4C4A36", "--kp-accent": "#1C5135", "--kp-accent-ink": "#FFF7EA", "--kp-gold-2": "#735222", "--fx-1": "#EFD08F", "--fx-2": "#FFFFFF", "--fx-3": "#FFE7B0", "--fx-4": "#E8F2EA", "--fx-bg": "#0F3624"}},
+    {"key": "nachtblauw", "name": "Nachtblauw", "swatch": ["#1E3672", "#E8C67F", "#F5EEDD"],
+     "vars": {"--kp-velvet": "#1E3672", "--kp-velvet-2": "#0A1738", "--kp-page": "#101F47", "--kp-table": "#040919", "--kp-gold": "#E8C67F", "--kp-shine": "#FFF6DE", "--kp-cream": "#F5EEDD", "--kp-cream-2": "#DCD3BC", "--kp-dark": "#050C22", "--kp-paper": "#F9F5EB", "--kp-paper-2": "#EFE9D9", "--kp-ink": "#18192A", "--kp-muted": "#4A4B60", "--kp-accent": "#213E7E", "--kp-accent-ink": "#FFF7EA", "--kp-gold-2": "#73561F", "--fx-1": "#F0D294", "--fx-2": "#FFFFFF", "--fx-3": "#DCE6FF", "--fx-4": "#FFF6DE", "--fx-bg": "#101F47"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "sneeuw", "knal": "sneeuw", "viering": "sterren", "namen": "folie", "onthul": "zacht", "extra": ["kenburns", "tik"]},
+  "changelog": "Eerste versie: de film van het kerstpaleis als opening en de rode kaart met de gouden sierlijst uit de film."
+}

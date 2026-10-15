@@ -15,6 +15,8 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 
+from catalog.occasions import occasion_config
+
 from .jobs import enqueue
 from .models import OutboundEmail
 
@@ -147,12 +149,18 @@ def send_draft_saved(invitation, user) -> OutboundEmail:
     )
 
 
+def _kind(invitation) -> dict:
+    """'uitnodiging voor …' of, bij een kerstkaart, 'kerstkaart van …'."""
+    cfg = occasion_config(invitation.occasion if invitation else "")
+    return {"doc_kind": cfg.get("doc_kind", "uitnodiging"), "title_prep": cfg.get("title_prep", "voor")}
+
+
 def send_order_confirmation(order) -> OutboundEmail:
     return queue_email(
         to=order.customer.email,
         subject=f"Bevestiging van je bestelling {order.number}",
         template="order_confirmation",
-        context={"order": order, "lines": list(order.lines.all()), "portal": absolute(reverse("portal:home"))},
+        context={"order": order, "lines": list(order.lines.all()), "portal": absolute(reverse("portal:home")), **_kind(order.invitation)},
         unique_key=f"order-confirmation:{order.pk}",
         user=order.customer,
         order=order,
@@ -162,14 +170,16 @@ def send_order_confirmation(order) -> OutboundEmail:
 
 def send_invitation_live(order) -> OutboundEmail:
     invitation = order.invitation
+    kind = _kind(invitation)
     return queue_email(
         to=order.customer.email,
-        subject="Je uitnodiging staat online",
+        subject=f"Je {kind['doc_kind']} staat online",
         template="invitation_live",
         context={
             "order": order,
             "invitation": invitation,
             "portal": absolute(reverse("portal:invitation", args=[invitation.uid])),
+            **kind,
         },
         unique_key=f"invitation-live:{order.pk}",
         user=order.customer,

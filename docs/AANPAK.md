@@ -211,6 +211,123 @@ De eigenaar vroeg eerst: "vierlief moet worden aangepast naar Vaylia met een nie
 - **Eigen repository.** De eigenaar maakte `bootsman075-ops/vaylide.nl` aan, openbaar; op de vraag of dat zo mocht blijven, koos de eigenaar "Openbaar is goed". Vóór het versturen is de hele geschiedenis doorzocht op wachtwoorden en sleutels (niets gevonden). De eerste commit van de repository (een README van één regel) is samengevoegd; er is niets overschreven.
 - **De website zelf** is verder niet veranderd.
 
+## Ronde 7: kerstkaarten
+
+De eigenaar stuurde een schermopname van 30 seconden van een digitale trouwuitnodiging (van Webgency, voor "Daanish & Adeena") en vroeg: "Ik wil dat je dit maakt, maar dan voor kerstkaarten voor op onze website. En dan wil ik hem echt dat je hem uitpakt met mooi design, mooie detailtjes erin. Echt gewoon perfect. En dat je een warm gevoel krijgt voor kerst." Tijdens het werk volgde: "ik ga slapen werk jij gewoon door". Er zijn dus geen tussentijdse keuzes aan de eigenaar voorgelegd. De keuzes hieronder zijn van Claude en kunnen allemaal nog anders.
+
+**Wat er in de opname te zien is.** De opname is bekeken als losse beelden: twee per seconde voor de hele opname, vijf per seconde voor de opening (de eerste zes seconden). Het geluid is niet beluisterd. In volgorde:
+
+1. een crèmekleurige envelop met blindgedrukt papier (reliëf zonder inkt) en een lakzegel; na een tik gloeit het zegel, glijdt er een gouden glans door het reliëf, gaat de klep open en straalt er goudkleurig licht uit;
+2. een getekende boog met lantaarns en bloemen rond de namen, met "Scroll down" onderaan;
+3. "The Date": drie gouden kraskaartjes (dag, maand, jaar);
+4. een tekstkaart in de vorm van een boog;
+5. een programma als tijdlijn met gouden lijntekeningetjes;
+6. een afteller;
+7. de locatie met een illustratie en een kaart;
+8. een dresscode met kleurstalen;
+9. een ronde gouden muziekknop.
+
+Dit is een andere opname dan `Referentie_Vierlief_3_Voorbeelden.mp4` uit de eerste ronde; die is nog steeds niet ontvangen (zie hieronder).
+
+**Wat er nu is.**
+
+- **Een nieuwe gelegenheid: Kerst.** De klant vult de afzender in ("Van wie komt de kerstkaart?", bijvoorbeeld Familie Jansen of Sanne & Daan) en eventueel de namen eronder. De kop is standaard "Warme kerstgroeten van", gevolgd door de afzender en de zin "wenst je fijne feestdagen en een gelukkig 2027". Bij meer namen wordt het "wensen", en het jaar rekent zichzelf uit.
+- **Met of zonder kerstdiner.** Laat de klant "Wanneer" en "Waar" leeg, dan is het een kerstgroet: geen datum, locatie, agenda of aanmelden, en de afteller telt af naar eerste kerstdag (van juli tot en met kerstavond). Vult de klant wel iets in, dan gelden de gewone regels: datum, begintijd, locatie en een aanmelddeadline. Het samenstellen en de controle bij publiceren houden hier rekening mee. Een kerstgroet zonder datum blijft online zolang het pakket dat zegt.
+- **Het ontwerp Winterlicht** (`designs/winterlicht/v1`), in vier kleuren: Kaarslicht (crème, rood en goud), Hulst (rode envelop met gouden lak), Dennengroen en Winternacht (nachtblauw).
+  - **Opening.** Een envelop van blindgedrukt papier met een hulstguirlande, twee ranken en een krans, verzegeld met een lakzegel met de initialen en een hulsttakje. Op de envelop valt zachte sneeuw. Na een tik op het zegel gebeurt het volgende:
+    1. het zegel licht warm op en komt los;
+    2. een gouden golf gaat vanuit het zegel door het reliëf;
+    3. de vier kleppen gaan een voor een open;
+    4. er komt warm licht met zachte stralen naar buiten, met een wolk sneeuwvlokjes en gouden sterretjes;
+    5. de kaart verschijnt.
+
+    De knop "Openen met muziek" doet hetzelfde en zet meteen de muziek aan.
+  - **Kop.** Een getekend kerstraam:
+    - een boog van dennengroen met lichtjes, een rode strik en twee lantaarns;
+    - buiten een besneeuwd dorpje met een kerkje, kerstbomen, een pad met lantaarns, een sneeuwpop en een slee;
+    - kaarsen op de vensterbank.
+
+    Zestig lichtjes leven apart: het lichtsnoer twinkelt, de kaarsvlammen flakkeren en de kerstster fonkelt. In het raam valt sneeuw, en de namen verschijnen alsof ze geschreven worden. Onderaan staat "Scroll verder".
+  - **De datum.** Drie kraskaartjes met goudfolie (dag, maand, jaar) krab je open met de vinger of de muis; daarna glinstert het even en verschijnen de weekdag en de tijd. De knop "Toon de datum zonder krassen" werkt ook met het toetsenbord, schermlezers lezen altijd de volledige datum voor, en zonder JavaScript staat de datum er gewoon.
+  - **De rest van de kaart:**
+    - een brief in een boog, met een ornament en een foto;
+    - het programma als gouden tijdlijn met lijntekeningetjes die bij het onderdeel passen: glühwein, diner, dessert, cadeautjes, zingen, kerk, haard, kerstboom en wandelen, anders een ster, bel, kaars of kerstbal;
+    - de afteller;
+    - de locatie met een getekend huisje in de sneeuw en "Plan je route";
+    - de dresscode als kerstballen in de gekozen kleuren;
+    - "Ons jaar";
+    - foto's als polaroids aan een lichtsnoer;
+    - "Goed om te weten";
+    - aanmelden ("Schuif je aan?");
+    - vragen;
+    - een slot met een krans rond de initialen en "Fijne feestdagen".
+  - **Muziek.** De ronde gouden knop van het platform. In het voorbeeld speelt een speeldoosje "Stille nacht" (Franz Xaver Gruber, 1818, vrij van rechten). De browser maakt het geluid zelf; er wordt geen geluidsbestand geladen. Klanten kunnen zoals altijd eigen muziek toevoegen.
+  - **Op een computer** ligt de kaart als een smalle kolom op een donkere tafel met warm licht en een vaag reliëfpatroon.
+- **Bestellen.** In de e-mails en op de bestelstatus heet het een kerstkaart: "Goed nieuws: je kerstkaart van Familie Jansen staat online." Het samenstellen, de rest van het bestelproces en Mijn Vaylide spreken nog van "uitnodiging".
+- **Een nieuw effect: sneeuw.** Zacht vallende sneeuw als sfeer, en bij het openen een wolk sneeuwvlokjes met gouden sterretjes. Het is ook te kiezen voor andere ontwerpen.
+- **Op de website:**
+  - een brede tegel "Kerst" op de homepage en bij Inspiratie, met een eigen beeld en een korte zin;
+  - Kerst als filter in de collectie;
+  - Winterlicht in de collectie en bij zoeken, met een eigen kaartbeeld (de geopende kaart) en eigen voorbeeldbeelden (kerstboom, lichtjes, kaarsen en winterbos).
+
+  De vaste teksten van de homepage zijn niet veranderd.
+
+**Keuzes en afwijkingen van de opname.**
+
+- **Alles eigen getekend.** De beelden (het reliëf van de envelop, het kerstraam, het huisje en de voorbeeldfoto's) zijn met code getekend in `tools/winterlicht/`. Er zijn geen foto's, stockbeelden of AI-beelden gebruikt, en er is niets uit de opname overgenomen. De opname diende alleen als voorbeeld voor de opbouw en de beleving.
+- **Geen ingebedde kaart** bij de locatie, wel een getekend huisje en de bestaande knop "Plan je route". Een kaart van Google laadt inhoud van buiten en stuurt gegevens van gasten naar Google. Dat past niet bij de strenge beveiligingsinstellingen (CSP) en de privacy van gasten.
+- **Nederlandse teksten**, zoals "Scroll verder", "Kras en ontdek de datum" en "Schuif je aan?".
+- **Krassen is een extra, geen drempel.** De datum is ook zonder krassen te zien en te horen.
+- **Bewegen volgens de vaste afspraken.** Alles wat beweegt staat onder `.fx-motion`, de knop **Beweging** zet het stil, bij 'minder beweging' beweegt er niets, er zijn geen flitsen en deeltjes blijven achter de tekst. Onder de dichte envelop en als de kop uit beeld is, staan de lichtjes stil; de sneeuw stopt al vanzelf buiten beeld.
+- **Een voorbeeld blijft een voorbeeld.** De voorbeeldkaart gebruikt de fictieve Familie Van Dijk en een voorbeeldadres, met de balk "Voorbeelduitnodiging · fictief evenement".
+- **Zwaarder dan de andere ontwerpen.** Het voorbeeld laadt voor het eerste beeld ongeveer 800 KB, drie tot vier keer zoveel als de andere ontwerpen: de envelop met reliëf en het kerstraam zijn getekende beelden. Daarom zijn de reliëfbeelden kleiner gemaakt en laadt de gouden laag pas na de rest. De lichtjes en de sneeuw vragen ook meer van de processor. De metingen staan in `docs/CONTROLES.md`; op een echt (ouder) toestel is het nog niet geprobeerd.
+
+## Ronde 7b: Kerstexpress (filmopening)
+
+De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein (een bergspoor, de stationshal, de rijtuigen met kerstkransen en de lounge met een kerstboom) en een kaart die in een envelop ligt: "Fijne Kerstdagen en een gelukkig nieuw jaar!", met het logo van Vaylide eronder. Hij wilde daar "een filmpje voor op de website" van, met "een hele mooie kerstkaart erbij". Op de vraag waar het moest komen, koos hij "als nieuwe kerstkaart".
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstexpress/v1`: het filmpje als opening, de kaart in de envelop als afsluiting, en daartussen de gewone kaart (namen, programma, vertrekkaart, aanmelden) in de stijl van een treinkaartje. Drie kleurvarianten: nachttrein (nachtblauw en goud), rode express (diep rood) en salonlicht (warm bruin). De koppen zijn in Italiana, een art-decoletter die bij een trein past; de tijden staan in gewone cijfers, omdat de 1 in de sierletter op een I lijkt (zie de ronde van Winterlicht).
+
+**Wat er nog niet is.** Het filmpje zelf. De enige mp4 op de schijf was het referentiefilmpje van het begin van de sessie (een bruiloftsuitnodiging), niet de kerstreis. Zolang het treinfilmpje ontbreekt, toont de opening een nachtelijke placeholder. De kaartafbeelding en de tegel gebruiken die placeholder ook.
+
+**Keuzes.**
+- **Het logo** staat onder de groet op de eindkaart, zoals aangeleverd: de V, VAYLIDE en de regel eronder samen, niet bijgesneden. Het logo staat op de lichte kaart, niet op de donkere pagina, omdat het op donker zijn glans en hoogtelichten verliest (zie de ronde van Vaylide).
+- **De afzender** ("van Familie Van Dijk") staat onder de groet. Dat is een toevoeging op wat de eigenaar aanleverde; hij kan die weghalen.
+- **Geen geluid van het filmpje**, en de muziekknop speelt de speeldoos als in de andere ontwerpen. Of het filmpje geluid moet hebben, beslist de eigenaar.
+- **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
+- **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
+
+## Ronde 8: Kerstpaleis (de film van de eigenaar)
+
+De eigenaar stuurde een filmpje (WhatsApp-video van 15 oktober 2026, 8 seconden, staand 720 × 1280, zonder geluid) en vroeg daar "ook weer een passende kaart" van te maken, volledig uitgewerkt, om daarna samen te bekijken of hij online kan. Het filmpje is beeld voor beeld bekeken:
+
+| Tijd | Wat je ziet |
+|---|---|
+| 0 tot 0,5 s | Een besneeuwd paleis in de avond: zuilen met kerstslingers, lantaarns, kerstbomen, een trap met een rode loper en een dichte houten dubbele deur met goud beslag |
+| 0,5 tot 4,4 s | De deuren gaan langzaam open; er stroomt gouden licht naar buiten |
+| 4,4 tot 5,0 s | Het beeld vloeit over in de kaart |
+| 5,0 tot 7,9 s | De kaart staat stil: rood fluweel in een gouden sierlijst met dennengroen, hulstbessen en dennenappels, "Fijne kerstdagen", een sierlijntje, "en een schitterend nieuwjaar" en onderaan VAYLIDE tussen twee sierlijntjes |
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstpaleis/v1` (gelegenheid Kerst):
+
+- **De opening is de film.** Eerst staat het paleis met de dichte deuren stil, met zachte sneeuw ervoor, de tekst "Een kerstgroet voor jou" en de knoppen "Open de deuren" en "Openen met muziek". Na een tik gaan de deuren open (het stuk van 0,42 tot 4,40 s uit de film). Als het licht uit de deuren stroomt, komt er een wolkje sneeuw met gouden sterretjes uit de deuropening en zwelt het licht rustig aan. Daarna vloeit het beeld over in de kaart, zoals in de film.
+- **De kaart uit de film is echte tekst.** De sierlijst, de sierlijntjes en de structuur van het fluweel zijn uit het eindbeeld van de film gehaald (65 stilstaande beelden gemiddeld, dan scherper), los van de rode achtergrond. Het fluweel zelf is kleur, zodat de kaart ook in dennengroen en nachtblauw kan. De tekst staat er als echte tekst op, in letters die op de film lijken: Cormorant Garamond met een sierlijke beginletter (Great Vibes) voor "Fijne kerstdagen", en Cinzel met ruime letterafstand waar in de film VAYLIDE staat.
+- **Waar VAYLIDE staat, staat de afzender** ("Familie Van Dijk", met de namen eronder). Het logo van Vaylide staat, zoals aangeleverd, op de slotkaart onderaan.
+- **De rest van de kaart** staat op hetzelfde fluweel: een brief op crème papier met een dubbele gouden lijn, de datum op een kleine kaart in dezelfde stijl als de grote, het programma als gouden lijn met ruitjes, aftellen, waar, een dresscode als kerstballen, ons jaar, foto's in een gouden lijst, goed om te weten, aanmelden ("Schuif je aan?"), vragen en een slotkaart "Fijne feestdagen" met het logo.
+- **Drie kleurvarianten**: Kerstrood (zoals de film), Dennengroen en Nachtblauw. Het paleis in de opening is in alle drie hetzelfde (het is de film).
+- **Effecten**: sneeuw (sfeer en knal uit de deuren), sterretjes als feestje na het aanmelden, een gouden glans die af en toe over "Fijne kerstdagen" glijdt, zacht onthullen bij het scrollen, foto's die langzaam inzoomen en een vonkje bij een tik.
+
+**Keuzes en afwijkingen van de film.**
+
+- **De overgang naar de kaart doet de site zelf**, niet de film. Zo komt de naam van de klant op de kaart in plaats van de vaste tekst uit de film, en is de tekst leesbaar voor zoekfuncties, schermlezers en vertalers. De film houdt op vlak voor de overgang.
+- **De deuren gaan pas open na een tik.** In de film gaan ze vanzelf open. Een tik geeft de gast het gevoel zelf binnen te stappen, en de browser mag pas na een tik muziek starten.
+- **"VAYLIDE" op de kaart wordt de naam van de afzender.** Op elke kerstkaart van een klant de merknaam in het midden zetten zou vreemd zijn; het logo van Vaylide staat wel zoals aangeleverd op de slotkaart (regel 12 in `CLAUDE.md`: het logo niet hertekenen; de letters VAYLIDE uit de film zijn geen logo zoals aangeleverd). De eigenaar kan dit anders willen.
+- **Een eigen kopregel** van de klant vervangt "Fijne kerstdagen"; "en een schitterend nieuwjaar" blijft staan. Bij een andere gelegenheid (het ontwerp kan ook voor een bruiloft of verjaardag) staan de namen groot en de datum waar de afzender staat.
+- **Op een hoog scherm** rekken alleen de rechte zijlijnen van de sierlijst mee; de hoeken met dennengroen en hulst houden hun verhouding, en het sierstuk halverwege de zijkant staat los. Op een computer staat de kaart als kolom op een donkere tafel, zoals Kerstexpress.
+- **Bij 'minder beweging' of met de knop Beweging uit** speelt de film niet: de kaart verschijnt direct.
+- **Gewicht.** Het openingsscherm laadt ongeveer 1,5 MB (de film 0,5 MB, de sierlijst 0,5 MB, het eerste beeld 0,1 MB, plus letters), zodat de deuren en de kaart meteen klaar staan. Dat is meer dan Winterlicht (ongeveer 0,8 MB) en minder dan Kerstexpress (de film alleen al 2,7 MB). Zie `docs/CONTROLES.md`.
+- **Rechten.** De eigenaar heeft de film zelf gemaakt en bewerkt, en bevestigde op 15 oktober 2026 de rechten te hebben om hem op de website te gebruiken.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

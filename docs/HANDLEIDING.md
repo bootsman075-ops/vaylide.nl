@@ -84,7 +84,7 @@ Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publ
 - **Teksten** van de homepage, "Zo werkt het", Inspiratie, Over ons en de veelgestelde vragen: `core/content.py`. De paginaopbouw staat in `core/templates/core/`.
 - **Logo en iconen**: `tools/logo/`, met uitleg in `tools/logo/README.md`. Het logo wordt gebruikt zoals je het aanleverde. Voor een nieuw logo vervang je het bronbestand en draai je het script; dat maakt ook het tabblad-icoon en het icoon voor het beginscherm opnieuw.
 - **Beelden**: `static/img/site/`. Vervang een beeld door een eigen foto met dezelfde bestandsnaam en ongeveer dezelfde verhouding (bijvoorbeeld `hero.webp` 1800 × 1100 en `hero-900.webp` 900 × 760 voor telefoons). Gebruik alleen foto's waarvan je de rechten hebt. Hoe de huidige beelden gemaakt zijn en hoe je ze opnieuw maakt: `tools/merkbeelden/README.md`.
-- **Tegels per gelegenheid en de kaart op de homepage** zijn schermafbeeldingen van de voorbeelduitnodigingen. Na een nieuw ontwerp of een nieuwe kleur kun je ze opnieuw maken met `tools/merkbeelden/voorbeelden.cjs`.
+- **Tegels per gelegenheid en de kaart op de homepage** zijn schermafbeeldingen van de voorbeelduitnodigingen. Na een nieuw ontwerp of een nieuwe kleur kun je ze opnieuw maken met `tools/merkbeelden/voorbeelden.cjs`. Een gelegenheid met een zin in `OCCASION_TILE_NOTES` (`core/content.py`) krijgt een brede tegel met die zin, zoals Kerst; haal de zin weg voor een gewone tegel.
 - **Uitgelichte ontwerpen op de homepage**: de drie codes in `HOME_DESIGNS` in `core/content.py`. De collectie toont altijd alle zichtbare ontwerpen; bij een filter op gelegenheid staan de ontwerpen die voor die gelegenheid zijn gemaakt (de eerste in hun lijst `occasions`) vooraan.
 - **Kaartbeelden van de ontwerpen** (`static/img/designs/<code>.webp`, 800 × 1000) maak je opnieuw met `node e2e/make_design_images.cjs` (uitleg bovenin dat bestand).
 - **Voorbeeldbeelden in de uitnodigingen** zijn eigen, getekende illustraties uit `tools/generate_demo_images.py` (map `static/img/demo/`). Welke beelden een ontwerp in zijn voorbeeld gebruikt, staat in `DESIGN_IMAGES` in `invitations/demo.py`.
@@ -147,11 +147,13 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
    - `slug`: gelijk aan de mapnaam (`mijn-ontwerp`);
    - `version`: `1`;
    - `name`, `tagline`, `description`, `style_notes`: teksten voor de website;
-   - `occasions`: een of meer van `bruiloft`, `verloving`, `verjaardag`, `jubileum`, `babyshower`, `zakelijk`;
+   - `occasions`: een of meer van `bruiloft`, `verloving`, `verjaardag`, `jubileum`, `babyshower`, `zakelijk`, `kerst`;
    - `palettes`: kleurvarianten, elk met `key`, `name`, `swatch` (drie kleuren voor de website) en `vars` (CSS-variabelen die `style.css` gebruikt);
    - `opening_label`: naam van de opening, bijvoorbeeld "Envelop met lakzegel";
    - `sort_order`: volgorde op de website;
-   - `changelog`: wat deze versie is.
+   - `changelog`: wat deze versie is;
+   - optioneel `demo_melody`: welke melodie het speeldoosje in het voorbeeld speelt (nu alleen `stille-nacht`; leeg is de standaardmelodie). Klanten kiezen hun eigen muziek;
+   - optioneel `kaartbeeld`: `"open"` maakt het kaartbeeld van de geopende uitnodiging in plaats van het openingsscherm (`e2e/make_design_images.cjs`).
 3. **Pas `invitation.html` en `style.css` aan.** Houd deze afspraken aan:
    - begin met `{% extends "invitations/base_invitation.html" %}` en vul `{% block cover %}` (de opening) en `{% block content %}` (de inhoud);
    - de openingsknop is een link `<a href="#uitnodiging" data-open>`, zodat de uitnodiging ook zonder JavaScript opent;
@@ -175,8 +177,8 @@ Elk ontwerp heeft bewegende effecten: zwevende deeltjes (sfeer), een knal op het
 
 | Onderdeel | Keuzes |
 |---|---|
-| `sfeer`: zwevende deeltjes, op het openingsscherm en achter de tekst | `geen`, `blaadjes` (bloemblaadjes), `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `harten`, `ballonnen`, `bellen` (zeepbellen), `champagne`, `bokeh` (zachte lichtjes), `stippen`, `stofjes`, `zonlicht`, `neon`, `geometrie` (lijnvormen), `wolkjes`, `goudstof`, `glitter`, `sterren` (met vallende sterren), `netwerk`, `raster` (lichtgolf over puntjes), `film` (korrel en krasjes), `cadeautjes` (vallende cadeautjes met wat confetti) |
-| `knal` (bij het openen) en `viering` (na "Ja, ik kom") | `geen`, `blaadjes`, `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `kanon` (twee confettikanonnen), `vonken` (vonken en glanzende confetti), `sterren`, `harten`, `bellen`, `ballonnen`, `lijnen` (lichtlijnen), `neon`, `flits` (cameraflits), `champagne`, `stippen`, `netwerk`, `bokeh`, `cadeautjes` (plof, en een fontein van cadeautjes met confetti; past bij de opening `cadeau`) |
+| `sfeer`: zwevende deeltjes, op het openingsscherm en achter de tekst | `geen`, `blaadjes` (bloemblaadjes), `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `harten`, `ballonnen`, `bellen` (zeepbellen), `champagne`, `bokeh` (zachte lichtjes), `stippen`, `stofjes`, `zonlicht`, `neon`, `geometrie` (lijnvormen), `wolkjes`, `goudstof`, `glitter`, `sterren` (met vallende sterren), `netwerk`, `raster` (lichtgolf over puntjes), `film` (korrel en krasjes), `cadeautjes` (vallende cadeautjes met wat confetti), `sneeuw` (zacht vallende vlokjes en een enkel sneeuwkristal) |
+| `knal` (bij het openen) en `viering` (na "Ja, ik kom") | `geen`, `blaadjes`, `bloesem`, `bladeren`, `lauwerblaadjes`, `pluisjes`, `confetti`, `kanon` (twee confettikanonnen), `vonken` (vonken en glanzende confetti), `sterren`, `harten`, `bellen`, `ballonnen`, `lijnen` (lichtlijnen), `neon`, `flits` (cameraflits), `champagne`, `stippen`, `netwerk`, `bokeh`, `cadeautjes` (plof, en een fontein van cadeautjes met confetti; past bij de opening `cadeau`), `sneeuw` (een wolk sneeuwvlokjes en gouden sterretjes) |
 | `namen` | `zacht` (uit de mist), `schrijf` (alsof ze geschreven worden), `folie` (een lichtstreep glijdt af en toe over de namen), `gloed` (neon dat aangaat), `pop` (springt tevoorschijn) |
 | `onthul`: secties bij het scrollen | `omhoog`, `zacht`, `zoom`, `kanteling`, `wissel` (afwisselend van links en rechts) |
 | `extra` (lijst) | `kenburns` (foto's zoomen langzaam in), `kantel` (het openingsscherm kantelt mee met de muis), `tik` (een vonkje bij een tik), `stralen` (draaiende lichtstralen), `disco` (draaiende lichtspikkels), `aura` (zachte kleurvlekken die bewegen) |
@@ -201,6 +203,52 @@ Een onbekende keuze geeft bij het inlezen een duidelijke melding. Op de ontwerpp
 - Deeltjes staan achter de tekst, nooit erover. De inhoud hangt nooit af van een effect en blijft zonder script gewoon leesbaar.
 
 **Controleren:** `node e2e/effecten.cjs <basis-url> <uitvoermap> [code ...]` (met `PERF=1` ook een meting op een vier keer vertraagde processor). Zie `docs/CONTROLES.md`.
+
+## Kerstkaarten en Winterlicht
+
+**De gelegenheid Kerst** werkt op twee manieren:
+
+- **Alleen een kerstgroet.** De klant laat "Wanneer" en "Waar" leeg. De kaart toont dan geen datum, locatie, agenda of aanmelden, en de afteller telt af naar eerste kerstdag (van juli tot en met kerstavond; daarna verdwijnt hij). Publiceren vraagt niet om een datum, locatie of aanmelddeadline.
+- **Met een uitnodiging**, bijvoorbeeld voor een kerstdiner of brunch. Zodra de klant iets bij "Wanneer" of "Waar" invult, gelden de gewone regels: datum, begintijd, locatie en, als aanmelden aan staat, een deadline.
+
+De afzender is één veld ("Familie Jansen", "Sanne & Daan") met optioneel de namen eronder. Het zegel toont de beginletter van de familienaam (Familie Van Dijk wordt D) of de initialen van de voornamen (S&D). De instellingen staan bij `kerst` in `catalog/occasions.py` (`event_optional`).
+
+**Het ontwerp Winterlicht** (`designs/winterlicht/v1/`) is een volledig eigen ontwerp:
+
+- `invitation.html`, `style.css` en `manifest.json`, met de onderdelen `_klep.html` (een klep van de envelop), `_zegel.html` (het lakzegel), `_icoon.html` (lijntekeningetjes bij het programma), `_krans.html` en `_divider.html`;
+- `winterlicht.js`: de kraskaartjes voor de datum, de hoogte van de kop onder de voorbeeldbalk, de tekst in het kerstraam die bij veel tekst iets kleiner wordt (zodat hij boven het kerkje blijft) en de lichtjes die stilstaan als de kop uit beeld is. Zonder dit script werkt alles gewoon, alleen zonder krassen;
+- `img/`: de beelden, en `lichtjes.html`: de plekken van de levende lichtjes op het kerstraam. Beide maak je met `node tools/winterlicht/render.cjs` (uitleg in `tools/winterlicht/README.md`). Pas `lichtjes.html` niet met de hand aan: het hoort bij de beelden.
+
+Pas je de scène aan (een nieuwe versie), controleer dan het contrast van de tekst op de tekening met `node e2e/kerstraam.cjs http://127.0.0.1:8000`: de gewone toegankelijkheidscontrole slaat tekst op een beeld over. Houd ook de lantaarns en het kerkje uit de buurt van de tekst (`LIMIT` in `winterlicht.js` is de onderkant van de tekst).
+
+Welk tekeningetje een programmaonderdeel krijgt, staat in `PROGRAM_ICONS` in `invitations/render.py` (op trefwoorden zoals "diner", "glühwein" of "cadeau"). Een nieuw tekeningetje voeg je toe in `_icoon.html` en in die lijst.
+
+Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook nieuwe beelden.
+
+### Kerstexpress: de filmopening
+
+`designs/kerstexpress/v1` is een kerstkaart die begint met een film (een kerstreis met de trein) en eindigt met de kaart in de envelop, met het logo van Vaylide eronder zoals aangeleverd. Het manifest heeft `"opening": "film"` en drie kleurvarianten (nachttrein, rode express, salonlicht).
+
+- **Het filmpje** staat in `img/kerstexpress.webm` (eerste bron) en `img/kerstexpress.mp4` (tweede bron), met `img/poster.webp` als eerste beeld. Het is een **concept**: het is gemaakt uit stilstaande beelden met camerabewegingen, zoals inzoomen, meeschuiven en stoppen op de locomotief. De trein beweegt zelf niet over het beeld. Het script `kerstexpress.js` maakt het filmpje actief zodra de video is geladen; zonder video blijft de envelop staan. Het filmpje speelt af zolang de opening in beeld is; 'Open de kaart' pauzeert het. Een vervanging (een versie uit een videotool) gaat op dezelfde bestandsnamen, zoals in `tools/kerstexpress/draaiboek.md` staat.
+- **Het eindbeeld** van het filmpje heeft de kaart en het logo. Zodra het filmpje stilstaat, blijft de onderkant vrij voor de knop; daarom staan de kaart en het logopaneel hoger dan in de eerste opzet.
+- **Geen geluid van de film.** Muziek gaat via de knop rechts onderaan (zoals bij de andere ontwerpen). Zet de film zonder geluid, tenzij de eigenaar anders kiest.
+- **Bij 'minder beweging'** blijft de film stil op het beginbeeld; de kaart verschijnt dan direct.
+- **De envelop** op het openingsscherm is een CSS-tekening (klep, zegel, glans en de kaart die eruit schuift). Hij staat dicht tot de gast op 'Open de kaart' tikt. De tekst op de kaart is `Fijne Kerstdagen` (bij een andere gelegenheid de naam). Tijden en de duur van het openen staan in het openingsscherm: `data-duration` (2700 ms) en `data-fx-delay` (1000 ms, het moment van de sneeuw). Pas die aan als je de timing verandert.
+- **Het logo** is `static/img/merk/vaylide-logo.webp`, ongewijzigd en ongesplitst (zie regel 12 in `CLAUDE.md`). Test `test_logo_is_used_as_supplied` controleert dat.
+- **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` is een uitsnede (720 × 900) uit het eindbeeld van het filmpje, verkleind naar 800 × 1000 en opgeslagen als WebP. Dat maak je opnieuw met een frame van de film, of met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress`.
+- **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`. Het filmpje vraagt een browser die webm (VP9) kan afspelen; de mp4 is de terugval.
+
+### Kerstpaleis: de deuren van het paleis
+
+`designs/kerstpaleis/v1` is een kerstkaart die begint met de film van de eigenaar: een besneeuwd paleis waarvan de deuren opengaan. Daarna verschijnt de kaart uit de film (rood fluweel, gouden sierlijst met dennengroen en hulst) met echte tekst. Het manifest heeft `"opening": "film"` en drie kleurvarianten (kerstrood, dennengroen, nachtblauw).
+
+- **De film** staat in `img/kerstpaleis.webm` (eerste bron) en `img/kerstpaleis.mp4` (tweede bron), met `img/poster.webp` als eerste beeld (de dichte deuren). Het is alleen het stuk waarin de deuren opengaan (4 seconden, zonder geluid). Het script `kerstpaleis.js` start de film na een tik op "Open de deuren" of "Openen met muziek"; zonder script of zonder film blijft het eerste beeld staan en verschijnt de kaart toch.
+- **Timing**: in het openingsscherm staan `data-duration="4450"` (na zoveel milliseconden is de kaart open), `data-fx-delay="2300"` (de sneeuw met sterretjes uit de deuropening, als het licht naar buiten stroomt) en `data-fx-intro="3650"` (de tekst op de kaart verschijnt al terwijl het beeld vervaagt). Het vervagen zelf staat in `style.css` (`.is-opening .kp-cover`, na 3,75 s). Verander je de film, pas deze tijden dan mee aan.
+- **De sierlijst** (`img/lijst.webp`) is een doorzichtig beeld uit het eindbeeld van de film, gebruikt als `border-image`. De maten (boven 300, zijkant 44, onder 340 pixels van de film) staan in `style.css` bij `.kp-card__frame` en in het script hieronder; ze horen bij elkaar. Het sierstuk halverwege de zijkant is `img/fleur.webp`, de sierlijntjes zijn `img/scheiding.webp`, `img/sier-boven.webp` en `img/sier-onder.webp`, en de structuur van het fluweel is `img/velours.webp`.
+- **Alles opnieuw maken uit de film**: `python3 tools/kerstpaleis/maak_beelden.py <film.mp4>` (met ffmpeg, Pillow en numpy). De tijden en de plekken in het beeld staan bovenin dat script. Het kaartbeeld voor de collectie maak je met `node tools/kerstpaleis/kaartbeeld.cjs http://127.0.0.1:8000 /tmp/kerstpaleis.png` (uitleg bovenin).
+- **De kleuren** per variant staan in `manifest.json` (`--kp-velvet` en `--kp-velvet-2` voor het fluweel van de kaart, `--kp-page` voor de rest, `--kp-gold` voor de tekst op fluweel, `--kp-paper` en `--kp-ink` voor het papier). De test `KerstpaleisDesignTests` controleert het contrast; een nieuwe kleur moet daar ook aan voldoen.
+- **Teksten**: "Fijne kerstdagen" en "en een schitterend nieuwjaar" komen uit de film. Een eigen kopregel van de klant vervangt "Fijne kerstdagen". Waar in de film VAYLIDE staat, staat de afzender; het logo staat op de slotkaart.
+- **Controleren**: `python manage.py test tests.test_kerst`, `ONTWERPEN=kerstpaleis node e2e/controle2.cjs …`, `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstpaleis` en `node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten kerstpaleis`.
 
 ## Een bestaand ontwerp aanpassen
 
