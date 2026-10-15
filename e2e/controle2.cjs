@@ -223,7 +223,9 @@ async function loginStaff(context) {
       }
       check(`${slug} · Toetsenbord: openknop bereikbaar met Tab`, onOpen, `focus op: ${focused}`);
       await p.keyboard.press("Enter");
-      await p.waitForTimeout(3600);
+      // Wachten tot de opening klaar is (de filmopening van Kerstcoupé duurt ruim vier seconden), niet een vaste tijd.
+      await p.waitForFunction(() => document.documentElement.classList.contains("is-open"), null, { timeout: 6000 }).catch(() => {});
+      await p.waitForTimeout(400);
       const active = await p.evaluate(() => document.activeElement.tagName + " " + (document.activeElement.textContent || "").trim().replace(/\s+/g, " ").slice(0, 30));
       const inert = await p.evaluate(() => document.getElementById("uitnodiging").inert);
       check(`${slug} · Toetsenbord: na openen focus op de kop`, active.startsWith("H1") && !inert, `focus op: ${active}, inert=${inert}`);

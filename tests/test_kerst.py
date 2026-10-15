@@ -353,8 +353,8 @@ class KerstSiteTests(VaylideTestCase):
 
     def test_collection_filter_and_search(self):
         response = Client().get("/ontwerpen/", {"gelegenheid": "kerst"})
-        # Kerst: Winterlicht en Kerstexpress (in de volgorde van het manifest).
-        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht", "kerstexpress"])
+        # Kerst: Winterlicht, Kerstexpress en Kerstcoupé (in de volgorde van het manifest).
+        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht", "kerstexpress", "kerstcoupe"])
         self.assertContains(response, "Ontwerpen voor kerst")
         self.assertContains(Client().get("/zoeken/", {"q": "kerst"}), "/ontwerpen/?gelegenheid=kerst")
         detail = Client().get("/ontwerpen/winterlicht/")
