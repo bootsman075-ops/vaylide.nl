@@ -353,8 +353,8 @@ class KerstSiteTests(VaylideTestCase):
 
     def test_collection_filter_and_search(self):
         response = Client().get("/ontwerpen/", {"gelegenheid": "kerst"})
-        # Kerst: Winterlicht en Kerstexpress (in de volgorde van het manifest).
-        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht", "kerstexpress"])
+        # Kerst: Winterlicht, Kerstexpress en Kerstpaleis (in de volgorde van het manifest).
+        self.assertEqual([c["template"].slug for c in response.context["cards"]], ["winterlicht", "kerstexpress", "kerstpaleis"])
         self.assertContains(response, "Ontwerpen voor kerst")
         self.assertContains(Client().get("/zoeken/", {"q": "kerst"}), "/ontwerpen/?gelegenheid=kerst")
         detail = Client().get("/ontwerpen/winterlicht/")
@@ -466,4 +466,143 @@ class KerstexpressDesignTests(VaylideTestCase):
         self.assertNotIn("Fijne Kerstdagen", html)
         self.assertNotIn("Warme kerstgroeten", html)
         self.assertIn("Een uitnodiging voor jou", html)
+        self.assertIn("vaylide-logo.webp", html)
+
+
+class KerstpaleisDesignTests(VaylideTestCase):
+    """Kerstpaleis: de film van de eigenaar (de deuren van een kerstpaleis gaan open) en de rode kaart uit de film."""
+
+    DIR = settings.BASE_DIR / "designs" / "kerstpaleis" / "v1"
+
+    def manifest(self):
+        return json.loads((self.DIR / "manifest.json").read_text(encoding="utf-8"))
+
+    def render(self, occasion, content=None, **options):
+        template = Template.objects.get(slug="kerstpaleis")
+        v = build_view(occasion=occasion, content=content or demo_content("kerstpaleis", occasion), overrides={},
+                       template_version=template.current_version,
+                       options=RenderOptions(mode="demo", music_synth=True, **options))
+        return render_to_string("kerstpaleis/v1/invitation.html", {"v": v, "rsvp_form": {}})
+
+    def test_manifest_palettes_and_effects(self):
+        data = self.manifest()
+        self.assertEqual(data["occasions"], ["kerst"])
+        self.assertEqual(data["opening"], "film")
+        self.assertEqual(effects_errors(data["effects"]), [])
+        self.assertEqual(data["effects"]["namen"], "folie")
+        self.assertEqual([p["key"] for p in data["palettes"]], ["kerstrood", "dennengroen", "nachtblauw"])
+        # Elke kleurvariant: tekst leesbaar op het fluweel (midden en rand van de kaart, de pagina) en op het papier.
+        pairs = [("--kp-gold", "--kp-velvet"), ("--kp-gold", "--kp-velvet-2"), ("--kp-gold", "--kp-page"),
+                 ("--kp-cream", "--kp-page"), ("--kp-cream-2", "--kp-page"), ("--kp-cream-2", "--kp-velvet"),
+                 ("--kp-ink", "--kp-paper"), ("--kp-muted", "--kp-paper"), ("--kp-accent", "--kp-paper"),
+                 ("--kp-muted", "--kp-paper-2"), ("--kp-accent-ink", "--kp-accent"), ("--kp-gold-2", "--kp-paper"),
+                 ("--kp-dark", "--kp-gold")]
+        for palette in data["palettes"]:
+            v = palette["vars"]
+            for fg, bg in pairs:
+                self.assertGreaterEqual(contrast(v[fg], v[bg]), 4.5, f"{palette['key']}: {fg} op {bg}")
+            # De lichtstreep over de gouden groet (folie) blijft zichtbaar op het fluweel.
+            self.assertGreaterEqual(contrast(v["--kp-shine"], v["--kp-velvet"]), 3, f"{palette['key']}: glans")
+
+    def test_demo_page_has_the_card_from_the_film(self):
+        for palette in ("kerstrood", "dennengroen", "nachtblauw"):
+            response = Client().get("/voorbeeld/kerstpaleis/", {"kleur": palette})
+            self.assertEqual(response.status_code, 200)
+            html = response.content.decode()
+            self.assertIn(f'data-palette="{palette}"', html)
+            for fragment in (
+                "data-cover", "kp-cover", "data-open", "Een kerstgroet voor jou", "Open de deuren", "Openen met muziek",
+                '<span>Fijne</span> <span>kerstdagen</span>', "en een schitterend nieuwjaar",   # de groet uit de film
+                "Familie Van Dijk", "Sanne, Daan, Lotte en Siem",                              # de afzender in plaats van VAYLIDE
+                "kp-card__frame", "Programma", "Schuif je aan?", "Fijne feestdagen",
+                'src="/static/img/merk/vaylide-logo.webp"', 'alt="Vaylide"',
+                "Digitale kerstkaart gemaakt met", 'data-music-synth="stille-nacht"',
+            ):
+                self.assertIn(fragment, html)
+            # Geen eigen inline scripts of stijlen: alleen het vaste startscript met een hash in de CSP.
+            self.assertEqual(html.count("<script>"), 1)
+            self.assertIn(f"<script>{BOOT_SCRIPT}</script>", html)
+            self.assertNotIn("<style", html)
+
+    def test_film_is_in_the_cover_and_waits_for_a_tap(self):
+        html = (self.DIR / "invitation.html").read_text(encoding="utf-8")
+        self.assertIn('<div class="kp-film" aria-hidden="true">', html)
+        video = html.split("<video", 1)[1].split("</video>", 1)[0]
+        for part in ("data-kp-film", "muted", "playsinline", "poster.webp", "kerstpaleis.webm", "kerstpaleis.mp4"):
+            self.assertIn(part, video)
+        # Geen bediening en niet vanzelf afspelen: de deuren gaan pas open na 'Open de deuren'.
+        self.assertNotIn("controls", video)
+        self.assertNotIn("autoplay", video)
+        # De opening duurt zo lang als het filmpje met de overgang naar de kaart.
+        self.assertIn('data-duration="4450"', html)
+
+    def test_images_exist_and_are_small_enough(self):
+        img = self.DIR / "img"
+        for name in ("kerstpaleis.webm", "kerstpaleis.mp4", "poster.webp", "lijst.webp", "fleur.webp", "velours.webp",
+                     "scheiding.webp", "sier-boven.webp", "sier-onder.webp"):
+            self.assertTrue((img / name).is_file(), name)
+        for name in ("kerstpaleis.webm", "kerstpaleis.mp4"):
+            self.assertLess((img / name).stat().st_size, 1024 * 1024, name)
+        self.assertLess((img / "lijst.webp").stat().st_size, 600 * 1024)
+        self.assertLess((img / "poster.webp").stat().st_size, 160 * 1024)
+        # Het script dat de beelden uit de film maakt, staat erbij.
+        self.assertTrue((settings.BASE_DIR / "tools" / "kerstpaleis" / "maak_beelden.py").is_file())
+
+    def test_script_plays_the_film_only_with_motion(self):
+        html = (self.DIR / "invitation.html").read_text(encoding="utf-8")
+        self.assertIn("designs/kerstpaleis/v1/kerstpaleis.js", html)
+        self.assertTrue(finders.find("designs/kerstpaleis/v1/kerstpaleis.js"))
+        script = (self.DIR / "kerstpaleis.js").read_text(encoding="utf-8")
+        for part in ("invite:opening", "reduceMotion", "film.play()", "fx-paused", "film.pause()", "invite:opened", "--kp-bar"):
+            self.assertIn(part, script)
+
+    def test_motion_rules(self):
+        css = (self.DIR / "style.css").read_text(encoding="utf-8")
+        # Het licht uit de deuren beweegt alleen met beweging aan; bij 'minder beweging' gaat de kaart snel open.
+        self.assertIn(".fx-motion.is-opening .kp-film__light", css)
+        self.assertIn(".is-opening-reduced .kp-cover", css)
+        self.assertNotIn("infinite", css)
+
+    def test_logo_is_used_as_supplied(self):
+        self.assertTrue(finders.find("img/merk/vaylide-logo.webp"))
+        html = (self.DIR / "invitation.html").read_text(encoding="utf-8")
+        self.assertEqual(html.count("vaylide-logo"), 1)
+        self.assertNotIn("vaylide-logo.png", html)
+
+    def test_demo_images_and_card_picture(self):
+        self.assertIn("kerstpaleis", DESIGN_IMAGES)
+        for name in DESIGN_IMAGES["kerstpaleis"]:
+            self.assertTrue(finders.find(f"img/demo/{name}.webp"), name)
+        self.assertTrue(finders.find("img/designs/kerstpaleis.webp"))
+
+    def test_greeting_only_and_custom_headline(self):
+        # Alleen een kerstgroet: geen datum, locatie of aanmelden, wel de groet, de afzender en aftellen naar kerst.
+        html = self.render("kerst", greeting_only(demo_content("kerstpaleis", "kerst")),
+                           now=datetime(2026, 11, 1, 12, tzinfo=AMS))
+        self.assertIn("<span>Fijne</span> <span>kerstdagen</span>", html)
+        self.assertIn("Familie Van Dijk", html)
+        self.assertNotIn("kp-date__day", html)
+        self.assertNotIn('id="aanmelden"', html)
+        self.assertIn("Aftellen naar kerst", html)
+        # Een eigen kopregel van de klant vervangt "Fijne kerstdagen".
+        content = demo_content("kerstpaleis", "kerst")
+        content["headline"] = "Gezellige feestdagen voor iedereen"
+        html = self.render("kerst", content)
+        self.assertIn("<span>Gezellige feestdagen voor iedereen</span>", html)
+        self.assertIn("kp-title--long", html)
+        self.assertNotIn("<span>kerstdagen</span>", html)
+
+    def test_long_names_get_a_smaller_size(self):
+        content = demo_content("kerstpaleis", "kerst")
+        content["names"] = {"family": "Familie Vandenbroucke-Hoogeveen", "members": "Wilhelmina-Charlotte en Maximiliaan"}
+        html = self.render("kerst", content)
+        self.assertIn("kp-from__name--xlong", html)
+
+    def test_other_occasions_keep_working(self):
+        # Het paleis past ook bij andere gelegenheden: de kerstgroet verdwijnt, de namen komen groot, het logo blijft.
+        html = self.render("bruiloft")
+        self.assertNotIn("Fijne kerstdagen", html)
+        self.assertNotIn("<span>kerstdagen</span>", html)
+        self.assertIn("Een uitnodiging voor jou", html)
+        self.assertIn("kp-title--names", html)
         self.assertIn("vaylide-logo.webp", html)

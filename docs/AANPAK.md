@@ -297,6 +297,37 @@ De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein
 - **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
 - **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
 
+## Ronde 8: Kerstpaleis (de film van de eigenaar)
+
+De eigenaar stuurde een filmpje (WhatsApp-video van 15 oktober 2026, 8 seconden, staand 720 × 1280, zonder geluid) en vroeg daar "ook weer een passende kaart" van te maken, volledig uitgewerkt, om daarna samen te bekijken of hij online kan. Het filmpje is beeld voor beeld bekeken:
+
+| Tijd | Wat je ziet |
+|---|---|
+| 0 tot 0,5 s | Een besneeuwd paleis in de avond: zuilen met kerstslingers, lantaarns, kerstbomen, een trap met een rode loper en een dichte houten dubbele deur met goud beslag |
+| 0,5 tot 4,4 s | De deuren gaan langzaam open; er stroomt gouden licht naar buiten |
+| 4,4 tot 5,0 s | Het beeld vloeit over in de kaart |
+| 5,0 tot 7,9 s | De kaart staat stil: rood fluweel in een gouden sierlijst met dennengroen, hulstbessen en dennenappels, "Fijne kerstdagen", een sierlijntje, "en een schitterend nieuwjaar" en onderaan VAYLIDE tussen twee sierlijntjes |
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstpaleis/v1` (gelegenheid Kerst):
+
+- **De opening is de film.** Eerst staat het paleis met de dichte deuren stil, met zachte sneeuw ervoor, de tekst "Een kerstgroet voor jou" en de knoppen "Open de deuren" en "Openen met muziek". Na een tik gaan de deuren open (het stuk van 0,42 tot 4,40 s uit de film). Als het licht uit de deuren stroomt, komt er een wolkje sneeuw met gouden sterretjes uit de deuropening en zwelt het licht rustig aan. Daarna vloeit het beeld over in de kaart, zoals in de film.
+- **De kaart uit de film is echte tekst.** De sierlijst, de sierlijntjes en de structuur van het fluweel zijn uit het eindbeeld van de film gehaald (65 stilstaande beelden gemiddeld, dan scherper), los van de rode achtergrond. Het fluweel zelf is kleur, zodat de kaart ook in dennengroen en nachtblauw kan. De tekst staat er als echte tekst op, in letters die op de film lijken: Cormorant Garamond met een sierlijke beginletter (Great Vibes) voor "Fijne kerstdagen", en Cinzel met ruime letterafstand waar in de film VAYLIDE staat.
+- **Waar VAYLIDE staat, staat de afzender** ("Familie Van Dijk", met de namen eronder). Het logo van Vaylide staat, zoals aangeleverd, op de slotkaart onderaan.
+- **De rest van de kaart** staat op hetzelfde fluweel: een brief op crème papier met een dubbele gouden lijn, de datum op een kleine kaart in dezelfde stijl als de grote, het programma als gouden lijn met ruitjes, aftellen, waar, een dresscode als kerstballen, ons jaar, foto's in een gouden lijst, goed om te weten, aanmelden ("Schuif je aan?"), vragen en een slotkaart "Fijne feestdagen" met het logo.
+- **Drie kleurvarianten**: Kerstrood (zoals de film), Dennengroen en Nachtblauw. Het paleis in de opening is in alle drie hetzelfde (het is de film).
+- **Effecten**: sneeuw (sfeer en knal uit de deuren), sterretjes als feestje na het aanmelden, een gouden glans die af en toe over "Fijne kerstdagen" glijdt, zacht onthullen bij het scrollen, foto's die langzaam inzoomen en een vonkje bij een tik.
+
+**Keuzes en afwijkingen van de film.**
+
+- **De overgang naar de kaart doet de site zelf**, niet de film. Zo komt de naam van de klant op de kaart in plaats van de vaste tekst uit de film, en is de tekst leesbaar voor zoekfuncties, schermlezers en vertalers. De film houdt op vlak voor de overgang.
+- **De deuren gaan pas open na een tik.** In de film gaan ze vanzelf open. Een tik geeft de gast het gevoel zelf binnen te stappen, en de browser mag pas na een tik muziek starten.
+- **"VAYLIDE" op de kaart wordt de naam van de afzender.** Op elke kerstkaart van een klant de merknaam in het midden zetten zou vreemd zijn; het logo van Vaylide staat wel zoals aangeleverd op de slotkaart (regel 12 in `CLAUDE.md`: het logo niet hertekenen; de letters VAYLIDE uit de film zijn geen logo zoals aangeleverd). De eigenaar kan dit anders willen.
+- **Een eigen kopregel** van de klant vervangt "Fijne kerstdagen"; "en een schitterend nieuwjaar" blijft staan. Bij een andere gelegenheid (het ontwerp kan ook voor een bruiloft of verjaardag) staan de namen groot en de datum waar de afzender staat.
+- **Op een hoog scherm** rekken alleen de rechte zijlijnen van de sierlijst mee; de hoeken met dennengroen en hulst houden hun verhouding, en het sierstuk halverwege de zijkant staat los. Op een computer staat de kaart als kolom op een donkere tafel, zoals Kerstexpress.
+- **Bij 'minder beweging' of met de knop Beweging uit** speelt de film niet: de kaart verschijnt direct.
+- **Gewicht.** Het openingsscherm laadt ongeveer 1,5 MB (de film 0,5 MB, de sierlijst 0,5 MB, het eerste beeld 0,1 MB, plus letters), zodat de deuren en de kaart meteen klaar staan. Dat is meer dan Winterlicht (ongeveer 0,8 MB) en minder dan Kerstexpress (de film alleen al 2,7 MB). Zie `docs/CONTROLES.md`.
+- **Rechten.** De film lijkt met AI gemaakt. Of de eigenaar de rechten heeft om hem op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

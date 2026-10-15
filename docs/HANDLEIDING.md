@@ -238,6 +238,18 @@ Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook ni
 - **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` is een uitsnede (720 × 900) uit het eindbeeld van het filmpje, verkleind naar 800 × 1000 en opgeslagen als WebP. Dat maak je opnieuw met een frame van de film, of met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress`.
 - **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`. Het filmpje vraagt een browser die webm (VP9) kan afspelen; de mp4 is de terugval.
 
+### Kerstpaleis: de deuren van het paleis
+
+`designs/kerstpaleis/v1` is een kerstkaart die begint met de film van de eigenaar: een besneeuwd paleis waarvan de deuren opengaan. Daarna verschijnt de kaart uit de film (rood fluweel, gouden sierlijst met dennengroen en hulst) met echte tekst. Het manifest heeft `"opening": "film"` en drie kleurvarianten (kerstrood, dennengroen, nachtblauw).
+
+- **De film** staat in `img/kerstpaleis.webm` (eerste bron) en `img/kerstpaleis.mp4` (tweede bron), met `img/poster.webp` als eerste beeld (de dichte deuren). Het is alleen het stuk waarin de deuren opengaan (4 seconden, zonder geluid). Het script `kerstpaleis.js` start de film na een tik op "Open de deuren" of "Openen met muziek"; zonder script of zonder film blijft het eerste beeld staan en verschijnt de kaart toch.
+- **Timing**: in het openingsscherm staan `data-duration="4450"` (na zoveel milliseconden is de kaart open), `data-fx-delay="2300"` (de sneeuw met sterretjes uit de deuropening, als het licht naar buiten stroomt) en `data-fx-intro="3650"` (de tekst op de kaart verschijnt al terwijl het beeld vervaagt). Het vervagen zelf staat in `style.css` (`.is-opening .kp-cover`, na 3,75 s). Verander je de film, pas deze tijden dan mee aan.
+- **De sierlijst** (`img/lijst.webp`) is een doorzichtig beeld uit het eindbeeld van de film, gebruikt als `border-image`. De maten (boven 300, zijkant 44, onder 340 pixels van de film) staan in `style.css` bij `.kp-card__frame` en in het script hieronder; ze horen bij elkaar. Het sierstuk halverwege de zijkant is `img/fleur.webp`, de sierlijntjes zijn `img/scheiding.webp`, `img/sier-boven.webp` en `img/sier-onder.webp`, en de structuur van het fluweel is `img/velours.webp`.
+- **Alles opnieuw maken uit de film**: `python3 tools/kerstpaleis/maak_beelden.py <film.mp4>` (met ffmpeg, Pillow en numpy). De tijden en de plekken in het beeld staan bovenin dat script. Het kaartbeeld voor de collectie maak je met `node tools/kerstpaleis/kaartbeeld.cjs http://127.0.0.1:8000 /tmp/kerstpaleis.png` (uitleg bovenin).
+- **De kleuren** per variant staan in `manifest.json` (`--kp-velvet` en `--kp-velvet-2` voor het fluweel van de kaart, `--kp-page` voor de rest, `--kp-gold` voor de tekst op fluweel, `--kp-paper` en `--kp-ink` voor het papier). De test `KerstpaleisDesignTests` controleert het contrast; een nieuwe kleur moet daar ook aan voldoen.
+- **Teksten**: "Fijne kerstdagen" en "en een schitterend nieuwjaar" komen uit de film. Een eigen kopregel van de klant vervangt "Fijne kerstdagen". Waar in de film VAYLIDE staat, staat de afzender; het logo staat op de slotkaart.
+- **Controleren**: `python manage.py test tests.test_kerst`, `ONTWERPEN=kerstpaleis node e2e/controle2.cjs …`, `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstpaleis` en `node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten kerstpaleis`.
+
 ## Een bestaand ontwerp aanpassen
 
 **Wijzig nooit een versie die al in gebruik is.** Bestaande uitnodigingen zouden dan onverwacht veranderen.

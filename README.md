@@ -49,7 +49,7 @@ Open daarna http://127.0.0.1:8000.
 | Wat | Waar |
 |---|---|
 | Website | `/` |
-| Ontwerpen en werkende voorbeelden | `/ontwerpen/` (34 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/`, `/voorbeeld/sterrennacht/` of de kerstkaart `/voorbeeld/winterlicht/` (andere kleur: `?kleur=hulst`, `dennengroen` of `winternacht`) |
+| Ontwerpen en werkende voorbeelden | `/ontwerpen/` (36 ontwerpen), en per ontwerp `/voorbeeld/<code>/`, bijvoorbeeld `/voorbeeld/liefde-op-papier/`, `/voorbeeld/sterrennacht/` of de kerstkaarten `/voorbeeld/winterlicht/` (andere kleur: `?kleur=hulst`, `dennengroen` of `winternacht`) en `/voorbeeld/kerstpaleis/` (met de film van de deuren) |
 | Zelf een uitnodiging maken | `/maken/` |
 | Mijn Vaylide (klant) | `/account/` |
 | Beheer (eigenaar) | `/beheer/`, inloggen met het account uit `createsuperuser` |
@@ -96,7 +96,7 @@ Prijzen, pakketten, extra opties, beschikbaarheidsduur, bewaartermijnen en ontwe
 .venv/bin/python manage.py test tests
 ```
 
-169 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken), het merk (logo, iconen, geen oude naam), het wachtwoord voor een testversie online en de kerstkaarten (ook een kerstgroet zonder evenement). Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
+180 geautomatiseerde tests voor de volledige klantreis, betalingen, verwerking, toegang, versies, aanmeldingen, extra wensen, uploads, weergave, alle ontwerpen met hun effecten, de websitepagina's (ook zoeken), het merk (logo, iconen, geen oude naam), het wachtwoord voor een testversie online en de kerstkaarten (ook een kerstgroet zonder evenement). Ze zijn gedraaid op SQLite; op PostgreSQL 16 en in de Docker-image in een eerdere ronde. De visuele controles met Playwright staan in `e2e/`; zie [docs/CONTROLES.md](docs/CONTROLES.md).
 
 ## Installeren op een server
 

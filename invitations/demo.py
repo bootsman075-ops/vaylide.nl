@@ -18,6 +18,7 @@ DEFAULT_DEMO_OCCASION = {
     "puur-moment": "verloving",
     "winterlicht": "kerst",
     "kerstexpress": "kerst",
+    "kerstpaleis": "kerst",
 }
 
 DESIGN_IMAGES = {
@@ -58,6 +59,7 @@ DESIGN_IMAGES = {
     # Kerst: eigen getekende beelden uit tools/winterlicht/ (kerstboom, lichtjes, kaarsen, winterbos).
     "winterlicht": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
     "kerstexpress": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
+    "kerstpaleis": ["kerst-kaarsen", "kerst-boom", "kerst-lichtjes", "kerst-winterbos", "goud-lichtjes"],
 }
 IMAGE_SIZES = {
     "waterverf-bloesem": (1200, 1500),
