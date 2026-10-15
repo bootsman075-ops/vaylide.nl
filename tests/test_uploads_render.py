@@ -87,7 +87,7 @@ class RenderTests(VaylideTestCase):
 
     def test_long_names_get_smaller_type_and_render_everywhere(self):
         long_a = "Maximiliaan-Alexander van den Boogaard"
-        for slug in ["liefde-op-papier", "avondgoud", "puur-moment"]:
+        for slug in ["liefde-op-papier", "avondgoud", "puur-moment", "kerstbal"]:
             inv = self.make_invitation(template=slug, names={"partner_1": long_a, "partner_2": "Ernestina"})
             view = self.view_for(inv)
             self.assertEqual(view["names_size"], "xlong")

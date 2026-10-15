@@ -94,7 +94,7 @@ Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publ
 Een ontwerp is een map met drie bestanden. Er is geen database-werk nodig. Er zijn twee manieren:
 
 - **Atelier-ontwerp (snelst, aanbevolen)**: je kiest uit vaste bouwstenen (opening, kop, secties, versiering) en geeft letters en kleuren op. Zo zijn de 30 ontwerpen vanaf Eucalyptus gemaakt. Zie hieronder.
-- **Volledig eigen ontwerp**: eigen HTML en CSS, zoals Liefde op papier, Avondgoud en Puur moment. Zie "Volledig eigen ontwerp".
+- **Volledig eigen ontwerp**: eigen HTML en CSS, zoals Liefde op papier, Avondgoud, Puur moment, Winterlicht, Kerstexpress en Kerstbal (met een video als opening). Zie "Volledig eigen ontwerp".
 
 ### Atelier-ontwerp
 
@@ -167,6 +167,33 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
 7. **Publiceren**: controleer het in **Beheer → Ontwerpen** (zichtbaar, volgorde) en zet het live met een nieuwe deployment.
 8. **Testen**: `python manage.py test tests`. Het is ook verstandig de browsercontrole te draaien (zie `docs/CONTROLES.md`).
 
+### Een video als opening (zoals Kerstbal)
+
+Kerstbal opent met een video: een kerstbal die opengaat, waarna de kaart naar voren komt. (Kerstexpress werkt anders: daar speelt het filmpje al vóór de tik, met een eigen script; zie "Kerstexpress: de filmopening".) Zo maak je zelf zo'n opening, of vervang je de video:
+
+1. **Zet de video in de ontwerpmap** (`designs/<code>/v<N>/`), in twee formaten, met het eerste beeld als afbeelding. Kort de video in tot de beweging (stilstaand begin en eind eraf) en houd hem klein, bijvoorbeeld zo (vervang de tijden en de bestandsnaam):
+
+   ```bash
+   ffmpeg -ss 0.625 -i bron.mp4 -t 3.875 -an -c:v libx264 -preset slower -crf 23 -profile:v main -pix_fmt yuv420p -movflags +faststart kerstbal.mp4
+   ffmpeg -ss 0.625 -i bron.mp4 -t 3.875 -an -c:v libvpx-vp9 -b:v 0 -crf 36 -row-mt 1 -pix_fmt yuv420p kerstbal.webm
+   ffmpeg -ss 0.625 -i bron.mp4 -frames:v 1 -c:v libwebp -quality 82 kerstbal-poster.webp
+   ```
+
+2. **Zet de video in het openingsscherm** met `data-cover-video`, zonder geluid en zonder `autoplay`:
+
+   ```html
+   <video data-cover-video muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" poster="{% static 'designs/<code>/v<N>/kerstbal-poster.webp' %}">
+     <source src="{% static 'designs/<code>/v<N>/kerstbal.mp4' %}" type="video/mp4">
+     <source src="{% static 'designs/<code>/v<N>/kerstbal.webm' %}" type="video/webm">
+   </video>
+   ```
+
+   Het script (`invite.js`) laadt de video pas als het openingsscherm echt getoond wordt en speelt hem na de tik. De rest van de opening (`is-opening`, de knal, de kop) begint pas als de video speelt. Speelt hij niet binnen 2,5 seconden, of kan hij niet spelen, dan krijgt de pagina de klasse `cover-video-failed` en gaat de uitnodiging zonder video open: geef in de stylesheet aan wat er dan gebeurt (bij Kerstbal vervaagt de dichte bal). Bij 'minder beweging' en na een tik op **Beweging** speelt de video niet.
+3. **Tijden** op het openingsscherm gelden vanaf de start van de video: `data-duration` (wanneer de uitnodiging open is), `data-fx-delay` (de knal) en `data-fx-intro` (de kop). Animaties in de stylesheet onder `.is-opening:not(.is-opening-reduced)` lopen ook vanaf dat moment.
+4. **Een nieuwe video in een bestaand ontwerp** gaat, zoals elke wijziging, via een nieuwe versie (`v2`), zodat bestaande uitnodigingen hun eigen video houden. Pas daarbij de tijden aan als de beweging anders loopt, en maak het kaartbeeld opnieuw.
+
+Let op: een video kost data. Houd hem kort en klein (Kerstbal: 0,66 MB in H.264 en 0,44 MB in VP9); de tests controleren de grootte van de bestanden van Kerstbal.
+
 ## Effecten
 
 Elk ontwerp heeft bewegende effecten: zwevende deeltjes (sfeer), een knal op het moment dat de uitnodiging opengaat, een feestje als een gast laat weten dat hij komt, een entree voor de namen, onthullingen bij het scrollen en een paar extra's. De keuzes staan per ontwerp in `manifest.json` in het blok `effects` (bij Atelier-ontwerpen in `tools/atelier/specs.py`, de generator zet ze in het manifest). De werking staat in `invitations/static/invitations/effects.js` en `effects.css`, de toegestane waarden in `catalog/effects.py`.
@@ -237,6 +264,15 @@ Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook ni
 - **Het logo** is `static/img/merk/vaylide-logo.webp`, ongewijzigd en ongesplitst (zie regel 12 in `CLAUDE.md`). Test `test_logo_is_used_as_supplied` controleert dat.
 - **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` is een uitsnede (720 × 900) uit het eindbeeld van het filmpje, verkleind naar 800 × 1000 en opgeslagen als WebP. Dat maak je opnieuw met een frame van de film, of met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress`.
 - **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`. Het filmpje vraagt een browser die webm (VP9) kan afspelen; de mp4 is de terugval.
+
+### Kerstbal: de kerstbal die opengaat
+
+`designs/kerstbal/v1` begint met de video van de eigenaar: een rood-gouden kerstbal. Na een tik gaat de bal open en komt de kaart naar voren; daarna hangt de kaart aan een gouden draad. Drie kleurvarianten: kerstrood, ivoor en dennengroen. De achtergrond blijft altijd het bordeauxrood van de video.
+
+- **Gelegenheden**: eerst Kerst, daarna zakelijk (kerstborrel), bruiloft, verloving, jubileum en verjaardag. Bij een kerstgroet zonder datum of locatie staat op de kaart uit de bal "Fijne feestdagen"; aanmelden is er dan niet.
+- **De video** en de tijden: zie "Een video als opening" hierboven. Een andere of betere video komt in een `v2`, met dezelfde bestandsnamen.
+- **Kaartbeeld**: `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstbal` (de dichte bal), daarna omzetten naar WebP zoals bovenin dat script staat.
+- **Controleren**: `python manage.py test tests.test_kerstbal`, `ONTWERPEN=kerstbal node e2e/controle2.cjs …`, `node e2e/toegankelijkheid.cjs … kerstbal` en `node e2e/effecten.cjs … kerstbal`.
 
 ## Een bestaand ontwerp aanpassen
 

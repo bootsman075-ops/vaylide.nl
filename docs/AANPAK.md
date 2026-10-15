@@ -297,6 +297,46 @@ De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein
 - **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
 - **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
 
+## Ronde 7d: Kerstbal (video-opening)
+
+De eigenaar stuurde een video van vijf seconden (`karst_bal_vaylide.mp4`, staand, 720 × 1280): een rode kerstbal met gouden krullen aan een gouden draad, die in het midden opensplijt. De twee helften klappen open tot je in de donkere binnenkant kijkt. De vraag: "Ik wil dat je voor deze video, voor de kerstbal, een kaart maakt die ervan uit uh, dat ze de bal opent, naar voren komt." Claude vatte dat op als: de gast opent de bal en de kaart komt uit de bal naar voren. De video is beeld voor beeld bekeken (acht beelden per seconde); er zit geen geluid in.
+
+Kerstbal is eerst los gebouwd, op de stand van `main`. Toen bleek dat de gelegenheid Kerst al in pull request #1 stond, koos de eigenaar: "Aansluiten op PR #1". Kerstbal staat daarom nu op de kerstbranch, gebruikt de gelegenheid Kerst en het bestaande sneeuweffect, en heeft geen eigen kopie meer van de sneeuw of de controlefilter.
+
+- **Een nieuw, volledig eigen ontwerp: Kerstbal** (`designs/kerstbal/v1/`). De video van de eigenaar is de opening, niet nagetekend.
+- **De video.** Het stilstaande begin (0,6 seconde) is eraf geknipt, zodat de bal direct na de tik opengaat. Ook het einde, waar de helften stil open liggen, is korter; er blijft 3,9 seconden over. Er zijn twee formaten:
+  - H.264 (`kerstbal.mp4`, 0,66 MB), voor Safari en de meeste browsers;
+  - VP9 (`kerstbal.webm`, 0,44 MB), voor browsers zonder H.264, zoals de Chromium van de controles.
+
+  Het eerste beeld staat als `kerstbal-poster.webp` op het openingsscherm, dus de dichte bal is er meteen. Het origineel en beide formaten zijn met het oog vergeleken op een uitsnede van de krullen: geen zichtbaar verschil. Het oorspronkelijke bestand staat niet in de repository.
+- **Zuinig met data.** De video laadt pas als het openingsscherm echt getoond wordt (`preload="none"`; daarna zet het script hem op laden). Wie de kaart al eerder opende in dezelfde sessie, geen JavaScript heeft of een link naar het aanmelden volgt, laadt de video niet. De video heeft geen geluid en speelt alleen na de tik.
+- **Alles loopt gelijk met de video.** De opening (knal, kaart, kop) begint pas als de video echt speelt. Kan de video niet spelen (geblokkeerd of een onbekend formaat), dan gaat de kaart meteen zonder video open. Speelt hij na 2,5 seconden nog niet (traag netwerk), dan ook. In beide gevallen vervaagt de dichte bal en komt de kaart toch naar voren. Dit zit in het gedeelde `invite.js`, voor elke video met `data-cover-video` in een opening; bij ontwerpen zonder zo'n video doet het niets. Kerstexpress werkt anders: daar speelt het filmpje al vóór de tik, met een eigen script.
+- **Het verloop na de tik**, in seconden vanaf de start van de video:
+  - de tekst onder de bal verdwijnt;
+  - 0,4: de bal splijt open;
+  - 0,75: er komt warm licht uit de binnenkant;
+  - 1,3: de kaart komt uit de bal;
+  - 1,45: vonken en glanzende confetti;
+  - 2,8: de kaart staat op volle grootte voor de opengeklapte helften;
+  - 3,15: de kaart komt verder naar je toe en vervaagt;
+  - 3,5: het openingsscherm vervaagt en de kaart op de pagina komt omhoog, met de namen alsof ze geschreven worden;
+  - 4,1: de kaart is open.
+
+  Er staan nooit twee kaarten tegelijk in beeld. Bij 'minder beweging' of na een tik op **Beweging** speelt de video niet en opent de kaart rustig, zoals bij de andere ontwerpen.
+- **De kaart hangt aan de draad.** Op de pagina hangt de kaart, net als de bal, met een gouden dopje en ringetje aan een gouden draad. Kerstballen komen terug in de datum, de foto, de kleuren van de dresscode en het monogram onderaan. De achtergrond heeft in alle kleurvarianten de kleur van de video (diep bordeauxrood), zodat de overgang van video naar pagina naadloos is.
+- **Drie kleurvarianten van de kaart:** Kerstrood & goud, Ivoor & kerstrood en Dennengroen & goud. Alle tekstkleuren halen minstens 4,5:1 contrast; de tests controleren dat. De letters stonden al op de eigen server:
+  - Pinyon Script voor de namen;
+  - Marcellus voor koppen en datum;
+  - EB Garamond voor de tekst;
+  - Figtree voor kleine tekst en knoppen.
+- **Gelegenheden.** Kerstbal is gemaakt voor Kerst en past ook bij een zakelijk evenement (kerstborrel), een (winter)bruiloft, verloving, jubileum en verjaardag. Bij Kerst gelden de regels van de gelegenheid:
+  - de afzender en de namen eronder;
+  - een kerstgroet zonder datum of locatie mag: dan wenst de kaart uit de bal "Fijne feestdagen", is er geen aanmelden en telt de afteller af naar kerst ("Aftellen naar kerst").
+- **Voorbeeld.** Bij Kerst het kerstvoorbeeld van de gelegenheid (Familie Van Dijk, kerstdiner op eerste kerstdag) met de kerstbeelden van Winterlicht. Bij de andere gelegenheden valt het voorbeeld op een zaterdag vlak voor kerst, met winterse teksten: geen "zomers chic", en bij zakelijk een kerstborrel.
+- **In de collectie** staat Kerstbal tussen Winterlicht en Kerstexpress (`sort_order` 41). Het kaartbeeld is de dichte bal met sneeuw, gemaakt met `e2e/make_design_images.cjs`.
+- **Effecten:** sneeuw (het effect uit ronde 7), vonken bij het openen, sterrenstof na aanmelden, namen die geschreven worden, langzaam inzoomende foto's en vonkjes bij een tik.
+- **De controles** wachten nu op het moment van de knal (`data-fx-delay`) en op het einde van de opening, in plaats van een vaste tijd. De opening van Kerstbal duurt langer dan die van de andere ontwerpen.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

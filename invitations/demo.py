@@ -18,12 +18,17 @@ DEFAULT_DEMO_OCCASION = {
     "puur-moment": "verloving",
     "winterlicht": "kerst",
     "kerstexpress": "kerst",
+    "kerstbal": "kerst",
 }
+# Kerstontwerpen die ook voor andere gelegenheden zijn: dan valt het voorbeeld vlak voor kerst,
+# met winterse teksten (bij de gelegenheid Kerst staat het kerstvoorbeeld hieronder al).
+CHRISTMAS_DESIGNS = {"kerstbal"}
 
 DESIGN_IMAGES = {
     "liefde-op-papier": ["waterverf-bloesem", "bloemblaadjes", "waterverf-lavendel", "zee-horizon", "duinen-staand"],
     "avondgoud": ["goud-lichtjes", "kaarslicht", "bloemblaadjes", "zee-horizon", "duinen-ochtend"],
     "puur-moment": ["duinen-ochtend", "zee-horizon", "duinen-staand", "waterverf-lavendel", "bloemblaadjes"],
+    "kerstbal": ["kerst-lichtjes", "kerst-boom", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
     # Atelier-ontwerpen: eerste beeld is de kop, de rest de fotogalerij.
     "eucalyptus": ["eucalyptus", "bloemblaadjes", "zee-horizon", "duinen-staand", "waterverf-bloesem"],
     "gatsby": ["zijde-goud", "goud-lichtjes", "kaarslicht", "stadslicht", "zee-horizon"],
@@ -104,6 +109,18 @@ def _christmas_date() -> date:
     return date(today.year, 12, 25)
 
 
+def _christmas_party_date() -> date:
+    """Een zaterdag vlak voor kerst, minstens vijf weken vooruit (dan lopen afteller en aanmelden)."""
+    today = timezone.localdate()
+    year = today.year
+    while True:
+        target = date(year, 12, 20)
+        target -= timedelta(days=(target.weekday() - 5) % 7)
+        if target >= today + timedelta(weeks=5):
+            return target
+        year += 1
+
+
 def _img(name: str, x=50, y=50, caption="") -> dict:
     w, h = IMAGE_SIZES.get(name, (1600, 1100))
     return {"static": f"img/demo/{name}.webp", "static_small": f"img/demo/{name}-1000.webp", "x": x, "y": y, "zoom": 1, "w": w, "h": h,
@@ -112,8 +129,9 @@ def _img(name: str, x=50, y=50, caption="") -> dict:
 
 def demo_content(design_slug: str, occasion: str, palette_key: str = "") -> dict:
     content = default_content(occasion, palette_key)
-    day = _demo_date()
-    deadline = day - timedelta(weeks=6)
+    christmas = design_slug in CHRISTMAS_DESIGNS
+    day = _christmas_party_date() if christmas else _demo_date()
+    deadline = day - timedelta(weeks=3 if christmas else 6)
     images = DESIGN_IMAGES.get(design_slug, DESIGN_IMAGES["liefde-op-papier"])
     content.update(
         {
@@ -270,4 +288,36 @@ def demo_content(design_slug: str, occasion: str, palette_key: str = "") -> dict
         content["rsvp"]["questions"] = [
             {"id": "q1", "label": "Heeft u dieetwensen?", "type": "text", "options": [], "required": False},
         ]
+    if christmas and occasion != "kerst":
+        _christmas_texts(content, occasion)
     return content
+
+
+def _christmas_texts(content: dict, occasion: str) -> None:
+    """Winterse voorbeeldteksten (de gewone teksten gaan soms over de zomer of de tuin)."""
+    content["dresscode"] = {"text": "Feestelijk en warm gekleed. Een vleugje rood, groen of goud is welkom.",
+                            "colors": ["#7A1424", "#1F4D3A", "#D9B46A", "#F4EBDD"]}
+    if occasion == "bruiloft":
+        content["welcome_text"] = (
+            "Lieve familie en vrienden,\n\nin de mooiste tijd van het jaar zeggen we ja tegen elkaar. "
+            "We zouden het heel bijzonder vinden om deze winterse dag met jou te vieren."
+        )
+        content["program"][0]["description"] = "Met warme chocolademelk en iets lekkers bij de open haard."
+    elif occasion == "zakelijk":
+        content["names"] = {"event_title": "Kerstborrel", "organization": "Studio Voorbeeld", "years": ""}
+        content.update({"start_time": "16:00", "end_time": "20:00"})
+        content["welcome_text"] = (
+            "Graag nodigen wij u uit voor onze kerstborrel: een warme afsluiting van het jaar, "
+            "met het hele team en iedereen met wie we dit jaar mochten samenwerken."
+        )
+        content["program"] = [
+            {"time": "16:00", "title": "Ontvangst", "description": "Met glühwein en warme chocolademelk."},
+            {"time": "16:45", "title": "Een kort woord", "description": ""},
+            {"time": "17:00", "title": "Walking dinner", "description": ""},
+            {"time": "19:00", "title": "Muziek en borrel", "description": ""},
+        ]
+        content["practical"] = [
+            {"title": "Parkeren", "text": "Parkeergarage op loopafstand."},
+            {"title": "Garderobe", "text": "Er is een garderobe voor uw jas."},
+        ]
+        content["closing_text"] = "Wij zien u graag en wensen u alvast fijne feestdagen."

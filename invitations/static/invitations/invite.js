@@ -215,6 +215,40 @@
     main.inert = true;
     var opened = false;
 
+    /* Een opening kan een video hebben (data-cover-video, zonder geluid). Die laadt pas nu het
+       openingsscherm echt getoond wordt, en speelt na de tik. De rest van de opening (knal,
+       kaart, kop) begint pas als de video loopt, zodat alles gelijk blijft lopen. Lukt afspelen
+       niet op tijd, dan opent de uitnodiging zonder video (klasse cover-video-failed). */
+    var video = cover.querySelector("video[data-cover-video]");
+    if (video) {
+      video.muted = true;
+      video.preload = "auto";
+      try { video.load(); } catch (e) { /* oudere browser: laadt bij afspelen */ }
+    }
+
+    function startVideo(next) {
+      var done = false;
+      function go(ok) {
+        if (done) return;
+        done = true;
+        window.clearTimeout(timer);
+        if (!ok) {
+          video.pause();
+          html.classList.add("cover-video-failed");
+        }
+        next();
+      }
+      var timer = window.setTimeout(function () { go(false); }, 2500);
+      video.addEventListener("playing", function () { go(true); }, { once: true });
+      /* Geen bruikbare bron (geblokkeerd of onbekend formaat): niet wachten. */
+      var sources = video.querySelectorAll("source");
+      if (sources.length) sources[sources.length - 1].addEventListener("error", function () { go(false); });
+      if (video.networkState === 3) { go(false); return; }
+      try { video.currentTime = 0; } catch (e) { /* nog geen gegevens: begint toch bij 0 */ }
+      var attempt = video.play();
+      if (attempt && attempt.catch) attempt.catch(function () { go(false); });
+    }
+
     cover.querySelectorAll("[data-open]").forEach(function (el) {
       el.addEventListener("click", function (event) {
         event.preventDefault();
@@ -232,14 +266,24 @@
       /* Rustig openen bij 'minder beweging' of als de gast de beweging heeft stilgezet (effects.js). */
       var calm = reduceMotion || html.classList.contains("fx-paused");
       var duration = calm ? 250 : parseInt(cover.getAttribute("data-duration") || "2200", 10);
-      html.classList.add("is-opening");
-      if (calm) html.classList.add("is-opening-reduced");
-      document.dispatchEvent(new CustomEvent("invite:opening", { detail: { reduceMotion: calm } }));
-      window.setTimeout(function () { finish(false); }, duration);
+      function begin() {
+        html.classList.remove("cover-video-wait");
+        html.classList.add("is-opening");
+        if (calm) html.classList.add("is-opening-reduced");
+        document.dispatchEvent(new CustomEvent("invite:opening", { detail: { reduceMotion: calm } }));
+        window.setTimeout(function () { finish(false); }, duration);
+      }
+      if (video && !calm) {
+        html.classList.add("cover-video-wait");
+        startVideo(begin);
+      } else {
+        begin();
+      }
     }
 
     function finish(instant) {
-      html.classList.remove("has-cover", "is-opening", "is-opening-reduced");
+      if (video) video.pause();
+      html.classList.remove("has-cover", "is-opening", "is-opening-reduced", "cover-video-wait");
       html.classList.add("is-open");
       cover.hidden = true;
       main.inert = false;
