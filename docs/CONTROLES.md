@@ -52,6 +52,25 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 
 ### Resultaat
 
+Kerstmarkt (15 oktober 2026, het filmpje van het reuzenrad), op de definitieve stand en de productie-achtige server (gunicorn, `DEBUG` uit, WhiteNoise, testmodus; lokaal zonder https-omleiding):
+
+- **182 tests geslaagd** (op SQLite), waarvan 13 nieuw in `tests/test_kerstmarkt.py`.
+- **Browsercontrole** (`ONTWERPEN=kerstmarkt node e2e/controle2.cjs …`): het voorbeeld en vijf testuitnodigingen (lang, minimaal, verstreken, een lang woord, en een kerstgroet zonder evenement) op 360, 390, 768 en 1366 pixels: **24 pagina's zonder bevindingen**, en **8 van 8 gedragscontroles**: minder beweging (open na 317 ms, zonder lopende animaties), toetsenbord (na de filmopening staat de focus op de kop), muziek, het vangnet zonder script, de tijdzone en zonder JavaScript. Deze controle wacht nu tot de opening klaar is in plaats van een vaste 3,6 seconde: de filmopening van Kerstmarkt duurt ruim 5 seconden.
+- **Effecten** (`node e2e/effecten.cjs … kerstmarkt`): **8 van 8**. Er is bewust geen knal (zie `docs/AANPAK.md`).
+- **Toegankelijkheid** (`node e2e/toegankelijkheid.cjs … kerstmarkt`): de drie kleuren, dicht en geopend: **6 pagina's, 0 axe-overtredingen, 0 contrastbevindingen**. Alle tekst in de kop staat op het papier van de kaart, dus deze controle meet hem gewoon.
+- **Filmopening** (`node e2e/kerstmarkt.cjs`, nieuw), op 390 × 844 met het filmpje vertraagd in de browser:
+  - vooraf geladen: het filmpje speelt op 1,23 keer de snelheid en staat na 4,3 seconden op 5,32 van de 5,54 seconden;
+  - pas na de tik geladen (0,15 seconde vertraging): het speelt op 1,28 keer de snelheid, na 4,3 seconden op 5,31 seconden;
+  - te traag (2,5 seconden vertraging): na 0,8 seconde verschijnt de kaart in een gloed; na 4,3 seconden staat het eindbeeld er helemaal;
+  - in alle drie de gevallen is de kaart open na 5,06 seconden.
+- **De kaart op de kaart uit het filmpje** (zelfde script): in een band van 8 pixels rond de rand van de kaart verschilt 9,4% van de beeldpunten van het filmbeeld (390 × 844) en 8,1% (1366 × 900). Met de kaart 3 pixels verschoven is dat 22,1% en 21,5%. De kaart ligt dus binnen een paar pixels goed; de rest van het verschil zit in de nagetekende gouden lijn.
+- **Het filmpje zelf** (ffmpeg): webm en mp4 hebben elk 133 beelden (5,54 seconden, 720 × 1280); het laatste beeld van beide is gelijk aan de kop (`kaart.webp`) op compressie na (PSNR 36,4 en 35,1 dB). Chromium hier speelt alleen de webm; **de mp4 is niet in een browser afgespeeld** (bijvoorbeeld Safari op een oudere iPhone).
+- **Gewicht** (overgedragen bytes op telefoonformaat met pixelverhouding 2, zonder netwerkvertraging): het openingsscherm laadt **1279 KB**, waarvan 769 KB filmpje. In dezelfde meting Kerstexpress 3047 KB en Winterlicht 807 KB.
+- **Met het oog bekeken**: de opening als reeks van ongeveer twintig momenten op 390 × 844 (het filmpje, de overgang, de kaart die naar voren komt, het medaillon, het openklappen, het schrijven) en vier momenten op 1366 × 768; het openingsscherm op 360 × 640 en 1366 × 768; de kaart in de stand van het filmpje naast het filmbeeld, ook vergroot op een hoek van de gouden rand; de hele pagina op 390 pixels; het slot op vier momenten; de kop van vier testuitnodigingen op 360 pixels (ook een bruiloft met heel lange namen); de schermafbeeldingen zonder JavaScript, met 'minder beweging' en zonder script; het datumkaartje met lange en korte tekst; de ontwerppagina op de computer en het kaartje in de collectie op de telefoon. De knop "Bekijk de opening nog een keer" is in de browser geprobeerd: de pagina laadt opnieuw, bovenaan, met het openingsscherm.
+- **Niet opnieuw gedaan**: de andere ontwerpen en de websitepagina's (alleen de ontwerppagina en de collectie bekeken), de belastingmeting, Lighthouse, en echte telefoons.
+
+Gevonden en opgelost bij Kerstmarkt: de lichtjes in het slot stonden eerst naast de kerstboom; een lichte rand op het papier (de achtergrond liep niet onder de gouden rand door); het `&` in de sierletter leek op een ander teken; de halve gaatjes van het datumkaartje stonden bij lange tekst niet op de stippellijn (nu gemeten door het script); en het openingskaartje was op een laag scherm te groot, met een afgebroken regel bovenaan.
+
 Ronde 7 (kerstkaarten), op de productie-achtige server (gunicorn, `DEBUG` uit, WhiteNoise, testmodus; lokaal zonder https-omleiding):
 
 - **840 pagina's zonder bevindingen** (210 per schermformaat, op 360, 390, 768 en 1366 pixels breed, vier runs tegelijk): alle websitepagina's (ook de homepage en Inspiratie met de brede kersttegel), alle 34 voorbeelden (geopend), 137 testuitnodigingen (vier per ontwerp, plus een kerstgroet zonder evenement bij Winterlicht), de klantomgeving, het samenstellen en het beheer. Geen horizontaal scrollen, niets buiten beeld, geen afgesneden tekst, geen consolefouten, geen mislukte verzoeken. Deze run liep op de stand vóór de laatste aanpassingen aan Winterlicht (tekst in het kerstraam, lichtjes, lichtere envelop; zie "Gevonden en opgelost"). Winterlicht is daarna op de definitieve stand opnieuw gecontroleerd (`ONTWERPEN=winterlicht`): het voorbeeld en de vijf testuitnodigingen op alle vier schermformaten, **24 pagina's zonder bevindingen**.
@@ -335,6 +354,8 @@ node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/toegankelijkheid.json [
 
 # Effecten: deeltjes, knal, feestje, knop Beweging en 'minder beweging' (acht controles per ontwerp)
 node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten [code ...]
+# Kerstmarkt: de drie paden van de filmopening, en of de kaart op de kaart uit het filmpje ligt
+node e2e/kerstmarkt.cjs http://127.0.0.1:8000 /tmp/kerstmarkt
 # Alleen de belasting meten (vier keer vertraagde processor); draai dit zonder andere controles ernaast
 CHECKS=0 PERF=1 node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten-belasting
 ```

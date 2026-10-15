@@ -238,6 +238,22 @@ Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook ni
 - **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` is een uitsnede (720 × 900) uit het eindbeeld van het filmpje, verkleind naar 800 × 1000 en opgeslagen als WebP. Dat maak je opnieuw met een frame van de film, of met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress`.
 - **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`. Het filmpje vraagt een browser die webm (VP9) kan afspelen; de mp4 is de terugval.
 
+### Kerstmarkt: het filmpje van het reuzenrad
+
+`designs/kerstmarkt/v1` is de kerstkaart bij het filmpje van de eigenaar: vanuit een reuzenrad over een kerstmarkt, waarna een kaart met een ster verschijnt. De echte kaart neemt het over, komt naar voren en klapt open (twee deurtjes met een gouden medaillon). Drie kleurvarianten (avondblauw, gondelrood, dennengroen); de kleur geldt voor de kaart onder de kop, het filmpje en de kop zijn in elke kleur hetzelfde.
+
+- **De beelden** staan in `img/`: `markt.webm` en `markt.mp4` (het begin van het filmpje, 5,5 seconden, zonder geluid), `begin.webp` (het eerste beeld: de opening en de poster), `kaart.webp` (het laatste beeld: de kop), twee vage versies voor de rand op brede schermen, en `slot.webp` (de kerstmarkt in het slot). Ze komen uit het filmpje met `tools/kerstmarkt/maak_film.py` (uitleg in `tools/kerstmarkt/README.md`). `rand.svg` is de gouden rand van de kaart (als `border-image`, ook om het papier van de kaart eronder) en `medaille.svg` het medaillon op de deurtjes.
+- **Eén beeldvak voor opening en kop** (`.km-stage` en `.km-frame` in `style.css`): staand 9:16, op een telefoon zo breed als het scherm. Wat op het beeld ligt (de kaart, het licht, het sterrenstof) staat in procenten van het beeld.
+- **De kaart op de kaart uit het filmpje**: `kerstmarkt.js` rekent uit hoe de kaart (3 bij 5) op de vier hoeken van de kaart in het laatste filmbeeld past (`FILM_CARD`) en zet dat in `--km-van`. Zonder script geldt een benadering in `style.css`. Meet het na met `node e2e/kerstmarkt.cjs http://127.0.0.1:8000 /tmp/kerstmarkt`.
+- **De tijden**: het openingsscherm vervaagt 4,55 seconden na de tik (`FADE_AT` in `kerstmarkt.js`, `data-fx-intro` in `invitation.html` en `--km-out` in `style.css`) en verdwijnt na 5,05 seconden (`data-duration`). Het script laat het filmpje zo snel spelen dat het dan klaar is. Daarna begint de kaartopening (zie het blok "de kaartopening" in `style.css`); alles is klaar binnen 4,2 seconden na het vervagen, zoals effects.js verwacht.
+- **Zonder filmpje** (niet binnen 0,8 seconde begonnen, blijven hangen, of geen script) verschijnt de kaart in een gloed: het eindbeeld vloeit over het eerste beeld. Zonder beweging of zonder JavaScript zijn er geen deurtjes en staat de kaart meteen open.
+- **De groet**: bij Kerst "Fijne kerstdagen / en een gelukkig nieuwjaar", met de afzender in kapitalen en de namen van het gezin eronder. Een eigen kop van de klant vervangt beide regels. Bij een andere gelegenheid (als je die in Beheer aanzet) staan de kop, de namen, de gewone zin en de datum op de kaart. Bij veel tekst maakt het script de letters kleiner (`data-km-fit`).
+- **Het slot**: de ster licht op als het slot in beeld komt, en de lichtjes in de kerstboom twinkelen (`.km-market__lights`, plekken in procenten van `slot.webp`). De knop "Bekijk de opening nog een keer" staat er alleen met JavaScript; hij wist de onthouden opening en laadt de pagina opnieuw.
+- **Kaartbeeld**: `node tools/kerstmarkt/kaartbeeld.cjs http://127.0.0.1:8000 /tmp/kerstmarkt.png`, daarna omzetten naar `static/img/designs/kerstmarkt.webp` (800 × 1000; de regel staat bovenin het script). Met `e2e/make_design_images.cjs` gaat het ook (`"kaartbeeld": "open"`), maar dan valt de kaart iets kleiner uit.
+- **Controleren**: `python manage.py test tests.test_kerstmarkt`, en `ONTWERPEN=kerstmarkt node e2e/controle2.cjs …`, `node e2e/effecten.cjs … kerstmarkt`, `node e2e/toegankelijkheid.cjs … kerstmarkt` en `node e2e/kerstmarkt.cjs …`.
+
+Ook hier: na de livegang gaat een nieuw filmpje of een andere opmaak in een `v2`.
+
 ## Een bestaand ontwerp aanpassen
 
 **Wijzig nooit een versie die al in gebruik is.** Bestaande uitnodigingen zouden dan onverwacht veranderen.

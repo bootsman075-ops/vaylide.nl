@@ -297,6 +297,44 @@ De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein
 - **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
 - **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
 
+## Kerstmarkt: het filmpje van het reuzenrad
+
+Op 15 oktober 2026 stuurde de eigenaar een filmpje (WhatsApp-video, 10 seconden, staand 720 × 1280, zonder geluid) met de vraag om "voor dit filmpje weer een kaart" te maken "voor op vaylide.nl, met een mooie afsluiting", en kort daarna: "En een mooie kaartopening erin." Dat is gelezen als een nieuwe kerstkaart rond dit filmpje, zoals eerder bij andere filmpjes van de eigenaar. Het werk bouwt voort op de branch met de kerstkaarten (de gelegenheid Kerst, het effect sneeuw en Kerstexpress), die op dat moment nog niet was samengevoegd. De kaarten bij de eerdere filmpjes (Kerstcoupé, Kerstpaleis en Kerstbal) staan op eigen branches en zitten hier niet in. Tussentijds zijn geen keuzes aan de eigenaar voorgelegd; ze kunnen allemaal nog anders.
+
+**Wat er in het filmpje te zien is.** Het filmpje is bekeken als losse beelden: twee per seconde voor het hele filmpje, vier per seconde van 2 tot 6 seconden, en de kaart in het laatste gebruikte beeld op ware grootte en vergroot. Alle 242 beelden zijn verschillend (24 per seconde).
+
+| Tijd | Wat je ziet |
+|---|---|
+| 0 tot 2,5 s | Vanuit de gondel van een verlicht reuzenrad over een besneeuwde kerstmarkt bij avond: kraampjes met lichtjes, een grote kerstboom, een kerk met twee torens en bergen. De gondel en de camera bewegen. |
+| 2,5 tot 3,5 s | Naast de gondel verschijnt een lichtstreep die uitgroeit tot een kaart in een gloed, met een ster op een stokje erboven. |
+| 3,5 tot 5,5 s | De gloed trekt weg: een crèmekleurige kaart met een dubbele gouden rand met een inkeping in elke hoek, en onderaan een onleesbaar sierlijk onderschrift. |
+| 5,5 tot 10 s | Het beeld zoomt langzaam in op de kaart; het sneeuwt. |
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstmarkt/v1`, voor de gelegenheid Kerst, in drie kleuren: avondblauw (de lucht uit het filmpje), gondelrood (het fluweel van de gondel) en dennengroen. De kleur geldt voor de kaart onder de kop; het filmpje en de kop zijn in elke kleur hetzelfde.
+
+- **Opening**: het eerste beeld (het reuzenrad boven de kerstmarkt) met zachte sneeuw en een kaartje met een ster: "Een kerstgroet voor jou", "van Familie Van Dijk" en de knop "Open de kerstkaart". Na een tik speelt het filmpje tot de kaart met de ster er staat.
+- **De kaartopening**: de echte kaart ligt precies op de kaart uit het filmpje (dezelfde plek, maat en scheefstand), zodat je de overgang niet ziet. Dan komt de kaart naar voren tot midden in beeld en wordt de kerstmarkt iets donkerder. Op de voorkant verschijnt een gouden medaillon met een ster, en twee deurtjes klappen naar je toe open. Er komt warm licht uit de kaart, de ster licht één keer zacht op en er komt sterrenstof achter de ster vandaan. Binnenin schrijft "Fijne kerstdagen" zich met de hand, daarna "en een gelukkig nieuwjaar", en dan de afzender in kapitalen met de namen eronder.
+- **De kaart** eronder, op crèmekleurig papier met dezelfde gouden rand als de kaart in het filmpje:
+  - een brief met de foto in een raampje van de gondel;
+  - "Jouw kaartje": de datum op een kaartje voor het reuzenrad, met een perforatie;
+  - het programma als lichtsnoer, met een lampje bij elk onderdeel;
+  - een afteller in gouden ringen, "Hier vind je ons" met "Plan je route", de dresscode als kerstballen, "Ons jaar", foto's in gondelraampjes ("Ons jaar in beeld"), "Goed om te weten" en "Kom je ook?".
+- **De afsluiting**: de ster licht nog één keer op, met wat sterrenstof; de groet staat er nog eens met de afzender; daaronder de kerstmarkt uit het filmpje, met lichtjes in de kerstboom die zacht twinkelen. Onderaan de knoppen om te delen en "Bekijk de opening nog een keer".
+- **Op de website**: in de collectie bij Kerst (na Winterlicht en Kerstexpress), met een kaartbeeld van de geopende kaart boven de kerstmarkt.
+
+**Keuzes.**
+
+- **Alleen het begin van het filmpje.** Na 5,5 seconden zoomt het filmpje alleen nog in op een lege kaart. Daar neemt de echte kaart het over, met de naam van de klant, zodat elke klant hem kan gebruiken. Het onleesbare onderschrift uit het filmpje staat er niet op.
+- **De kaart op de plek uit het filmpje.** De vier hoeken van de kaart in het laatste filmbeeld zijn opgemeten; het script rekent uit hoe de kaart daarop past, ook de lichte scheefstand. De gouden rand (dubbele lijn met inkepingen) en de ster op het stokje zijn nagetekend. Gemeten in de browser: in een band rond de rand verschilt 8 tot 9% van de beeldpunten van het filmbeeld, tegen 22% als de kaart maar 3 pixels verschuift (`e2e/kerstmarkt.cjs`).
+- **Twee deurtjes als kaartopening.** Een vouwkaart die als een boek opengaat, past op een telefoon niet in beeld: open is hij twee keer zo breed. Twee deurtjes die naar je toe openklappen passen wel, en ze passen bij de ster in het midden. Het medaillon verschijnt pas als de kaart vooraan staat, want in het filmpje heeft de kaart er geen.
+- **Iets sneller dan het origineel.** Het filmpje speelt op ongeveer 1,2 keer de snelheid, zodat het in 4,55 seconden klaar is (het origineel duurt 5,5 seconden). Begint het later (laden na de tik), dan speelt het nog iets sneller, hoogstens twee keer. Begint het niet binnen 0,8 seconde, of blijft het hangen, dan verschijnt de kaart in een gloed: het eindbeeld vloeit over het eerste beeld. Bij 'minder beweging' of met **Beweging** uit speelt er niets en staat de kaart meteen open.
+- **De opening duurt langer** dan bij de andere ontwerpen: 4,55 seconden filmpje, daarna nog ongeveer 4 seconden tot de groet er staat. Na het filmpje kan de gast al scrollen.
+- **Geen knal van het platform.** Die vliegt over de tekst. Het sterrenstof bij het openklappen en in het slot is eigen werk en blijft achter de kaart en naast de tekst (deeltjes achter de tekst). Er zijn geen flitsen: de ster licht één keer zacht op.
+- **Letters**: Pinyon Script voor de groet (die lijkt op het sierlijke onderschrift in het filmpje), Cormorant Garamond voor de tekst, Marcellus voor de kapitalen en Jost voor knoppen en formulieren. Het `&` tussen twee namen staat in de tekstletter; in de sierletter leek het op een ander teken.
+- **Tekst op de kaart, niet op het beeld.** Alle tekst in de kop staat op het papier van de kaart, dus de gewone contrastcontrole meet hem; een meting op beeldpunten zoals bij Winterlicht is niet nodig. Bij veel tekst worden de letters kleiner, zodat alles binnen de gouden rand blijft.
+- **Gewicht.** Het openingsscherm laadt ongeveer 1,3 MB, waarvan 0,77 MB filmpje (Kerstexpress 3,0 MB, Winterlicht 0,8 MB, in dezelfde meting; zie `docs/CONTROLES.md`). Het filmpje is in twee rondes gecodeerd: bij dezelfde grootte scherper dan in één ronde (de eerste versie was 1,6 MB).
+- **Rechten.** Het filmpje lijkt met AI gemaakt. Of het op de website mag worden gebruikt, kan Claude niet nagaan; dat bevestigt de eigenaar.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

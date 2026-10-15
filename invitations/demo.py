@@ -18,6 +18,7 @@ DEFAULT_DEMO_OCCASION = {
     "puur-moment": "verloving",
     "winterlicht": "kerst",
     "kerstexpress": "kerst",
+    "kerstmarkt": "kerst",
 }
 
 DESIGN_IMAGES = {
@@ -58,6 +59,8 @@ DESIGN_IMAGES = {
     # Kerst: eigen getekende beelden uit tools/winterlicht/ (kerstboom, lichtjes, kaarsen, winterbos).
     "winterlicht": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
     "kerstexpress": ["kerst-boom", "kerst-lichtjes", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
+    # Kerstmarkt: de kop is de kerstmarkt uit het filmpje; deze beelden staan bij de brief en in de galerij.
+    "kerstmarkt": ["kerst-lichtjes", "kerst-boom", "kerst-kaarsen", "kerst-winterbos", "goud-lichtjes"],
 }
 IMAGE_SIZES = {
     "waterverf-bloesem": (1200, 1500),
