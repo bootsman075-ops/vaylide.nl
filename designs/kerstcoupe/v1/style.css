@@ -89,7 +89,9 @@ body {
 /* ================================================================ openingsscherm: de gordijnen */
 /* Alleen met JavaScript (zie invite-base.css): zonder script staat de kop met de groet er meteen. */
 .js .kc-cover { display: block; background: #140906; }
-.kc-cover > .kc-backdrop, .kc-cover > .kc-stage { top: var(--kc-bar, 0px); height: max(calc(100% - var(--kc-bar, 0px)), 600px); }
+/* Dezelfde hoogte als de kop (100svh: het scherm met de adresbalk zichtbaar), zodat het laatste filmbeeld
+   ook op een telefoon met een in- en uitschuivende adresbalk precies op de kop past. */
+.kc-cover > .kc-backdrop, .kc-cover > .kc-stage { top: var(--kc-bar, 0px); height: calc(100vh - var(--kc-bar, 0px)); height: max(calc(100svh - var(--kc-bar, 0px)), 600px); }
 .kc-frame__open, .kc-film { opacity: 0; }
 .kc-cover--film .kc-film { opacity: 1; }
 /* Zonder (geladen) filmpje, of zonder kerstcoupe.js: de gordijnen gaan open met een overvloeier.
@@ -146,7 +148,7 @@ body {
 .is-opening-reduced .kc-cover { animation: none; opacity: 0; transition: opacity .2s; }
 
 /* ================================================================ kop: de groet op het raam */
-.kc-hero { position: relative; height: 100vh; height: max(calc(100svh - var(--kc-bar, 0px)), 600px); overflow: hidden; background: #140906; }
+.kc-hero { position: relative; height: calc(100vh - var(--kc-bar, 0px)); height: max(calc(100svh - var(--kc-bar, 0px)), 600px); overflow: hidden; background: #140906; }
 /* Sneeuw valt alleen buiten: het vlak volgt het glas van het raam. */
 .kc-glass { inset: 13.2% 7.7% 33.1% 8.7%; border-radius: 7% / 4%; }
 .kc-hero__text {

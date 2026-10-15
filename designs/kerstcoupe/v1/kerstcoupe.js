@@ -40,7 +40,8 @@
     resizeTimer = window.setTimeout(function () { setBar(); fit(); }, 120);
   });
   if (document.fonts) {
-    if (document.fonts.ready) document.fonts.ready.then(fit);
+    // Na het laden van de letters kan de voorbeeldbalk een andere hoogte hebben, en de tekst op het raam ook.
+    if (document.fonts.ready) document.fonts.ready.then(function () { setBar(); fit(); });
     if (document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", fit);
   }
 

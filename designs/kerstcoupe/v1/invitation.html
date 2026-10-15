@@ -30,7 +30,7 @@
   {# Een tafelkaartje op de tafel van de coupé. #}
   <div class="kc-place">
     <p class="kc-place__kicker">{% if v.occasion == "kerst" %}{% if v.formal %}Een kerstgroet voor u{% else %}Een kerstgroet voor jou{% endif %}{% elif v.formal %}Een uitnodiging voor u{% else %}Een uitnodiging voor jou{% endif %}</p>
-    <p class="kc-place__from">{% if v.occasion == "kerst" %}van {% endif %}{{ v.title }}</p>
+    {% if v.title != v.occasion_label %}<p class="kc-place__from">{% if v.occasion == "kerst" %}van {% endif %}{{ v.title }}</p>{% endif %}
     <a href="#uitnodiging" class="kc-open fx-pulse" data-open data-fx-origin>Open de gordijnen</a>
     {% if v.show.music %}<button type="button" class="kc-place__music" data-open data-open-music>Openen met muziek</button>{% endif %}
   </div>

@@ -144,8 +144,10 @@ class KerstcoupeDesignTests(VaylideTestCase):
         # De opening en de kop gebruiken hetzelfde beeldvak: het laatste filmbeeld gaat naadloos over in de kop.
         css = read("style.css")
         self.assertIn(".kc-stage {\n  position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 9 / 16;", css)
-        self.assertIn(".kc-cover > .kc-backdrop, .kc-cover > .kc-stage { top: var(--kc-bar, 0px); height: max(calc(100% - var(--kc-bar, 0px)), 600px); }", css)
-        self.assertIn(".kc-hero { position: relative; height: 100vh; height: max(calc(100svh - var(--kc-bar, 0px)), 600px);", css)
+        # Opening en kop rekenen met dezelfde schermhoogte (ook als een telefoon de adresbalk in- en uitschuift).
+        same = "height: calc(100vh - var(--kc-bar, 0px)); height: max(calc(100svh - var(--kc-bar, 0px)), 600px);"
+        self.assertIn(".kc-cover > .kc-backdrop, .kc-cover > .kc-stage { top: var(--kc-bar, 0px); " + same, css)
+        self.assertIn(".kc-hero { position: relative; " + same, css)
         self.assertIn("width: max(100cqw, 56.25cqh); height: max(100cqh, 177.78cqw);", css)
         html = read("invitation.html")
         self.assertEqual(html.count('<div class="kc-frame"'), 2)
@@ -172,6 +174,14 @@ class KerstcoupeDesignTests(VaylideTestCase):
         self.assertEqual(v["names_size"], "xlong")
         self.assertIn("kc-names--xlong", html)
         self.assertIn("van Familie Van den Heuvel-Oosterbroek", html)
+
+    def test_preview_without_sender_has_no_loose_van(self):
+        # Bij het samenstellen, voordat de afzender is ingevuld: geen "van Kerst" op het tafelkaartje.
+        content = demo_content("kerstcoupe", "kerst")
+        content["names"] = {"family": "", "members": ""}
+        _, html = self.render(content=content)
+        self.assertNotIn("van Kerst", html)
+        self.assertNotIn('class="kc-place__from"', html)
 
     def test_other_occasions_keep_working(self):
         # In Beheer kan het ontwerp ook voor een andere gelegenheid worden aangezet, bijvoorbeeld een winterbruiloft.
