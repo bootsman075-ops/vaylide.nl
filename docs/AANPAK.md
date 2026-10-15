@@ -326,7 +326,7 @@ De eigenaar stuurde een filmpje (WhatsApp-video van 15 oktober 2026, 8 seconden,
 - **Op een hoog scherm** rekken alleen de rechte zijlijnen van de sierlijst mee; de hoeken met dennengroen en hulst houden hun verhouding, en het sierstuk halverwege de zijkant staat los. Op een computer staat de kaart als kolom op een donkere tafel, zoals Kerstexpress.
 - **Bij 'minder beweging' of met de knop Beweging uit** speelt de film niet: de kaart verschijnt direct.
 - **Gewicht.** Het openingsscherm laadt ongeveer 1,5 MB (de film 0,5 MB, de sierlijst 0,5 MB, het eerste beeld 0,1 MB, plus letters), zodat de deuren en de kaart meteen klaar staan. Dat is meer dan Winterlicht (ongeveer 0,8 MB) en minder dan Kerstexpress (de film alleen al 2,7 MB). Zie `docs/CONTROLES.md`.
-- **Rechten.** De film lijkt met AI gemaakt. Of de eigenaar de rechten heeft om hem op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
+- **Rechten.** De eigenaar heeft de film zelf gemaakt en bewerkt, en bevestigde op 15 oktober 2026 de rechten te hebben om hem op de website te gebruiken.
 
 ## Referenties en schermopname
 

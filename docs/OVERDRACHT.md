@@ -79,8 +79,9 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 14. **Kerstpaleis beoordelen** (eigenaar, ronde 8): bekijk `/voorbeeld/kerstpaleis/` (andere kleur: `?kleur=dennengroen` of `nachtblauw`) op een echte telefoon, en beslis over:
    - de afzender op de plek van VAYLIDE in de film, en het logo op de slotkaart (zie `docs/AANPAK.md`, "Ronde 8");
    - dat de deuren pas opengaan na een tik (in de film gaan ze vanzelf open);
-   - de kleuren dennengroen en nachtblauw naast het rood van de film;
-   - de rechten op de film (die lijkt met AI gemaakt; Claude kan dat niet nagaan).
+   - de kleuren dennengroen en nachtblauw naast het rood van de film.
+
+   De rechten op de film zijn geregeld: de eigenaar heeft hem zelf gemaakt en bewerkt (bevestigd op 15 oktober 2026).
    Daarna: Safari op een iPhone en een ouder Android-toestel (het openingsscherm laadt 1,5 MB).
 15. **Kerstexpress zonder JavaScript**: het openingsscherm blijft dan staan (de gedragscontrole faalt). Oorzaak en plek: `docs/CONTROLES.md` onder "Kerstpaleis". Kleine aanpassing in `designs/kerstexpress/v1/style.css`, zolang er nog geen echte kerstkaarten op die versie staan.
 16. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIDE_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
