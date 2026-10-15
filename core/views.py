@@ -15,7 +15,8 @@ from catalog.occasions import OCCASION_CHOICES, OCCASION_LABELS, by_occasion
 from catalog.effects import effect_card_label, effect_summary
 from invitations.demo import DEFAULT_DEMO_OCCASION
 
-from .content import FAQ, FEATURES, HERO_CHECKS, HOME_DESIGNS, HOME_FEATURES, OCCASION_TILES, STEPS, STEPS_SHORT, TEXT_SAMPLES, TIPS, VALUES
+from .content import (FAQ, FEATURES, HERO_CHECKS, HOME_DESIGNS, HOME_FEATURES, OCCASION_TILE_NOTES, OCCASION_TILES, STEPS, STEPS_SHORT,
+                      TEXT_SAMPLES, TIPS, VALUES)
 from .forms import ContactForm
 from .models import ContactMessage, SiteConfig
 from .utils import form_age_seconds, ip_fingerprint, rate_limit, signed_timestamp
@@ -56,6 +57,7 @@ def home(request):
             "design_count": len(designs),
             "checks": HERO_CHECKS,
             "tiles": OCCASION_TILES,
+            "tile_notes": OCCASION_TILE_NOTES,
             "steps": STEPS_SHORT,
             "features": HOME_FEATURES,
             "from_price": cheapest.price_display if cheapest else "",
@@ -128,7 +130,7 @@ def faq(request):
 
 
 def inspiration(request):
-    return render(request, "core/inspiration.html", {"tiles": OCCASION_TILES, "samples": TEXT_SAMPLES, "tips": TIPS})
+    return render(request, "core/inspiration.html", {"tiles": OCCASION_TILES, "tile_notes": OCCASION_TILE_NOTES, "samples": TEXT_SAMPLES, "tips": TIPS})
 
 
 def about(request):

@@ -44,6 +44,8 @@ function check(decoratief) {
   for (const el of document.querySelectorAll("body *")) {
     const direct = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim().length > 1);
     if (!direct) continue;
+    // Tekst op een getekend beeld (zoals het kerstraam van Winterlicht): die meet e2e/kerstraam.cjs op de echte pixels.
+    if (el.closest("[data-tekst-op-beeld]")) { onPhoto.push(el.textContent.trim().replace(/\s+/g, " ").slice(0, 50)); continue; }
     if (el.closest(decoratief ? "script, style, noscript, .visually-hidden" : "script, style, noscript, [aria-hidden='true'], .visually-hidden")) continue;
     if (typeof el.checkVisibility === "function" && !el.checkVisibility({ opacityProperty: true, visibilityProperty: true })) continue;
     const r = el.getBoundingClientRect();

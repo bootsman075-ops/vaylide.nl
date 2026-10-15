@@ -56,8 +56,12 @@ async function settings(page) {
       const coverInk = await inked(p, "[data-cover] .fx-canvas");
       const toggleVisible = await p.isVisible("[data-fx-toggle]");
       check(`${slug} · Deeltjes op het openingsscherm (${fx.sfeer})`, coverInk > 0 && toggleVisible, `getekende punten: ${coverInk}, knop 'Beweging' zichtbaar: ${toggleVisible}`);
+      // Meten kort na het moment van de knal (data-fx-delay). Met een video in de opening (Kerstbal)
+      // begint dat moment pas als de video speelt.
+      const delay = await p.evaluate(() => parseInt(document.querySelector("[data-cover]").getAttribute("data-fx-delay") || "0", 10));
       await p.click("[data-cover] [data-open]", { force: true });
-      await p.waitForTimeout(650);
+      await p.waitForFunction(() => document.documentElement.classList.contains("is-opening"), null, { timeout: 4000 }).catch(() => {});
+      await p.waitForTimeout(Math.max(650, delay + 430));
       const burstInk = await inked(p, ".fx-burst .fx-canvas");
       check(`${slug} · Knal bij het openen (${fx.knal})`, fx.knal === "geen" || burstInk > 0, `getekende punten: ${burstInk}`);
       await p.waitForFunction(() => document.documentElement.classList.contains("fx-done"), null, { timeout: 9000 });

@@ -1,0 +1,23 @@
+{
+  "slug": "kerstbal",
+  "version": 1,
+  "name": "Kerstbal",
+  "tagline": "Een rood-gouden kerstbal die opengaat, met de uitnodiging erin",
+  "description": "Een rode kerstbal met gouden krullen hangt aan een gouden draad. Na een tik gaat de bal in het midden open, de twee helften klappen naar voren en de kaart komt uit de bal naar je toe. Daarna hangt de kaart aan dezelfde gouden draad, tussen dwarrelende sneeuw. Voor een kerstgroet, een kerstdiner of een kerstborrel.",
+  "style_notes": "Kerstrood, goud en ivoor, barokke krullen, sierlijke handletters",
+  "occasions": ["kerst", "zakelijk", "bruiloft", "verloving", "jubileum", "verjaardag"],
+  "sort_order": 41,
+  "opening": "kerstbal",
+  "opening_label": "Kerstbal die opengaat",
+  "palettes": [
+    {"key": "kerstrood", "name": "Kerstrood & goud", "swatch": ["#5C0F1C", "#230707", "#E8C77E"],
+     "vars": {"--kb-card": "#5C0F1C", "--kb-card-2": "#4C0B16", "--kb-ink": "#FBF1E6", "--kb-muted": "#EBCFC4", "--kb-gold": "#E8C77E", "--kb-line": "#D9B46A", "--kb-name": "#F6E3B4", "--kb-btn": "#E8C77E", "--kb-btn-ink": "#3A0A10", "--kb-field": "#4A0A15"}},
+    {"key": "ivoor", "name": "Ivoor & kerstrood", "swatch": ["#FBF6EC", "#8C1A2B", "#C29A4E"],
+     "vars": {"--kb-card": "#FBF6EC", "--kb-card-2": "#F3EBDC", "--kb-ink": "#3A0D14", "--kb-muted": "#6B4A45", "--kb-gold": "#8A5B14", "--kb-line": "#C29A4E", "--kb-name": "#8C1A2B", "--kb-btn": "#8C1A2B", "--kb-btn-ink": "#FFF8EE", "--kb-field": "#FFFFFF"}},
+    {"key": "dennengroen", "name": "Dennengroen & goud", "swatch": ["#123A2C", "#5C0F1C", "#E3C47F"],
+     "vars": {"--kb-card": "#123A2C", "--kb-card-2": "#0E3024", "--kb-ink": "#F4F0E4", "--kb-muted": "#CBD8CB", "--kb-gold": "#E3C47F", "--kb-line": "#D4B370", "--kb-name": "#F2E0B0", "--kb-btn": "#E3C47F", "--kb-btn-ink": "#10261D", "--kb-field": "#0C2A1F"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "sneeuw", "knal": "vonken", "viering": "sterren", "namen": "schrijf", "onthul": "omhoog", "extra": ["kenburns", "tik"]},
+  "changelog": "Eerste versie: opening met de video van de kerstbal die opengaat."
+}

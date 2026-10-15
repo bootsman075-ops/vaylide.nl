@@ -4,6 +4,8 @@
 //   VIEWPORTS=360,390   alleen deze schermformaten
 //   CHECKS=0            geen gedragscontroles (minder beweging, toetsenbord, muziek, vangnet, tijdzone, zonder JS)
 //   SHOTS=viewport      schermafbeelding van het zichtbare deel in plaats van de hele pagina (scheelt veel ruimte)
+//   ONTWERPEN=winterlicht,avondgoud   alleen de voorbeelden, testuitnodigingen en gedragscontroles van deze ontwerpen
+//                       (geen websitepagina's, klantomgeving of beheer); handig na een wijziging aan één ontwerp
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
@@ -20,7 +22,8 @@ const viewports = [
   { name: "1366", width: 1366, height: 900 },
 ].filter((vp) => !onlyViewports.length || onlyViewports.includes(vp.name));
 // Alle ontwerpen uit designs/ (mappen die met _ beginnen zijn gedeelde onderdelen).
-const designs = fs.readdirSync(path.join(process.cwd(), "designs")).filter((d) => !d.startsWith("_")).sort();
+const onlyDesigns = (process.env.ONTWERPEN || "").split(",").filter(Boolean);
+const designs = fs.readdirSync(path.join(process.cwd(), "designs")).filter((d) => !d.startsWith("_") && (!onlyDesigns.length || onlyDesigns.includes(d))).sort();
 const report = { pages: [], checks: [] };
 
 async function scrollThrough(page) {
@@ -151,15 +154,17 @@ async function loginStaff(context) {
   for (const vp of viewports) {
     const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, locale: "nl-NL", timezoneId: "Europe/Amsterdam" });
     const page = await context.newPage();
-    for (const [name, url] of publicPages) await audit(page, vp, name, url);
+    for (const [name, url] of onlyDesigns.length ? [] : publicPages) await audit(page, vp, name, url);
     for (const slug of designs) {
       await page.evaluate(() => { try { sessionStorage.clear(); } catch (e) {} });
       await audit(page, vp, `demo-${slug}`, `/voorbeeld/${slug}/`, { open: true });
     }
     for (const [key, url] of Object.entries(fixtures)) {
+      if (onlyDesigns.length && !onlyDesigns.includes(key.split(":")[0])) continue;
       await page.evaluate(() => { try { sessionStorage.clear(); } catch (e) {} });
       await audit(page, vp, `u-${key.replace(":", "-")}`, url, { open: true });
     }
+    if (onlyDesigns.length) { await context.close(); continue; }
     // Klantomgeving en samenstellen.
     await loginCustomer(context);
     await audit(page, vp, "portal-home", "/account/");
@@ -218,7 +223,9 @@ async function loginStaff(context) {
       }
       check(`${slug} · Toetsenbord: openknop bereikbaar met Tab`, onOpen, `focus op: ${focused}`);
       await p.keyboard.press("Enter");
-      await p.waitForTimeout(3600);
+      // Wachten tot de opening klaar is (bij Kerstbal duurt die met de video ruim vier seconden).
+      await p.waitForFunction(() => document.documentElement.classList.contains("is-open"), null, { timeout: 9000 }).catch(() => {});
+      await p.waitForTimeout(400);
       const active = await p.evaluate(() => document.activeElement.tagName + " " + (document.activeElement.textContent || "").trim().replace(/\s+/g, " ").slice(0, 30));
       const inert = await p.evaluate(() => document.getElementById("uitnodiging").inert);
       check(`${slug} · Toetsenbord: na openen focus op de kop`, active.startsWith("H1") && !inert, `focus op: ${active}, inert=${inert}`);
@@ -253,7 +260,7 @@ async function loginStaff(context) {
     }
   }
   // Zonder JavaScript: elke uitnodiging direct leesbaar (per ontwerp de variant met lange teksten).
-  for (const [key, url] of Object.entries(fixtures).filter(([k]) => runChecks && k.endsWith(":lang"))) {
+  for (const [key, url] of Object.entries(fixtures).filter(([k]) => runChecks && k.endsWith(":lang") && (!onlyDesigns.length || onlyDesigns.includes(k.split(":")[0])))) {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, javaScriptEnabled: false });
     const p = await ctx.newPage();
     await p.goto(base + url, { waitUntil: "networkidle" });

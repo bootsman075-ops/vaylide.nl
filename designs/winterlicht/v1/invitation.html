@@ -1,0 +1,192 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Winterlicht v1 — kerstkaart met envelop en lakzegel. Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'.webp' %}" imagesrcset="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'-720.webp' %} 720w, {% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'.webp' %} 1080w" imagesizes="(min-width: 600px) 560px, 120vw" fetchpriority="high">
+<script src="{% static 'designs/winterlicht/v1/winterlicht.js' %}" defer></script>{% endblock %}
+
+{% block cover %}
+<section class="cover wl-cover" data-cover data-duration="3150" data-fx-delay="620" data-fx-intro="2400" aria-label="Openingsscherm">
+  <div class="wl-env" data-fx-tilt>
+    <div class="wl-env__inside" aria-hidden="true"><span class="wl-env__rays"></span><span class="wl-env__light"></span></div>
+    {% include "winterlicht/v1/_klep.html" with klep="links" %}
+    {% include "winterlicht/v1/_klep.html" with klep="rechts" %}
+    {% include "winterlicht/v1/_klep.html" with klep="onder" %}
+    {% include "winterlicht/v1/_klep.html" with klep="boven" %}
+    <svg class="wl-env__edges" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <path class="wl-env__crease" d="M0 0L50 46L100 0M0 100L50 46L100 100"/>
+      <path class="wl-env__cord" d="M0 0L50 46L100 0M0 100L50 46L100 100"/>
+    </svg>
+    <div class="fx-slot" data-fx-slot="cover" aria-hidden="true"></div>
+    <a href="#uitnodiging" class="wl-seal fx-pulse" data-open data-fx-origin aria-label="Open de {{ v.doc_kind }}">{% include "winterlicht/v1/_zegel.html" %}</a>
+    <div class="wl-cover__text">
+      <p class="wl-cover__to">{% if v.occasion == "kerst" %}Een kerstgroet voor jou{% elif v.formal %}Een uitnodiging voor u{% else %}Een uitnodiging voor jou{% endif %}</p>
+      <p class="wl-cover__hint">Tik op het zegel om te openen</p>
+      {% if v.show.music %}<button type="button" class="wl-cover__music" data-open data-open-music>Openen met muziek</button>{% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="wl-hero">
+  <div class="wl-hero__art">
+    <img class="wl-hero__img" src="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'-720.webp' %}" srcset="{% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'-720.webp' %} 720w, {% static 'designs/winterlicht/v1/img/scene-'|add:v.palette_key|add:'.webp' %} 1080w" sizes="(min-width: 600px) 560px, 120vw" alt="" width="1080" height="1920" fetchpriority="high" decoding="async">
+    {% include "winterlicht/v1/lichtjes.html" %}
+    <div class="fx-slot wl-hero__snow" data-fx-slot="hero" aria-hidden="true"></div>
+    {# data-tekst-op-beeld: de tekst staat op de tekening; het contrast meet e2e/kerstraam.cjs op de echte pixels. #}
+    <div class="wl-hero__text" data-tekst-op-beeld>
+      <p class="wl-hero__kicker fx-intro" style="--fx-d:1">{{ v.kicker }}{% if v.occasion == "kerst" and not v.headline_custom %}<span class="wl-hero__from"> van</span>{% endif %}</p>
+      <h1 class="wl-names wl-names--{{ v.names_size }} fx-names">{% if v.is_couple %}<span class="wl-names__one">{{ v.names.0 }}</span> <span class="wl-names__amp" aria-label="en">&amp;</span> <span class="wl-names__two">{{ v.names.1 }}</span>{% else %}{{ v.names.0 }}{% endif %}</h1>
+      {% if v.subnames %}<p class="wl-hero__members fx-intro" style="--fx-d:5">{{ v.subnames }}</p>{% endif %}
+      <p class="wl-hero__tagline fx-intro" style="--fx-d:6">{{ v.tagline }}</p>
+    </div>
+  </div>
+  <a class="wl-scroll fx-intro" href="#wl-verder" style="--fx-d:8">Scroll verder<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</header>
+
+<div class="wl-body" id="wl-verder">
+{% if v.has_event and v.date %}
+<section class="wl-sec wl-date" data-reveal aria-labelledby="wl-date-title">
+  <h2 id="wl-date-title" class="wl-h2">De datum</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <p class="wl-date__hint">Kras en ontdek de datum</p>
+  <p class="visually-hidden">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}</p>
+  <ul class="wl-scratch" aria-hidden="true" data-scratch-group>
+    <li class="wl-scratch__tile"><span class="wl-scratch__value wl-scratch__value--num">{{ v.day }}</span><canvas class="wl-scratch__foil" data-scratch></canvas><span class="wl-scratch__label">Dag</span></li>
+    <li class="wl-scratch__tile"><span class="wl-scratch__value">{{ v.month_name }}</span><canvas class="wl-scratch__foil" data-scratch></canvas><span class="wl-scratch__label">Maand</span></li>
+    <li class="wl-scratch__tile"><span class="wl-scratch__value wl-scratch__value--num">{{ v.year }}</span><canvas class="wl-scratch__foil" data-scratch></canvas><span class="wl-scratch__label">Jaar</span></li>
+  </ul>
+  <p class="wl-date__full" data-scratch-after aria-hidden="true">{{ v.weekday|capfirst }}{% if v.time_display %} · {{ v.time_display }}{% endif %}</p>
+  <button type="button" class="wl-textbtn" data-scratch-all hidden>Toon de datum zonder krassen</button>
+</section>
+{% endif %}
+
+{% if v.welcome or v.hero %}
+<section class="wl-sec wl-letter" data-reveal aria-label="{% if v.occasion == 'kerst' %}Kerstgroet{% else %}Welkom{% endif %}">
+  <div class="wl-letter__card">
+    <svg class="wl-letter__orn" viewBox="0 0 200 60" aria-hidden="true" focusable="false" data-fx-draw>
+      <path d="M100 8l3 7 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+      <path d="M92 32c-18 6-40 4-64-4M108 32c18 6 40 4 64-4"/>
+      <path d="M60 32l4-5 3 3 3-5 3 4 5-3 3 8-7 5-4-4-3 4-3-5-3 2zM140 32l-4-5-3 3-3-5-3 4-5-3-3 8 7 5 4-4 3 4 3-5 3 2z"/>
+      <circle class="wl-fill" cx="100" cy="36" r="3"/><circle class="wl-fill" cx="94" cy="40" r="2.6"/><circle class="wl-fill" cx="106" cy="40" r="2.6"/>
+    </svg>
+    {% if v.hero %}<figure class="wl-letter__photo"><div class="ph fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero sizes="(min-width: 600px) 420px, 80vw" %}</div></figure>{% endif %}
+    {% if v.welcome %}<div class="wl-letter__text">{% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="wl-sec wl-program" data-reveal aria-labelledby="wl-program-title">
+  <h2 id="wl-program-title" class="wl-h2">Het programma</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <ol class="wl-timeline" data-fx-stagger>
+    {% for item in v.program %}
+    <li class="wl-tl{% cycle '' ' wl-tl--rechts' %}">
+      <div class="wl-tl__art">{% include "winterlicht/v1/_icoon.html" with naam=item.icon %}</div>
+      <span class="wl-tl__node" aria-hidden="true"></span>
+      <div class="wl-tl__text">
+        {% if item.time %}<p class="wl-tl__time">{{ item.time }}</p>{% endif %}
+        <h3 class="wl-tl__title">{{ item.title }}</h3>
+        {% if item.description %}<p class="wl-tl__desc">{{ item.description }}</p>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="wl-sec wl-count" data-reveal aria-labelledby="wl-count-title">
+  <h2 id="wl-count-title" class="wl-h2">{% if v.countdown_label == "kerst" %}Aftellen naar kerst{% elif v.is_past %}Dank je wel{% else %}Nog even en het is zover{% endif %}</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  {% include "invitations/partials/countdown.html" %}
+  {% include "invitations/partials/calendar_buttons.html" %}
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="wl-sec wl-place" data-reveal aria-labelledby="wl-place-title">
+  <h2 id="wl-place-title" class="wl-h2">Locatie</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  {% if v.venue %}<p class="wl-place__venue">{{ v.venue }}</p>{% endif %}
+  {% if v.address_lines %}<address class="wl-place__address">{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+  <figure class="wl-place__art" aria-hidden="true"><img src="{% static 'designs/winterlicht/v1/img/huis-'|add:v.palette_key|add:'.webp' %}" alt="" width="900" height="600" loading="lazy" decoding="async"></figure>
+  {% if v.date_display %}<p class="wl-place__when">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+  {% if v.route_url %}<a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Plan je route</a>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="wl-sec wl-dress" data-reveal aria-labelledby="wl-dress-title">
+  <h2 id="wl-dress-title" class="wl-h2">Dresscode</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  {% if v.dresscode_colors %}<ul class="wl-baubles" aria-label="Kleuren voor de dresscode">
+    {% for c in v.dresscode_colors %}<li class="wl-bauble" style="--c:{{ c }};--i:{{ forloop.counter0 }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}
+  </ul>{% endif %}
+  {% for p in v.dresscode_text %}<p class="wl-dress__text">{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="wl-sec wl-story" data-reveal aria-labelledby="wl-story-title">
+  <h2 id="wl-story-title" class="wl-h2">{{ v.story_title }}</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <div class="wl-story__text">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="wl-sec wl-gallery" data-reveal aria-labelledby="wl-gallery-title">
+  <h2 id="wl-gallery-title" class="wl-h2">Momenten</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <svg class="wl-string" viewBox="0 0 470 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 6C80 34 155 34 235 12S390 -6 470 18"/><circle cx="28" cy="15" r="3.4"/><circle cx="76" cy="25" r="3.4"/><circle cx="128" cy="29" r="3.4"/><circle cx="182" cy="24" r="3.4"/><circle cx="235" cy="12" r="3.4"/><circle cx="290" cy="5" r="3.4"/><circle cx="344" cy="5" r="3.4"/><circle cx="398" cy="10" r="3.4"/><circle cx="446" cy="16" r="3.4"/></svg>
+  <ul class="wl-photos">
+    {% for photo in v.gallery %}<li class="wl-photo" style="--r:{% cycle '-3deg' '2.5deg' '-1.5deg' '3deg' '-2.5deg' '1.5deg' %}"><span class="wl-photo__peg" aria-hidden="true"></span><figure><div class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 600px) 250px, 44vw" %}</div>{% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}</figure></li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="wl-sec wl-practical" data-reveal aria-labelledby="wl-practical-title">
+  <h2 id="wl-practical-title" class="wl-h2">Goed om te weten</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <dl class="wl-practical__list" data-fx-stagger>
+    {% for item in v.practical %}<div class="wl-practical__item">{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="wl-sec wl-rsvp" id="aanmelden" data-reveal aria-labelledby="wl-rsvp-title">
+  <h2 id="wl-rsvp-title" class="wl-h2">{% if v.occasion == "kerst" %}{% if v.formal %}Schuift u aan?{% else %}Schuif je aan?{% endif %}{% elif v.formal %}Komt u ook?{% else %}Kom je ook?{% endif %}</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  <div class="wl-card">
+    {% include "invitations/partials/rsvp.html" %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="wl-sec wl-contact" data-reveal aria-labelledby="wl-contact-title">
+  <h2 id="wl-contact-title" class="wl-h2">Vragen?</h2>
+  {% include "winterlicht/v1/_divider.html" %}
+  {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+  <p class="wl-contact__name">{{ v.contact.name }}</p>
+  <p class="wl-contact__links">
+    {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+    {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+    {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+  </p>
+</section>
+{% endif %}
+
+<section class="wl-sec wl-closing" data-reveal aria-label="Afsluiting">
+  {% include "winterlicht/v1/_krans.html" %}
+  {% if v.occasion == "kerst" %}<p class="wl-closing__wish">Fijne feestdagen</p>{% endif %}
+  {% if v.show.closing %}{% for p in v.closing %}<p class="wl-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+</div>
+{% endblock %}
