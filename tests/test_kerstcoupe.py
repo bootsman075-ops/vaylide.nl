@@ -112,9 +112,13 @@ class KerstcoupeDesignTests(VaylideTestCase):
         self.assertLess(page.index("designs/kerstcoupe/v1/kerstcoupe.js"), page.index("invitations/invite.js"))
         self.assertTrue(finders.find("designs/kerstcoupe/v1/kerstcoupe.js"))
         script = read("kerstcoupe.js")
-        for part in ("prefers-reduced-motion", "fx-paused", "film.readyState >= 4", "kc-cover--speelt", "data-duration",
-                     "data-fx-intro", "--kc-out", "attempt.catch(fade)", '"--kc-bar"', '"--kc-fit"'):
+        for part in ("prefers-reduced-motion", "fx-paused", "kc-cover--speelt", "data-duration", "data-fx-intro", "--kc-out",
+                     "attempt.catch(fade)", '"--kc-bar"', '"--kc-fit"',
+                     # Nog niet geladen (iPhone): 0,8 seconde wachten op het filmpje, en bij haperen de overvloeier.
+                     "film.readyState < 4", "}, 800);", 'film.addEventListener("waiting"'):
             self.assertIn(part, script)
+        # Het open raam ligt boven het filmpje, zodat de overvloeier ook over een blijven hangen filmpje gaat.
+        self.assertLess(html.index("<video"), html.index('class="kc-frame__open"'))
 
     def test_motion_follows_the_house_rules(self):
         css = read("style.css")

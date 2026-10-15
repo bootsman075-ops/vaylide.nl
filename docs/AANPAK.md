@@ -297,6 +297,41 @@ De eigenaar stuurde een afbeelding met 24 beelden uit een kerstreis met de trein
 - **Gewicht.** Het filmpje moet kort en licht zijn, anders laadt de opening op een telefoon te langzaam. Dat wordt gecontroleerd zodra het er is.
 - **Rechten.** De beelden lijken met AI gemaakt. Of de eigenaar de rechten heeft om ze op de website te gebruiken, kan Claude niet nagaan; dat moet de eigenaar bevestigen.
 
+## Ronde 7d: Kerstcoupé (het filmpje van de coupé)
+
+Op 15 oktober 2026 stuurde de eigenaar een filmpje van 9 seconden (staand, 720 × 1280, zonder geluid) met de vraag: "Ik wil ook dat je voor deze video een passende kaart ontwerpt en maakt voor Vaylide en volledig uitwerkt." Dat is gelezen als een nieuwe kerstkaart rond dit filmpje, naast Winterlicht en Kerstexpress. Het werk bouwt voort op de branch met de kerstkaarten (de gelegenheid Kerst, het effect sneeuw en de filmopening van Kerstexpress), die op dat moment nog niet was samengevoegd. Tussentijds zijn geen keuzes aan de eigenaar voorgelegd; ze kunnen allemaal nog anders.
+
+**Wat er in het filmpje te zien is.** Het filmpje is bekeken als losse beelden: twee per seconde voor het hele filmpje, en elk beeld rond het moment dat de tekst begint. Een treincoupé bij avond: houten wanden met messing, een lampje links, kaarsen, een kerststukje en een dampend kopje thee op de tafeltjes, rode fluwelen stoelen. Rode fluwelen gordijnen gaan open (van ongeveer 1 tot 4,9 seconden) en laten een besneeuwd bergdorp zien met een kerkje, een viaduct en de maan, achter een berijpt raam. Vanaf 5,1 seconden schrijft zich "Fijne kerstdagen / en een schitterend / nieuwjaar" op het raam, en daaronder verschijnt VAYLIDE in kapitalen. De camera staat stil. Het filmpje heeft 24 beelden per seconde, maar elk tweede beeld is een kopie: er zijn 12 echte beelden per seconde.
+
+**Wat er gemaakt is.** Een nieuw ontwerp, `designs/kerstcoupe/v1`, voor de gelegenheid Kerst, in drie kleuren: rood fluweel, sneeuwnacht (nachtblauw) en mahonie met dennengroen.
+
+- **Opening**: het eerste beeld (de dichte gordijnen) met een crèmekleurig tafelkaartje: "Een kerstgroet voor jou", "van Familie Van Dijk" en de knop "Open de gordijnen". Na een tik verdwijnt het kaartje en speelt het stuk van het filmpje waarin de gordijnen opengaan. Achter het glas begint het zacht te sneeuwen zodra het raam vrij is.
+- **Kop**: het laatste beeld van dat stuk, precies op dezelfde plek, zodat de opening ongemerkt overgaat in de kaart. Daarop schrijft de groet zich regel voor regel op het raam, net als in het filmpje, en daaronder komt de afzender in kapitalen op de plek waar in het filmpje VAYLIDE staat. Achter het glas valt sneeuw, boven het kopje thee stijgt stoom en het licht van het lampje en de kaarsen flakkert zacht.
+- **De kaart** in de stijl van een dinerrijtuig, met crèmekleurige kaartjes met een messing rand op een donkere pagina:
+  - een briefje met de foto in een coupéraam;
+  - een tafelkaartje "Gereserveerd voor jou" met de datum;
+  - het programma als dinerkaart, met stippellijntjes naar de tijden;
+  - een afteller in messing ringen;
+  - de bestemming met "Plan je route";
+  - de dresscode als fluwelen bolletjes;
+  - "Ons jaar" met een grote beginletter;
+  - foto's in coupéramen ("Uitzicht onderweg");
+  - "Goed om te weten" en "Reserveer je plaats";
+  - het slot: de groet nog een keer, en de tafel met de kaarsen en het dampende kopje uit het filmpje.
+- **Op de website**: de kaart staat in de collectie bij Kerst (na Winterlicht en Kerstexpress), met een kaartbeeld van het raam met de groet.
+
+**Keuzes.**
+
+- **Alleen het stuk zonder tekst.** De tekst in het filmpje is vast ("VAYLIDE" eronder), terwijl een klant de kaart met de eigen naam verstuurt. Daarom speelt alleen het stuk van 1,0 tot 4,9 seconden, en schrijft de kaart zelf de groet, in een letter die op die van het filmpje lijkt (EB Garamond cursief; vergeleken met Great Vibes, Parisienne en Cormorant Garamond op het beeld zelf). De afzender staat in dezelfde ruime kapitalen als VAYLIDE in het filmpje (Jost). Het merk staat onderaan de kaart, zoals bij alle ontwerpen ("Digitale kerstkaart gemaakt met Vaylide"). Het logo staat niet op de kaart: het filmpje toont alleen het woord, en het logo wordt niet opgesplitst (regel 12).
+- **Vloeiender gemaakt.** Met 12 echte beelden per seconde haperde de gordijnbeweging zichtbaar. Er zijn tussenbeelden berekend (ffmpeg, `minterpolate`); in de plooien van het fluweel zijn geen vervormingen gezien (bekeken: zes opeenvolgende beelden tijdens de snelste beweging, waarvan twee op ware grootte). Het filmpje is 3,8 seconden, als webm (0,65 MB) en mp4 (0,74 MB).
+- **De opening duurt ruim vier seconden**, langer dan bij de andere ontwerpen, omdat het filmpje zo lang duurt. Na de tik start het filmpje meteen als het al geladen is. Is het nog niet geladen (een iPhone laadt een filmpje meestal pas na een tik), dan krijgt het 0,8 seconde om te beginnen; lukt dat niet, of blijft het halverwege hangen, dan vloeit het open raam eroverheen. Een eerste versie speelde het filmpje alleen als het vooraf helemaal geladen was; dan had een iPhone vrijwel altijd alleen de overvloeier getoond. Bij 'minder beweging' of met de knop **Beweging** uit speelt er niets en staat meteen het open raam in beeld.
+- **Geen knal bij het openen.** Het filmpje is de opening; een wolk deeltjes zou ervan afleiden. Sneeuw valt alleen buiten, achter het glas, en niet in de coupé.
+- **Op een computer** staat het raam als een staand venster in het midden, met een vage versie van de coupé eromheen. Een liggende uitsnede zou het lampje, de kaarsen en de tafels afsnijden.
+- **Leesbaarheid op het raam.** Achter de tekst ligt een zachte nachtblauwe waas, net groot genoeg voor de tekst. Bij heel lange namen komt de tekst lager, op de lichte rijp van het raam; de eerste versie van de waas was daar te licht (2,3:1). Nu haalt elke regel de eis, gemeten op de echte pixels (`e2e/coupe.cjs`). Bij veel tekst worden de letters kleiner, zodat alles op het glas blijft.
+- **Gewicht.** Het openingsscherm laadt ongeveer 1,2 MB, waarvan 0,65 MB filmpje (Kerstexpress 3,2 MB, Winterlicht 0,9 MB; zie `docs/CONTROLES.md`).
+- **Rechten.** Het filmpje lijkt met AI gemaakt. Of het op de website mag worden gebruikt, kan Claude niet nagaan; dat bevestigt de eigenaar.
+- **Gezien bij Kerstexpress, niet aangepast.** Zonder JavaScript blijft daar het openingsscherm boven de kaart staan. Dat hoort bij een ander ontwerp en staat als open punt in `docs/OVERDRACHT.md`.
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

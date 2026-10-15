@@ -13,13 +13,13 @@
   <div class="kc-stage" aria-hidden="true">
     <div class="kc-frame">
       <img class="kc-frame__img" src="{% static 'designs/kerstcoupe/v1/img/dicht.webp' %}" width="720" height="1280" alt="" fetchpriority="high">
-      {# Zonder filmpje (of als het nog niet geladen is) gaan de gordijnen open met een overvloeier naar dit beeld. #}
-      <img class="kc-frame__open" src="{% static 'designs/kerstcoupe/v1/img/open.webp' %}" width="720" height="1280" alt="" decoding="async">
       {# Het filmpje van de gordijnen, zonder geluid en zonder bediening. Het eerste beeld is de poster. #}
       <video class="kc-film" muted playsinline preload="auto" disablepictureinpicture disableremoteplayback poster="{% static 'designs/kerstcoupe/v1/img/dicht.webp' %}" data-kc-film>
         <source src="{% static 'designs/kerstcoupe/v1/img/coupe.webm' %}" type="video/webm">
         <source src="{% static 'designs/kerstcoupe/v1/img/coupe.mp4' %}" type="video/mp4">
       </video>
+      {# Speelt het filmpje niet (of blijft het hangen), dan vloeit dit beeld (het open raam) eroverheen. #}
+      <img class="kc-frame__open" src="{% static 'designs/kerstcoupe/v1/img/open.webp' %}" width="720" height="1280" alt="" decoding="async">
       {# Sneeuw achter het glas: pas zichtbaar als de gordijnen opzij gaan, en loopt door in de kop. #}
       <div class="fx-slot kc-glass" data-fx-slot="cover"></div>
       <span class="kc-glow kc-glow--lamp"></span>

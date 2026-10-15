@@ -4,7 +4,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**169 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de code van de kerstexpres met het filmpje (ronde 7c), alle geslaagd:
+**179 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de code met de kerstkaart Kerstcoupé (ronde 7d), alle geslaagd:
 
 - lokaal op SQLite;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging, ronde 6 en ronde 7 zijn alleen op SQLite getest;
@@ -27,6 +27,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Merk Vaylide (ronde 6) | `BrandTests` in `test_site`: het logo staat in de kop met "Vaylide" als tekst voor schermlezers en als naam van de link; de iconen en de deelafbeelding bestaan en worden gebruikt, het oude hartlogo is weg; op 14 pagina's (website, inloggen, samenstellen, een voorbeeld en de 404) staat nergens meer "Vierlief" of "Vaylia"; een e-mail begint met het logo en noemt alleen Vaylide |
 | Wachtwoord voor een testversie online (ronde 6) | `test_preview`: standaard uit; aan vraagt elke pagina het wachtwoord (401 met het inlogvenster van de browser, zonder inhoud van de site); een fout wachtwoord, een andere gebruikersnaam of een kapotte kop wordt geweigerd; met het goede wachtwoord verschijnt de site; `/healthz` en de taken voor een externe cron blijven bereikbaar; na 30 foute pogingen volgt 429 |
 | Kerstkaarten (ronde 7) | `test_kerst` (21 tests): de gelegenheid Kerst overal beschikbaar (samenstellen, collectie, zoeken, homepage en Inspiratie, met de brede tegel) en zonder openstaande migraties; het zegel (Familie Van Dijk wordt D, Sanne & Daan wordt S&D); het nieuwe jaar en de afteller naar eerste kerstdag (van juli tot en met kerstavond); een tekeningetje per programmaonderdeel; een kerstkaart met kerstdiner, een kerstgroet zonder evenement (geen datum, locatie, agenda of aanmelden) en het ontwerp bij andere gelegenheden; de regels bij publiceren; het samenstellen zonder datum, locatie of deadline, en met een half ingevuld evenement wel; een betaalde, gepubliceerde kerstgroet met "kerstkaart" in de paginatitel, de e-mails en de bestelstatus; Winterlicht: kleurvarianten met contrast, alle beelden, het voorbeeld in alle kleuren zonder extra inline scripts of stijlen, de kop onder de voorbeeldbalk, de tekst in het kerstraam die bij veel tekst kleiner wordt, de lichtjes die stilstaan als niemand ze ziet, de lichte envelop (kleine reliëfbeelden, goud pas na het laden); andere voorbeelden houden hun eigen muziek; het effect sneeuw |
+| Kerstcoupé (ronde 7d) | `test_kerstcoupe` (10 tests): manifest, effecten en contrast van de drie kleurvarianten; het filmpje (webm en mp4, elk onder 1 MB) en de beelden; het voorbeeld in alle kleuren met opening, groet, sneeuw achter het glas, tafelkaartje, dinerkaart en aanmelden, zonder extra inline scripts of stijlen; het filmpje zonder geluid, zonder bediening en zonder automatisch afspelen; het script staat vóór `invite.js`; geen openingsscherm zonder JavaScript en de overvloeier als standaard; doorlopende animaties onder `.fx-motion` met de knop **Beweging**; het schrijven is klaar vóór het einde van de intro; opening en kop gebruiken hetzelfde beeldvak; een kerstgroet zonder diner; een eigen kop; een lange afzender; andere gelegenheden. Daarnaast: de collectie bij Kerst toont drie ontwerpen, en de effecten tellen 36 ontwerpen |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
 Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vaylide), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
@@ -196,7 +197,45 @@ Op de stand van de kerstexpres met het **concept van het filmpje** (ronde 7c):
 - **Envelop op de opening** (laatste stand): de klep, het zegel en de kaart bij het openen gecontroleerd op schermafbeeldingen (390 pixels breed, nachttrein). Met 'minder beweging' (360 pixels): geopend na 307 ms, geen lopende envelop-animaties. Breedte op 360, 768 en 1366 pixels: geen horizontaal scrollen, geen fouten.
 - **Niet gedaan**: de volledige browsercontrole (`controle2.cjs`), de effectcontrole, Lighthouse, en elke controle op een echte telefoon. De kaartafbeelding en de tegel zijn inmiddels vervangen door een uitsnede uit het eindbeeld van het filmpje.
 
+### Kerstcoupé (ronde 7d, het filmpje van de coupé)
+
+Op de definitieve stand van Kerstcoupé, op de productie-achtige server (gunicorn, `DEBUG` uit, WhiteNoise, testmodus; lokaal zonder https-omleiding):
+
+De tests, de browsercontrole, de effecten, de toegankelijkheid en de opening (`coupe-opening.cjs`) liepen op de definitieve stand. De metingen van het contrast op het raam, de overgang, de belasting en het gewicht liepen vlak daarvoor, vóór de laatste aanpassing van de opening (het filmpje krijgt na de tik 0,8 seconde om te beginnen). Die aanpassing verandert de kop niet, en bij een vooraf geladen filmpje ook de opening niet.
+
+- **179 tests geslaagd**, waarvan 10 nieuw (`test_kerstcoupe`, zie Controle 1).
+- **Browsercontrole** (`ONTWERPEN=kerstcoupe node e2e/controle2.cjs`): het voorbeeld en de vijf testuitnodigingen (lange namen bij een bruiloft, minimaal, verstreken, een lang woord bij Kerst en een kerstgroet zonder diner) op 360, 390, 768 en 1366 pixels breed: **24 pagina's zonder bevindingen**. **8 van 8 gedragscontroles**: minder beweging (geopend na 298 ms, geen lopende animaties), toetsenbord (de knop "Open de gordijnen" met Tab, na het openen de focus op de kop), muziek, het vangnet zonder script, de tijdzone en de weergave zonder JavaScript.
+- **Effecten** (`node e2e/effecten.cjs … kerstcoupe`): **8 van 8**. Op het openingsscherm tekent de sneeuw achter het glas (pas zichtbaar als de gordijnen opzij zijn); geen knal bij het openen (bewust, zie `docs/AANPAK.md`); de sneeuw na het openen, het feestje na "Ja, ik kom", geen consolefouten, stilzetten, de keuze onthouden en 'minder beweging'.
+- **Toegankelijkheid** (`e2e/toegankelijkheid.cjs`, axe-core 4 met WCAG 2.0/2.1 A en AA, plus de contrastcontrole): **6 pagina's** (drie kleuren, dicht en geopend), **0 bevindingen**.
+- **Tekst op het raam** (`e2e/coupe.cjs`, nieuw): elke regel tegen de 2% slechtste pixels van het beeld erachter, met het licht van het lampje en de kaarsen op volle sterkte en zonder sneeuw. Het voorbeeld in de drie kleuren en de vijf testuitnodigingen, op 360, 390, 768 en 1366 pixels breed: **alles haalt de eis**. Het krapst zijn de afzender in kapitalen met **5,9:1** (eis 4,5:1) en de groet met 10,1:1 (eis 3:1). 'Lees verder' heeft een eigen donkere achtergrond (17,7:1).
+- **De overgang van filmpje naar kop**: schermafbeeldingen vlak voor en na het verdwijnen van de opening, vergeleken in vlakken zonder tekst (plafond, linkertafel en de rand van het raam): gemiddeld 3 tot 6 op 255 verschil per kleur, op 390 en 1366 pixels breed. Dat is compressie, geen verschuiving.
+- **Het filmpje en de overvloeier** (`e2e/coupe-opening.cjs`, nieuw; het filmpje wordt in de browser vertraagd): vooraf geladen speelt het filmpje meteen; pas na de tik geladen (150 ms vertraging, zoals een telefoon die niet vooraf laadt) speelt het ook; te traag (2,5 seconden) vloeit na 0,8 seconde het open raam over de dichte gordijnen. In alle drie de gevallen is de kaart na 4,3 seconden open. Gedraaid in Chromium met de webm. `tools/kerstcoupe/maak_film.py` maakt uit het filmpje van de eigenaar precies dezelfde beelden (pixel voor pixel gelijk: `dicht`, `open` en `tafel`).
+- **Belasting** (`CHECKS=0 PERF=1 node e2e/effecten.cjs … kerstcoupe kerstexpress winterlicht`, vier keer vertraagde processor, alleen deze run): Kerstcoupé 60 beelden per seconde met 187 ms rekentijd per seconde op het openingsscherm en 385 ms na het openen; Kerstexpress 268 en 353 ms, Winterlicht 486 en 648 ms.
+- **Gewicht van het openingsscherm** (alle antwoorden opgeteld tot het netwerk stil is, uitgepakt, op 390 × 844 met pixelverhouding 1; een andere meting dan die van Winterlicht in ronde 7): Kerstcoupé **1158 KB**, waarvan 647 KB filmpje, 226 KB beelden en 116 KB letters; Kerstexpress 3156 KB, Winterlicht 873 KB.
+- **Met het oog bekeken**:
+  - de opening op 390 pixels op acht momenten (dicht, tijdens het filmpje, het schrijven en klaar), en dicht op 360 × 740, 1366 × 768 en liggend (844 × 390);
+  - openen met 'minder beweging' en de kaart zonder JavaScript;
+  - de hele kaart in rood fluweel op 360, 390, 768 en 1366 pixels, en in sneeuwnacht en mahonie op 390 pixels;
+  - de kop van de testuitnodigingen met lange namen, andere gelegenheden en een kerstgroet;
+  - de collectie bij Kerst, de ontwerppagina met het telefoonvoorbeeld en het kaartbeeld;
+  - zes opeenvolgende tussenbeelden van het filmpje tijdens de snelste beweging (twee op ware grootte).
+- **Steekproef bij de andere kerstkaarten** (`ONTWERPEN=kerstcoupe,kerstexpress,winterlicht,avondgoud VIEWPORTS=390`, op een tussenstand van Kerstcoupé): 23 pagina's zonder bevindingen, 31 van 32 gedragscontroles. De ene fout is bij **Kerstexpress**: zonder JavaScript blijft het openingsscherm zichtbaar boven de kaart. Niet aangepast (een ander ontwerp); zie het open punt in `docs/OVERDRACHT.md`.
+
 ### Gevonden en opgelost
+
+Ronde 7d (Kerstcoupé):
+
+| Bevinding | Oplossing |
+|---|---|
+| De groet op het raam werd veel te klein (66%): de meting telde de waas achter de letters mee, die bewust buiten het tekstvak uitsteekt | Alleen de hoogte van de tekst zelf telt; de letters worden alleen kleiner als de tekst echt niet op het glas past |
+| De keuzerondjes in het aanmeldformulier waren donker op het crèmekleurige kaartje (de pagina is donker, en de browser kleurt formuliervelden mee) | De kaartjes zijn licht voor de browser (`color-scheme: light`) |
+| Zonder JavaScript stond het openingsscherm boven de kaart (de eigen opmaak overschreef die van het platform) | Het openingsscherm alleen met JavaScript (`.js .kc-cover`); de test controleert dat |
+| De messing ringen van de afteller raakten elkaar op 390 pixels | Iets kleinere ringen met meer ruimte ertussen |
+| In het telefoonvoorbeeld op de ontwerppagina was het tafelkaartje krap en liep de knoptekst over twee regels | Een kleiner kaartje op heel smalle schermen |
+| De toetsenbordcontrole wachtte vast 3,6 seconden, maar de opening met het filmpje duurt 4,3 seconden | `controle2.cjs` wacht nu tot de kaart open is (hoogstens 6 seconden); Avondgoud, Kerstexpress en Winterlicht slagen er ook mee |
+| Bij heel lange namen kwam de onderste regel op de lichte rijp van het raam: 2,3 tot 2,7:1 (eis 4,5:1) | Een gelijkmatige waas zo groot als de tekst, en de tekst iets hoger op het glas: nu minstens 5,9:1 |
+| Bij het nalezen van de code: het filmpje speelde alleen als het vooraf helemaal geladen was. Een iPhone laadt een filmpje meestal pas na een tik en had dan vrijwel altijd alleen de overvloeier getoond (niet op een echte iPhone gezien) | Na de tik krijgt het filmpje 0,8 seconde om te beginnen; pas daarna, of als het blijft hangen, de overvloeier. Gecontroleerd met `e2e/coupe-opening.cjs` |
+| De effectencontrole vond geen deeltjes op het openingsscherm (in de coupé sneeuwt het niet) | Sneeuw achter het glas, die verschijnt zodra de gordijnen opzij zijn en doorloopt in de kop |
 
 Ronde 7 (kerstkaarten):
 
@@ -311,6 +350,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 - **Merk Vaylide (ronde 6)**: het logo, de iconen en de e-mail zijn alleen in Chromium bekeken. Niet bekeken: het logo in echte mailprogramma's (Outlook, Gmail, Apple Mail), het tabblad-icoon in Safari en Firefox, het icoon op het beginscherm van een echte iPhone en de linkvoorvertoning met de nieuwe deelafbeelding in WhatsApp. Of de naam Vaylide vrij is als merk, is niet gecontroleerd; het domein `vaylide.com` is nog nergens aan gekoppeld (zie `docs/LIVEGANG.md`).
 - **Online (ronde 6)**: de site staat nog nergens online; er is geen hosting of domein gekoppeld (zie `docs/ONLINE.md`). Het wachtwoord voor een testversie is getest met de testclient van Django, niet achter de proxy van een echte hosting.
 - **Kerstkaarten (ronde 7)**: alles alleen in Chromium, op een server zonder grafische kaart. Niet getest: Safari op een iPhone (daar vooral de gouden golf, die een nieuwere CSS-techniek gebruikt, en het krassen met de vinger), Firefox, een echt ouder Android-toestel en schermlezers. De muziek ("Stille nacht" als speeldoosje) is gecontroleerd op starten en pauzeren, niet beluisterd. De beweging is beoordeeld op schermafbeeldingen, niet als bewegend beeld. De schermopname van de eigenaar is bekeken als losse beelden; het geluid ervan niet. Of het resultaat het gewenste warme kerstgevoel geeft, is aan de eigenaar.
+- **Kerstcoupé (ronde 7d)**: alleen in Chromium. Niet getest: het filmpje in Safari op een iPhone (afspelen na een tik, zonder geluid en binnen de pagina; de mp4 is daar de bron), Firefox, een echt ouder Android-toestel, een trage verbinding (dan hoort de overvloeier te komen; dat is alleen in de code en de test gecontroleerd, niet met een vertraagd netwerk) en schermlezers. De beweging is beoordeeld op schermafbeeldingen, niet als bewegend beeld. Het filmpje van de eigenaar is bekeken als losse beelden; het had geen geluid. Of de kaart het gewenste gevoel geeft, is aan de eigenaar.
 - **Nieuwe ontwerpen (ronde 4)**: de openingen zijn alleen in Chromium bekeken (dicht, tijdens het openen en geopend), niet in Safari of Firefox en niet op echte telefoons. De voorbeelden gebruiken eigen illustraties; met echte foto's zijn ze alleen via de testuitnodigingen bekeken (met dezelfde illustraties als foto). De 90 kleurvarianten zijn automatisch gecontroleerd (contrast en axe), niet allemaal met het oog.
 
 ## Zelf herhalen
@@ -332,6 +372,11 @@ ONTWERPEN=winterlicht node e2e/controle2.cjs …
 
 # Toegankelijkheid en contrast van alle ontwerpen in alle kleuren (eenmalig: npm install --no-save axe-core@4)
 node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/toegankelijkheid.json [code ...]
+
+# Kerstcoupé: contrast van de tekst op het raam (geef ook testuitnodigingen met lange namen mee)
+node e2e/coupe.cjs http://127.0.0.1:8000 [390x844,360x740,768x1024,1366x900] [pad,pad,...]
+# Kerstcoupé: de opening met het filmpje vooraf geladen, pas na de tik, en te traag
+node e2e/coupe-opening.cjs http://127.0.0.1:8000 /tmp/coupe
 
 # Effecten: deeltjes, knal, feestje, knop Beweging en 'minder beweging' (acht controles per ontwerp)
 node e2e/effecten.cjs http://127.0.0.1:8000 /tmp/effecten [code ...]

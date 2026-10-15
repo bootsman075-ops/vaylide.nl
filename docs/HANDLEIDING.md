@@ -238,6 +238,20 @@ Ook voor Winterlicht geldt: na de livegang gaan wijzigingen via een `v2`, ook ni
 - **Kaartafbeelding en tegel**: `static/img/designs/kerstexpress.webp` is een uitsnede (720 × 900) uit het eindbeeld van het filmpje, verkleind naar 800 × 1000 en opgeslagen als WebP. Dat maak je opnieuw met een frame van de film, of met `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs kerstexpress`.
 - **Controleren**: `python manage.py test tests.test_kerst`, en de toegankelijkheid met `node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/a11y.json kerstexpress`. Het filmpje vraagt een browser die webm (VP9) kan afspelen; de mp4 is de terugval.
 
+### Kerstcoupé: het filmpje van de coupé
+
+`designs/kerstcoupe/v1` is de kerstkaart bij het filmpje van de eigenaar: in een treincoupé gaan de fluwelen gordijnen open, en daarna schrijft de groet zich op het raam. Drie kleurvarianten (rood fluweel, sneeuwnacht, mahonie en dennengroen); de kleur geldt voor de kaart onder de kop, het filmpje en de kop zijn in elke kleur hetzelfde.
+
+- **De beelden** staan in `img/`: `coupe.webm` en `coupe.mp4` (de gordijnen gaan open, 3,8 seconden, zonder geluid), `dicht.webp` (het eerste beeld: de opening en de poster), `open.webp` (het laatste beeld: de kop), twee kleine vage versies voor de rand op brede schermen en `tafel.webp` (het slot). Ze komen uit het filmpje met `tools/kerstcoupe/maak_film.py`; een nieuwe versie van het filmpje verwerk je zo (uitleg in `tools/kerstcoupe/README.md`).
+- **Eén beeldvak voor opening en kop** (`.kc-stage` en `.kc-frame` in `style.css`): staand 9:16, op een telefoon zo breed als het scherm. Wat op het beeld ligt (het glas met de sneeuw, de stoom, het licht en de tekst), staat in procenten van het beeld. Verschuif je iets, controleer dan of het laatste filmbeeld nog precies op de kop past.
+- **Het script** `kerstcoupe.js` draait vóór `invite.js` en zet de tijden van de opening: met het filmpje 4300 ms (`data-duration`) en het begin van het schrijven op 3700 ms (`data-fx-intro`). Is het filmpje nog niet geladen, dan krijgt het na de tik 0,8 seconde om te beginnen; lukt dat niet, of blijft het hangen, dan vloeit het open raam eroverheen (de overvloeier). De tijden in `invitation.html` (2700 en 2100 ms) gelden alleen zonder dit script. Het script maakt ook de tekst op het raam kleiner als die niet past, en meet de voorbeeldbalk, zodat opening en kop precies op elkaar liggen. Zonder script opent de kaart met de overvloeier; zonder JavaScript staat de kop met de groet er meteen.
+- **De groet**: bij Kerst "Fijne kerstdagen / en een schitterend / nieuwjaar", zoals in het filmpje, met de afzender in kapitalen eronder en de namen van het gezin daaronder. Vult de klant een eigen kop in, dan staat die er in plaats van de groet. Bij een andere gelegenheid (als je die in Beheer aanzet) staan de kop, de namen en de gewone zin van de uitnodiging op het raam.
+- **Contrast op het raam**: de gewone toegankelijkheidscontrole slaat tekst op een beeld over. Meet het met `node e2e/coupe.cjs http://127.0.0.1:8000`, en geef ook de testuitnodigingen met lange namen mee (uitleg bovenin het script).
+- **Kaartbeeld**: in het manifest staat `"kaartbeeld": "raam"`. Dan legt `node e2e/make_design_images.cjs http://127.0.0.1:8000 /tmp/kaart kerstcoupe` de geopende kop vast op telefoonformaat en snijdt het raam met de groet eruit; verklein dat naar 800 × 1000 als `static/img/designs/kerstcoupe.webp`.
+- **Controleren**: `python manage.py test tests.test_kerstcoupe`, en `ONTWERPEN=kerstcoupe node e2e/controle2.cjs …`, `node e2e/effecten.cjs … kerstcoupe` en `node e2e/toegankelijkheid.cjs … kerstcoupe`.
+
+Ook hier: na de livegang gaat een nieuw filmpje of een andere opmaak in een `v2`.
+
 ## Een bestaand ontwerp aanpassen
 
 **Wijzig nooit een versie die al in gebruik is.** Bestaande uitnodigingen zouden dan onverwacht veranderen.
