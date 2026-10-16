@@ -4,9 +4,10 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**139 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met het merk Vaylide en het wachtwoord voor een testversie online (ronde 6), alle geslaagd:
+**150 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 7 (Rozenzegel), alle geslaagd:
 
 - lokaal op SQLite;
+- ronde 7 (11 nieuwe tests in `test_film`) is alleen op SQLite getest;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
 - in de Docker-image (Python 3.11), na een build vanaf nul: in ronde 2 (toen 92 tests). Daarna is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden, instellingen of datamodellen veranderd (de nieuwe ontwerpen en de effecten zijn bestanden, en het extra veld "Aantal jaar" staat in de bestaande inhoud van een uitnodiging).
 
@@ -26,6 +27,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Effecten (ronde 5) | `test_effects`: alle 33 ontwerpen hebben geldige effecten; een onbekend effect wordt geweigerd bij het inlezen van een ontwerp; de instellingen worden klassen en kenmerken op de pagina; elk voorbeeld laadt de effecten en de knop **Beweging** (verborgen tot het script draait), zonder extra inline scripts (CSP); een ontwerp zonder effecten werkt gewoon; Avondgoud laadt zijn oude eigen script niet meer; de glans over de namen houdt minstens 3:1 contrast in alle kleurvarianten; de ontwerppagina en de kaarten beschrijven de effecten; de cadeau-opening bij Stipjes, Glitter & goud en Regenboog (de doos opent ook bij een tik, maar is geen extra tabstop en wordt niet voorgelezen), het effect cadeautjes en de tekst op de kaart |
 | Merk Vaylide (ronde 6) | `BrandTests` in `test_site`: het logo staat in de kop met "Vaylide" als tekst voor schermlezers en als naam van de link; de iconen en de deelafbeelding bestaan en worden gebruikt, het oude hartlogo is weg; op 14 pagina's (website, inloggen, samenstellen, een voorbeeld en de 404) staat nergens meer "Vierlief" of "Vaylia"; een e-mail begint met het logo en noemt alleen Vaylide |
 | Wachtwoord voor een testversie online (ronde 6) | `test_preview`: standaard uit; aan vraagt elke pagina het wachtwoord (401 met het inlogvenster van de browser, zonder inhoud van de site); een fout wachtwoord, een andere gebruikersnaam of een kapotte kop wordt geweigerd; met het goede wachtwoord verschijnt de site; `/healthz` en de taken voor een externe cron blijven bereikbaar; na 30 foute pogingen volgt 429 |
+| Opening als film: Rozenzegel (ronde 7) | `test_film`: de film, het eerste en het laatste beeld bestaan en hebben dezelfde maat (720 × 1280), de video's blijven onder 3 MB; een ontbrekend of verkeerd genoemd filmbestand wordt bij het inlezen geweigerd (WebM is optioneel); de paden voor de sjablonen; het voorbeeld heeft een stille video zonder `autoplay` en zonder bediening, verborgen voor schermlezers, MP4 vóór WebM, het zegel als knop, **Overslaan** verborgen tot de film speelt, en geen extra inline scripts (CSP); elke gelegenheid werkt; zonder opening staat de kaart er direct; lange teksten geven de compacte kaart; de ontwerppagina noemt opening en effecten; het contrast van alle tekstkleuren (ook op de kaart en de envelop); de scripts bevatten het afspelen, het vervagen en de herstelde link "Direct naar de uitnodiging" |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
 Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vaylide), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
@@ -50,6 +52,15 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 - Sinds ronde 5 staan de effecten tijdens de controles gewoon aan. De controles wachten tot de opening, de entree van de kop en andere eenmalige animaties klaar zijn; doorlopende effecten (zwevende deeltjes, glans) lopen door.
 
 ### Resultaat
+
+Ronde 7 (Rozenzegel, opening als film), op de definitieve code en de productie-achtige server:
+
+- **836 pagina's zonder bevindingen** (209 per schermformaat, op 360, 390, 768 en 1366 pixels breed, vier runs tegelijk): nu met 34 voorbeelden en 136 testuitnodigingen (vier per ontwerp, ook Rozenzegel). Geen horizontaal scrollen, niets buiten beeld, geen afgesneden tekst, geen consolefouten, geen mislukte verzoeken.
+- **272 van 272 gedragscontroles geslaagd** (acht per ontwerp, alle 34). Bij Rozenzegel: minder beweging opent in 295 ms zonder lopende animaties; het zegel is met Tab bereikbaar en na de film staat de focus op de namen; muziek pas na een tik; het vangnet zonder script; de melding over de tijdzone; zonder JavaScript zijn de kaart en het aanmeldformulier direct zichtbaar.
+- **De film zelf** (Chromium, WebM): na de tik speelt de film 10,3 seconden, daarna vervaagt het scherm in een seconde en staat de kaart er; het kader van de film ligt precies op de kop eronder, ook met de voorbeeldbalk erboven (gemeten: zelfde positie en maat). Nagespeeld: **Beweging** tijdens de film stopt de film en opent de uitnodiging; **Overslaan** idem; 'minder beweging' speelt geen film en laadt hem ook niet; een film die niet kan laden opent de uitnodiging meteen; zonder JavaScript geen openingsscherm. De server levert de film in stukjes (206 Partial Content, met versiekenmerk), zoals Safari dat nodig heeft.
+- **Contrast op de beelden**, gemeten op de echte beeldpunten (tekst onzichtbaar gemaakt, per tekstvak de lichtste en donkerste 2% van de achtergrond, zonder de schaduw achter de letters): op de envelop 7,2 tot 11,9:1, op de crème kaart 6,4 tot 11,2:1, op 360, 390, 768 en 1366 pixels breed. De eis is 4,5:1 (3:1 voor grote tekst).
+- **Lange teksten op de kaart**: de langst mogelijke kopregel, namen (2 × 60 tekens) en locatie, en een jubileum met een lange naam, op 360, 390 en 1366 pixels breed en op een liggende telefoon (844 × 390): alles past op de kaart.
+- **Met het oog bekeken**: de opening als reeks schermafbeeldingen (dicht, tijdens de film, het vervagen en de kaart) op 390 en 1366 pixels; de hele uitnodiging op 390 pixels; de film en de vertraagde versie beeld voor beeld (tussenbeelden op ware grootte); het kaartbeeld voor de collectie.
 
 Ronde 6 (merk Vaylide), op de definitieve code en de productie-achtige server:
 
@@ -160,6 +171,21 @@ Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen onge
 
 ### Gevonden en opgelost
 
+Ronde 7 (Rozenzegel, opening als film):
+
+| Bevinding | Oplossing |
+|---|---|
+| Gewoon trager afspelen van de film hapert; de tussenbeelden van ffmpeg (`minterpolate`) maakten het zegel blokkerig | Tussenbeelden met optische stroming en een zachte snelheidscurve (`tools/filmopening/`); op ware grootte bekeken: zegel, rozen en klep blijven scherp |
+| De Chromium van de werkomgeving speelt geen MP4 (H.264) af | Tweede bron in WebM (VP9), na de MP4; daarmee is de film in de browser getest |
+| Zonder JavaScript bleef het openingsscherm van Rozenzegel staan (de eigen opmaak overschreef de regel die het verbergt) | Alleen met JavaScript zichtbaar; zonder JavaScript staat de kaart direct in beeld |
+| Kon de film niet laden, dan opende de uitnodiging pas na het vangnet van 4 seconden | Geen bruikbare bron: meteen openen |
+| 'Overslaan' en 'Beweging' lieten de film nog een seconde doorspelen tijdens het vervagen | De film stopt meteen |
+| "(tijd in Nederland)" was op de crème kaart nauwelijks zichtbaar (lichte kleur van de bordeaux achtergrond) | Gedempte kleur van de kaart (5,9:1 of meer) |
+| De tekst op de kaart was klein naast de grote kaart | Grotere letters, die meeschalen met de kaart; bij veel tekst een compactere variant |
+| **Alle ontwerpen**: wie op het openingsscherm de link "Direct naar de uitnodiging" (toetsenbord, schermlezer) gebruikte, zag het scherm verdwijnen maar kon de uitnodiging niet gebruiken (niet te scrollen of in te vullen, namen onzichtbaar); nagespeeld bij Liefde op papier en Rozenzegel | De link opent de uitnodiging nu echt; daarna nagespeeld bij beide: bruikbaar, namen zichtbaar |
+| De browsercontrole, de effectencontrole en de toegankelijkheidscontrole gingen uit van een opening van hoogstens 3,6 seconden; bij de film zouden ze ten onrechte falen | Ze wachten tot de uitnodiging echt open is; de effectencontrole kijkt bij een film of er niets over de film zweeft en meet de knal als de film klaar is |
+| De contrastcontrole zag de crème kaart niet (de tekst staat op een beeld) en meldde de kaarttekst als bordeaux op bordeaux | Het laatste filmbeeld is de achtergrond van het kader, zodat de controle de tekst als tekst op een beeld herkent; het contrast is apart op de echte beeldpunten gemeten (zie Resultaat, ronde 7) |
+
 Ronde 5 (effecten):
 
 | Bevinding | Oplossing |
@@ -242,6 +268,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 
 ## Niet gecontroleerd
 
+- **Rozenzegel (ronde 7)**: de film is alleen in Chromium bekeken, met de WebM-versie (deze Chromium speelt geen MP4). Niet getest: de MP4 in Safari op een iPhone of Mac, in Chrome en in Firefox, en op een ouder Android-toestel (soepelheid van de film). De film start na een tik, zonder geluid en met `playsinline`, zoals Safari op de iPhone dat vraagt; dat hij daar echt speelt, is niet gezien. Of het laatste filmbeeld op een echte telefoon naadloos aansluit op de kaart, is alleen in Chromium bekeken.
 - **Echte apparaten en andere browsers**: alleen Chromium is gebruikt, op telefoon- en computerformaat. Safari/WebKit (iPhone) en Firefox zijn niet getest. Test vóór de lancering op echte iPhones en Android-telefoons.
 - **Schermlezers** (VoiceOver, TalkBack): niet getest. Wel de automatische axe-controle en de toetsenbordbediening.
 - **Geluid**: dat muziek pas na een tik start en te pauzeren is, is gecontroleerd; het geluid zelf is niet beluisterd.
