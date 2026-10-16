@@ -26,7 +26,7 @@ python3 -m venv /tmp/film-venv && /tmp/film-venv/bin/pip install opencv-python-h
 /tmp/film-venv/bin/python tools/filmopening/maak_opening.py rozenzegel /tmp/rozenzegel-uit
 ```
 
-Dat duurt een paar minuten. Kopieer daarna `opening.mp4`, `opening.webm`, `envelop.webp`, `kaart.webp`, `zegel.webp` en `envelop-band.webp` naar de ontwerpmap. Let op: een uitgebracht ontwerp verander je niet; maak een nieuwe versie (`designs/rozenzegel/v2/`, zie `docs/HANDLEIDING.md`).
+Dat duurt een paar minuten. Staat er in het sjabloon een codecprofiel bij de bron (`codecs="avc1.64001F"`), controleer dat dan bij een nieuwe film: `ffprobe -show_streams opening.mp4` (High, level 3.1 is `avc1.64001F`). Kopieer daarna `opening.mp4`, `opening.webm`, `envelop.webp`, `kaart.webp`, `zegel.webp` en `envelop-band.webp` naar de ontwerpmap. Let op: een uitgebracht ontwerp verander je niet; maak een nieuwe versie (`designs/rozenzegel/v2/`, zie `docs/HANDLEIDING.md`).
 
 ## Aanpassen
 

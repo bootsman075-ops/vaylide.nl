@@ -63,6 +63,11 @@ body {
   width: var(--film-width, auto); height: var(--film-height, 100%);
   transform: var(--film-shift, translateX(-50%));
 }
+/* Pas zichtbaar als het kader op zijn plek ligt (geen verspringen); vangnet na 1,2 s. De knop op het zegel
+   blijft ook onzichtbaar bruikbaar. */
+.js .rz-frame--cover { opacity: 0; animation: rz-frame-in 0s linear 1.2s forwards; }
+.js .rz-frame--cover.is-aligned { opacity: 1; animation: none; transition: opacity .25s ease; }
+@keyframes rz-frame-in { to { opacity: 1; } }
 .rz-cover__top {
   position: absolute; left: 13%; right: 13%; top: 6%; z-index: 1;
   display: grid; justify-items: center; gap: .3em; text-align: center;

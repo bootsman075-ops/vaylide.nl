@@ -12,8 +12,9 @@
   <div class="rz-frame rz-frame--cover" data-film-frame>
     <video class="rz-film" data-cover-film muted playsinline preload="metadata" disablepictureinpicture disableremoteplayback
            poster="{% static v.film.poster %}" aria-hidden="true" tabindex="-1">
-      <source src="{% static v.film.src %}" type="video/mp4">
-      {% if v.film.webm %}<source src="{% static v.film.webm %}" type="video/webm">{% endif %}
+      {# Met het exacte codecprofiel: een browser die het niet kan afspelen, slaat de bron over zonder hem te downloaden. #}
+      <source src="{% static v.film.src %}" type='video/mp4; codecs="avc1.64001F"'>
+      {% if v.film.webm %}<source src="{% static v.film.webm %}" type='video/webm; codecs="vp9"'>{% endif %}
     </video>
     <div class="rz-cover__top">
       <p class="rz-cover__to">Een uitnodiging voor jou</p>

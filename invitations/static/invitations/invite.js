@@ -118,17 +118,24 @@
       filmFrame.style.setProperty("--film-width", r.width + "px");
       filmFrame.style.setProperty("--film-height", r.height + "px");
       filmFrame.style.setProperty("--film-shift", "none");
+      filmFrame.classList.add("is-aligned");
     }
-    /* De film alvast laden (in de pagina staat 'metadata'); niet bij 'minder beweging', want dan speelt hij niet. */
-    if (film && !reduceMotion) film.preload = "auto";
+    /* De film alvast laden (in de pagina staat 'metadata'); niet bij 'minder beweging', want dan speelt hij niet,
+       en niet in het kleine voorbeeld op de website (daar laadt hij pas na een tik). */
+    if (film && !reduceMotion && !html.classList.contains("inv-embed")) film.preload = "auto";
     if (filmFrame && filmTarget) {
       alignFilm();
       var alignQueued = false;
-      window.addEventListener("resize", function () {
+      var queueAlign = function () {
         if (alignQueued) return;
         alignQueued = true;
         window.requestAnimationFrame(function () { alignQueued = false; alignFilm(); });
-      });
+      };
+      /* Opnieuw bij een ander schermformaat, en als de letters geladen zijn of de pagina erboven
+         (een balk of mededeling) van hoogte verandert. */
+      window.addEventListener("resize", queueAlign);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueAlign);
+      if ("ResizeObserver" in window) new ResizeObserver(queueAlign).observe(document.body);
     }
 
     /* 'Direct naar de uitnodiging' (de link voor toetsenbord en schermlezer) slaat het openingsscherm

@@ -84,8 +84,9 @@ class FilmRenderTests(TestCase):
         self.assertNotIn("autoplay", video)
         self.assertNotIn("controls", video)
         # MP4 eerst (Safari, Chrome, Firefox), WebM voor browsers zonder H.264.
-        self.assertLess(html.index('src="/static/designs/rozenzegel/v1/opening.mp4" type="video/mp4"'),
-                        html.index('src="/static/designs/rozenzegel/v1/opening.webm" type="video/webm"'))
+        # Met het codecprofiel, zodat een browser zonder H.264 de MP4 niet eerst downloadt.
+        self.assertLess(html.index('src="/static/designs/rozenzegel/v1/opening.mp4" type=\'video/mp4; codecs="avc1.64001F"\''),
+                        html.index('src="/static/designs/rozenzegel/v1/opening.webm" type=\'video/webm; codecs="vp9"\''))
         self.assertIn('href="#uitnodiging" class="rz-seal fx-pulse" data-open data-fx-origin aria-label="Open de uitnodiging"', html)
         self.assertIn('<button type="button" class="rz-skip" data-cover-skip hidden>Overslaan</button>', html)
         self.assertIn("data-film-frame", html)
@@ -153,7 +154,7 @@ class FilmScriptTests(TestCase):
     def test_invite_script_plays_and_reveals(self):
         js = (STATIC_JS / "invite.js").read_text(encoding="utf-8")
         for needle in ("[data-cover-film]", "[data-film-target]", "invite:reveal", "[data-cover-skip]",
-                       "film.NETWORK_NO_SOURCE", 'film.preload = "auto"', "hashchange"):
+                       "film.NETWORK_NO_SOURCE", 'film.preload = "auto"', 'html.classList.contains("inv-embed")', "hashchange", "document.fonts.ready", "ResizeObserver", "is-aligned"):
             self.assertIn(needle, js)
 
     def test_effects_wait_for_the_film(self):

@@ -235,7 +235,8 @@ De eigenaar stuurde een filmpje en schreef: "Ik wil dat je hier ook een kaart va
 - Bij 'minder beweging' of als een gast de beweging heeft stilgezet, speelt de film niet: de envelop vervaagt rustig naar de kaart. Wie tijdens de film op **Beweging** tikt, stopt de film meteen.
 - Vangnetten: laadt de film niet of start hij niet binnen 4 seconden, dan gaat de uitnodiging toch open; na 22 seconden altijd. Zonder JavaScript staat de kaart met de tekst direct in beeld.
 - De knal en de entree van de kop wachten tot de film klaar is (het nieuwe moment `invite:reveal` in `invite.js`, opgepakt door `effects.js`).
-- De server levert de film in stukjes (WhiteNoise, 206 Partial Content), zoals Safari dat nodig heeft.
+- De server levert de film in stukjes (WhiteNoise, 206 Partial Content), zoals Safari dat nodig heeft. Bij de bronnen staat het codecprofiel, zodat een browser die de MP4 niet kan afspelen hem ook niet downloadt. In het kleine voorbeeld op de website laadt de film pas na een tik.
+- Het kader van de film lijnt opnieuw uit als de letters geladen zijn of de pagina erboven van hoogte verandert, en wordt pas zichtbaar als het op zijn plek ligt (geen verspringen).
 
 **Gevonden en opgelost, voor alle ontwerpen.** Wie op het openingsscherm de link "Direct naar de uitnodiging" gebruikte (de eerste link voor toetsenbord en schermlezer), zag het scherm verdwijnen, maar de uitnodiging bleef geblokkeerd: niet te scrollen of in te vullen, en de namen onzichtbaar. Dat gold voor alle 33 bestaande ontwerpen. Het script opent de uitnodiging nu ook via die link.
 

@@ -60,7 +60,11 @@ Ronde 7 (Rozenzegel, opening als film), op de definitieve code en de productie-a
 - **De film zelf** (Chromium, WebM): na de tik speelt de film 10,3 seconden, daarna vervaagt het scherm in een seconde en staat de kaart er; het kader van de film ligt precies op de kop eronder, ook met de voorbeeldbalk erboven (gemeten: zelfde positie en maat). Nagespeeld: **Beweging** tijdens de film stopt de film en opent de uitnodiging; **Overslaan** idem; 'minder beweging' speelt geen film en laadt hem ook niet; een film die niet kan laden opent de uitnodiging meteen; zonder JavaScript geen openingsscherm. De server levert de film in stukjes (206 Partial Content, met versiekenmerk), zoals Safari dat nodig heeft.
 - **Contrast op de beelden**, gemeten op de echte beeldpunten (tekst onzichtbaar gemaakt, per tekstvak de lichtste en donkerste 2% van de achtergrond, zonder de schaduw achter de letters): op de envelop 7,2 tot 11,9:1, op de crème kaart 6,4 tot 11,2:1, op 360, 390, 768 en 1366 pixels breed. De eis is 4,5:1 (3:1 voor grote tekst).
 - **Lange teksten op de kaart**: de langst mogelijke kopregel, namen (2 × 60 tekens) en locatie, en een jubileum met een lange naam, op 360, 390 en 1366 pixels breed en op een liggende telefoon (844 × 390): alles past op de kaart.
-- **Met het oog bekeken**: de opening als reeks schermafbeeldingen (dicht, tijdens de film, het vervagen en de kaart) op 390 en 1366 pixels; de hele uitnodiging op 390 pixels; de film en de vertraagde versie beeld voor beeld (tussenbeelden op ware grootte); het kaartbeeld voor de collectie.
+- **Met het oog bekeken**: de opening als reeks schermafbeeldingen (dicht, tijdens de film, het vervagen en de kaart) op 390 en 1366 pixels; de hele uitnodiging op 390 pixels; de film en de vertraagde versie beeld voor beeld (tussenbeelden op ware grootte); het kaartbeeld voor de collectie; een voorbeeldvideo van de hele uitnodiging (opgenomen op 780 × 1688 beeldpunten).
+- **Effecten** (`e2e/effecten.cjs`): **272 van 272 controles geslaagd**, acht per ontwerp, alle 34. Bij Rozenzegel: er zweeft niets over de film, de knal (rozenblaadjes) komt als de film klaar is, daarna is de kop zichtbaar en loopt het goudstof; feestje na aanmelden; stilzetten, onthouden en weer aanzetten; 'minder beweging'.
+- **Toegankelijkheid van alle ontwerpen** (`e2e/toegankelijkheid.cjs`, axe-core 4.14): **206 pagina's**, alle 34 ontwerpen in alle 103 kleurvarianten, dicht en geopend. **0 contrastproblemen.** Rozenzegel: 0 bevindingen. Bij 31 bestaande ontwerpen meldt axe op het dichte openingsscherm `label-content-name-mismatch` (WCAG 2.5.3, "label in naam"): de openknop heet "Open de uitnodiging", terwijl er tekst op staat (initialen op het zegel, namen op de vouwkaart of de polaroid). Met axe-core 4.13, de versie van ronde 4 en 5, geven dezelfde ontwerpen 0 bevindingen (nagespeeld bij Liefde op papier, Eucalyptus en Polaroid): de nieuwe versie controleert deze regel strenger. Niet aangepast in deze ronde (de opmaak van die ontwerpen is niet veranderd); zie "Niet gecontroleerd".
+- **Snelheid** (Lighthouse 12, telefoon met trage mobiele verbinding): zie de tabel onder "Snelheid".
+- **Welke stand.** De browsercontrole (836 pagina's, 272 gedragscontroles), de effecten- en de toegankelijkheidscontrole van alle ontwerpen liepen op de stand vlak vóór drie kleine aanpassingen aan de film: het codecprofiel bij de bronnen, de film die in het kleine voorbeeld op de website pas na een tik laadt, en het kader dat opnieuw uitlijnt als de letters geladen zijn (en pas zichtbaar wordt als het op zijn plek ligt). Die raken alleen een ontwerp met een film. Daarna zijn voor Rozenzegel opnieuw gedraaid: de 150 tests, de acht effectencontroles, de toegankelijkheidscontrole (dicht en open, 0 bevindingen), het toetsenbord (na de film staat de focus op de namen), 360, 390, 768 en 1366 pixels breed (niets buiten beeld, geen consolefouten), het vangnet zonder script, 'minder beweging', **Beweging**, **Overslaan**, een film die niet laadt, zonder JavaScript, de link "Direct naar de uitnodiging" (ook bij Liefde op papier), de uitlijning van de film op de kaart, het kleine voorbeeld (de film speelt na een tik) en Lighthouse.
 
 Ronde 6 (merk Vaylide), op de definitieve code en de productie-achtige server:
 
@@ -105,6 +109,16 @@ Ronde 4 (30 nieuwe ontwerpen):
 - Eerdere rondes: de schermafbeeldingen op 360 pixels zijn met het oog bekeken (lange uitnodigingen, website, samenstellen, klantomgeving, beheer en foutpagina's), en de homepage is op 390 en 1440 pixels naast de voorbeeldfoto gelegd. Het live voorbeeld op de homepage laadt pas bij het scrollen; zonder JavaScript staat er een leesbare link naar het voorbeeld.
 
 ### Snelheid (Lighthouse 12, telefoon met trage mobiele verbinding)
+
+Ronde 7 (Rozenzegel), Lighthouse 12.8 op de definitieve stand, zonder iets ernaast:
+
+| Pagina | Prestaties | Eerste inhoud | Grootste element | Verspringen | Gewicht |
+|---|---|---|---|---|---|
+| Voorbeeld Rozenzegel (drie metingen) | 97 / 96 / 98 | 1,5–1,7 s | 2,2–2,7 s | ≤ 0,001 | 1116 KB |
+| Ontwerppagina Rozenzegel (met live voorbeeld) | 100 | 1,1 s | 1,7 s | 0 | 457 KB |
+| Ter vergelijking: voorbeeld Rozentuin | 98 | 1,7 s | 2,3 s | 0,001 | 220 KB |
+
+Toegankelijkheid en goede praktijken: 100. Het gewicht van het voorbeeld is vooral de film, die al laadt terwijl de gast de envelop ziet, zodat hij na de tik meteen speelt: in deze Chromium de WebM (789 KB); Chrome en Safari laden de MP4 (1469 KB), dus daar is het voorbeeld ongeveer 1,8 MB. In het kleine voorbeeld op de ontwerppagina laadt de film pas na een tik.
 
 Gemeten op de productie-achtige server. Ronde 6 (merk Vaylide), dezelfde acht pagina's, na alle andere controles en zonder iets ernaast:
 
@@ -184,6 +198,9 @@ Ronde 7 (Rozenzegel, opening als film):
 | De tekst op de kaart was klein naast de grote kaart | Grotere letters, die meeschalen met de kaart; bij veel tekst een compactere variant |
 | **Alle ontwerpen**: wie op het openingsscherm de link "Direct naar de uitnodiging" (toetsenbord, schermlezer) gebruikte, zag het scherm verdwijnen maar kon de uitnodiging niet gebruiken (niet te scrollen of in te vullen, namen onzichtbaar); nagespeeld bij Liefde op papier en Rozenzegel | De link opent de uitnodiging nu echt; daarna nagespeeld bij beide: bruikbaar, namen zichtbaar |
 | De browsercontrole, de effectencontrole en de toegankelijkheidscontrole gingen uit van een opening van hoogstens 3,6 seconden; bij de film zouden ze ten onrechte falen | Ze wachten tot de uitnodiging echt open is; de effectencontrole kijkt bij een film of er niets over de film zweeft en meet de knal als de film klaar is |
+| Lighthouse: in een browser zonder H.264 werden de MP4 én de WebM gedownload (2,6 MB) | Het codecprofiel staat bij de bronnen: zo'n browser slaat de MP4 over zonder hem op te halen (1,1 MB) |
+| De ontwerppagina laadde via het kleine voorbeeld meteen de hele film (2,7 MB) | In het kleine voorbeeld laadt de film pas na een tik (457 KB) |
+| Op een pagina met een balk bovenaan versprong de envelop bij het laden (CLS 0,075), en lijnde het kader niet opnieuw uit als de letters later laadden (de balk wordt dan iets hoger of lager) | Opnieuw uitlijnen als de letters geladen zijn of de pagina van hoogte verandert; de envelop wordt pas zichtbaar als hij op zijn plek ligt (CLS 0 tot 0,001) |
 | De contrastcontrole zag de crème kaart niet (de tekst staat op een beeld) en meldde de kaarttekst als bordeaux op bordeaux | Het laatste filmbeeld is de achtergrond van het kader, zodat de controle de tekst als tekst op een beeld herkent; het contrast is apart op de echte beeldpunten gemeten (zie Resultaat, ronde 7) |
 
 Ronde 5 (effecten):
@@ -268,6 +285,7 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 
 ## Niet gecontroleerd
 
+- **Label in naam (ronde 7)**: axe-core 4.14 meldt bij 31 bestaande ontwerpen dat de openknop "Open de uitnodiging" heet terwijl er tekst op staat (zie Resultaat, ronde 7). Niet aangepast; een mogelijke oplossing is de zichtbare tekst in de naam van de knop opnemen.
 - **Rozenzegel (ronde 7)**: de film is alleen in Chromium bekeken, met de WebM-versie (deze Chromium speelt geen MP4). Niet getest: de MP4 in Safari op een iPhone of Mac, in Chrome en in Firefox, en op een ouder Android-toestel (soepelheid van de film). De film start na een tik, zonder geluid en met `playsinline`, zoals Safari op de iPhone dat vraagt; dat hij daar echt speelt, is niet gezien. Of het laatste filmbeeld op een echte telefoon naadloos aansluit op de kaart, is alleen in Chromium bekeken.
 - **Echte apparaten en andere browsers**: alleen Chromium is gebruikt, op telefoon- en computerformaat. Safari/WebKit (iPhone) en Firefox zijn niet getest. Test vóór de lancering op echte iPhones en Android-telefoons.
 - **Schermlezers** (VoiceOver, TalkBack): niet getest. Wel de automatische axe-controle en de toetsenbordbediening.
@@ -297,7 +315,8 @@ node e2e/controle2.cjs http://127.0.0.1:8000 /tmp/fixtures.json /tmp/controle2 '
 VIEWPORTS=360 CHECKS=0 SHOTS=viewport node e2e/controle2.cjs … &
 VIEWPORTS=390 SHOTS=viewport node e2e/controle2.cjs … &         # enzovoort voor 768 en 1366
 
-# Toegankelijkheid en contrast van alle ontwerpen in alle kleuren (eenmalig: npm install --no-save axe-core@4)
+# Toegankelijkheid en contrast van alle ontwerpen in alle kleuren (eenmalig, in e2e/: npm install --no-save axe-core@4;
+# ronde 7 gebruikte 4.14, ronde 4 en 5 gebruikten 4.13)
 node e2e/toegankelijkheid.cjs http://127.0.0.1:8000 /tmp/toegankelijkheid.json [code ...]
 
 # Effecten: deeltjes, knal, feestje, knop Beweging en 'minder beweging' (acht controles per ontwerp)
