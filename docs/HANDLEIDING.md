@@ -167,13 +167,13 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
 
 ### Ontwerp met een film als opening
 
-Rozenzegel opent met een filmpje: een envelop die opengaat tot er een lege kaart in beeld ligt, waarna de tekst op die kaart verschijnt. Zo maak je er nog een:
+Twee ontwerpen openen met een filmpje. Bij **Rozenzegel** gaat een envelop open tot er een lege kaart in beeld ligt, waarna de tekst op die kaart verschijnt. Bij **Rozenboog** gaat een wand van rozen open naar een rozenboog aan zee; de namen komen in de lucht en datum, tijd en plek op een crème kaart die over het terras ligt. Zo maak je er nog een:
 
-1. **Het filmpje.** Staand (9:16, bijvoorbeeld 720 × 1280), zonder geluid, met de rechten van de eigenaar. Het laatste beeld moet een rustig, leeg vlak hebben waar de tekst op kan (een kaart).
-2. **Vertragen en de beelden maken.** Zet het bronfilmpje in `tools/filmopening/` en voeg in `maak_opening.py` een blok toe aan `PRESETS` (kopieer `rozenzegel`): het stuk voor de uitnodiging (`web`, in seconden van het bronfilmpje), hoe sterk het begin en de rest vertragen (`T_begin`, `T_later`: lager is langzamer) en eventueel een vlak om op te schonen. Draai het script (uitleg in `tools/filmopening/README.md`). Je krijgt `opening.mp4`, `opening.webm`, `envelop.webp` (eerste beeld), `kaart.webp` (laatste beeld), het zegel en een strook van de envelop, en de hele vertraagde film.
-3. **Het ontwerp.** Kopieer `designs/rozenzegel/v1` naar een nieuwe map, zet de bestanden uit stap 2 erin en pas het manifest aan. Het blok `film` noemt de bestanden (`src`, `webm`, `poster`, `end`); ontbreekt er een, dan weigert het inlezen het ontwerp.
-4. **De plek van de tekst.** In `style.css` staat bij `.rz-card` waar de kaart in het laatste beeld ligt, in procenten van het beeld. Meet die opnieuw voor een ander filmpje; het zegel (de knop op het openingsscherm) staat bij `.rz-seal`.
-5. **Kaartbeeld voor de collectie**: `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs <code>` (het script herkent het blok `film` en maakt het beeld van het openingsscherm) en zet de PNG om naar WebP.
+1. **Het filmpje.** Staand (9:16, bijvoorbeeld 720 × 1280), zonder geluid, met de rechten van de eigenaar. Het laatste beeld heeft een rustig vlak nodig waar de tekst op kan: een lege kaart (Rozenzegel), of een lucht of ander licht vlak waar een kaart over mag liggen (Rozenboog).
+2. **Vertragen en de beelden maken.** Zet het bronfilmpje in `tools/filmopening/` en voeg in `maak_opening.py` een blok toe aan `PRESETS` (kopieer `rozenzegel` of `rozenboog`): het stuk voor de uitnodiging (`web`, in seconden van het bronfilmpje), hoe sterk het begin en de rest vertragen (`T_begin`, `T_later`: lager is langzamer), eventueel een vlak om op te schonen, en de namen van de beelden. Komt het filmpje via WhatsApp of is het omgezet naar 30 beelden per seconde, zet dan `gelijkmatig` aan (zie `tools/filmopening/README.md`). Draai het script. Je krijgt `opening.mp4`, `opening.webm`, het eerste en het laatste beeld, een strook uit het eerste beeld (en bij Rozenzegel het zegel), en de hele vertraagde film.
+3. **Het ontwerp.** Kopieer `designs/rozenzegel/v1` of `designs/rozenboog/v1` naar een nieuwe map, zet de bestanden uit stap 2 erin en pas het manifest aan. Het blok `film` noemt de bestanden (`src`, `webm`, `poster`, `end`); ontbreekt er een, dan weigert het inlezen het ontwerp.
+4. **De plek van de tekst.** In `style.css` staat in procenten van het beeld waar de tekst in het laatste beeld ligt: bij Rozenzegel `.rz-card` (de kaart in de film) en `.rz-seal` (het zegel als knop), bij Rozenboog `.rb-sky` (de lucht binnen de boog) en `.rb-card` (de kaart op het terras). Meet die opnieuw voor een ander filmpje en controleer het contrast op de echte beeldpunten (zie `docs/CONTROLES.md`, ronde 7 en 8).
+5. **Kaartbeeld voor de collectie**: `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs <code>` en zet de PNG om naar WebP. Het script herkent het blok `film` en maakt het beeld van het openingsscherm; staat in dat blok `"kaartbeeld": "kop"` (zoals bij Rozenboog), dan de kop na de film.
 
 De haakjes in de opbouw, voor wie het ontwerp verder aanpast:
 
@@ -184,6 +184,8 @@ De haakjes in de opbouw, voor wie het ontwerp verder aanpast:
 - `data-fx-reveal-origin` op het element waar de knal vandaan komt als de film klaar is.
 
 Bij 'minder beweging' of als een gast de beweging heeft stilgezet, speelt de film niet: dan vervaagt het openingsscherm rustig naar de kaart. Zonder JavaScript staat de kaart direct in beeld.
+
+De knop om te openen: bij Rozenzegel een ronde, onzichtbare knop op het zegel in de film (met "Open de uitnodiging" als naam voor schermlezers), bij Rozenboog een zichtbare knop met de tekst **Open de uitnodiging** op een label. Beide hebben `data-open`; de puls eromheen is `fx-pulse`.
 
 ## Effecten
 

@@ -242,6 +242,35 @@ De eigenaar stuurde een filmpje en schreef: "Ik wil dat je hier ook een kaart va
 
 **Niet gecontroleerd.** De Chromium van de werkomgeving speelt geen H.264 (MP4) af; de film is daar met de WebM-versie getest. Afspelen van de MP4 in Safari op een iPhone of Mac, in Chrome en op een ouder Android-toestel is niet getest (zie het open punt over echte apparaten in `docs/OVERDRACHT.md`).
 
+## Ronde 8: Rozenboog, een tweede opening als film
+
+De eigenaar stuurde een nieuw filmpje (via WhatsApp) en schreef: "Ik wil dat je hiervoor weer een bijpassende kaart maakt voor op vaylide." Net als bij Rozenzegel is de opening van de film langzamer en vloeiend gemaakt, en is het laatste beeld de kop van de uitnodiging.
+
+**Het filmpje.** 10 seconden, staand (720 × 1280, 30 beelden per seconde), zonder geluid en zonder zichtbaar watermerk. Een wand van crème rozen met gipskruid die langzaam dichterbij komt. Rond 2 seconden gaan de rozen in het midden uiteen; daarachter verschijnt een boog van rozen op een terras met een balustrade, kaarsen en rozenblaadjes op de grond, met uitzicht over zee, een kustplaatsje en de ondergaande zon. Vanaf ongeveer 5 seconden staat de boog stil en dwarrelen er nog wat blaadjes. Het snelste stuk is het uiteengaan van de rozen (2,3 tot 4,8 seconden).
+
+**Langzamer en vloeiend.** Met hetzelfde script als bij Rozenzegel (`tools/filmopening/maak_opening.py`, voorinstelling `rozenboog`), met één nieuwe stap:
+
+- **Gelijkmatig maken.** Tussen 2 en 3,7 seconden bewoog het beeld per beeldje ongelijk: in een vast ritme van vijf beeldjes één grote stap, twee middelgrote en twee kleine. Dat past bij een filmpje dat van 24 naar 30 beelden per seconde is omgezet. Op ware snelheid valt dat nauwelijks op, maar vertraagd werd het een zichtbaar golven (gemeten: de beweging per beeld schommelde tot 40%). Het script geeft daarom elk bronbeeld een eigen tijd naar de hoeveelheid beweging (`gelijkmatig` in de voorinstelling), alleen waar duidelijk iets beweegt. Daarna is de beweging per beeld tijdens het openen vrijwel constant (gemeten op de uiteindelijke film).
+- **Vertragen.** Het uiteengaan van de rozen gaat twee tot drie keer langzamer (het begin het langzaamst), de rest op ware snelheid. Het hele filmpje duurt nu 13,3 seconden in plaats van 10; die versie (`volledig-langzaam.mp4`) is voor de eigenaar, los van de site.
+- **Op de uitnodiging** speelt het stuk van 1,7 tot 6,4 seconden van het bronfilmpje: van de rozenwand net voordat hij opengaat tot de boog stil staat. Dat duurt 8,0 seconden, daarna vervaagt het scherm in één seconde naar de uitnodiging.
+- De tussenbeelden zijn op ware grootte bekeken: geen dubbele randen of vervormde rozen.
+- Het bronfilmpje uit WhatsApp was 23,6 MB (18,9 Mbit/s). In `tools/filmopening/rozenboog-bron.mp4` staat een opnieuw ingepakte versie van 7,5 MB (H.264, CRF 18, SSIM 0,991 tegen het origineel), zodat de repository niet te zwaar wordt. Het script werkt met die versie.
+
+**Het ontwerp: Rozenboog.** Voor bruiloft, verloving en jubileum.
+
+- **Opening.** Het openingsscherm is het eerste beeld van de film: de rozenwand, met in het midden een crème label met een boog als bovenkant (de vorm van de rozenboog die erachter verscholen ligt): "Een uitnodiging voor jou", de namen en de knop **Open de uitnodiging**, met daaronder **Openen met muziek** als er muziek is. De knop is een zichtbare knop met tekst (geen onzichtbare knop op het beeld, zoals het zegel bij Rozenzegel); de naam van de knop is precies de tekst die erop staat. Na een tik vervaagt het label, gaan de rozen open en staat rechtsonder **Overslaan**.
+- **De kop.** Het laatste beeld van de film (`boog.webp`). Er ligt geen lege kaart in de film, dus de tekst staat op twee plekken die er al waren: de **namen in de avondlucht** binnen de boog (kopregel en namen, alsof ze geschreven worden) en **datum, tijd en plek op een crème kaart** met een boog als bovenkant, op het terras, zoals een welkomstbord bij een ceremonie. Film en kop staan in hetzelfde kader van 9:16, zodat het laatste filmbeeld naadloos overgaat in de kop.
+- **Leesbaar in de lucht.** Achter de namen ligt een zachte gloed van avondlicht; de kopregel bovenin (deels op de ranken van de boog) heeft een eigen, zacht vervaagd vlakje. Bij heel lange namen of een lange kopregel loopt de tekst tot over de donkere berghelling; dan wordt alles iets kleiner en ligt er een voller, zacht vervaagd vlak achter de hele tekst. De kaart op het terras is voor 90% dekkend crème, zodat het kaarslicht er zacht doorheen schijnt; alle tekst op de kaart haalt ook op het donkerste denkbare beeld eronder ruim 4,5:1.
+- **Daaronder.** Crème bladen met een fijne gouden lijn op warm zand, handgeschreven koppen in terracotta. Het welkomstblad en het portret hebben de vorm van de boog. Als afsluiting een strook van de rozenwand uit de film, met zachte randen.
+- **Eén kleurvariant**, Zonsondergang: de kleuren komen uit de film (crème, zand, terracotta, goud, saliegroen). Alle tekstkleuren hebben minstens 4,5:1 contrast; de metingen staan in `docs/CONTROLES.md` onder ronde 8.
+- **Effecten.** Dwarrelende bloemblaadjes achter de bladen (zoals de blaadjes in de film), een regen van bloemblaadjes op het moment dat de namen in de lucht verschijnen, hartjes na "Ja, ik kom". Er zweeft niets over de film of over het uitzicht.
+- **Kaartbeeld voor de collectie.** Niet het openingsscherm (de rozenwand met het label zegt weinig over het ontwerp), maar de kop na de film: de rozenboog met de zonsondergang en de namen. In het manifest staat daarvoor `"kaartbeeld": "kop"` in het blok `film`; `e2e/make_design_images.cjs` kent die instelling.
+- **Naam.** Rozenboog: wat de gast ziet als de rozen opengaan. Rozenzegel en Rozentuin bestonden al; de naam is daarom zo gekozen dat hij de opening beschrijft.
+
+**Hoe het werkt.** Precies zoals bij Rozenzegel (zie hierboven): dezelfde haakjes in de opbouw, dezelfde vangnetten, 'minder beweging', **Beweging** en **Overslaan**. Aan `invite.js` en `effects.js` is niets veranderd.
+
+**Niet gecontroleerd.** Net als bij Rozenzegel: de MP4 is niet afgespeeld (deze Chromium speelt geen H.264), dus niet in Safari op een iPhone of Mac, niet in Chrome en niet op een ouder Android-toestel. De film is hier met de WebM-versie getest. Of de eigenaar de rechten heeft om dit filmpje op de website te gebruiken, is niet gevraagd of bevestigd (zie de open punten in `docs/OVERDRACHT.md`).
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

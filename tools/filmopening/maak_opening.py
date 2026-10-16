@@ -2,16 +2,20 @@
 
 Wat het doet:
 1. meet per beeld hoeveel er beweegt (optische stroming);
-2. vertraagt de snelle stukken zacht, met een snelheidscurve zonder schokken: het begin van de opening
+2. trekt desgewenst een ongelijkmatig tempo recht (een filmpje dat van 24 naar 30 beelden per seconde is
+   omgezet, beweegt per beeld afwisselend veel en weinig; vertraagd wordt dat een zichtbaar golven);
+3. vertraagt de snelle stukken zacht, met een snelheidscurve zonder schokken: het begin van de opening
    het meest (T_begin), daarna minder (T_later);
-3. berekent de tussenbeelden met optische stroming (geen dubbele beelden, geen haperingen);
-4. schrijft de hele vertraagde film (voor de eigenaar) en het stuk voor de uitnodiging (opening.mp4,
+4. berekent de tussenbeelden met optische stroming (geen dubbele beelden, geen haperingen);
+5. schrijft de hele vertraagde film (voor de eigenaar) en het stuk voor de uitnodiging (opening.mp4,
    en opening.webm voor browsers zonder H.264);
-5. maakt de stilstaande beelden: het eerste beeld (envelop.webp, de poster) en het laatste beeld
-   (kaart.webp, de achtergrond van de kop, met optioneel een opgeschoond vlak), plus versieringen.
+6. maakt de stilstaande beelden: het eerste beeld (de poster, bij Rozenzegel envelop.webp) en het laatste
+   beeld (de achtergrond van de kop, bij Rozenzegel kaart.webp, met optioneel een opgeschoond vlak),
+   plus versieringen.
 
 Gebruik (zie README.md in deze map):
     python tools/filmopening/maak_opening.py rozenzegel <uitvoermap>
+    python tools/filmopening/maak_opening.py rozenboog <uitvoermap>
 
 Nodig: ffmpeg en ffprobe, en in een eigen omgeving: pip install opencv-python-headless numpy
 (niet in requirements.txt: alleen nodig om de beelden opnieuw te maken).
@@ -49,6 +53,27 @@ PRESETS = {
         # Versieringen uit het eerste beeld: het lakzegel (midden en straal) en een strook van de envelop.
         "zegel": (361, 644, 92),
         "band": (330, 960),
+    },
+    "rozenboog": {
+        # Crème rozen die opengaan naar een rozenboog op een terras boven zee (30 beelden per seconde,
+        # omgezet van 24: zie 'gelijkmatig'). Opnieuw ingepakt uit het WhatsApp-filmpje, zie README.md.
+        "bron": HERE / "rozenboog-bron.mp4",
+        "fps_uit": 30,
+        "gelijkmatig": True,
+        "T_begin": 1.4,
+        "T_later": 2.6,
+        "overgang": (3.4, 4.6),
+        # Van net voor de rozen uiteengaan tot de boog stil staat en de blaadjes zijn neergedwarreld.
+        "web": (1.70, 6.40),
+        "crf_web": 24,
+        "crf_webm": 35,
+        "crf_volledig": 16,
+        "opschonen": None,
+        "poster": "rozen.webp",
+        "eind": "boog.webp",
+        # Strook van de rozenwand (eerste beeld) voor de afsluiting.
+        "band": (420, 980),
+        "band_naam": "rozen-band.webp",
     },
 }
 
@@ -91,15 +116,30 @@ def source_times(path: Path, p: dict, fps_in: float) -> tuple[np.ndarray, np.nda
     kernel /= kernel.sum()
     vs = np.convolve(np.pad(v, 8, mode="edge"), kernel, mode="valid")
     s_grid = np.arange(len(v)) / fps_in
+    if p.get("gelijkmatig"):
+        s_grid = even_times(v, vs, fps_in)
     a, b = p["overgang"]
     x = np.clip((s_grid - a) / (b - a), 0, 1)
     x = x * x * (3 - 2 * x)
     T = p["T_begin"] + (p["T_later"] - p["T_begin"]) * x
     slow = (1 + (vs / T) ** 3) ** (1 / 3)
-    dt = slow / fps_in
-    u = np.concatenate([[0], np.cumsum((dt[1:] + dt[:-1]) / 2)])
+    # Uitvoertijd per stap tussen twee bronbeelden: de duur van de stap maal de gemiddelde vertraging.
+    u = np.concatenate([[0], np.cumsum(np.diff(s_grid) * (slow[1:] + slow[:-1]) / 2)])
     uo = np.arange(0, u[-1], 1 / p["fps_uit"])
-    return np.interp(uo, u, s_grid), u
+    return np.interp(uo, u, s_grid), s_grid
+
+
+def even_times(v: np.ndarray, vs: np.ndarray, fps_in: float) -> np.ndarray:
+    """Een eigen tijd per bronbeeld, naar de beweging: een stap met veel beweging duurt langer, een stap met
+    weinig korter, zodat de beweging gelijkmatig loopt. Alleen waar duidelijk iets beweegt; in rustige stukken
+    (blaadjes, water) blijft het tempo van de bron."""
+    ratio = np.clip(v / np.maximum(vs, 1e-6), 0.25, 3.0)
+    weight = np.clip((vs - 0.25) / 0.5, 0, 1)
+    step = (1 + weight * (ratio - 1)) / fps_in
+    step[0] = 0
+    times = np.cumsum(step)
+    # Begin en eind blijven op hun plek: de seconden in de instellingen gelden voor de bron.
+    return times * ((len(v) - 1) / fps_in) / times[-1]
 
 
 def interpolate(frames, flows, i: int, t: float, grid: np.ndarray, flow) -> np.ndarray:
@@ -158,8 +198,8 @@ def main() -> None:
     fps_in = float(Fraction(run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=r_frame_rate",
                                  "-of", "csv=p=0", str(p["bron"])]).decode().strip()))  # bijv. "24/1"
 
-    times, u = source_times(p["bron"], p, fps_in)
-    print(f"bron {len(u) / fps_in:.2f} s -> vertraagd {len(times) / p['fps_uit']:.2f} s ({len(times)} beelden)")
+    times, s_frames = source_times(p["bron"], p, fps_in)
+    print(f"bron {len(s_frames) / fps_in:.2f} s -> vertraagd {len(times) / p['fps_uit']:.2f} s ({len(times)} beelden)")
     frames = read_frames(p["bron"])
     h, w = frames.shape[1:3]
     gx, gy = np.meshgrid(np.arange(w, dtype=np.float32), np.arange(h, dtype=np.float32))
@@ -167,7 +207,7 @@ def main() -> None:
     flow, flows = dis(True), {}
     n = len(frames)
     for k, s in enumerate(times):
-        pos = float(min(max(s * fps_in, 0), n - 1))
+        pos = float(np.interp(s, s_frames, np.arange(len(s_frames))))
         i = int(pos)
         t = pos - i
         if i >= n - 1:
@@ -181,9 +221,10 @@ def main() -> None:
     encode(tmp, first, last - first + 1, p["fps_uit"], p["crf_web"], out / "opening.mp4")
     encode_webm(tmp, first, last - first + 1, p["fps_uit"], p["crf_webm"], out / "opening.webm")
 
+    print(f"uitnodiging: {(last - first + 1) / p['fps_uit']:.2f} s")
     poster = cv2.imread(str(tmp / f"b_{first:05d}.png"))
     end = cv2.imread(str(tmp / f"b_{last:05d}.png"))
-    webp(poster, out / "envelop.webp")
+    webp(poster, out / p.get("poster", "envelop.webp"))
     clean = p.get("opschonen")
     if clean:
         g = cv2.cvtColor(end, cv2.COLOR_BGR2GRAY)
@@ -192,10 +233,24 @@ def main() -> None:
         top[g[: clean["tot_y"]] > clean["drempel"]] = 255
         mask = cv2.dilate(mask, np.ones((9, 9), np.uint8))
         end = cv2.inpaint(end, mask, 7, cv2.INPAINT_TELEA)
-    webp(end, out / "kaart.webp")
+    webp(end, out / p.get("eind", "kaart.webp"))
 
-    # Het lakzegel, los (met doorzichtige rand), uit het eerste beeld.
-    cx, cy, r = p["zegel"]
+    if "zegel" in p:
+        seal(poster, p["zegel"], out / "zegel.webp")
+
+    # Strook uit het eerste beeld (bij Rozenzegel de dichte envelop met rozen en zegel) voor de afsluiting.
+    top_y, bottom_y = p["band"]
+    webp(poster[top_y:bottom_y], out / p.get("band_naam", "envelop-band.webp"), 82)
+
+    shutil.rmtree(tmp)
+    for name in sorted(os.listdir(out)):
+        print(f"{name}: {(out / name).stat().st_size / 1024:.0f} kB")
+
+
+def seal(poster: np.ndarray, zegel: tuple[int, int, int], target: Path) -> None:
+    """Het lakzegel, los (met doorzichtige rand), uit het eerste beeld."""
+    h, w = poster.shape[:2]
+    cx, cy, r = zegel
     gray = cv2.cvtColor(poster, cv2.COLOR_BGR2GRAY)
     yy, xx = np.mgrid[0:h, 0:w]
     m = ((gray > 105) & (((xx - cx) ** 2 + (yy - cy) ** 2) <= r * r)).astype(np.uint8) * 255
@@ -207,16 +262,8 @@ def main() -> None:
     m = cv2.erode(m | cv2.bitwise_not(filled), np.ones((3, 3), np.uint8))
     alpha = cv2.GaussianBlur(m, (0, 0), 1.1)
     x0, y0 = cx - 120, cy - 120
-    seal = np.dstack([poster[y0:y0 + 240, x0:x0 + 240], alpha[y0:y0 + 240, x0:x0 + 240]])
-    webp(seal, out / "zegel.webp", 90)
-
-    # Strook van de dichte envelop (rozen links en rechts, zegel in het midden) voor de afsluiting.
-    top_y, bottom_y = p["band"]
-    webp(poster[top_y:bottom_y], out / "envelop-band.webp", 82)
-
-    shutil.rmtree(tmp)
-    for name in sorted(os.listdir(out)):
-        print(f"{name}: {(out / name).stat().st_size / 1024:.0f} kB")
+    cutout = np.dstack([poster[y0:y0 + 240, x0:x0 + 240], alpha[y0:y0 + 240, x0:x0 + 240]])
+    webp(cutout, target, 90)
 
 
 if __name__ == "__main__":

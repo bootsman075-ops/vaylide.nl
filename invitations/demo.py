@@ -23,6 +23,7 @@ DESIGN_IMAGES = {
     "avondgoud": ["goud-lichtjes", "kaarslicht", "bloemblaadjes", "zee-horizon", "duinen-ochtend"],
     "puur-moment": ["duinen-ochtend", "zee-horizon", "duinen-staand", "waterverf-lavendel", "bloemblaadjes"],
     "rozenzegel": ["rozen", "kaarslicht", "bloemblaadjes", "waterverf-bloesem", "zee-horizon"],
+    "rozenboog": ["zee-horizon", "rozen", "kaarslicht", "bloemblaadjes", "duinen-ochtend"],
     # Atelier-ontwerpen: eerste beeld is de kop, de rest de fotogalerij.
     "eucalyptus": ["eucalyptus", "bloemblaadjes", "zee-horizon", "duinen-staand", "waterverf-bloesem"],
     "gatsby": ["zijde-goud", "goud-lichtjes", "kaarslicht", "stadslicht", "zee-horizon"],
