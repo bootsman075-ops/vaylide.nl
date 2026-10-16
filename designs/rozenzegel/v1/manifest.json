@@ -1,0 +1,20 @@
+{
+  "slug": "rozenzegel",
+  "version": 1,
+  "name": "Rozenzegel",
+  "tagline": "Bordeaux envelop met rozen en een gloeiend lakzegel",
+  "description": "Een bordeaux envelop met rozen en een crème lakzegel. Na een tik gaat het zegel goud gloeien en opent de envelop zich langzaam in warm licht. Op de crème kaart die tevoorschijn komt, staan jullie namen alsof ze net geschreven zijn.",
+  "style_notes": "Bordeaux en crème, rozen, goudlicht, handgeschreven namen",
+  "occasions": ["bruiloft", "verloving", "jubileum"],
+  "sort_order": 15,
+  "opening": "film",
+  "opening_label": "Envelop met gloeiend lakzegel (film)",
+  "palettes": [
+    {"key": "bordeaux", "name": "Bordeaux & crème", "swatch": ["#420E11", "#F4EFE6", "#C9A45C"],
+     "vars": {"--rz-page": "#420E11", "--rz-page-2": "#5A1A20", "--rz-night": "#2A0609", "--rz-paper": "#F4EFE6", "--rz-paper-2": "#EAE2D3", "--rz-ink": "#3A1519", "--rz-muted": "#694A4C", "--rz-accent": "#7A1E2B", "--rz-gold": "#C9A45C", "--rz-gold-soft": "#E4CC98", "--rz-on-dark": "#F6ECDD", "--rz-on-dark-muted": "#DCC6BC", "--rz-card-ink": "#3A1216", "--rz-card-accent": "#6A1626", "--rz-card-muted": "#55363A", "--rz-blush": "#E2B4AE"}}
+  ],
+  "sections": ["countdown", "story", "gallery", "program", "location", "dresscode", "practical", "rsvp", "contact", "closing", "music"],
+  "effects": {"sfeer": "goudstof", "knal": "blaadjes", "viering": "harten", "namen": "schrijf", "onthul": "zacht", "extra": ["kenburns", "tik"]},
+  "film": {"src": "opening.mp4", "webm": "opening.webm", "poster": "envelop.webp", "end": "kaart.webp", "seconds": 10.3},
+  "changelog": "Eerste versie: opening met de film van de eigenaar (vertraagd en vloeiend gemaakt, zie tools/filmopening)."
+}

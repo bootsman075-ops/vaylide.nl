@@ -165,6 +165,26 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
 7. **Publiceren**: controleer het in **Beheer → Ontwerpen** (zichtbaar, volgorde) en zet het live met een nieuwe deployment.
 8. **Testen**: `python manage.py test tests`. Het is ook verstandig de browsercontrole te draaien (zie `docs/CONTROLES.md`).
 
+### Ontwerp met een film als opening
+
+Rozenzegel opent met een filmpje: een envelop die opengaat tot er een lege kaart in beeld ligt, waarna de tekst op die kaart verschijnt. Zo maak je er nog een:
+
+1. **Het filmpje.** Staand (9:16, bijvoorbeeld 720 × 1280), zonder geluid, met de rechten van de eigenaar. Het laatste beeld moet een rustig, leeg vlak hebben waar de tekst op kan (een kaart).
+2. **Vertragen en de beelden maken.** Zet het bronfilmpje in `tools/filmopening/` en voeg in `maak_opening.py` een blok toe aan `PRESETS` (kopieer `rozenzegel`): het stuk voor de uitnodiging (`web`, in seconden van het bronfilmpje), hoe sterk het begin en de rest vertragen (`T_begin`, `T_later`: lager is langzamer) en eventueel een vlak om op te schonen. Draai het script (uitleg in `tools/filmopening/README.md`). Je krijgt `opening.mp4`, `opening.webm`, `envelop.webp` (eerste beeld), `kaart.webp` (laatste beeld), het zegel en een strook van de envelop, en de hele vertraagde film.
+3. **Het ontwerp.** Kopieer `designs/rozenzegel/v1` naar een nieuwe map, zet de bestanden uit stap 2 erin en pas het manifest aan. Het blok `film` noemt de bestanden (`src`, `webm`, `poster`, `end`); ontbreekt er een, dan weigert het inlezen het ontwerp.
+4. **De plek van de tekst.** In `style.css` staat bij `.rz-card` waar de kaart in het laatste beeld ligt, in procenten van het beeld. Meet die opnieuw voor een ander filmpje; het zegel (de knop op het openingsscherm) staat bij `.rz-seal`.
+5. **Kaartbeeld voor de collectie**: `node e2e/make_design_images.cjs http://127.0.0.1:8000 static/img/designs <code>` (het script herkent het blok `film` en maakt het beeld van het openingsscherm) en zet de PNG om naar WebP.
+
+De haakjes in de opbouw, voor wie het ontwerp verder aanpast:
+
+- `data-cover-film` op de `<video>` (met `muted playsinline preload="metadata"`, zonder `autoplay` of `controls`), in een kader met `data-film-frame`;
+- `data-film-target` op het kader van de kop: het script legt de film daar precies overheen, zodat het laatste beeld naadloos overgaat in de kop;
+- `data-cover-skip` op de knop **Overslaan** (verborgen tot de film speelt);
+- `data-duration` op het openingsscherm is hier het vangnet (de uitnodiging gaat uiterlijk dan open), `data-film-fade` de tijd van het vervagen aan het eind;
+- `data-fx-reveal-origin` op het element waar de knal vandaan komt als de film klaar is.
+
+Bij 'minder beweging' of als een gast de beweging heeft stilgezet, speelt de film niet: dan vervaagt het openingsscherm rustig naar de kaart. Zonder JavaScript staat de kaart direct in beeld.
+
 ## Effecten
 
 Elk ontwerp heeft bewegende effecten: zwevende deeltjes (sfeer), een knal op het moment dat de uitnodiging opengaat, een feestje als een gast laat weten dat hij komt, een entree voor de namen, onthullingen bij het scrollen en een paar extra's. De keuzes staan per ontwerp in `manifest.json` in het blok `effects` (bij Atelier-ontwerpen in `tools/atelier/specs.py`, de generator zet ze in het manifest). De werking staat in `invitations/static/invitations/effects.js` en `effects.css`, de toegestane waarden in `catalog/effects.py`.

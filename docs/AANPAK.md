@@ -211,6 +211,36 @@ De eigenaar vroeg eerst: "vierlief moet worden aangepast naar Vaylia met een nie
 - **Eigen repository.** De eigenaar maakte `bootsman075-ops/vaylide.nl` aan, openbaar; op de vraag of dat zo mocht blijven, koos de eigenaar "Openbaar is goed". Vóór het versturen is de hele geschiedenis doorzocht op wachtwoorden en sleutels (niets gevonden). De eerste commit van de repository (een README van één regel) is samengevoegd; er is niets overschreven.
 - **De website zelf** is verder niet veranderd.
 
+## Ronde 7: Rozenzegel, een opening als film
+
+De eigenaar stuurde een filmpje en schreef: "Ik wil dat je hier ook een kaart van maakt, wat bij deze video past. En ik wil dat je de video, de begin van de kaartopening, uh, langzamer maakt. Dus dat die echt mooi, vloeiend open gaat." Kort daarna volgde een tweede filmpje: "Het moet dit filmpje zijn in plaats van het eerste filmpje." Het eerste filmpje (dezelfde envelop, zonder gloeiend zegel) is daarom niet gebruikt.
+
+**Het filmpje.** 10 seconden, staand (720 × 1280, 24 beelden per seconde), zonder geluid en zonder watermerk. Een bordeaux envelop met rozen in twee ruiten en een crème lakzegel met een takje. Na ruim een seconde gaat het zegel goud gloeien; rond 3 seconden schuift de envelop in fel goudlicht open, het zegel zakt naar beneden en de klep verdwijnt; vanaf 7,6 seconden ligt er een lege crème kaart op bordeaux. Het snelste stuk is het begin van het openen (3,3 tot 4,5 seconden).
+
+**Langzamer en vloeiend.** Gewoon trager afspelen herhaalt beelden en hapert. Daarom zijn er tussenbeelden berekend met optische stroming (OpenCV, DIS), die per beeldpunt bijhoudt waar het naartoe beweegt; zo blijven het zegel en de rozen scherp. De standaardoplossing van ffmpeg (`minterpolate`) is geprobeerd en afgewezen: die maakte het zegel blokkerig. De vertraging volgt een zachte snelheidscurve: wat langzaam beweegt, blijft op ware snelheid, wat snel gaat wordt afgeremd, zonder schokken. Het begin van het openen gaat zo ongeveer drie keer langzamer, de rest ongeveer anderhalf keer. Het hele filmpje duurt nu 13,7 seconden in plaats van 10 (30 beelden per seconde). Die versie heeft de eigenaar los gekregen. Het script en het bronfilmpje staan in `tools/filmopening/`.
+
+**Het ontwerp: Rozenzegel.** Voor bruiloft, verloving en jubileum.
+
+- **Opening.** Het openingsscherm is het eerste beeld van de film: de dichte envelop, met "Een uitnodiging voor jou" en de namen bovenin. Het zegel in het beeld is de knop. Na een tik speelt het stuk van de film van net vóór het gloeien tot de kaart stil ligt (10,3 seconden); daarna vervaagt het scherm in één seconde naar de uitnodiging. Tijdens de film staat rechtsonder **Overslaan**.
+- **De kaart.** De kop van de uitnodiging toont precies het laatste beeld van de film (`kaart.webp`) en zet de tekst op de crème kaart: kopregel, namen (alsof ze geschreven worden), de datum tussen twee gouden lijnen, tijd en locatie. Film en kop staan in hetzelfde kader van 9:16, zodat ze naadloos in elkaar overgaan; de maten van de tekst schalen mee met de kaart. Bij veel tekst (lange kopregel, namen of locatie) wordt alles iets kleiner; de langst mogelijke invoer past (gecontroleerd op 360, 390 en 1366 pixels en op een liggende telefoon). In het laatste filmbeeld stak bovenin een half zichtbaar stukje zegel uit; dat is in `kaart.webp` weggewerkt. De donkere rand bovenin hoort bij de film en is gebleven.
+- **Daaronder.** Crème bladen met een fijne gouden lijn op bordeaux, handgeschreven koppen, het lakzegel uit de film bovenop het welkomstblad, en als afsluiting een strook van de dichte envelop (rozen en zegel). De zin onder de namen (bijvoorbeeld "nodigen je van harte uit voor hun bruiloft") staat in het welkomstblad in plaats van op de kaart, zodat de kaart rustig blijft.
+- **Eén kleurvariant**, Bordeaux & crème: de film is bordeaux. Goud is alleen versiering; alle tekst heeft minstens 4,5:1 contrast (op de bladen 6,1 tot 14,1, op de kaart 5,9 tot 10,9, op bordeaux 5,6 tot 13,8).
+- **Effecten.** Fonkelend goudstof achter de bladen, rozenblaadjes op het moment dat de tekst op de kaart verschijnt, hartjes na "Ja, ik kom". Er zweeft niets over de film.
+- **Losse rozen** uit de film waren het plan voor de versiering, maar de donkerrode rozen lieten zich niet netjes losknippen van het bordeaux papier (ze werden half doorzichtig). Daarom staat onderaan een strook van de envelop zelf, met zachte randen.
+
+**Hoe een film-opening werkt** (ook bruikbaar voor een volgend ontwerp met een film; zie `docs/HANDLEIDING.md`):
+
+- In het manifest staat een blok `film` met de video (MP4, en WebM voor browsers zonder H.264), het eerste en het laatste beeld. Het inlezen weigert het ontwerp als een bestand ontbreekt.
+- De film start pas na een tik, nooit vanzelf, zonder geluid en zonder bediening; schermlezers slaan hem over. De pagina laadt eerst alleen de gegevens van de film; het script laadt hem verder, behalve bij 'minder beweging'.
+- Bij 'minder beweging' of als een gast de beweging heeft stilgezet, speelt de film niet: de envelop vervaagt rustig naar de kaart. Wie tijdens de film op **Beweging** tikt, stopt de film meteen.
+- Vangnetten: laadt de film niet of start hij niet binnen 4 seconden, dan gaat de uitnodiging toch open; na 22 seconden altijd. Zonder JavaScript staat de kaart met de tekst direct in beeld.
+- De knal en de entree van de kop wachten tot de film klaar is (het nieuwe moment `invite:reveal` in `invite.js`, opgepakt door `effects.js`).
+- De server levert de film in stukjes (WhiteNoise, 206 Partial Content), zoals Safari dat nodig heeft.
+
+**Gevonden en opgelost, voor alle ontwerpen.** Wie op het openingsscherm de link "Direct naar de uitnodiging" gebruikte (de eerste link voor toetsenbord en schermlezer), zag het scherm verdwijnen, maar de uitnodiging bleef geblokkeerd: niet te scrollen of in te vullen, en de namen onzichtbaar. Dat gold voor alle 33 bestaande ontwerpen. Het script opent de uitnodiging nu ook via die link.
+
+**Niet gecontroleerd.** De Chromium van de werkomgeving speelt geen H.264 (MP4) af; de film is daar met de WebM-versie getest. Afspelen van de MP4 in Safari op een iPhone of Mac, in Chrome en op een ouder Android-toestel is niet getest (zie het open punt over echte apparaten in `docs/OVERDRACHT.md`).
+
 ## Referenties en schermopname
 
 Hier staat eerlijk wat wel en niet is bekeken.

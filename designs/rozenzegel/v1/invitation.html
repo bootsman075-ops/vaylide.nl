@@ -1,0 +1,162 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Rozenzegel v1 — bordeaux envelop met rozen; de opening is een film (blok "film" in manifest.json).
+   De film eindigt op een lege crème kaart; de kop hieronder toont precies dat beeld (kaart.webp) met de tekst op de kaart.
+   Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'fonts/cormorant-garamond-latin-wght-normal.woff2' %}" as="font" type="font/woff2" crossorigin>
+{% if v.opening_enabled %}<link rel="preload" href="{% static v.film.poster %}" as="image">{% endif %}
+<link rel="preload" href="{% static v.film.end %}" as="image">{% endblock %}
+
+{% block cover %}
+<section class="cover rz-cover" data-cover data-duration="22000" data-film-fade="1000" aria-label="Openingsscherm">
+  <div class="rz-frame rz-frame--cover" data-film-frame>
+    <video class="rz-film" data-cover-film muted playsinline preload="metadata" disablepictureinpicture disableremoteplayback
+           poster="{% static v.film.poster %}" aria-hidden="true" tabindex="-1">
+      <source src="{% static v.film.src %}" type="video/mp4">
+      {% if v.film.webm %}<source src="{% static v.film.webm %}" type="video/webm">{% endif %}
+    </video>
+    <div class="rz-cover__top">
+      <p class="rz-cover__to">Een uitnodiging voor jou</p>
+      <p class="rz-cover__names rz-cover__names--{{ v.names_size }}">{{ v.title }}</p>
+    </div>
+    <a href="#uitnodiging" class="rz-seal fx-pulse" data-open data-fx-origin aria-label="Open de uitnodiging"></a>
+    <div class="rz-cover__bottom">
+      <p class="rz-cover__hint">Tik op het zegel om te openen</p>
+      {% if v.show.music %}<button type="button" class="rz-cover__music" data-open data-open-music>Openen met muziek</button>{% endif %}
+    </div>
+  </div>
+  <button type="button" class="rz-skip" data-cover-skip hidden>Overslaan</button>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="rz-hero">
+  <div class="rz-frame rz-frame--hero" data-film-target style="background-image: url('{% static v.film.end %}')">
+    <div class="rz-card{% if v.kicker|length > 34 or v.venue|length > 48 or v.title|length > 40 %} rz-card--dense{% endif %}">
+      <svg class="rz-sprig" viewBox="0 0 240 48" aria-hidden="true" focusable="false" data-fx-draw data-fx-reveal-origin><path d="M8 40c38-2 70-14 112-30M120 10c34 16 72 26 112 30M58 30c-6-10-2-18 8-22-2 10-2 16-8 22Zm28-10c-4-10 2-17 12-19-3 9-5 15-12 19Zm66 0c4-10-2-17-12-19 3 9 5 15 12 19Zm28 10c6-10 2-18-8-22 2 10 2 16 8 22Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="120" cy="10" r="3.2" fill="currentColor"/></svg>
+      <p class="rz-kicker fx-intro" style="--fx-d:1">{{ v.kicker }}</p>
+      <h1 class="rz-names rz-names--{{ v.names_size }} fx-names">
+        {% if v.is_couple %}<span class="rz-names__one">{{ v.names.0 }}</span><span class="rz-names__amp" aria-label="en">&amp;</span><span class="rz-names__two">{{ v.names.1 }}</span>
+        {% else %}<span class="rz-names__one">{{ v.names.0 }}</span>{% endif %}
+      </h1>
+      {% if v.date %}
+      <p class="rz-date fx-intro" style="--fx-d:5">
+        <span class="rz-date__weekday">{{ v.weekday }}</span>
+        <span class="rz-date__day">{{ v.day }}</span>
+        <span class="rz-date__month">{{ v.month_name }} {{ v.year }}</span>
+      </p>
+      {% endif %}
+      {% if v.time_display or v.venue %}<p class="rz-meta fx-intro" style="--fx-d:6">{% if v.time_display %}<span class="rz-meta__time">{{ v.time_display }}</span>{% endif %}{% if v.venue %}<span class="rz-meta__venue">{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+    </div>
+  </div>
+</header>
+
+<div class="rz-body">
+<section class="rz-sheet rz-welcome" data-reveal aria-label="Welkom">
+  <img class="rz-welcome__seal" src="{% static 'designs/rozenzegel/v1/zegel.webp' %}" alt="" width="240" height="240" decoding="async">
+  <p class="rz-welcome__tagline">{{ v.tagline|capfirst }}</p>
+  {% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+
+{% if v.hero %}
+<figure class="rz-portrait" data-reveal><div class="ph rz-portrait__img fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero sizes="(min-width: 700px) 440px, 84vw" %}</div></figure>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="rz-sheet rz-countdown" data-reveal aria-labelledby="rz-cd-title">
+  <h2 id="rz-cd-title" class="rz-h2">{% if v.is_past %}Dank je wel{% else %}Nog even geduld{% endif %}</h2>
+  {% include "invitations/partials/countdown.html" %}
+  {% include "invitations/partials/calendar_buttons.html" %}
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="rz-sheet rz-story" data-reveal aria-labelledby="rz-story-title">
+  <h2 id="rz-story-title" class="rz-h2">{{ v.story_title }}</h2>
+  <div class="rz-story__text">{% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="rz-sheet rz-program" data-reveal aria-labelledby="rz-program-title">
+  <h2 id="rz-program-title" class="rz-h2">Programma</h2>
+  <ol class="rz-timeline">
+    {% for item in v.program %}
+    <li class="rz-timeline__item">
+      {% if item.time %}<span class="rz-timeline__time">{{ item.time }}</span>{% endif %}
+      <div class="rz-timeline__body">
+        <h3 class="rz-timeline__title">{{ item.title }}</h3>
+        {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="rz-sheet rz-location" data-reveal aria-labelledby="rz-location-title">
+  <h2 id="rz-location-title" class="rz-h2">Locatie</h2>
+  {% if v.venue %}<p class="rz-location__venue">{{ v.venue }}</p>{% endif %}
+  {% if v.address_lines %}<address class="rz-location__address">{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+  {% if v.date_display %}<p class="rz-location__when">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}</p>{% endif %}
+  {% if v.route_url %}<a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Route plannen</a>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="rz-sheet rz-dresscode" data-reveal aria-labelledby="rz-dress-title">
+  <h2 id="rz-dress-title" class="rz-h2">Dresscode</h2>
+  {% for p in v.dresscode_text %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+  {% if v.dresscode_colors %}<ul class="rz-swatches" aria-label="Kleuren voor de dresscode">
+    {% for c in v.dresscode_colors %}<li class="rz-swatch" style="background:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}
+  </ul>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="rz-sheet rz-practical" data-reveal aria-labelledby="rz-practical-title">
+  <h2 id="rz-practical-title" class="rz-h2">Goed om te weten</h2>
+  <dl class="rz-practical__list">
+    {% for item in v.practical %}<div class="rz-practical__item">{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="rz-sheet rz-gallery" data-reveal aria-labelledby="rz-gallery-title">
+  <h2 id="rz-gallery-title" class="rz-h2">Momenten</h2>
+  <ul class="rz-gallery__grid">
+    {% for photo in v.gallery %}<li class="rz-gallery__item rz-gallery__item--{{ photo.orientation }}"><figure class="ph">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 900px) 280px, 42vw" %}{% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}</figure></li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="rz-sheet rz-rsvp" id="aanmelden" data-reveal aria-labelledby="rz-rsvp-title">
+  <h2 id="rz-rsvp-title" class="rz-h2">{% if v.formal %}Komt u ook?{% else %}Kom je ook?{% endif %}</h2>
+  {% include "invitations/partials/rsvp.html" %}
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="rz-sheet rz-contact" data-reveal aria-labelledby="rz-contact-title">
+  <h2 id="rz-contact-title" class="rz-h2">Vragen?</h2>
+  {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+  <p class="rz-contact__name">{{ v.contact.name }}</p>
+  <p class="rz-contact__links">
+    {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+    {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+    {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+  </p>
+</section>
+{% endif %}
+
+<section class="rz-closing" data-reveal aria-label="Afsluiting">
+  <img class="rz-closing__band" src="{% static 'designs/rozenzegel/v1/envelop-band.webp' %}" alt="" width="720" height="630" loading="lazy" decoding="async">
+  {% if v.show.closing %}{% for p in v.closing %}<p class="rz-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  <p class="rz-closing__names" aria-hidden="true">{{ v.title }}</p>
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+</div>
+{% endblock %}
