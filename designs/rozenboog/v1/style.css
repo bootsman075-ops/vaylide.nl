@@ -73,7 +73,11 @@ body {
 
 /* Het label op de rozen: crème, met een boog als bovenkant, zoals de rozenboog die achter de rozen verscholen ligt. */
 .rb-label {
-  position: absolute; left: 50%; top: 50%; z-index: 1; width: 72cqw; transform: translate(-50%, -50%);
+  /* In het midden van het zichtbare deel: de film is minstens 560 pixels hoog en kan onder het scherm doorlopen
+     (liggende telefoon, of een balk erboven). Op een liggend scherm is de film smal: het label mag dan breder zijn. */
+  position: absolute; left: 50%; z-index: 1; width: max(72cqw, min(300px, 86vw)); transform: translate(-50%, -50%);
+  top: calc((100vh - var(--film-top, 0px)) / 2);
+  top: calc((100svh - var(--film-top, 0px)) / 2);
   display: grid; justify-items: center; gap: 1.6cqh; text-align: center;
   padding: 15cqw 7cqw 7cqw;
   background: var(--rb-glass); color: var(--rb-ink);
@@ -97,8 +101,18 @@ body {
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
 }
 .rb-label__names--long { font-size: clamp(24px, 8.8cqw, 50px); }
-.rb-label__names--xlong { font-size: clamp(20px, 6.8cqw, 40px); }
+/* Heel lange namen: kleiner en tot vijf regels, zodat ook de tweede naam op het label past. */
+.rb-label__names--xlong { font-size: clamp(17px, 5.6cqw, 34px); -webkit-line-clamp: 5; line-clamp: 5; }
 .rb-label__rule { width: 34cqw; height: auto; color: var(--rb-gold-line); }
+/* Laag scherm (liggende telefoon): compacter, zodat de knop altijd in beeld blijft. */
+@media (max-height: 520px) {
+  .rb-label { gap: .35rem; padding: 2.4rem 1.2rem .9rem; }
+  .rb-label__to { font-size: 15px; }
+  .rb-label__names { font-size: 26px; }
+  .rb-label__names--long { font-size: 22px; }
+  .rb-label__names--xlong { font-size: 16px; }
+  .rb-label__rule { display: none; }
+}
 .rb-open {
   position: relative; display: inline-flex; align-items: center; justify-content: center;
   min-height: 44px; padding: .6rem 1.4rem; margin-top: .4cqh; border-radius: 999px; cursor: pointer;

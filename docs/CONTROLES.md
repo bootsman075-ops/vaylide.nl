@@ -4,10 +4,10 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**150 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 7 (Rozenzegel), alle geslaagd:
+**159 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 8 (Rozenboog), alle geslaagd:
 
 - lokaal op SQLite;
-- ronde 7 (11 nieuwe tests in `test_film`) is alleen op SQLite getest;
+- ronde 7 (11 nieuwe tests in `test_film`) en ronde 8 (9 nieuwe tests in `test_film`) zijn alleen op SQLite getest;
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
 - in de Docker-image (Python 3.11), na een build vanaf nul: in ronde 2 (toen 92 tests). Daarna is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden, instellingen of datamodellen veranderd (de nieuwe ontwerpen en de effecten zijn bestanden, en het extra veld "Aantal jaar" staat in de bestaande inhoud van een uitnodiging).
 
@@ -28,6 +28,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Merk Vaylide (ronde 6) | `BrandTests` in `test_site`: het logo staat in de kop met "Vaylide" als tekst voor schermlezers en als naam van de link; de iconen en de deelafbeelding bestaan en worden gebruikt, het oude hartlogo is weg; op 14 pagina's (website, inloggen, samenstellen, een voorbeeld en de 404) staat nergens meer "Vierlief" of "Vaylia"; een e-mail begint met het logo en noemt alleen Vaylide |
 | Wachtwoord voor een testversie online (ronde 6) | `test_preview`: standaard uit; aan vraagt elke pagina het wachtwoord (401 met het inlogvenster van de browser, zonder inhoud van de site); een fout wachtwoord, een andere gebruikersnaam of een kapotte kop wordt geweigerd; met het goede wachtwoord verschijnt de site; `/healthz` en de taken voor een externe cron blijven bereikbaar; na 30 foute pogingen volgt 429 |
 | Opening als film: Rozenzegel (ronde 7) | `test_film`: de film, het eerste en het laatste beeld bestaan en hebben dezelfde maat (720 × 1280), de video's blijven onder 3 MB; een ontbrekend of verkeerd genoemd filmbestand wordt bij het inlezen geweigerd (WebM is optioneel); de paden voor de sjablonen; het voorbeeld heeft een stille video zonder `autoplay` en zonder bediening, verborgen voor schermlezers, MP4 vóór WebM, het zegel als knop, **Overslaan** verborgen tot de film speelt, en geen extra inline scripts (CSP); elke gelegenheid werkt; zonder opening staat de kaart er direct; lange teksten geven de compacte kaart; de ontwerppagina noemt opening en effecten; het contrast van alle tekstkleuren (ook op de kaart en de envelop); de scripts bevatten het afspelen, het vervagen en de herstelde link "Direct naar de uitnodiging" |
+| Opening als film: Rozenboog (ronde 8) | `test_film`: voor elk ontwerp met een film (Rozenzegel en Rozenboog) kloppen de bestanden, hebben het eerste en het laatste beeld de maat van de film (720 × 1280) en blijven de video's onder 3 MB; het bronfilmpje van Rozenboog staat bij het script; het voorbeeld heeft een stille video zonder `autoplay` en zonder bediening, met `preload="none"`, verborgen voor schermlezers, MP4 vóór WebM, een zichtbare openknop waarvan de naam de tekst op de knop is, **Overslaan** verborgen tot de film speelt, geen sjablooncommentaar in de pagina en geen extra inline scripts (CSP); elke gelegenheid werkt; zonder opening staat de kop er direct; lange teksten geven de compacte variant in de lucht, op de kaart en op het label; zonder datum, tijd en locatie geen lege kaart; de ontwerppagina noemt opening en effecten; het contrast van alle tekstkleuren (ook op het doorschijnende label en de kaart, en in de lucht op de donkerst gemeten plek) |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
 Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vaylide), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
@@ -52,6 +53,20 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 - Sinds ronde 5 staan de effecten tijdens de controles gewoon aan. De controles wachten tot de opening, de entree van de kop en andere eenmalige animaties klaar zijn; doorlopende effecten (zwevende deeltjes, glans) lopen door.
 
 ### Resultaat
+
+Ronde 8 (Rozenboog, tweede opening als film), op de productie-achtige server (gunicorn, `DEBUG` uit, WhiteNoise):
+
+- **856 pagina's zonder bevindingen** (214 per schermformaat, op 360, 390, 768 en 1366 pixels breed, vier runs tegelijk): nu met 35 voorbeelden en 140 testuitnodigingen (vier per ontwerp, ook Rozenboog). Geen horizontaal scrollen, niets buiten beeld, geen afgesneden tekst, geen consolefouten, geen mislukte verzoeken.
+- **280 van 280 gedragscontroles geslaagd** (acht per ontwerp, alle 35). Bij Rozenboog: minder beweging opent in 294 ms zonder lopende animaties; de knop **Open de uitnodiging** is met Tab bereikbaar en na de film staat de focus op de namen; muziek pas na een tik en te pauzeren; het vangnet zonder script; de melding over de tijdzone; zonder JavaScript zijn de kop en het aanmeldformulier direct zichtbaar.
+- **Welke stand.** Die grote run liep op de stand vlak vóór drie aanpassingen aan Rozenboog: `preload="none"` op de film, het label op het openingsscherm (breder op een liggend scherm, in het midden van het zichtbare deel, en tot vijf regels voor heel lange namen) en één regel sjablooncommentaar die in de pagina lekte. Die raken alleen Rozenboog. Daarna zijn voor Rozenboog opnieuw gedraaid, op de definitieve stand: de browsercontrole (44 pagina's per schermformaat: de website, het voorbeeld, de vier testuitnodigingen, de klantomgeving, het samenstellen en het beheer, 0 bevindingen), de acht gedragscontroles (8 van 8), de effecten (8 van 8), de toegankelijkheid (0 bevindingen), het contrast op het openingsscherm en de tests.
+- **De film zelf** (Chromium, WebM): na de tik speelt de film 8,0 seconden, daarna vervaagt het scherm in een seconde en staat de kop er; het kader van de film ligt precies op de kop eronder, ook met de voorbeeldbalk erboven (gemeten: zelfde positie en maat, −42,4 / 61,8 / 474,8 × 844 op 390 pixels breed). Nagespeeld op de definitieve stand: **Overslaan** stopt de film meteen en opent de uitnodiging (na het vervagen van een seconde); **Beweging** tijdens de film idem; 'minder beweging' speelt geen film en haalt er ook niets van op (0 verzoeken, 0 seconden gebufferd); een film die niet kan laden opent de uitnodiging meteen (met het vervagen 1,1 tot 1,3 seconden na de tik); met het toetsenbord: Tab naar de knop, Enter, na de film focus op de namen; de link "Direct naar de uitnodiging" opent de uitnodiging en de namen zijn zichtbaar; zonder JavaScript geen openingsscherm. In het kleine voorbeeld op de ontwerppagina wordt niets van de film opgehaald tot de tik; daarna speelt hij. De server levert de film in stukjes (206 Partial Content, met versiekenmerk).
+- **Vloeiend vertraagd**, gemeten met optische stroming op de uiteindelijke film (`opening.mp4`): tijdens het uiteengaan van de rozen beweegt het beeld 1,37 tot 1,44 beeldpunt per beeldje, gelijkmatig oplopend tot 2,3 en weer afnemend, zonder het golven van de eerste versie (daar schommelde het binnen elke vijf beeldjes tot 40%). De tussenbeelden zijn op ware grootte bekeken: geen dubbele randen of vervormde rozen.
+- **Contrast op de beelden**, gemeten op de echte beeldpunten (tekst onzichtbaar gemaakt, per tekstvak de lichtste en donkerste 2% van de achtergrond, zonder de schaduw achter de letters, afgeknipte regels niet meegeteld), in 55 metingen: het voorbeeld en vier testuitnodigingen met extreme teksten op 360, 390, 768 en 1366 pixels breed en op een liggende telefoon (844 × 390, het label ook op 667 × 375). Label op de rozenwand 5,5 tot 7,1:1, kopregel in de lucht 9,7 tot 13,4:1, namen in de lucht 5,5 tot 13,4:1, kaart op het terras 6,1 tot 13,1:1. De eis is 4,5:1.
+- **Lange teksten**: de langst mogelijke namen (2 × 60 tekens) met een lange kopregel en locatie, een jubileum met een lange naam, lange woorden ("Wilhelmina-Charlotte") en heel korte namen ("Bo & Mo"), op 360, 390, 768 en 1366 pixels breed en op een liggende telefoon: alles blijft binnen de lucht, de kaart en het label, de knop **Open de uitnodiging** blijft in beeld (ook op 667 × 375).
+- **Met het oog bekeken**: de opening als reeks schermafbeeldingen (dicht, tijdens de film, de kop) op 360, 390 en 1366 pixels; de hele uitnodiging op 360 pixels; de lange teksten; het kaartbeeld voor de collectie; een voorbeeldvideo van de hele opening (opgenomen op 780 × 1688 beeldpunten).
+- **Effecten** (`e2e/effecten.cjs`): **16 van 16 controles geslaagd** voor Rozenboog en, ter vergelijking, Rozenzegel; op de definitieve stand voor Rozenboog opnieuw 8 van 8. Er zweeft niets over de film, de knal (bloemblaadjes) komt als de film klaar is, daarna is de kop zichtbaar en dwarrelen de blaadjes; feestje na aanmelden; stilzetten, onthouden en weer aanzetten; 'minder beweging'. Alleen Rozenzegel en Rozenboog zijn in deze ronde gecontroleerd; aan `effects.js` en `invite.js` is niets veranderd.
+- **Toegankelijkheid** (`e2e/toegankelijkheid.cjs`, axe-core 4.14): Rozenboog dicht en open, **0 bevindingen**, ook niet "label in naam": de openknop heet zoals de tekst erop.
+- **Snelheid** (Lighthouse 12.8): zie de tabel onder "Snelheid".
 
 Ronde 7 (Rozenzegel, opening als film), op de definitieve code en de productie-achtige server:
 
@@ -109,6 +124,17 @@ Ronde 4 (30 nieuwe ontwerpen):
 - Eerdere rondes: de schermafbeeldingen op 360 pixels zijn met het oog bekeken (lange uitnodigingen, website, samenstellen, klantomgeving, beheer en foutpagina's), en de homepage is op 390 en 1440 pixels naast de voorbeeldfoto gelegd. Het live voorbeeld op de homepage laadt pas bij het scrollen; zonder JavaScript staat er een leesbare link naar het voorbeeld.
 
 ### Snelheid (Lighthouse 12, telefoon met trage mobiele verbinding)
+
+Ronde 8 (Rozenboog), Lighthouse 12.8.2 op de definitieve stand, zonder iets ernaast:
+
+| Pagina | Prestaties | Eerste inhoud | Grootste element | Verspringen | Gewicht |
+|---|---|---|---|---|---|
+| Voorbeeld Rozenboog (drie metingen) | 97 / 97 / 95 | 1,7 s | 2,3–2,5 s | 0 | 2447 KB |
+| Ontwerppagina Rozenboog (met live voorbeeld) | 100 | 1,0 s | 1,8 s | 0 | 652 KB |
+| Collectie (met het nieuwe kaartbeeld) | 100 | 0,8 s | 1,7 s | 0 | 298 KB |
+| Ter vergelijking: voorbeeld Rozenzegel | 97 | 1,6 s | 2,4 s | 0 | 1116 KB |
+
+Toegankelijkheid en goede praktijken: 100. Het gewicht van het voorbeeld is vooral de film (rozen hebben veel fijn detail), die al laadt terwijl de gast het openingsscherm ziet, zodat hij na de tik meteen speelt: in deze Chromium de WebM (1925 KB); Chrome en Safari laden de MP4 (2180 KB), dus daar is het ongeveer 2,6 MB. Lichter kan met een hogere `crf_web` en `crf_webm` in `tools/filmopening/maak_opening.py` (met wat minder scherpe rozen), als nieuwe ontwerpversie. Het kaartbeeld van Rozenboog is 98 KB (een foto-achtig beeld; de andere kaartbeelden zijn hoogstens 68 KB).
 
 Ronde 7 (Rozenzegel), Lighthouse 12.8 op de definitieve stand, zonder iets ernaast:
 
@@ -184,6 +210,21 @@ Gemeten met `CHECKS=0 PERF=1 node e2e/effecten.cjs` op de productie-achtige serv
 Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen ongeveer 1 ms per seconde; met beweging 270 tot 380 ms (gemeten bij Rozentuin, Gala, Neonnacht, Puur moment en Glitter & goud). Op een echte telefoon tekent de grafische kaart mee, dus dit is een ongunstige benadering en geen meting op een echt toestel (zie "Niet gecontroleerd").
 
 ### Gevonden en opgelost
+
+Ronde 8 (Rozenboog):
+
+| Bevinding | Oplossing |
+|---|---|
+| Het filmpje (via WhatsApp) is van 24 naar 30 beelden per seconde omgezet: per beeldje afwisselend veel en weinig beweging. Vertraagd werd dat een golvende beweging (tot 40% schommeling binnen vijf beeldjes) | Nieuwe stap `gelijkmatig` in `tools/filmopening/maak_opening.py`: elk bronbeeld krijgt een eigen tijd naar de hoeveelheid beweging. In de eerste versie werd die correctie bij het vertragen weer uitgemiddeld (centrale differenties); nu per stap. Gemeten: gelijkmatige beweging per beeldje |
+| De grote dag in de datum op de kaart was 19 pixels in plaats van 46 (de binnenruimte van de kaart in `cqh` verwees naar het hele beeld, niet naar de kaart) | Binnenruimte in procenten |
+| De kleine kopregel bovenin de lucht ("Wij gaan trouwen") haalde op de ranken van de boog 2,6:1 | Een eigen, zacht vervaagd vlakje avondlicht en een donkerdere kleur: 9,7:1 of meer |
+| Bij de langste namen kwam de tweede naam op de donkere berghelling: 3,8 tot 4,5:1 | Bij veel tekst een voller vervaagd vlak achter de hele tekst: 9,7:1 of meer |
+| Liep de maand op de kaart over twee regels ("januari 2027" op 360 pixels), dan stonden de gouden lijnen naast weekdag en maand op verschillende hoogtes | Beide vakken even hoog, tekst in het midden |
+| Bij 'minder beweging' haalde Chromium de film toch op (met `preload="metadata"` 1,9 MB, 4 seconden gebufferd), terwijl hij dan nooit speelt | `preload="none"` op de film; het script zet het laden aan als de film mag spelen. Nu 0 bytes bij 'minder beweging' en in het kleine voorbeeld. Bij Rozenzegel gebeurt hetzelfde (0,8 MB, de hele film); daar niet aangepast, zie "Niet gecontroleerd" |
+| Een sjablooncommentaar over twee regels stond als tekst in de pagina (Django kent `{# #}` alleen op één regel) | Op één regel; een test controleert dat er geen sjablooncommentaar in de pagina staat |
+| Op het label van het openingsscherm vielen bij de langste namen na drie regels de tweede naam en het eind van de eerste weg | Heel lange namen iets kleiner en tot vijf regels |
+| Op een liggende telefoon (844 × 390, 667 × 375) stond de knop **Open de uitnodiging** deels buiten beeld: de film is daar minstens 560 pixels hoog en smal, en het label stond in het midden van de film | Het label staat in het midden van het zichtbare deel en mag breder zijn dan de film; op een laag scherm compacter. Gemeten: de knop helemaal in beeld |
+| Het kaartbeeld van het openingsscherm (rozenwand met label) zei weinig over het ontwerp | Het kaartbeeld is de kop na de film (`"kaartbeeld": "kop"` in het blok `film`) |
 
 Ronde 7 (Rozenzegel, opening als film):
 
@@ -286,6 +327,8 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 ## Niet gecontroleerd
 
 - **Label in naam (ronde 7)**: axe-core 4.14 meldt bij 31 bestaande ontwerpen dat de openknop "Open de uitnodiging" heet terwijl er tekst op staat (zie Resultaat, ronde 7). Niet aangepast; een mogelijke oplossing is de zichtbare tekst in de naam van de knop opnemen.
+- **Rozenboog (ronde 8)**: net als bij Rozenzegel alleen in Chromium bekeken, met de WebM-versie. Niet getest: de MP4 in Safari op een iPhone of Mac, in Chrome en in Firefox, en op een ouder Android-toestel. Of de eigenaar de rechten op het filmpje heeft, is niet bevestigd.
+- **Rozenzegel laadt de film bij 'minder beweging' (gevonden in ronde 8)**: in ronde 7 staat dat 'minder beweging' de film niet laadt. Opnieuw gemeten in ronde 8 haalt Chromium bij Rozenzegel dan toch de hele film op (807 KB, 10,3 seconden gebufferd), door `preload="metadata"`. Niet aangepast (een uitgebracht ontwerp verander je via een nieuwe versie); de oplossing van Rozenboog (`preload="none"`) past ook bij Rozenzegel.
 - **Rozenzegel (ronde 7)**: de film is alleen in Chromium bekeken, met de WebM-versie (deze Chromium speelt geen MP4). Niet getest: de MP4 in Safari op een iPhone of Mac, in Chrome en in Firefox, en op een ouder Android-toestel (soepelheid van de film). De film start na een tik, zonder geluid en met `playsinline`, zoals Safari op de iPhone dat vraagt; dat hij daar echt speelt, is niet gezien. Of het laatste filmbeeld op een echte telefoon naadloos aansluit op de kaart, is alleen in Chromium bekeken.
 - **Echte apparaten en andere browsers**: alleen Chromium is gebruikt, op telefoon- en computerformaat. Safari/WebKit (iPhone) en Firefox zijn niet getest. Test vóór de lancering op echte iPhones en Android-telefoons.
 - **Schermlezers** (VoiceOver, TalkBack): niet getest. Wel de automatische axe-controle en de toetsenbordbediening.
