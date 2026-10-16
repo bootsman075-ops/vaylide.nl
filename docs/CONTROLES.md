@@ -4,9 +4,9 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 
 ## Controle 1: volledige werking
 
-**139 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code met het merk Vaylide en het wachtwoord voor een testversie online (ronde 6), alle geslaagd:
+**148 geautomatiseerde tests** (`python manage.py test tests`), laatst gedraaid op de definitieve code van ronde 7 (het ontwerp Bloesemwaaier), alle geslaagd:
 
-- lokaal op SQLite;
+- lokaal op SQLite (ronde 7: 148 tests; ronde 6: 139);
 - op PostgreSQL 16 (lokale database) in ronde 5, toen met 132 tests, op de stand vlak vóór de laatste kleine wijziging van die ronde (kaarten zonder dubbel woord, zoals "Confetti · confetti"). Die wijziging en ronde 6 zijn alleen op SQLite getest;
 - in de Docker-image (Python 3.11), na een build vanaf nul: in ronde 2 (toen 92 tests). Daarna is de image niet opnieuw gebouwd; er zijn geen afhankelijkheden, instellingen of datamodellen veranderd (de nieuwe ontwerpen en de effecten zijn bestanden, en het extra veld "Aantal jaar" staat in de bestaande inhoud van een uitnodiging).
 
@@ -26,6 +26,7 @@ Hier staan alleen controles die echt zijn uitgevoerd, met hoe en met welk result
 | Effecten (ronde 5) | `test_effects`: alle 33 ontwerpen hebben geldige effecten; een onbekend effect wordt geweigerd bij het inlezen van een ontwerp; de instellingen worden klassen en kenmerken op de pagina; elk voorbeeld laadt de effecten en de knop **Beweging** (verborgen tot het script draait), zonder extra inline scripts (CSP); een ontwerp zonder effecten werkt gewoon; Avondgoud laadt zijn oude eigen script niet meer; de glans over de namen houdt minstens 3:1 contrast in alle kleurvarianten; de ontwerppagina en de kaarten beschrijven de effecten; de cadeau-opening bij Stipjes, Glitter & goud en Regenboog (de doos opent ook bij een tik, maar is geen extra tabstop en wordt niet voorgelezen), het effect cadeautjes en de tekst op de kaart |
 | Merk Vaylide (ronde 6) | `BrandTests` in `test_site`: het logo staat in de kop met "Vaylide" als tekst voor schermlezers en als naam van de link; de iconen en de deelafbeelding bestaan en worden gebruikt, het oude hartlogo is weg; op 14 pagina's (website, inloggen, samenstellen, een voorbeeld en de 404) staat nergens meer "Vierlief" of "Vaylia"; een e-mail begint met het logo en noemt alleen Vaylide |
 | Wachtwoord voor een testversie online (ronde 6) | `test_preview`: standaard uit; aan vraagt elke pagina het wachtwoord (401 met het inlogvenster van de browser, zonder inhoud van de site); een fout wachtwoord, een andere gebruikersnaam of een kapotte kop wordt geweigerd; met het goede wachtwoord verschijnt de site; `/healthz` en de taken voor een externe cron blijven bereikbaar; na 30 foute pogingen volgt 429 |
+| Bloesemwaaier (ronde 7) | `test_bloesemwaaier`: het ontwerp wordt ingelezen met kaartbeeld; een afwijkende accentkleur uit Beheer komt op de juiste kleur; alle tekstkleuren in alle drie de kleurvarianten halen minstens 4,5:1, ook de tekst op de lucht; het voorbeeld werkt voor elke gelegenheid en elke kleur; de waaier is een gewone link met een naam (werkt zonder script), met 15 plooien; de tuin is versiering voor schermlezers; geen inline scripts of stijlblokken; alle id's in de pagina zijn uniek en elke verwijzing in de tekening bestaat; lange namen krijgen kleinere letters; de beelden komen overeen met `tools/bloesemwaaier/maak_beelden.py` en bevatten geen scripts of verwijzingen naar buiten. `test_effects` telt nu 34 ontwerpen |
 | Versieherstel en conflicten | `ConflictTests`, `RestoreTests`, `TemplateVersionPinningTests`: een aanpassing door het team wordt niet stil overschreven, vergrendelde velden blijven staan, publiceren met een verouderde stand wordt geweigerd, een nieuwe ontwerpversie verandert bestaande uitnodigingen niet |
 
 Verder getest: aanmeldingen (dubbel tikken geeft één antwoord, limieten, deadline, capaciteit, verstreken datum, wijzigen en verwijderen, spambescherming, rate limiting, extra vragen per pakket), uploads (EXIF en GPS verwijderd, verkeerde of te kleine bestanden, maximale grootte, audio, te grote verzoeken), weergave (lange namen, lege onderdelen verborgen, tijdzones, alle voorbeelden voor alle gelegenheden, werkt zonder JavaScript), beveiligingsheaders, prijsberekening, bewaartermijnen en accountverwijdering, foutpagina's, handmatige statuswijziging (met logboek), een ontwerp zonder voorbeeldafbeelding, de controle van ontwerpmanifesten, de snelheidsmaatregelen (inline startscript met CSP-hash, compressie van tekst maar niet van beelden of deelverzoeken, een vast aantal databasevragen in Mijn Vaylide), en de nieuwe pagina's: Inspiratie, Over ons en Zoeken. Zoeken vindt vragen, ontwerpen en pagina's, negeert hoofdletters en accenten, kort lange zoektermen in, toont invoer veilig (geen HTML) en staat op `noindex`. Een test controleert dat namen, locaties, e-mailadressen, gastnamen en links van echte uitnodigingen nooit in de resultaten verschijnen.
@@ -50,6 +51,14 @@ Daarnaast zijn de klantreis en het beheer tijdens de bouw doorlopen met scripts:
 - Sinds ronde 5 staan de effecten tijdens de controles gewoon aan. De controles wachten tot de opening, de entree van de kop en andere eenmalige animaties klaar zijn; doorlopende effecten (zwevende deeltjes, glans) lopen door.
 
 ### Resultaat
+
+Ronde 7 (het nieuwe ontwerp Bloesemwaaier), op de definitieve code en de productie-achtige server. Alleen het nieuwe ontwerp is volledig gecontroleerd; aan de andere ontwerpen en de website is niets veranderd (zie "Niet gecontroleerd"):
+
+- **Browsercontrole** (`ONTWERPEN=bloesemwaaier node e2e/controle2.cjs`): **176 pagina's zonder bevindingen**, 44 per schermformaat op 360, 390, 768 en 1366 pixels breed: de websitepagina's, het voorbeeld, de vier testuitnodigingen (lang, minimaal, verstreken, lang woord), de klantomgeving, alle stappen van het samenstellen en het beheer. **8 van 8 gedragscontroles geslaagd**: minder beweging (open na 312 ms, zonder lopende animaties), de waaier bereikbaar met Tab en daarna de focus op de namen, muziek pas na een tik en te pauzeren, het vangnet als het script niet laadt, de melding over de tijdzone en zonder JavaScript direct leesbaar (geen openingsscherm).
+- **Effecten** (`e2e/effecten.cjs bloesemwaaier`): **8 van 8 geslaagd** (deeltjes op het openingsscherm, de knal als de waaier het water raakt, de kop en de zwevende bloesem na het openen, het feestje na aanmelden, geen consolefouten, stilzetten, onthouden en weer aanzetten, minder beweging). Na de aanpassing van het script (wachten op `data-fx-delay`) slaagden ook Avondgoud en Rozentuin weer 8 van 8.
+- **Toegankelijkheid** (`e2e/toegankelijkheid.cjs bloesemwaaier`, axe-core 4.14): alle drie de kleurvarianten, dicht en geopend: **6 pagina's, 0 bevindingen**.
+- **Belasting en snelheid**: zie "Belasting door de effecten" en "Snelheid" hieronder.
+- **Met het oog bekeken**: het openen als reeks schermafbeeldingen (dicht, tijdens het dichtklappen, de val, de kringen en open) op 390 pixels, ingezoomd op de waaier (pixelverhouding 2); het openingsscherm op 360×640, 390×844, 768×1024, 1366×768 en 844×390 (telefoon dwars); alle drie de kleurvarianten dicht, open en de secties; de hele pagina; de zwevende bloesem na het openen in de kop en op het papier; zonder JavaScript en met 'minder beweging'; de testuitnodigingen op 360 pixels; de collectie, de ontwerppagina met het live voorbeeld en het kaartbeeld. De beweging is beoordeeld op reeksen schermafbeeldingen, niet als bewegend beeld.
 
 Ronde 6 (merk Vaylide), op de definitieve code en de productie-achtige server:
 
@@ -94,6 +103,17 @@ Ronde 4 (30 nieuwe ontwerpen):
 - Eerdere rondes: de schermafbeeldingen op 360 pixels zijn met het oog bekeken (lange uitnodigingen, website, samenstellen, klantomgeving, beheer en foutpagina's), en de homepage is op 390 en 1440 pixels naast de voorbeeldfoto gelegd. Het live voorbeeld op de homepage laadt pas bij het scrollen; zonder JavaScript staat er een leesbare link naar het voorbeeld.
 
 ### Snelheid (Lighthouse 12, telefoon met trage mobiele verbinding)
+
+Ronde 7 (Lighthouse 12.8), op de productie-achtige server, het voorbeeld drie keer gemeten:
+
+| Pagina | Prestaties | Eerste inhoud | Grootste element | Verspringen | Gewicht |
+|---|---|---|---|---|---|
+| Voorbeeld Bloesemwaaier (drie metingen) | 92 / 94 / 96 | 2,0 s | 2,5 s | 0,001 | 242 KB |
+| Ontwerppagina Bloesemwaaier (met live voorbeeld) | 99 | 0,8 s | 1,7 s | 0 | 373 KB |
+| Collectie (34 ontwerpen) | 100 | 0,8 s | 1,8 s | 0 | 166 KB |
+| Ter vergelijking: voorbeeld Avondgoud (drie metingen, dezelfde sessie) | 99 / 99 / 99 | 1,7 s | 2,0 s | 0 | 176 KB |
+
+Toegankelijkheid en goede praktijken: 100 op alle gemeten pagina's. Het voorbeeld van Bloesemwaaier is trager dan de andere ontwerpen: de getekende tuin staat in de pagina zelf (de pagina is 137 KB, gecomprimeerd 27 KB; bij Avondgoud 16 en 5 KB), en de browser heeft meer werk aan het opbouwen (blokkeertijd 50 tot 240 ms, bij Avondgoud 0). Dat was eerder meer: vóór het bloemenpatroon in de bloesemkruinen was het 92 met 260 ms.
 
 Gemeten op de productie-achtige server. Ronde 6 (merk Vaylide), dezelfde acht pagina's, na alle andere controles en zonder iets ernaast:
 
@@ -156,9 +176,25 @@ Gemeten met `CHECKS=0 PERF=1 node e2e/effecten.cjs` op de productie-achtige serv
 | Definitieve stand (ronde 5) | 313 tot 539 ms per s | 251 tot 513 ms per s |
 | Beelden per seconde, definitieve stand | 59 tot 61 | 59 tot 60 |
 
+Ronde 7, Bloesemwaaier (zelfde meting, drie keer): openingsscherm **480 tot 527 ms** per seconde, na het openen **428 tot 533 ms**, bij 59 tot 60 beelden per seconde. Ter vergelijking, in dezelfde sessie gemeten: Avondgoud 463 tot 558 en 331 tot 407 ms. Tijdens het openen zelf (de plooien klappen dicht en de waaier valt) haalt Bloesemwaaier 55 beelden per seconde (tijdens het bouwen gemeten: 48 en 51), Avondgoud 46 tot 51 en Liefde op papier 53.
+
 Met de beweging stilgezet (knop **Beweging**) is de rekentijd na het openen ongeveer 1 ms per seconde; met beweging 270 tot 380 ms (gemeten bij Rozentuin, Gala, Neonnacht, Puur moment en Glitter & goud). Op een echte telefoon tekent de grafische kaart mee, dus dit is een ongunstige benadering en geen meting op een echt toestel (zie "Niet gecontroleerd").
 
 ### Gevonden en opgelost
+
+Ronde 7 (Bloesemwaaier):
+
+| Bevinding | Oplossing |
+|---|---|
+| Op een vier keer vertraagde processor maar 33 beelden per seconde: de stromende waterval, de gloed van de lantaarns, de kringen en de wolken bewogen binnen de grote tekening, die daardoor elk beeld opnieuw gemaakt werd | Alleen kleine, losse lagen bewegen nog; de wolken en lantaarns staan stil |
+| Daarna nog 850 tot 930 ms rekentijd per seconde: de stroompjes van de waterval waren afgesneden in de vorm van de waterval, waardoor de browser elk beeld alle lagen opnieuw indeelde | Rechte stroompjes die aan de uiteinden zacht uitlopen in plaats van afgesneden te worden |
+| Lighthouse 92 met 260 ms blokkeertijd: 1.855 elementen, waarvan 630 losse bloemetjes | Bloesemkruinen met een bloemenpatroon en per kleur één pad: 938 elementen |
+| De zwevende bloesem was na het openen onzichtbaar: hij lag achter de lucht van de kop en het papier | Lucht en tuin liggen onder het vlak met de deeltjes, de tekst erboven; het papier is doorzichtig. Geen extra deeltjesvlak (dat kostte ongeveer 50 ms rekentijd per seconde extra) |
+| Zonder JavaScript bleef het openingsscherm staan | Het openingsscherm verschijnt alleen met JavaScript |
+| Op een laag scherm viel het kwastje over de knop "Openen met muziek" | De waaier schaalt mee met de ruimte tussen de tekst en de knoppen |
+| Schemering: lichte tekst kon op de koraalkleurige horizon komen (tot 1,7:1); Zonsondergang: het accent bovenin 4,27:1 | De horizonkleur zit alleen in de tuin, het accent is iets donkerder: alles minstens 4,5:1 (test) |
+| De melding "(tijd in Nederland)" in de kop haalde op de lucht 3,7 tot 4,4:1 | Eigen, donkerdere kleur voor de lucht: 0 bevindingen |
+| De effectencontrole zag de knal niet (hij komt pas na 1,8 seconde) | `e2e/effecten.cjs` wacht de vertraging van het ontwerp af |
 
 Ronde 5 (effecten):
 
@@ -242,6 +278,8 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 
 ## Niet gecontroleerd
 
+- **Ronde 7 (Bloesemwaaier)**: alleen in Chromium bekeken en gemeten, op een server zonder grafische kaart. Niet getest: Safari en Firefox (het ontwerp gebruikt `color-mix`, `clip-path`, `mask-image`, `aspect-ratio`, `dvh` en de losse eigenschappen `translate` en `rotate`, die in recente versies werken maar niet in oudere), echte telefoons, en het gedrag met echte foto's van klanten in het ronde venster (wel met de testfoto's van de testuitnodigingen). De browsercontrole, de effectencontrole en de toegankelijkheidscontrole zijn alleen voor Bloesemwaaier gedraaid (de effectencontrole ook voor Avondgoud en Rozentuin), niet opnieuw voor alle 34 ontwerpen: aan de andere ontwerpen is niets veranderd. PostgreSQL en de Docker-image zijn niet opnieuw getest. Of het ontwerp mooi genoeg is en genoeg lijkt op de video, is aan de eigenaar.
+
 - **Echte apparaten en andere browsers**: alleen Chromium is gebruikt, op telefoon- en computerformaat. Safari/WebKit (iPhone) en Firefox zijn niet getest. Test vóór de lancering op echte iPhones en Android-telefoons.
 - **Schermlezers** (VoiceOver, TalkBack): niet getest. Wel de automatische axe-controle en de toetsenbordbediening.
 - **Geluid**: dat muziek pas na een tik start en te pauzeren is, is gecontroleerd; het geluid zelf is niet beluisterd.
@@ -265,6 +303,8 @@ In eerdere rondes al opgelost: overlappende knop in de mobiele kop, de testbalk 
 .venv/bin/python e2e/fixtures.py > /tmp/fixtures.json          # maakt de testuitnodigingen (vier per ontwerp)
 .venv/bin/python manage.py createsuperuser                        # beheerder: controle-beheer@vierlief.test
 node e2e/controle2.cjs http://127.0.0.1:8000 /tmp/fixtures.json /tmp/controle2 '<wachtwoord beheerder>'
+# Alleen één of enkele ontwerpen (de websitepagina's, het beheer en het samenstellen gaan wel mee)
+ONTWERPEN=bloesemwaaier node e2e/controle2.cjs http://127.0.0.1:8000 /tmp/fixtures.json /tmp/controle2 '<wachtwoord beheerder>'
 
 # Sneller: vier runs tegelijk, één per schermformaat (gedragscontroles in één ervan)
 VIEWPORTS=360 CHECKS=0 SHOTS=viewport node e2e/controle2.cjs … &

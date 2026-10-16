@@ -1,0 +1,389 @@
+/* Bloesemwaaier v1 — een waaier met kersenbloesem die dichtklapt en in de vijver valt,
+   met daarachter een tuin in het avondlicht. De beelden (waaier, baleinen, kwastje en de
+   tuin in scene-*.html) komen uit tools/bloesemwaaier/maak_beelden.py. */
+
+@font-face { font-family: "Pinyon Script"; src: url("../../../fonts/pinyon-script-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Marcellus"; src: url("../../../fonts/marcellus-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-normal.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../../../fonts/cormorant-garamond-latin-wght-italic.woff2") format("woff2"); font-weight: 300 700; font-style: italic; font-display: swap; }
+@font-face { font-family: "Figtree"; src: url("../../../fonts/figtree-latin-wght-normal.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+
+html.inv-bloesemwaaier { background: #fbf2ee; }
+body {
+  --inv-bg: var(--wa-bg);
+  --inv-text: var(--wa-ink);
+  --inv-muted: var(--wa-muted);
+  --inv-accent: var(--wa-accent);
+  --inv-accent-contrast: var(--wa-btn-ink);
+  --inv-focus: var(--wa-accent);
+  --inv-surface-2: color-mix(in srgb, var(--wa-accent) 7%, var(--wa-bg-2));
+  --inv-field-bg: var(--wa-bg-2);
+  --inv-field-text: var(--wa-ink);
+  --inv-field-border: color-mix(in srgb, var(--wa-ink) 30%, transparent);
+  --inv-btn-border: var(--wa-accent);
+  --inv-btn-text: var(--wa-accent);
+  --inv-btn-hover-bg: color-mix(in srgb, var(--wa-accent) 9%, transparent);
+  --inv-music-bg: color-mix(in srgb, var(--wa-bg-2) 92%, transparent);
+  --inv-music-text: var(--wa-ink);
+  --inv-music-border: color-mix(in srgb, var(--wa-goud) 60%, transparent);
+  --inv-photo-bg: color-mix(in srgb, var(--wa-goud) 16%, var(--wa-bg));
+  --inv-font-body: "Cormorant Garamond", Georgia, serif;
+  --inv-font-ui: "Figtree", system-ui, sans-serif;
+  --inv-font-size: 1.2rem;
+  --inv-radius: 8px;
+  --inv-radius-field: 6px;
+  --inv-radius-btn: 999px;
+  /* Afgeleide kleuren voor de tuin. */
+  --wa-text-glow: color-mix(in srgb, var(--wa-sun) 74%, transparent);
+  --wa-cloud: color-mix(in srgb, var(--wa-sun) 60%, var(--wa-sky-2));
+  --wa-halo: .75;
+  background-color: var(--wa-bg);
+  font-weight: 500;
+}
+body[data-palette="schemering"] {
+  --inv-error: #ffb4a8;
+  --wa-text-glow: color-mix(in srgb, var(--wa-sky-1) 80%, transparent);
+  --wa-cloud: color-mix(in srgb, var(--wa-sky-3) 45%, var(--wa-sky-2));
+  --wa-halo: 1;
+  color-scheme: dark;
+}
+html.inv-bloesemwaaier:has(body[data-palette="schemering"]) { background: #1d1a2e; color-scheme: dark; }
+
+/* ---------- De tuin: kleuren van de getekende onderdelen ---------- */
+.wa-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.wa-b1 { fill: var(--wa-bloesem-1); }
+.wa-b2 { fill: var(--wa-bloesem-2); }
+.wa-b3 { fill: var(--wa-bloesem-3); }
+.wa-b4 { fill: color-mix(in srgb, var(--wa-bloesem-2) 55%, #fff); }
+.wa-eye { fill: var(--wa-bloesem-3); }
+.wa-f-branch { stroke: var(--wa-branch); }
+.wa-c-mtn1 { stop-color: color-mix(in srgb, var(--wa-mtn) 52%, var(--wa-sky-3)); }
+.wa-c-mtn2 { stop-color: var(--wa-mtn); }
+.wa-c-mtn3 { stop-color: color-mix(in srgb, var(--wa-mtn) 70%, var(--wa-roof)); }
+.wa-c-mtn3b { stop-color: color-mix(in srgb, var(--wa-mtn) 60%, var(--wa-mist)); }
+.wa-c-mist { stop-color: var(--wa-mist); }
+.wa-c-rock1 { stop-color: color-mix(in srgb, var(--wa-rock) 72%, var(--wa-sky-3)); }
+.wa-c-rock2 { stop-color: color-mix(in srgb, var(--wa-rock) 72%, #000); }
+.wa-c-roof1 { stop-color: color-mix(in srgb, var(--wa-roof) 72%, var(--wa-sky-2)); }
+.wa-c-roof2 { stop-color: var(--wa-roof); }
+.wa-c-glow1 { stop-color: color-mix(in srgb, var(--wa-glow) 50%, #fff); }
+.wa-c-glow2 { stop-color: var(--wa-glow); }
+.wa-c-fall1 { stop-color: color-mix(in srgb, var(--wa-mist) 40%, #fff); stop-opacity: .95; }
+.wa-c-fall2 { stop-color: var(--wa-mist); stop-opacity: .75; }
+.wa-c-halo1 { stop-color: var(--wa-glow); stop-opacity: .8; }
+.wa-c-halo2 { stop-color: var(--wa-glow); stop-opacity: .28; }
+.wa-c-halo3 { stop-color: var(--wa-glow); stop-opacity: 0; }
+.wa-c-mistball1 { stop-color: color-mix(in srgb, var(--wa-mist) 35%, #fff); stop-opacity: .9; }
+.wa-c-mistball2 { stop-color: var(--wa-mist); stop-opacity: 0; }
+.wa-s-lattice { stroke: color-mix(in srgb, var(--wa-wood) 55%, #000); }
+.wa-f-wood { fill: var(--wa-wood); }
+.wa-f-wood2 { fill: color-mix(in srgb, var(--wa-wood) 68%, #000); }
+.wa-f-wood3 { fill: color-mix(in srgb, var(--wa-wood) 42%, #1a0d0b); }
+.wa-s-wood { stroke: var(--wa-wood); }
+.wa-s-wood2 { stroke: color-mix(in srgb, var(--wa-wood) 68%, #000); }
+.wa-s-tile { stroke: color-mix(in srgb, var(--wa-roof) 60%, #000); opacity: .5; }
+.wa-f-roofdark { fill: color-mix(in srgb, var(--wa-roof) 70%, #000); }
+.wa-f-gold { fill: var(--wa-goud); }
+.wa-s-gold, .wa-f-gold-s { stroke: var(--wa-goud); }
+.wa-f-lantern { fill: var(--wa-lantern); }
+.wa-f-lantern-s { stroke: var(--wa-lantern); }
+.wa-f-stone { fill: var(--wa-stone); }
+.wa-f-stone2 { fill: color-mix(in srgb, var(--wa-stone) 72%, #000); }
+.wa-f-rockface { fill: color-mix(in srgb, var(--wa-rock) 55%, var(--wa-sky-3)); opacity: .45; }
+.wa-f-pine { fill: var(--wa-pine); }
+.wa-f-pine2 { fill: color-mix(in srgb, var(--wa-pine) 70%, var(--wa-sky-3)); }
+.wa-s-trunk { stroke: var(--wa-branch); }
+.wa-halo { opacity: var(--wa-halo); }
+.wa-refl { opacity: .7; }
+.wa-c-cloud1 { stop-color: var(--wa-cloud); stop-opacity: .8; }
+.wa-c-cloudm { stop-color: var(--wa-cloud); stop-opacity: .4; }
+.wa-c-cloud2 { stop-color: var(--wa-cloud); stop-opacity: 0; }
+
+/* ---------- Kop: lucht, tekst en tuin ---------- */
+.wa-hero { position: relative; display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; overflow: hidden; }
+/* Lucht en tuin liggen onder het vaste vlak met de zwevende bloesem (z-index 0, effects.css), de tekst
+   erboven. Daarom vormen de kop en main geen eigen stapel, maar body wel (zijn achtergrond ligt dan
+   onderop): zo zweeft de bloesem over de tuin en blijft hij achter de tekst. */
+html.inv-bloesemwaaier body { position: relative; z-index: 0; }
+html.inv-bloesemwaaier .inv-main { z-index: auto; }
+html.inv-bloesemwaaier .inv-notice { position: relative; z-index: 1; }
+.wa-sky {
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  /* Achter de tekst alleen sky-1 en sky-2 (contrast); de gloed van de horizon (sky-3) zit in de tuin. */
+  background: linear-gradient(180deg, var(--wa-sky-1) 0%, var(--wa-sky-2) 100%);
+}
+.wa-clouds { position: absolute; left: 0; top: 4%; width: 100%; height: 56%; }
+.wa-hang { position: absolute; top: 0; width: min(40vw, 440px); height: auto; aspect-ratio: 500 / 240; }
+.wa-hang--l { left: 0; }
+.wa-hang--r { right: 0; }
+.wa-hero__text { position: relative; z-index: 2; width: 100%; max-width: 44rem; margin: 0 auto; padding: clamp(5rem, 12vh, 6.5rem) 1.25rem .25rem; text-align: center; }
+.wa-hero__text::before {
+  content: ""; position: absolute; z-index: -1; inset: 8% -6% -14%; pointer-events: none;
+  background: radial-gradient(closest-side, var(--wa-text-glow), color-mix(in srgb, var(--wa-text-glow) 45%, transparent) 50%, transparent);
+}
+.wa-kicker { font-family: "Marcellus", serif; font-size: .9rem; letter-spacing: .3em; text-transform: uppercase; color: var(--wa-hero-accent); margin-bottom: .6rem; }
+.wa-names {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; column-gap: .28em; font-family: "Pinyon Script", cursive; font-weight: 400;
+  font-size: clamp(2.9rem, 13vw, 5rem); line-height: 1.18; color: var(--wa-hero-ink); overflow-wrap: anywhere; text-wrap: balance;
+}
+.wa-names--long { font-size: clamp(2.4rem, 10vw, 4rem); }
+.wa-names--xlong { font-size: clamp(2rem, 8vw, 3.2rem); }
+.wa-names__amp { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: .5em; color: var(--wa-hero-accent); }
+.wa-tagline { font-style: italic; font-size: clamp(1.2rem, 4.4vw, 1.4rem); color: var(--wa-hero-muted); margin-top: .5rem; text-wrap: balance; }
+.wa-date { display: inline-flex; align-items: center; gap: .9rem; margin-top: 1.1rem; color: var(--wa-hero-ink); }
+.wa-date__side { font-family: "Marcellus", serif; font-size: .82rem; letter-spacing: .2em; text-transform: uppercase; padding: .35rem 0; border-block: 1px solid color-mix(in srgb, var(--wa-hero-accent) 55%, transparent); min-width: 6.4rem; }
+.wa-date__day { font-family: "Marcellus", serif; font-size: 2.6rem; line-height: 1; color: var(--wa-hero-accent); }
+.wa-hero__meta { margin-top: .7rem; font-size: 1.15rem; color: var(--wa-hero-ink); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .1rem .65rem; }
+.wa-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--wa-hero-accent); display: inline-block; }
+.wa-hero .tz-note { color: var(--wa-hero-muted); }
+@media (max-width: 560px) {
+  .wa-hero__meta { flex-direction: column; gap: 0; }
+  .wa-hero__meta .wa-dot { display: none; }
+  .wa-date__side { min-width: 5.6rem; font-size: .76rem; letter-spacing: .16em; }
+}
+
+/* De tuin onder de tekst; alle lagen staan op dezelfde waterlijn (--wl, vanaf onderen). */
+.wa-land {
+  --wl: 38%; position: relative; z-index: -1; flex: 1 0 auto; min-height: 56vh; min-height: 56svh; pointer-events: none;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--wa-sky-3) 55%, transparent) 22%, var(--wa-sky-3) 50%);
+}
+.wa-land > * { position: absolute; }
+.wa-sun { left: 52%; bottom: calc(var(--wl) + 9%); width: clamp(46px, 8vh, 84px); aspect-ratio: 1; translate: -50% 50%; border-radius: 50%; background: var(--wa-sun); box-shadow: 0 0 0 6px color-mix(in srgb, var(--wa-sun) 50%, transparent), 0 0 50px 22px color-mix(in srgb, var(--wa-sun-glow) 80%, transparent), 0 0 160px 90px color-mix(in srgb, var(--wa-sun-glow) 45%, transparent); }
+.wa-sun__rays {
+  position: absolute; left: 50%; top: 50%; width: 1100%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; opacity: .55;
+  background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--wa-sun) 55%, transparent) 0deg 2.5deg, transparent 2.5deg 11deg);
+  -webkit-mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, .35) 22%, transparent 50%); mask-image: radial-gradient(circle, #000 4%, rgba(0, 0, 0, .35) 22%, transparent 50%);
+}
+.wa-mtn { left: 0; width: 100%; bottom: var(--wl); }
+.wa-mtn--far { height: 36%; opacity: .8; }
+.wa-mtn--mid { height: 21%; }
+.wa-mtn--near { height: 15%; }
+.wa-mist { left: 0; right: 0; bottom: calc(var(--wl) - 3%); height: 18%; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--wa-mist) 85%, transparent) 72%, transparent); }
+.wa-water { left: 0; right: 0; bottom: 0; height: var(--wl); overflow: hidden; background: linear-gradient(180deg, var(--wa-water-1), color-mix(in srgb, var(--wa-water-1) 40%, var(--wa-water-2)) 45%, var(--wa-water-2)); }
+.wa-water__glow {
+  position: absolute; left: 52%; top: 0; width: clamp(70px, 22vw, 240px); height: 100%; translate: -50% 0;
+  background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--wa-sun) 85%, transparent) 0 3px, transparent 3px 10px);
+  -webkit-mask-image: radial-gradient(50% 90% at 50% 0, #000 20%, transparent 100%); mask-image: radial-gradient(50% 90% at 50% 0, #000 20%, transparent 100%);
+}
+.wa-pond { left: 0; bottom: 0; width: 100%; height: var(--wl); }
+/* Stromend water: smalle stroompjes met lichte strepen die naar beneden schuiven. Ze lopen aan de
+   uiteinden zacht uit in plaats van afgesneden te worden: afsnijden kost de browser elk beeld veel werk. */
+.wa-fall { position: absolute; translate: -50% -50%; opacity: .6; }
+.wa-fall > span {
+  position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent 0, rgba(255, 255, 255, .85) 14px, transparent 28px);
+  -webkit-mask-image: linear-gradient(transparent, #000 26%, #000 74%, transparent); mask-image: linear-gradient(transparent, #000 26%, #000 74%, transparent);
+}
+.wa-rings { left: 0; bottom: 0; width: 100%; height: var(--wl); }
+.wa-rings > span {
+  position: absolute; left: var(--x); top: var(--y); width: var(--w); aspect-ratio: 6 / 1; translate: -50% -50%; border-radius: 50%; opacity: .6;
+  border: 1.5px solid color-mix(in srgb, var(--wa-sun) 75%, transparent); box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--wa-sun) 12%, transparent);
+}
+.wa-cliff { --h: 66%; right: 0; height: var(--h); aspect-ratio: 470 / 820; translate: 22% 0; bottom: calc(var(--wl) - var(--h) * .317); }
+.wa-bridge { --h: 27%; left: 54%; height: var(--h); aspect-ratio: 1000 / 340; translate: -50% 0; bottom: calc(var(--wl) - var(--h) * .412); }
+.wa-pav { --h: 92%; left: 0; height: var(--h); aspect-ratio: 440 / 880; translate: -12% 0; bottom: calc(var(--wl) - var(--h) * .295); }
+.wa-front { bottom: -1%; height: 34%; width: 52%; }
+.wa-front--l { left: -2%; }
+.wa-front--r { right: -2%; }
+@media (max-aspect-ratio: 4 / 5) {
+  /* Smal en hoog (telefoon): paviljoen en waterval schuiven deels buiten beeld. */
+  .wa-pav { --h: 84%; translate: -40% 0; }
+  .wa-cliff { --h: 58%; translate: 40% 0; }
+  .wa-bridge { --h: 22%; left: 56%; }
+  /* De bergen niet te smal samendrukken. */
+  .wa-mtn { width: 230%; left: -65%; }
+}
+@media (min-aspect-ratio: 4 / 3) {
+  /* Breed scherm: naast de tekst is plaats, dus paviljoen en waterval mogen hoger reiken. */
+  .wa-pav { --h: 128%; translate: -16% 0; }
+  .wa-cliff { --h: 104%; translate: 14% 0; }
+  .wa-bridge { --h: 31%; }
+  .wa-mtn--far { height: 44%; }
+}
+
+/* ---------- Openingsscherm: de waaier ---------- */
+/* De waaier (straal --R, draaipunt op hoogte --py) staat midden in de ruimte tussen de tekst
+   bovenaan (tot --T) en de knoppen onderaan (vanaf --B), met het kwastje eronder. */
+.wa-cover {
+  --vh: 1vh; background: transparent;
+  --T: calc(clamp(5rem, 12vh, 6.5rem) + 6.8rem);
+  --B: calc(100 * var(--vh) - 7.6rem);
+  --R: min(54vw, calc((var(--B) - var(--T)) / 1.55), 430px);
+  --py: calc((var(--T) + var(--B)) / 2 + var(--R) / 4);
+}
+@supports (height: 1dvh) { .wa-cover { --vh: 1dvh; } }
+/* Alleen met JavaScript (zie invite-base.css); zonder script is de uitnodiging direct zichtbaar. */
+.js:not(.is-open) .wa-cover { display: block; }
+.wa-cover__top { position: absolute; z-index: 2; left: 0; right: 0; top: clamp(5rem, 12vh, 6.5rem); padding: 0 1.25rem; text-align: center; transition: opacity .35s ease; }
+.wa-cover__top::before { content: ""; position: absolute; z-index: -1; inset: -30% 6%; background: radial-gradient(closest-side, var(--wa-text-glow), transparent); pointer-events: none; }
+.wa-cover__kicker { font-family: "Marcellus", serif; font-size: .88rem; letter-spacing: .3em; text-transform: uppercase; color: var(--wa-hero-accent); }
+.wa-cover__title { font-family: "Pinyon Script", cursive; font-size: clamp(2.5rem, 11vw, 4.4rem); line-height: 1.15; color: var(--wa-hero-ink); margin-top: .3rem; text-wrap: balance; overflow-wrap: anywhere; }
+.wa-cover__bottom { position: absolute; z-index: 2; left: 0; right: 0; bottom: max(1.6rem, env(safe-area-inset-bottom)); display: grid; justify-items: center; gap: .7rem; padding: 0 1rem; transition: opacity .35s ease; }
+.wa-cover__hint {
+  font-family: "Figtree", sans-serif; font-size: .8rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+  padding: .45rem 1rem; border-radius: 999px; color: var(--wa-ink); background: color-mix(in srgb, var(--wa-bg-2) 86%, transparent);
+  box-shadow: 0 6px 18px -8px rgba(40, 10, 20, .35);
+}
+.wa-cover__music {
+  min-height: 44px; padding: .5rem 1.2rem; border-radius: 999px; cursor: pointer; font-family: "Figtree", sans-serif; font-size: .9rem; font-weight: 600;
+  color: var(--wa-ink); background: color-mix(in srgb, var(--wa-bg-2) 70%, transparent); border: 1px solid color-mix(in srgb, var(--wa-goud) 80%, transparent);
+}
+.wa-cover__music:hover { background: var(--wa-bg-2); }
+
+/* De waaier: --R is de straal. De plooien draaien om het draaipunt onder in het midden. */
+.wa-fan {
+  position: absolute; z-index: 2; left: 50%; top: var(--py); width: calc(var(--R) * 1.94); height: calc(var(--R) * 1.06);
+  translate: -50% -100%; cursor: pointer; border-radius: 50% 50% 8% 8% / 100% 100% 8% 8%; -webkit-tap-highlight-color: transparent;
+}
+.wa-fan:focus-visible { outline: 3px solid var(--wa-hero-accent); outline-offset: 10px; }
+.wa-fan__body { position: absolute; left: 50%; bottom: 0; width: 0; height: 0; transform: rotate(-5deg); filter: drop-shadow(0 18px 18px rgba(60, 20, 30, .28)); }
+.wa-pleat {
+  --a: calc(-70deg + var(--i) * 10deg);
+  position: absolute; left: calc(var(--R) * -.0872 - .5px); bottom: 0; width: calc(var(--R) * .1744 + 1px); height: var(--R);
+  transform-origin: 50% 100%; transform: rotate(var(--a)); clip-path: polygon(50% 100%, -2% 0, 102% 0);
+  transition: transform .95s cubic-bezier(.62, .02, .3, 1) .12s;
+}
+.wa-pleat::before { content: ""; position: absolute; inset: 0; background: url("stok.svg") 0 0 / 100% 100% no-repeat; }
+.wa-pleat > span {
+  position: absolute; left: calc(50% - var(--R)); bottom: 0; width: calc(var(--R) * 2); height: var(--R);
+  background: url("waaier.svg") 0 0 / 100% 100% no-repeat; transform-origin: 50% 100%; transform: rotate(calc(var(--a) * -1));
+}
+/* Plooien: afwisselend licht en schaduw, alleen op het papier. */
+.wa-pleat::after { content: ""; position: absolute; left: 0; right: 0; top: 3%; height: 57%; background: linear-gradient(90deg, rgba(120, 70, 40, .13), rgba(255, 255, 255, .2) 48%, rgba(120, 70, 40, .02) 52%, rgba(100, 55, 30, .1)); }
+.wa-pleat:nth-child(odd)::after { background: linear-gradient(90deg, rgba(100, 55, 30, .08), rgba(120, 70, 40, .02) 48%, rgba(255, 255, 255, .22) 52%, rgba(120, 70, 40, .14)); }
+.wa-guard {
+  --g: -73deg; position: absolute; left: calc(var(--R) * -.05); bottom: 0; width: calc(var(--R) * .1); height: calc(var(--R) * 1.01);
+  background: url("stok-buiten.svg") 0 0 / 100% 100% no-repeat; transform-origin: 50% 100%; transform: rotate(var(--g));
+  transition: transform .95s cubic-bezier(.62, .02, .3, 1) .12s;
+}
+.wa-guard--r { --g: 73deg; }
+.wa-fan__pin {
+  position: absolute; left: calc(var(--R) * -.055); top: calc(var(--R) * -.055); width: calc(var(--R) * .11); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 36% 32%, #fff6d2, #e2b862 42%, #9a6c2c 100%); box-shadow: 0 1px 3px rgba(60, 30, 10, .5);
+}
+.wa-fan__kwast {
+  position: absolute; left: calc(var(--R) * -.06); top: 0; width: calc(var(--R) * .12); height: calc(var(--R) * .52);
+  background: url("kwast.svg") 0 0 / 100% 100% no-repeat; transform-origin: 50% 0; rotate: 5deg;
+}
+.wa-splash { position: absolute; z-index: 1; left: 50%; top: calc(88 * var(--vh)); width: 0; height: 0; pointer-events: none; }
+.wa-splash > span {
+  position: absolute; left: 0; top: 0; width: min(70vw, 420px); aspect-ratio: 5 / 1; translate: -50% -50%; scale: .1; opacity: 0; border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--wa-sun) 85%, #fff); box-shadow: 0 0 12px color-mix(in srgb, var(--wa-sun) 60%, transparent);
+}
+
+/* Openen: de tekst gaat weg, de plooien klappen naar rechts dicht, de waaier valt in het water. */
+.is-opening .wa-fan { pointer-events: none; }
+.is-opening :is(.wa-cover__top, .wa-cover__bottom) { opacity: 0; }
+.is-opening:not(.is-opening-reduced) .wa-pleat { transform: rotate(70deg); }
+.is-opening:not(.is-opening-reduced) .wa-guard--l { transform: rotate(70.5deg); }
+.is-opening:not(.is-opening-reduced) .wa-guard--r { transform: rotate(72deg); }
+.is-opening:not(.is-opening-reduced) .wa-fan__body { animation: wa-fall .78s cubic-bezier(.45, 0, .85, .55) 1.05s forwards; }
+.is-opening:not(.is-opening-reduced) .wa-fan__kwast { animation: wa-tassel 1.1s ease-in-out .1s both; }
+@keyframes wa-fall {
+  0% { transform: rotate(-5deg); opacity: 1; }
+  30% { transform: translate(1.5vw, -2.5vh) rotate(-16deg); }
+  88% { opacity: 1; }
+  100% { transform: translate(calc(var(--R) * -.15), calc(88 * var(--vh) - var(--py) - var(--R) * .44)) rotate(95deg) scale(.56); opacity: 0; }
+}
+@keyframes wa-tassel { 30% { rotate: -14deg; } 65% { rotate: 16deg; } 100% { rotate: 5deg; } }
+.is-opening:not(.is-opening-reduced) .wa-splash > span { animation: wa-splash 1.25s cubic-bezier(.2, .6, .3, 1) 1.76s forwards; }
+.is-opening:not(.is-opening-reduced) .wa-splash > span:nth-child(2) { animation-delay: 1.96s; }
+.is-opening:not(.is-opening-reduced) .wa-splash > span:nth-child(3) { animation-delay: 2.16s; }
+@keyframes wa-splash { 0% { scale: .08; opacity: 0; } 12% { opacity: .95; } 100% { scale: 1.1; opacity: 0; } }
+.is-opening-reduced .wa-cover { opacity: 0; transition: opacity .2s; }
+
+/* De kop staat al achter de waaier; de tekst verschijnt pas als de waaier in het water ligt. */
+.has-cover:not(.is-opening) .wa-hero__text { opacity: 0; }
+.is-opening .wa-hero__text { transition: opacity .7s ease 1.9s; }
+.is-opening-reduced .wa-hero__text { transition: none; }
+
+/* ---------- Secties ---------- */
+/* Het papier is doorzichtig: de achtergrond zit op body, zodat de zwevende bloesem (vast vlak achter
+   de inhoud) hier zichtbaar is, achter de tekst. */
+.wa-paper { position: relative; z-index: 1; }
+.wa-paper::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 70px; background: linear-gradient(180deg, transparent, var(--wa-bg)); pointer-events: none; }
+.wa-section { max-width: 42rem; margin: 0 auto; padding: clamp(2.8rem, 8vw, 4.6rem) 1.25rem; text-align: center; }
+.wa-h2 { font-family: "Marcellus", serif; font-weight: 400; font-size: clamp(1.35rem, 5vw, 1.8rem); letter-spacing: .12em; text-transform: uppercase; color: var(--wa-accent); margin-bottom: 1.4rem; }
+.wa-h2::before {
+  content: ""; display: block; width: 66px; height: 36px; margin: 0 auto .7rem; background: var(--wa-goud);
+  -webkit-mask: url("ornament.svg") center / contain no-repeat; mask: url("ornament.svg") center / contain no-repeat;
+}
+.wa-welcome { padding-top: 1.5rem; }
+.wa-welcome p { font-style: italic; font-size: clamp(1.3rem, 4.5vw, 1.55rem); line-height: 1.55; }
+.wa-welcome p + p, .wa-story p + p { margin-top: 1rem; }
+.wa-moon { position: relative; width: min(76vw, 360px); aspect-ratio: 1; margin: 0 auto 2rem; padding: 10px; border-radius: 50%; border: 2px solid var(--wa-goud); }
+.wa-moon::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--wa-goud) 55%, transparent); pointer-events: none; }
+.wa-moon__img { width: 100%; height: 100%; border-radius: 50%; }
+.wa-story p { font-size: 1.25rem; }
+.wa-muted { color: var(--wa-muted); }
+
+.wa-countdown .cd { gap: 0; margin-bottom: 1.8rem; }
+.wa-countdown .cd__unit { padding: 0 clamp(.7rem, 3vw, 1.4rem); min-width: 0; }
+.wa-countdown .cd__unit + .cd__unit { border-left: 1px solid color-mix(in srgb, var(--wa-goud) 55%, transparent); }
+.wa-countdown .cd__num { font-family: "Marcellus", serif; color: var(--wa-accent); font-size: clamp(1.8rem, 8vw, 2.7rem); }
+.wa-countdown .cd__label { color: var(--wa-muted); }
+
+.wa-program__list { display: grid; text-align: left; max-width: 30rem; margin: 0 auto; }
+.wa-program__list li { display: grid; grid-template-columns: 4.8rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid color-mix(in srgb, var(--wa-goud) 40%, transparent); }
+.wa-program__list li:first-child { border-top: 1px solid color-mix(in srgb, var(--wa-goud) 40%, transparent); }
+.wa-program__time { font-family: "Marcellus", serif; color: var(--wa-accent); font-size: 1.1rem; padding-top: .15rem; }
+.wa-program__title { font-size: 1.35rem; font-weight: 600; line-height: 1.3; }
+.wa-program__list p { color: var(--wa-muted); font-size: 1.1rem; }
+
+.wa-panel {
+  position: relative; display: grid; gap: .7rem; justify-items: center; padding: clamp(1.5rem, 5vw, 2.4rem); border-radius: var(--inv-radius);
+  background: var(--wa-bg-2); border: 1px solid color-mix(in srgb, var(--wa-goud) 60%, transparent);
+  box-shadow: 0 0 0 5px var(--wa-bg-2), 0 0 0 6px color-mix(in srgb, var(--wa-goud) 35%, transparent), 0 24px 40px -30px rgba(60, 20, 30, .45);
+}
+.wa-panel--form { justify-items: stretch; text-align: left; }
+.wa-location__venue { font-family: "Marcellus", serif; font-size: 1.35rem; letter-spacing: .04em; color: var(--wa-accent); }
+.wa-location address { font-style: normal; font-size: 1.2rem; }
+
+.wa-dresscode p { font-size: 1.25rem; }
+.wa-swatches { display: flex; flex-wrap: wrap; justify-content: center; gap: .8rem; margin-top: 1.3rem; }
+.wa-swatches li { width: 44px; height: 44px; border-radius: 50%; box-shadow: 0 0 0 2px var(--wa-bg), 0 0 0 3px var(--wa-goud); }
+
+.wa-practical__list { display: grid; gap: 1.4rem; text-align: left; }
+.wa-practical__list dt { font-family: "Marcellus", serif; font-size: .82rem; letter-spacing: .2em; text-transform: uppercase; color: var(--wa-accent); margin-bottom: .2rem; }
+.wa-practical__list dd { margin: 0; font-size: 1.15rem; }
+@media (min-width: 720px) { .wa-practical__list { grid-template-columns: 1fr 1fr; gap: 1.6rem 2.4rem; } .wa-practical { max-width: 52rem; } }
+
+.wa-gallery { max-width: 62rem; }
+.wa-gallery__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .9rem; }
+.wa-gallery__item .ph { aspect-ratio: 4 / 5; border-radius: 999px 999px 8px 8px; }
+.wa-gallery__item--liggend .ph { aspect-ratio: 4 / 3; border-radius: 8px; }
+.wa-gallery__item--vierkant .ph { aspect-ratio: 1; border-radius: 50%; }
+.wa-caption { font-style: italic; font-size: 1rem; color: var(--wa-muted); padding-top: .4rem; }
+@media (min-width: 720px) { .wa-gallery__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.wa-rsvp { max-width: 34rem; }
+.wa-contact__name { font-family: "Marcellus", serif; font-size: 1.2rem; letter-spacing: .04em; margin-top: .4rem; }
+.wa-contact__links { font-family: "Figtree", sans-serif; font-size: 1rem; overflow-wrap: anywhere; }
+.wa-closing { padding-bottom: 2rem; }
+.wa-closing__text { font-family: "Pinyon Script", cursive; font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1.3; color: var(--wa-accent); }
+.wa-closing__mono { position: relative; width: 120px; height: 72px; margin: 1.6rem auto 2rem; display: grid; place-items: end center; }
+.wa-closing__mono::before { content: ""; position: absolute; inset: 0; background: var(--wa-goud); -webkit-mask: url("ornament.svg") center / contain no-repeat; mask: url("ornament.svg") center / contain no-repeat; }
+.wa-closing__mono span { position: relative; font-family: "Marcellus", serif; font-size: .95rem; letter-spacing: .12em; color: var(--wa-accent); background: var(--wa-bg); padding: 0 .4rem; margin-bottom: -.4rem; }
+.inv-colophon { color: var(--wa-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-pleat, .wa-guard { transition: none; }
+}
+
+/* ---------- Effecten (invitations/static/invitations/effects.js en effects.css) ---------- */
+body { --fx-1: var(--wa-bloesem-3); --fx-2: var(--wa-bloesem-3); --fx-3: var(--wa-bloesem-1); --fx-4: var(--wa-goud); --fx-bg: var(--wa-bg); --fx-shine: var(--wa-goud); }
+/* Op het openingsscherm wiegt de waaier zacht en zwaait het kwastje. */
+.fx-motion .wa-fan__body { animation: wa-bob 5.5s ease-in-out infinite; animation-play-state: var(--fx-play, running); }
+@keyframes wa-bob { 0%, 100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(-3deg) translateY(-6px); } }
+.fx-motion .wa-fan__kwast { animation: wa-sway 4.5s ease-in-out infinite; animation-play-state: var(--fx-play, running); }
+@keyframes wa-sway { 0%, 100% { rotate: 3deg; } 50% { rotate: 8deg; } }
+/* De tuin leeft: water stroomt, kringen op de vijver, de zon straalt.
+   Alleen kleine, losse lagen bewegen (transform en opacity), zodat de grote tekening stil blijft. */
+.fx-motion :is(.wa-fall > span, .wa-rings > span, .wa-water__glow, .wa-sun__rays, .wa-fan__body, .wa-fan__kwast) { will-change: transform, opacity; }
+.fx-motion .wa-fall > span { animation: wa-flow 1.1s linear infinite; animation-play-state: var(--fx-play, running); }
+@keyframes wa-flow { from { transform: translateY(-14px); } to { transform: translateY(14px); } }
+.fx-motion .wa-rings > span { animation: wa-ring 7s ease-out infinite; animation-delay: calc(var(--d) * -1.4s); animation-play-state: var(--fx-play, running); }
+@keyframes wa-ring { 0% { scale: .4; opacity: 0; } 25% { opacity: .7; } 100% { scale: 1.25; opacity: 0; } }
+.fx-motion .wa-sun__rays { animation: fx-spin 140s linear infinite; animation-play-state: var(--fx-play, running); }
+.fx-motion .wa-water__glow { animation: wa-glint 2.6s ease-in-out infinite alternate; animation-play-state: var(--fx-play, running); }
+@keyframes wa-glint { from { opacity: .55; } to { opacity: 1; } }
+

@@ -4,12 +4,16 @@
 //   VIEWPORTS=360,390   alleen deze schermformaten
 //   CHECKS=0            geen gedragscontroles (minder beweging, toetsenbord, muziek, vangnet, tijdzone, zonder JS)
 //   SHOTS=viewport      schermafbeelding van het zichtbare deel in plaats van de hele pagina (scheelt veel ruimte)
+//   ONTWERPEN=a,b       alleen deze ontwerpen (voorbeelden, testuitnodigingen en gedragscontroles)
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 
 const [base, fixturesFile, outDir, staffPassword] = process.argv.slice(2);
+const onlyDesigns = (process.env.ONTWERPEN || "").split(",").filter(Boolean);
 const fixtures = JSON.parse(fs.readFileSync(fixturesFile, "utf8"));
+// Sleutels van testuitnodigingen zijn "<ontwerp>:<soort>".
+for (const key of Object.keys(fixtures)) if (onlyDesigns.length && !onlyDesigns.includes(key.split(":")[0])) delete fixtures[key];
 const onlyViewports = (process.env.VIEWPORTS || "").split(",").filter(Boolean);
 const runChecks = process.env.CHECKS !== "0";
 const fullShots = process.env.SHOTS !== "viewport";
@@ -20,7 +24,7 @@ const viewports = [
   { name: "1366", width: 1366, height: 900 },
 ].filter((vp) => !onlyViewports.length || onlyViewports.includes(vp.name));
 // Alle ontwerpen uit designs/ (mappen die met _ beginnen zijn gedeelde onderdelen).
-const designs = fs.readdirSync(path.join(process.cwd(), "designs")).filter((d) => !d.startsWith("_")).sort();
+const designs = fs.readdirSync(path.join(process.cwd(), "designs")).filter((d) => !d.startsWith("_") && (!onlyDesigns.length || onlyDesigns.includes(d))).sort();
 const report = { pages: [], checks: [] };
 
 async function scrollThrough(page) {

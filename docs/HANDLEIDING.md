@@ -94,7 +94,7 @@ Deze staan (nog) niet in Beheer, maar in de code. Na een wijziging: opnieuw publ
 Een ontwerp is een map met drie bestanden. Er is geen database-werk nodig. Er zijn twee manieren:
 
 - **Atelier-ontwerp (snelst, aanbevolen)**: je kiest uit vaste bouwstenen (opening, kop, secties, versiering) en geeft letters en kleuren op. Zo zijn de 30 ontwerpen vanaf Eucalyptus gemaakt. Zie hieronder.
-- **Volledig eigen ontwerp**: eigen HTML en CSS, zoals Liefde op papier, Avondgoud en Puur moment. Zie "Volledig eigen ontwerp".
+- **Volledig eigen ontwerp**: eigen HTML en CSS, zoals Liefde op papier, Avondgoud, Puur moment en Bloesemwaaier. Zie "Volledig eigen ontwerp".
 
 ### Atelier-ontwerp
 
@@ -163,7 +163,20 @@ static/img/designs/mijn-ontwerp.webp   ← voorbeeldafbeelding (800×1000), opti
 5. **Inlezen**: `python manage.py sync_designs`. Dit gebeurt ook automatisch bij `migrate`. Is er iets niet in orde, dan krijg je een duidelijke melding, bijvoorbeeld "style.css ontbreekt" of "onbekende gelegenheid".
 6. **Bekijken**: `/voorbeeld/mijn-ontwerp/` (met `?gelegenheid=verjaardag&kleur=<key>` om te wisselen). Het ontwerp gebruikt automatisch de voorbeeldgegevens.
 7. **Publiceren**: controleer het in **Beheer → Ontwerpen** (zichtbaar, volgorde) en zet het live met een nieuwe deployment.
-8. **Testen**: `python manage.py test tests`. Het is ook verstandig de browsercontrole te draaien (zie `docs/CONTROLES.md`).
+8. **Testen**: `python manage.py test tests`. Het is ook verstandig de browsercontrole te draaien (zie `docs/CONTROLES.md`); met `ONTWERPEN=mijn-ontwerp` alleen voor jouw ontwerp.
+
+### Bloesemwaaier: de tekeningen
+
+Bloesemwaaier (`designs/bloesemwaaier/v1/`) heeft getekende beelden: de waaier (`waaier.svg`), de baleinen (`stok.svg`, `stok-buiten.svg`), het kwastje (`kwast.svg`), de kleine waaier boven de koppen (`ornament.svg`) en de tuin in de kop (`scene-lucht.html` en `scene-land.html`). Ze komen uit één script; pas ze niet met de hand aan:
+
+```bash
+.venv/bin/python tools/bloesemwaaier/maak_beelden.py
+```
+
+- De **waaier** heeft vaste kleuren (ivoor, roze en goud). De **tuin** staat in de pagina zelf en neemt de kleuren van de kleurvariant over (de variabelen `--wa-…` in het manifest, gekoppeld via klassen in `style.css`).
+- **Een kleurvariant toevoegen** gaat in het manifest. Houd de tekstkleuren op minstens 4,5:1: `--wa-ink`, `--wa-muted` en `--wa-accent` op `--wa-bg` en `--wa-bg-2`, en `--wa-hero-…` op `--wa-sky-1` en `--wa-sky-2`. De test `test_bloesemwaaier` controleert dat.
+- **Na de livegang** gaat een wijziging aan de tekeningen of de opbouw via `designs/bloesemwaaier/v2/` (zet dan in het script de uitvoermap op `v2`).
+- **Snelheid**: laat in de tuin alleen kleine, losse lagen bewegen (met `transform` of `opacity`), niets binnen de grote tekening en niets wat wordt afgesneden. Meet na een wijziging met `CHECKS=0 PERF=1 node e2e/effecten.cjs <basis-url> <map> bloesemwaaier` (zie `docs/CONTROLES.md`).
 
 ## Effecten
 

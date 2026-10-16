@@ -1,6 +1,6 @@
 # Overdracht: waar staan we
 
-Stand van 27 september 2026. Dit document is bedoeld voor wie het project overneemt, en voor de Claude die daarbij helpt.
+Stand van 16 oktober 2026. Dit document is bedoeld voor wie het project overneemt, en voor de Claude die daarbij helpt.
 
 ## In het kort
 
@@ -9,10 +9,11 @@ Vaylide (eerst de werknaam Vierlief, daarna kort Vaylide) is een werkende eerste
 Wat er staat:
 
 - **Website**: homepage, collectie, ontwerpdetail met werkend voorbeeld, zo werkt het, prijzen, inspiratie, over ons, veelgestelde vragen, contact, zoeken, privacy en voorwaarden (de juridische teksten zijn nog concept).
-- **33 uitnodigingsontwerpen**:
+- **34 uitnodigingsontwerpen**:
   - drie volledig eigen ontwerpen met elk vier kleurvarianten: Liefde op papier (envelop met lakzegel), Avondgoud (gouden dubbele deur) en Puur moment (doorschijnend vel);
+  - **Bloesemwaaier** (ronde 7), een vierde eigen ontwerp naar een video van de eigenaar: een waaier met kersenbloesem die dichtklapt en in een vijver valt, met daarachter een getekende tuin (paviljoen, lantaarns, brug, waterval) bij zonsondergang. Drie kleurvarianten. Keuzes: `docs/AANPAK.md` onder "Ronde 7"; de tekeningen komen uit `tools/bloesemwaaier/maak_beelden.py`;
   - 30 Atelier-ontwerpen, **vijf per gelegenheid**, elk met een eigen opening (envelop, vouwkaart, gordijn, cadeaulint, sluier, confetti, ballonnen, sterrenhemel, schuifpaneel, polaroid of een cadeau om uit te pakken) en drie kleurvarianten. Ze delen één opbouw in `designs/_atelier/v1/`. Overzicht en keuzes: `docs/AANPAK.md` onder "Uitbreiding: 30 nieuwe ontwerpen"; zelf een ontwerp toevoegen: `docs/HANDLEIDING.md`.
-- **Effecten op alle 33 uitnodigingen**: zwevende sfeer (bloemblaadjes, goudstof, een sterrenhemel, ballonnen, neon en meer), een knal op het moment dat de uitnodiging opengaat (bij de cadeau-opening springt het deksel eraf en vliegen er cadeautjes uit), een feestje als een gast zich aanmeldt, namen die verschijnen alsof ze geschreven worden of met een gouden glans, en onthullingen bij het scrollen. Elk ontwerp heeft een eigen combinatie. Met de knop **Beweging** zet een gast alles stil. Overzicht en keuzes: `docs/AANPAK.md` onder "Ronde 5"; zelf kiezen of aanpassen: `docs/HANDLEIDING.md` onder "Effecten".
+- **Effecten op alle 34 uitnodigingen**: zwevende sfeer (bloemblaadjes, goudstof, een sterrenhemel, ballonnen, neon en meer), een knal op het moment dat de uitnodiging opengaat (bij de cadeau-opening springt het deksel eraf en vliegen er cadeautjes uit), een feestje als een gast zich aanmeldt, namen die verschijnen alsof ze geschreven worden of met een gouden glans, en onthullingen bij het scrollen. Elk ontwerp heeft een eigen combinatie. Met de knop **Beweging** zet een gast alles stil. Overzicht en keuzes: `docs/AANPAK.md` onder "Ronde 5"; zelf kiezen of aanpassen: `docs/HANDLEIDING.md` onder "Effecten".
 - **Samenstellen in stappen**: gelegenheid, ontwerp, gegevens, programma, aanmelden, foto's, stijl, voorbeeld en bestellen. Voortgang wordt per stap bewaard, ook zonder account.
 - **Bestellen en betalen**: testbetaling (of Mollie, zodra er een sleutel is). Publiceren gebeurt alleen na een serverzijdige betalingsbevestiging, via een takenwachtrij met herhalingen.
 - **Gasten**: aanmelden zonder account, eigen antwoord later wijzigen, agenda, route, delen.
@@ -28,7 +29,9 @@ Gedane rondes:
 5. Effecten en beweging op alle 33 ontwerpen (zie hierboven), een nieuwe cadeau-opening (Glitter & goud, Regenboog en Stipjes), kaarten op de website die meebewegen en glanzen, nieuwe kaartbeelden, en het lakzegel van Liefde op papier met goed leesbare initialen.
 6. Nieuw merk: **Vaylide** (eerst kort Vaylide), met het logo van de eigenaar zoals aangeleverd (de V, VAYLIDE en de regel eronder) in de kop en voet, bij het samenstellen, in het beheer, in de e-mails, op de deelafbeelding en als icoon op het beginscherm; de V uit het logo als tabblad-icoon. Overal waar mensen de naam zien, staat Vaylide. Keuzes: `docs/AANPAK.md` onder "Ronde 6: Vaylide"; het logo opnieuw maken of vervangen: `tools/logo/README.md`.
 
-Wat getest is en hoe: `docs/CONTROLES.md`. Kort, na ronde 6: 139 tests (op SQLite; op PostgreSQL 16 in ronde 5), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), toegankelijkheid van de website en een lokale nabootsing van de Render-instellingen met PostgreSQL. Uit ronde 5 (in ronde 6 veranderden aan de uitnodigingen alleen de naam onderaan en het tabblad-icoon): 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
+7. Het ontwerp **Bloesemwaaier** naar de video van de eigenaar (zie hierboven), met tests, en twee kleine uitbreidingen van de controlescripts.
+
+Wat getest is en hoe: `docs/CONTROLES.md`. Na ronde 7: 148 tests (SQLite), en voor Bloesemwaaier de browsercontrole (176 pagina's, 8 gedragscontroles), de effecten (8 controles), toegankelijkheid en contrast in alle drie de kleuren, de belasting en Lighthouse (92 tot 96; de andere voorbeelden 98 tot 100, omdat de getekende tuin de pagina zwaarder maakt). Na ronde 6: 139 tests (op SQLite; op PostgreSQL 16 in ronde 5), een browsercontrole op 816 pagina's (vier schermformaten, alle 33 ontwerpen, 264 gedragscontroles), toegankelijkheid van de website en een lokale nabootsing van de Render-instellingen met PostgreSQL. Uit ronde 5 (in ronde 6 veranderden aan de uitnodigingen alleen de naam onderaan en het tabblad-icoon): 264 controles van de effecten (ook stilzetten en 'minder beweging'), een meting van de belasting op een vertraagde processor, en toegankelijkheid en contrast van alle ontwerpen in alle kleuren.
 
 Voorvertoning (statisch, alleen om te kijken): https://claude.ai/artifact/DYkTUBCKzn63jE8Mk9x28M
 
@@ -56,11 +59,12 @@ In een logische volgorde. Punt 2 alleen met akkoord van de eigenaar.
 2. **Online en livegang**: de site op het eigen domein zetten, eerst als testversie met een wachtwoord (stappenplan in `docs/ONLINE.md`, aanbevolen via GitHub en Render met `render.yaml`; het domein is `vaylide.com`), daarna live met Mollie, SMTP, bedrijfsgegevens en juridisch gecontroleerde privacy en voorwaarden (checklist in `docs/LIVEGANG.md`).
 3. **Eigen foto's** (optioneel): de sfeerbeelden op de website en de beelden in de voorbeelduitnodigingen zijn eigen, getekende beelden. Eigen foto's met de juiste rechten kunnen ze vervangen; zie `docs/HANDLEIDING.md` onder "Teksten en beelden van de website".
 4. **Referenties vergelijken**: de referentiesites en de schermopname met drie voorbeelden zijn nooit bekeken (geblokkeerd of niet ontvangen); zie `docs/AANPAK.md`. Dat geldt ook voor de 30 nieuwe ontwerpen. Aanpassingen aan ontwerpen komen als nieuwe ontwerpversie.
-5. **Collectie kiezen** (optioneel): welke drie ontwerpen de homepage uitlicht (`HOME_DESIGNS` in `core/content.py`), en eventueel de volgorde of zichtbaarheid per ontwerp in Beheer → Ontwerpen.
-6. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt. Let daarbij vooral op de effecten: soepelheid op een ouder Android-toestel en de weergave in Safari.
+5. **Collectie kiezen** (optioneel): welke drie ontwerpen de homepage uitlicht (`HOME_DESIGNS` in `core/content.py`; Bloesemwaaier staat er nog niet bij), en eventueel de volgorde of zichtbaarheid per ontwerp in Beheer → Ontwerpen.
+6. **Testen op echte apparaten**: iPhone (Safari), Android, Firefox en met schermlezers (VoiceOver, TalkBack). Tot nu toe is alleen Chromium gebruikt. Let daarbij vooral op de effecten: soepelheid op een ouder Android-toestel en de weergave in Safari, en bij Bloesemwaaier op het dichtklappen van de waaier en de tuin.
 7. **Docker**: de image is getest in ronde 2, niet opnieuw na de nieuwe vormgeving en de nieuwe ontwerpen.
 8. **Wens voor later**: de teksten van de website beheerbaar maken in Beheer (nu in `core/content.py`).
 9. **Technische namen** (optioneel, liefst vóór de livegang): de instellingen heten nog `VIERLIEF_…`, net als de cookie-, sessie- en opslagnamen, de cachetabel, het databasebestand (`data/vierlief.sqlite3`), het stijlbestand `static/css/vierlief.css` en de testaccounts (`controle@vierlief.test`). Bezoekers zien die niet. Omzetten naar `VAYLIDE_…` kan in één keer, maar dan moeten ook `.env`, de documentatie en de hosting mee, en vervallen bestaande sessies en keuzes van gasten.
+10. **Bloesemwaaier beoordelen**: kijk of het ontwerp genoeg lijkt op de video en of naam, gelegenheden en kleuren goed zijn. Beelden uit de video zelf zijn bewust niet gebruikt (rechten onbekend). Wie de video of beelden ervan wil gebruiken, regelt eerst de rechten; dan kan een `v2` ze gebruiken. Mogelijke verbetering: de tuin als apart, te bewaren bestand laden, zodat de pagina lichter wordt (nu 27 KB gecomprimeerd tegen 5 KB bij Avondgoud).
 
 ## Goed om te weten
 

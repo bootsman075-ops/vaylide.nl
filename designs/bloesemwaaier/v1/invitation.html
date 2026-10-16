@@ -1,0 +1,155 @@
+{% extends "invitations/base_invitation.html" %}{% load static %}
+{# Bloesemwaaier v1 — waaier met kersenbloesem die dichtklapt en in de vijver valt; daarachter een tuin in het avondlicht.
+   De beelden komen uit tools/bloesemwaaier/maak_beelden.py. Wijzig een uitgebrachte versie niet: maak een v2. #}
+{% block preload %}<link rel="preload" href="{% static 'designs/bloesemwaaier/v1/waaier.svg' %}" as="image" type="image/svg+xml">
+<link rel="preload" href="{% static 'fonts/pinyon-script-latin-400-normal.woff2' %}" as="font" type="font/woff2" crossorigin>{% endblock %}
+
+{% block cover %}
+<section class="cover wa-cover" data-cover data-duration="3000" data-fx-delay="1780" data-fx-intro="2050" aria-label="Openingsscherm">
+  <div class="fx-slot" data-fx-slot="cover" aria-hidden="true" style="--fx-z: 1"></div>
+  <div class="wa-cover__top">
+    <p class="wa-cover__kicker">{{ v.kicker }}</p>
+    <p class="wa-cover__title">{{ v.title }}</p>
+  </div>
+  <a href="#uitnodiging" class="wa-fan" data-open data-fx-tilt aria-label="Open de uitnodiging">
+    <span class="wa-fan__body" aria-hidden="true">
+      <span class="wa-fan__kwast"></span>
+      <span class="wa-pleat" style="--i:0"><span></span></span><span class="wa-pleat" style="--i:1"><span></span></span><span class="wa-pleat" style="--i:2"><span></span></span><span class="wa-pleat" style="--i:3"><span></span></span><span class="wa-pleat" style="--i:4"><span></span></span><span class="wa-pleat" style="--i:5"><span></span></span><span class="wa-pleat" style="--i:6"><span></span></span><span class="wa-pleat" style="--i:7"><span></span></span><span class="wa-pleat" style="--i:8"><span></span></span><span class="wa-pleat" style="--i:9"><span></span></span><span class="wa-pleat" style="--i:10"><span></span></span><span class="wa-pleat" style="--i:11"><span></span></span><span class="wa-pleat" style="--i:12"><span></span></span><span class="wa-pleat" style="--i:13"><span></span></span><span class="wa-pleat" style="--i:14"><span></span></span>
+      <span class="wa-guard wa-guard--r"></span><span class="wa-guard wa-guard--l"></span>
+      <span class="wa-fan__pin"></span>
+    </span>
+  </a>
+  <span class="wa-splash" data-fx-origin aria-hidden="true"><span></span><span></span><span></span></span>
+  <div class="wa-cover__bottom">
+    <p class="wa-cover__hint">Tik op de waaier</p>
+    {% if v.show.music %}<button type="button" class="wa-cover__music" data-open data-open-music>Openen met muziek</button>{% endif %}
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<header class="wa-hero">
+  <div class="wa-sky" aria-hidden="true">{% include "bloesemwaaier/v1/scene-lucht.html" %}</div>
+  <div class="wa-hero__text">
+    <p class="wa-kicker fx-intro" style="--fx-d:1">{{ v.kicker }}</p>
+    <h1 class="wa-names wa-names--{{ v.names_size }} fx-names">
+      {% if v.is_couple %}<span>{{ v.names.0 }}</span><span class="wa-names__amp" aria-label="en">&amp;</span><span>{{ v.names.1 }}</span>
+      {% else %}<span>{{ v.names.0 }}</span>{% endif %}
+    </h1>
+    <p class="wa-tagline fx-intro" style="--fx-d:4">{{ v.tagline }}</p>
+    {% if v.date %}
+    <p class="wa-date fx-intro" style="--fx-d:5">
+      <span class="wa-date__side">{{ v.weekday }}</span>
+      <span class="wa-date__day">{{ v.day }}</span>
+      <span class="wa-date__side">{{ v.month_name }} {{ v.year }}</span>
+    </p>
+    {% endif %}
+    {% if v.time_display or v.venue %}<p class="wa-hero__meta fx-intro" style="--fx-d:6">{% if v.time_display %}<span>{{ v.time_display }}</span>{% endif %}{% if v.time_display and v.venue %}<span class="wa-dot" aria-hidden="true"></span>{% endif %}{% if v.venue %}<span>{{ v.venue }}</span>{% endif %}{% include "invitations/partials/time_note.html" %}</p>{% endif %}
+  </div>
+  <div class="wa-land" aria-hidden="true">{% include "bloesemwaaier/v1/scene-land.html" %}</div>
+</header>
+
+<div class="wa-paper">
+{% if v.hero or v.welcome %}
+<section class="wa-section wa-welcome" data-reveal aria-label="Welkom">
+  {% if v.hero %}<figure class="wa-moon"><div class="ph wa-moon__img fx-kb">{% include "invitations/partials/photo.html" with photo=v.hero sizes="(min-width: 700px) 380px, 76vw" %}</div></figure>{% endif %}
+  {% for p in v.welcome %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+{% endif %}
+
+{% if v.show.countdown %}
+<section class="wa-section wa-countdown" data-reveal aria-labelledby="wa-cd-title">
+  <h2 id="wa-cd-title" class="wa-h2">{% if v.is_past %}Dank voor een prachtige dag{% else %}Nog even geduld{% endif %}</h2>
+  {% include "invitations/partials/countdown.html" %}
+  {% include "invitations/partials/calendar_buttons.html" %}
+</section>
+{% endif %}
+
+{% if v.show.story %}
+<section class="wa-section wa-story" data-reveal aria-labelledby="wa-story-title">
+  <h2 id="wa-story-title" class="wa-h2">{{ v.story_title }}</h2>
+  {% for p in v.story %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+</section>
+{% endif %}
+
+{% if v.show.program %}
+<section class="wa-section wa-program" data-reveal aria-labelledby="wa-program-title">
+  <h2 id="wa-program-title" class="wa-h2">Programma</h2>
+  <ol class="wa-program__list" data-fx-stagger>
+    {% for item in v.program %}
+    <li>
+      <span class="wa-program__time">{% if item.time %}{{ item.time }}{% endif %}</span>
+      <div><h3 class="wa-program__title">{{ item.title }}</h3>{% if item.description %}<p>{{ item.description }}</p>{% endif %}</div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endif %}
+
+{% if v.show.location %}
+<section class="wa-section wa-location" data-reveal aria-labelledby="wa-location-title">
+  <h2 id="wa-location-title" class="wa-h2">Locatie</h2>
+  <div class="wa-panel">
+    {% if v.venue %}<p class="wa-location__venue">{{ v.venue }}</p>{% endif %}
+    {% if v.address_lines %}<address>{% for line in v.address_lines %}{{ line }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</address>{% endif %}
+    {% if v.date_display %}<p class="wa-muted">{{ v.date_display|capfirst }}{% if v.time_display %}, {{ v.time_display }}{% endif %}</p>{% endif %}
+    {% if v.route_url %}<a class="inv-btn inv-btn--primary" href="{{ v.route_url }}" target="_blank" rel="noopener">Route plannen</a>{% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if v.show.dresscode %}
+<section class="wa-section wa-dresscode" data-reveal aria-labelledby="wa-dress-title">
+  <h2 id="wa-dress-title" class="wa-h2">Dresscode</h2>
+  {% for p in v.dresscode_text %}<p>{{ p|linebreaksbr }}</p>{% endfor %}
+  {% if v.dresscode_colors %}<ul class="wa-swatches" aria-label="Kleuren voor de dresscode" data-fx-stagger>
+    {% for c in v.dresscode_colors %}<li style="background:{{ c }}"><span class="visually-hidden">Kleur {{ c }}</span></li>{% endfor %}
+  </ul>{% endif %}
+</section>
+{% endif %}
+
+{% if v.show.practical %}
+<section class="wa-section wa-practical" data-reveal aria-labelledby="wa-practical-title">
+  <h2 id="wa-practical-title" class="wa-h2">Goed om te weten</h2>
+  <dl class="wa-practical__list" data-fx-stagger>
+    {% for item in v.practical %}<div>{% if item.title %}<dt>{{ item.title }}</dt>{% endif %}<dd>{{ item.text|linebreaksbr }}</dd></div>{% endfor %}
+  </dl>
+</section>
+{% endif %}
+
+{% if v.show.gallery %}
+<section class="wa-section wa-gallery" data-reveal aria-labelledby="wa-gallery-title">
+  <h2 id="wa-gallery-title" class="wa-h2">Momenten</h2>
+  <ul class="wa-gallery__grid" data-fx-stagger>
+    {% for photo in v.gallery %}<li class="wa-gallery__item wa-gallery__item--{{ photo.orientation }}"><figure class="ph fx-kb">{% include "invitations/partials/photo.html" with photo=photo sizes="(min-width: 900px) 320px, 46vw" %}</figure>{% if photo.caption %}<p class="wa-caption">{{ photo.caption }}</p>{% endif %}</li>{% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% if v.show.rsvp %}
+<section class="wa-section wa-rsvp" id="aanmelden" data-reveal aria-labelledby="wa-rsvp-title">
+  <h2 id="wa-rsvp-title" class="wa-h2">{% if v.formal %}Bent u erbij?{% else %}Ben jij erbij?{% endif %}</h2>
+  <div class="wa-panel wa-panel--form">{% include "invitations/partials/rsvp.html" %}</div>
+</section>
+{% endif %}
+
+{% if v.show.contact %}
+<section class="wa-section wa-contact" data-reveal aria-labelledby="wa-contact-title">
+  <h2 id="wa-contact-title" class="wa-h2">Vragen</h2>
+  {% if v.contact.note %}<p>{{ v.contact.note }}</p>{% endif %}
+  <p class="wa-contact__name">{{ v.contact.name }}</p>
+  <p class="wa-contact__links">
+    {% if v.contact.tel %}<a class="inv-link" href="tel:{{ v.contact.tel }}">{{ v.contact.phone }}</a>{% endif %}
+    {% if v.contact.tel and v.contact.email %}<span aria-hidden="true"> · </span>{% endif %}
+    {% if v.contact.email %}<a class="inv-link" href="mailto:{{ v.contact.email }}">{{ v.contact.email }}</a>{% endif %}
+  </p>
+</section>
+{% endif %}
+
+<section class="wa-section wa-closing" data-reveal aria-label="Afsluiting">
+  {% if v.show.closing %}{% for p in v.closing %}<p class="wa-closing__text">{{ p|linebreaksbr }}</p>{% endfor %}{% endif %}
+  <p class="wa-closing__mono" aria-hidden="true"><span>{{ v.monogram }}</span></p>
+  {% include "invitations/partials/share_buttons.html" %}
+</section>
+</div>
+{% endblock %}

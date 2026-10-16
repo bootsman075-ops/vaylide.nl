@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 520">
+<defs>
+<linearGradient id="goud" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a87a35"/><stop offset=".5" stop-color="#f6dc9c"/><stop offset="1" stop-color="#a87a35"/></linearGradient>
+<linearGradient id="zijde" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9dcc4"/><stop offset=".45" stop-color="#fffaf0"/><stop offset="1" stop-color="#dccaa9"/></linearGradient>
+<radialGradient id="parel" cx=".38" cy=".35" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f3ece4"/><stop offset="1" stop-color="#cdbfae"/></radialGradient>
+</defs>
+<path d="M60 0L60 112" stroke="#c99a48" stroke-width="5" stroke-linecap="round"/>
+<g fill="url(#goud)" stroke="#8d6631" stroke-width="1.5"><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(0 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(45 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(90 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(135 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(180 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(225 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(270 60 142)"/><ellipse cx="60" cy="122" rx="9" ry="20" transform="rotate(315 60 142)"/></g>
+<circle cx="60" cy="142" r="10" fill="#f8e7b4" stroke="#8d6631" stroke-width="1.5"/>
+<path d="M60 168L60 186" stroke="#c99a48" stroke-width="4"/>
+<circle cx="60" cy="200" r="14" fill="url(#parel)"/>
+<path d="M60 214L60 226" stroke="#c99a48" stroke-width="4"/>
+<path d="M47 228L73 228L78 262L42 262Z" fill="url(#goud)" stroke="#8d6631" stroke-width="1.5"/>
+<path d="M46 262L74 262Q92 380 92 500Q60 512 28 500Q28 380 46 262Z" fill="url(#zijde)"/>
+<g fill="none" stroke="#d8c6a6" stroke-width="1.1" opacity=".9"><path d="M47 262Q37.2 380 29 483.9"/><path d="M47.8 262Q37.4 380 32.2 486.3"/><path d="M48.6 262Q38.7 380 31.7 491.3"/><path d="M49.4 262Q41.7 380 34.4 495.3"/><path d="M50.2 262Q45.2 380 38.6 485.7"/><path d="M50.9 262Q46.5 380 37.7 489.6"/><path d="M51.7 262Q47.4 380 41 492.6"/><path d="M52.5 262Q47.3 380 41 493.7"/><path d="M53.3 262Q50.7 380 43.8 479.9"/><path d="M54.1 262Q52.4 380 46.3 494.5"/><path d="M54.9 262Q51.3 380 49 499.3"/><path d="M55.7 262Q56 380 51.2 490.6"/><path d="M56.5 262Q52.7 380 53.3 484.4"/><path d="M57.2 262Q54.5 380 52.5 502.6"/><path d="M58 262Q57 380 56 490.1"/><path d="M58.8 262Q58.3 380 56.8 491.8"/><path d="M59.6 262Q60.6 380 59.4 503.7"/><path d="M60.4 262Q64.5 380 62.6 502.7"/><path d="M61.2 262Q64.5 380 63.4 488.1"/><path d="M62 262Q64.6 380 66.4 502.1"/><path d="M62.8 262Q67 380 67.2 487.5"/><path d="M63.5 262Q63.4 380 68.5 488.2"/><path d="M64.3 262Q65.4 380 71.4 501.5"/><path d="M65.1 262Q67 380 73 489.1"/><path d="M65.9 262Q71.6 380 72.8 495.5"/><path d="M66.7 262Q67.4 380 73.6 491.6"/><path d="M67.5 262Q75.1 380 78.1 485.1"/><path d="M68.3 262Q77.6 380 81 487.8"/><path d="M69.1 262Q75.2 380 80.1 478.5"/><path d="M69.8 262Q74.8 380 80.9 480.1"/><path d="M70.6 262Q75.1 380 85 478.5"/><path d="M71.4 262Q82.4 380 87.8 480.9"/><path d="M72.2 262Q80.8 380 89.8 481.3"/><path d="M73 262Q82.1 380 90.1 485.9"/></g>
+<path d="M44 276L76 276" stroke="#c99a48" stroke-width="6"/>
+</svg>
